@@ -39,31 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData);
+      // Open Google Form with AIUNITES pre-filled
+      window.open('https://docs.google.com/forms/d/e/1FAIpQLSeQUi49AdTBRjetz5MDFQgMIkm9-vOMb_ARKwYEz41j_Nfiwg/viewform?usp=pp_url&entry.2053726945=AIUNITES', '_blank');
       
-      // For now, show a success message (you can integrate with a real backend later)
       const btn = contactForm.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
-      
-      btn.textContent = 'Sending...';
-      btn.disabled = true;
-      
-      // Simulate sending (replace with real API call)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Show success
-      btn.textContent = '✓ Message Sent!';
+      btn.textContent = '✓ Opening form...';
       btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
       
-      // Reset form
-      contactForm.reset();
-      
-      // Reset button after 3 seconds
       setTimeout(() => {
-        btn.textContent = originalText;
+        btn.textContent = 'Send Message';
         btn.style.background = '';
-        btn.disabled = false;
       }, 3000);
     });
   }
