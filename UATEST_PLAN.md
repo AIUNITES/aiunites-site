@@ -106,8 +106,9 @@
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0.0 | Jan 2026 | Portfolio with all sites |
+| 1.0.1 | Feb 22, 2026 | Webring highlight fix: standardized to .aiunites-bar-active class with white (#fff) + underline. Added AITSQL to webring (17 sites). |
 
 ---
 
-*Last tested: January 24, 2026*
+*Last tested: February 22, 2026*
 *Note: This is a hub/portfolio site - no user authentication*
