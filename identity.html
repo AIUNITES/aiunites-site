@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identity | AIUNITES - One Login, Every App</title>
+  <meta name="description" content="AIUNITES cross-site identity: register once, log in anywhere across 18 connected applications. Session-based auth, admin roles, demo mode.">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.github.io/aiunites-site/identity.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AIUNITES Identity — One Login, Every App">
+  <meta property="og:description" content="Cross-site authentication across 18 apps. Register once, move between them.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/middleware.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar .current{color:#6366f1!important;text-decoration:underline;text-underline-offset:3px;}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a class="aiunites-bar-brand current" href="index.html">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/aitsql-site/">AITSQL</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+  <script>(function(){if(location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'){document.querySelectorAll('.aiunites-bar a').forEach(a=>{if(!a.classList.contains('current'))a.href=a.href.replace('https://aiunites.github.io/','../')+'index.html';});}})()</script>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">◆</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="network.html">Network</a>
+        <a href="#" style="color:var(--primary)">Identity</a>
+        <a href="data.html">Data</a>
+        <a href="notation.html">Movement</a>
+        <a href="index.html#contact" class="nav-cta">Contact Us</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <section class="mw-hero">
+      <h1>One Login.<br><span class="gradient-text">Every App.</span></h1>
+      <p class="subtitle">Register on any AIUNITES site and your identity follows you across the network. No separate accounts. No re-entering your information. One user, one profile, everywhere.</p>
+    </section>
+
+    <section class="mw-section">
+      <h2>How Identity Works</h2>
+      <p class="section-sub">A shared user table in SQLite serves every site in the network. The authentication middleware handles the rest.</p>
+
+      <div class="mw-feature-row">
+        <div class="feat-icon">📝</div>
+        <div>
+          <h3>Register Once</h3>
+          <p>Create an account on any AIUNITES site. Your user record goes into the shared database. Every other site in the network recognizes you immediately.</p>
+        </div>
+      </div>
+      <div class="mw-feature-row">
+        <div class="feat-icon">🔑</div>
+        <div>
+          <h3>Session-Based Auth</h3>
+          <p>Login creates a session stored locally. No third-party auth providers, no OAuth dependencies, no tokens expiring in the middle of your work. Simple, predictable, reliable.</p>
+        </div>
+      </div>
+      <div class="mw-feature-row">
+        <div class="feat-icon">🎭</div>
+        <div>
+          <h3>Demo Mode</h3>
+          <p>Every site with auth offers demo login buttons — try the app without creating an account. Demo users are auto-created with sample data so you can see exactly how things work before committing.</p>
+        </div>
+      </div>
+      <div class="mw-feature-row">
+        <div class="feat-icon">👑</div>
+        <div>
+          <h3>First User = Admin</h3>
+          <p>The first person to register on a site automatically gets admin privileges. No setup wizards, no config files. Admin unlocks the admin panel, user management, system settings, and statistics.</p>
+        </div>
+      </div>
+      <div class="mw-feature-row">
+        <div class="feat-icon">⚙️</div>
+        <div>
+          <h3>User Controls</h3>
+          <p>Every authenticated site gives you a user dropdown with: settings (edit name/email), backup & restore (download/upload your data as JSON), cache viewer, and legal information. Your data, your control.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>Admin Panel</h2>
+      <p class="section-sub">Every site with full middleware gets the same admin panel with four tabs.</p>
+      <div class="mw-grid mw-grid-4">
+        <div class="mw-card">
+          <div class="card-icon">⚙️</div>
+          <h3>System Settings</h3>
+          <p>Email verification toggle, public signup toggle, max items limit, maintenance mode. Control how your site operates.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">👥</div>
+          <h3>Users</h3>
+          <p>User list with avatars, usernames, roles, and join dates. See who's on your site and when they signed up.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">📊</div>
+          <h3>Statistics</h3>
+          <p>Total users, total items, app version, storage usage. Quick health check for your site.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">📋</div>
+          <h3>Changelog</h3>
+          <p>Version history tracking. See what changed and when. Built into the admin panel, not a separate page.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>The DemoTemplate Pattern</h2>
+      <div class="mw-prose">
+        <p>Every new AIUNITES site starts from <strong>DemoTemplate</strong> — a base template that includes the complete identity system, admin panel, user modals, dark theme, and webring navigation out of the box.</p>
+        <p>This means a new site goes from zero to full middleware in one clone. No building auth from scratch. No reinventing the admin panel. No custom navigation. The infrastructure is already there — just add the domain-specific features.</p>
+        <p>Currently 4 sites have the full DemoTemplate features (VideoBate, AIByJob, Redomy, and DemoTemplate itself). The remaining sites are being upgraded progressively. CloudDB has already been deployed to all 18.</p>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>Rollout Status</h2>
+      <p class="section-sub">Where each site stands in the middleware integration.</p>
+      <table class="mw-table">
+        <thead><tr><th>Feature</th><th>Deployed To</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>CloudDB Module</td><td>All 18 sites</td><td>✅ Complete</td></tr>
+          <tr><td>Webring Navigation</td><td>All 18 sites</td><td>✅ Complete</td></tr>
+          <tr><td>Full Auth System</td><td>VideoBate, AIByJob, Redomy, DemoTemplate</td><td>🟢 4/18</td></tr>
+          <tr><td>User Dropdown + Modals</td><td>VideoBate, AIByJob, Redomy, DemoTemplate</td><td>🟢 4/18</td></tr>
+          <tr><td>Admin Panel</td><td>VideoBate, AIByJob, Redomy, DemoTemplate</td><td>🟢 4/18</td></tr>
+          <tr><td>Auth (no modals)</td><td>AIZines</td><td>🟡 Partial</td></tr>
+          <tr><td>MNN Notation</td><td>BodSpas</td><td>✅ v1.0</td></tr>
+          <tr><td>VRN Notation</td><td>VoiceStry</td><td>✅ Active</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="mw-cta">
+      <h2>Try It</h2>
+      <p>Visit any site with auth and click "Demo Login" to see the identity system in action.</p>
+      <div class="mw-cta-links">
+        <a href="https://aiunites.github.io/videobate-site/" class="mw-btn-primary">VideoBate →</a>
+        <a href="https://aiunites.github.io/aibyjob-demo/" class="mw-btn-outline">AIByJob →</a>
+        <a href="https://aiunites.github.io/redomy-demo/" class="mw-btn-outline">Redomy →</a>
+        <a href="network.html" class="mw-btn-outline">← Network</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="mw-footer">
+    <div class="container">
+      <p>© 2026 AIUNITES LLC. All rights reserved.</p>
+      <p><a href="index.html">← Home</a> · <a href="network.html">Network</a> · <a href="data.html">Data</a> · <a href="notation.html">Movement</a> · <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

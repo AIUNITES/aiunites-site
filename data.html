@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data | AIUNITES - Your Data, Portable and Yours</title>
+  <meta name="description" content="AIUNITES data layer: CloudDB sync, local-first storage, JSON backup/restore, and shared SQLite database. Your data stays with you.">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.github.io/aiunites-site/data.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AIUNITES Data — Your Data, Portable and Yours">
+  <meta property="og:description" content="Local-first storage with cloud sync. Export everything as JSON. No lock-in.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/middleware.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar .current{color:#6366f1!important;text-decoration:underline;text-underline-offset:3px;}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a class="aiunites-bar-brand current" href="index.html">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/aitsql-site/">AITSQL</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+  <script>(function(){if(location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'){document.querySelectorAll('.aiunites-bar a').forEach(a=>{if(!a.classList.contains('current'))a.href=a.href.replace('https://aiunites.github.io/','../')+'index.html';});}})()</script>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">◆</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="network.html">Network</a>
+        <a href="identity.html">Identity</a>
+        <a href="#" style="color:var(--primary)">Data</a>
+        <a href="notation.html">Movement</a>
+        <a href="index.html#contact" class="nav-cta">Contact Us</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <section class="mw-hero">
+      <h1>Your Data.<br><span class="gradient-text">Portable and Yours.</span></h1>
+      <p class="subtitle">AIUNITES is local-first. Your data lives on your device, syncs to the cloud when you want it to, and can be exported as plain JSON at any time. No proprietary formats. No vendor lock-in. If you leave, your data leaves with you.</p>
+    </section>
+
+    <section class="mw-section">
+      <h2>The Data Architecture</h2>
+      <p class="section-sub">Three layers, all designed for portability.</p>
+
+      <div class="mw-feature-row">
+        <div class="feat-icon">💾</div>
+        <div>
+          <h3>Layer 1: localStorage (Your Device)</h3>
+          <p>Every site stores data in the browser's localStorage. It works offline, it's fast, and it's under your control. This is the primary data store — the cloud is the backup, not the other way around.</p>
+        </div>
+      </div>
+      <div class="mw-feature-row">
+        <div class="feat-icon">☁️</div>
+        <div>
+          <h3>Layer 2: CloudDB (Cloud Sync)</h3>
+          <p>The cloud-database.js module is deployed to all 18 sites. It syncs localStorage data to cloud storage via Google Forms and Apps Script. Toggle online/offline anytime. Your local data is always the source of truth.</p>
+        </div>
+      </div>
+      <div class="mw-feature-row">
+        <div class="feat-icon">🗄️</div>
+        <div>
+          <h3>Layer 3: SQLite (Shared Database)</h3>
+          <p>A shared SQLite database holds user accounts, sessions, and cross-site data. Syncs via GitHub. This is the backbone that makes cross-site identity and data sharing possible.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>Data Portability</h2>
+      <p class="section-sub">Your data is never trapped. Every site gives you tools to take it with you.</p>
+      <div class="mw-grid">
+        <div class="mw-card">
+          <div class="card-icon">📦</div>
+          <h3>JSON Backup</h3>
+          <p>One click downloads all your data as a JSON file. Human-readable, machine-parseable. Open it in any text editor. Import it into any system that accepts JSON. No special software needed.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">📥</div>
+          <h3>JSON Restore</h3>
+          <p>Upload a backup file to restore your data on any device. Moving to a new browser? New computer? Upload your JSON and you're back exactly where you left off.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🔍</div>
+          <h3>Cache Viewer</h3>
+          <p>Every site with full middleware includes a cache viewer with three tabs: Summary (what's stored and how much), Items (browse individual records), and Raw (see the exact localStorage contents). Full transparency into what's on your device.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>Data Mapping Across Sites</h2>
+      <div class="mw-prose">
+        <p>Because all AIUNITES sites share a common database and data format conventions, data can flow between sites without conversion. Your identity is the same everywhere. Your preferences travel with you. Site-specific data uses consistent key naming patterns so tools can find and operate on data across the network.</p>
+        <p><strong>localStorage key pattern:</strong> Every site prefixes its keys with a consistent identifier. User data uses <code>[prefix]_users</code> and <code>[prefix]_currentUser</code>. Site-specific data follows the same convention. This makes it possible to build cross-site tools that know where to find things.</p>
+        <p><strong>Notation as portable data:</strong> MNN strings and VRN strings are plain text stored in standard fields. A workout logged on BodSpas produces an MNN string that InThisWorld could read to pose an avatar, or that a future analytics tool could parse for trend analysis. The notation <em>is</em> the data interchange format.</p>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>The Philosophy</h2>
+      <div class="mw-prose">
+        <p>Most web apps store your data on their servers in their format. If the company shuts down, your data disappears. If you want to leave, you might get a CSV export if you're lucky. More often, you get nothing.</p>
+        <p>AIUNITES inverts this. <strong>Your device is the primary store.</strong> The cloud is a convenience layer for sync and backup. Everything is in open formats — JSON for structured data, plain text for notation, SQLite for the shared database. You can inspect any of it at any time.</p>
+        <p>This isn't just a technical decision. It's the same philosophy behind the notation systems: your data belongs to you, it should be readable without special software, and it should work across contexts without conversion.</p>
+      </div>
+    </section>
+
+    <section class="mw-section">
+      <h2>Technical Details</h2>
+      <p class="section-sub">For developers and anyone who wants to look under the hood.</p>
+      <table class="mw-table">
+        <thead><tr><th>Component</th><th>Technology</th><th>Location</th></tr></thead>
+        <tbody>
+          <tr><td>Client Storage</td><td>localStorage (browser)</td><td>User's device</td></tr>
+          <tr><td>Cloud Sync Module</td><td>cloud-database.js (vanilla JS)</td><td>js/cloud-database.js on every site</td></tr>
+          <tr><td>Cloud Backend</td><td>Google Forms + Apps Script</td><td>Google Cloud</td></tr>
+          <tr><td>Shared Database</td><td>SQLite (app.db)</td><td>AIUNITES-database-sync/data/</td></tr>
+          <tr><td>Database Sync</td><td>GitHub</td><td>AIUNITES-database-sync repo</td></tr>
+          <tr><td>Export Format</td><td>JSON</td><td>User's download folder</td></tr>
+          <tr><td>Notation Data</td><td>MNN / VRN (plain text)</td><td>Stored in localStorage + CloudDB</td></tr>
+        </tbody>
+      </table>
+
+      <div class="mw-code" style="max-width:600px;margin:2rem auto">
+        <span style="color:#6b7280">// CloudDB connection (every site)</span><br>
+        <span style="color:#818cf8">import</span> { CloudDB } <span style="color:#818cf8">from</span> <span style="color:#34d399">'./cloud-database.js'</span>;<br><br>
+        <span style="color:#6b7280">// Sync local → cloud</span><br>
+        CloudDB.<span style="color:#fbbf24">sync</span>();<br><br>
+        <span style="color:#6b7280">// Export as JSON</span><br>
+        CloudDB.<span style="color:#fbbf24">backup</span>(); <span style="color:#6b7280">// → downloads .json</span><br><br>
+        <span style="color:#6b7280">// Restore from JSON</span><br>
+        CloudDB.<span style="color:#fbbf24">restore</span>(file); <span style="color:#6b7280">// → replaces local data</span>
+      </div>
+    </section>
+
+    <section class="mw-cta">
+      <h2>See It In Action</h2>
+      <p>Log into any AIUNITES app, open the user dropdown, and click Backup. That's your data, in JSON, on your device.</p>
+      <div class="mw-cta-links">
+        <a href="https://aiunites.github.io/videobate-site/" class="mw-btn-primary">Try VideoBate →</a>
+        <a href="notation.html" class="mw-btn-outline">Movement →</a>
+        <a href="network.html" class="mw-btn-outline">← Network</a>
+        <a href="identity.html" class="mw-btn-outline">← Identity</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="mw-footer">
+    <div class="container">
+      <p>© 2026 AIUNITES LLC. All rights reserved.</p>
+      <p><a href="index.html">← Home</a> · <a href="network.html">Network</a> · <a href="identity.html">Identity</a> · <a href="notation.html">Movement</a> · <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
