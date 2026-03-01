@@ -401,7 +401,7 @@
     .notation-footer a:hover { text-decoration: underline; }
 
     @media (max-width: 768px) {
-      .arch-notations { grid-template-columns: 1fr; }
+      .arch-notations { grid-template-columns: 1fr !important; }
       .arch-apps { grid-template-columns: 1fr; }
       .mnn-showcase { font-size: .8rem; padding: 1.25rem; }
       .prior-art-table { font-size: .8rem; }
@@ -442,7 +442,8 @@
     <!-- Hero -->
     <section class="notation-hero">
       <h1>Write Once.<br><span class="gradient-text">Use Everywhere.</span></h1>
-      <p class="subtitle">AIUNITES develops open notation systems for human movement. One string that works in a gym log, a game engine, a clinical record, and a cable rig controller — without conversion, without proprietary software, and without paying anyone for the privilege of reading your own movement data.</p>
+      <p class="subtitle">AIUNITES is a middleware company. We build the integration layer between systems that don't normally talk to each other. Our first protocol is for human movement — one string that works in a gym log, a game engine, a clinical record, and a cable rig controller. No conversion. No proprietary software. No paying anyone to read your own data.</p>
+      <p style="color:var(--primary);font-size:1.1rem;font-weight:600;font-style:italic;margin-bottom:2rem">How can you have AI gains in this world without having unity?</p>
       
       <div class="mnn-showcase">
         <span class="tag-move">{Push.H}</span> <span class="tag-con">[Con:Pec.S+++, Dlt.A+]</span> <span class="tag-nerve">→ MedPec/Axil</span><br>
@@ -479,8 +480,8 @@
         <div class="domain-card">
           <div class="domain-icon">🌍</div>
           <h3>Virtual Worlds & Avatars</h3>
-          <span class="domain-site">→ InThisWorld</span>
-          <p>Game engines, VR training, Second Life / OpenSim, digital twins, animation. Pose an avatar precisely using joint angles, animate contraction sequences, build training simulations.</p>
+          <span class="domain-site">→ InThisWorld (inthisworld.com)</span>
+          <p>Virtual worlds, VR training, Second Life / OpenSim, digital twins, animation. Pose an avatar precisely using joint angles, animate contraction sequences, build training simulations.</p>
           <div class="domain-examples">
             <span style="color:#fbbf24">[Pos:L.Sh(IR:25,Flex:90)]</span><br>
             → llEuler2Rot(&lt;x,y,z&gt; * DEG_TO_RAD)
@@ -489,7 +490,7 @@
         <div class="domain-card">
           <div class="domain-icon">🤖</div>
           <h3>Remote Control & Robotics</h3>
-          <span class="domain-site">→ InThisWorld + BodSpas</span>
+          <span class="domain-site">→ BodSpas (BODWAVE)</span>
           <p>Cable rigs, exoskeletons, robotic rehabilitation, isokinetic machines, teleoperation. Drive a pulley to the exact height and angle, set joint limits, reproduce a prescribed position.</p>
           <div class="domain-examples">
             <span style="color:#fb923c">[Vec:H:Mid,A:0°,Src:Cable]</span><br>
@@ -501,11 +502,26 @@
 
     <!-- Architecture -->
     <section class="architecture">
-      <h2>How It Fits Together</h2>
+      <h2>The Middleware Architecture</h2>
       <div class="arch-diagram">
         <div class="arch-layer arch-layer-top">
           ◆ AIUNITES LLC
-          <small>The unifying layer — holds the notation standards</small>
+          <small>The middleware layer — protocols, auth, sync, notation standards</small>
+        </div>
+        <div class="arch-connector">↓</div>
+        <div class="arch-notations" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="arch-notation">
+            <strong>Cross-Site Auth</strong>
+            <small>Shared identity<br>across 18 apps</small>
+          </div>
+          <div class="arch-notation">
+            <strong>CloudDB</strong>
+            <small>Sync layer<br>local ↔ cloud</small>
+          </div>
+          <div class="arch-notation">
+            <strong>Webring</strong>
+            <small>Navigation context<br>across all sites</small>
+          </div>
         </div>
         <div class="arch-connector">↓</div>
         <div class="arch-notations">
@@ -525,7 +541,7 @@
             <span class="app-name">BodSpas</span>
             <small>Exercise & Rehab</small>
           </a>
-          <a href="https://aiunites.github.io/inthisworld-site/" class="arch-app" style="text-decoration:none">
+          <a href="https://inthisworld.com" class="arch-app" style="text-decoration:none">
             <span class="app-icon">🌍</span>
             <span class="app-name">InThisWorld</span>
             <small>Virtual Worlds</small>
@@ -632,7 +648,7 @@
       <div class="cta-links">
         <a href="https://aiunites.github.io/bodspas-site/log.html" class="btn-primary">Open MNN Builder →</a>
         <a href="https://aiunites.github.io/bodspas-site/MNN_SPEC_v1.md" class="btn-outline">Read the Spec</a>
-        <a href="https://aiunites.github.io/inthisworld-site/" class="btn-outline">InThisWorld →</a>
+        <a href="https://inthisworld.com" class="btn-outline">InThisWorld →</a>
         <a href="https://aiunites.github.io/voicestry-site/" class="btn-outline">VoiceStry →</a>
       </div>
     </section>
@@ -642,7 +658,7 @@
   <!-- Footer -->
   <footer class="notation-footer">
     <div class="container">
-      <p>© 2026 AIUNITES LLC. MNN and VRN are notation standards developed by AIUNITES.</p>
+      <p>© 2026 AIUNITES LLC. MNN and VRN are open middleware protocols developed by AIUNITES.</p>
       <p><a href="index.html">← Back to AIUNITES</a> · <a href="legal.html">Legal</a></p>
     </div>
   </footer>
