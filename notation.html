@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VP15KRLV6P');
+  </script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Human Movement | AIUNITES - Write Once, Use Everywhere</title>
+  <meta name="description" content="AIUNITES develops unified notation systems for human movement. MNN (Muscular Neuro Notation) for exercise, virtual worlds, and remote control. VRN (Voice Resonance Notation) for vocal training.">
+  <meta name="keywords" content="MNN, Muscular Neuro Notation, VRN, Voice Resonance Notation, human movement notation, exercise notation, avatar control, LSL, Second Life, virtual world, BODWAVE, AIUNITES">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.github.io/aiunites-site/notation.html">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aiunites.github.io/aiunites-site/notation.html">
+  <meta property="og:title" content="AIUNITES Notation Standards — Write Once, Use Everywhere">
+  <meta property="og:description" content="MNN: the first notation combining muscle activation, nerve routing, joint position, and resistance vectors in a single human-readable, machine-parseable string.">
+  <meta property="og:site_name" content="AIUNITES">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  
+  <style>
+    /* ===== Notation Page Styles ===== */
+    .notation-hero {
+      padding: 10rem 0 4rem;
+      text-align: center;
+      position: relative;
+    }
+    .notation-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .notation-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .notation-hero .subtitle {
+      font-size: 1.15rem;
+      color: var(--gray-light);
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    /* MNN string showcase */
+    .mnn-showcase {
+      background: var(--dark-light);
+      border: 1px solid rgba(99,102,241,.25);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .95rem;
+      line-height: 2;
+      text-align: left;
+      overflow-x: auto;
+    }
+    .mnn-showcase .tag-move { color: #818cf8; }
+    .mnn-showcase .tag-con { color: #34d399; }
+    .mnn-showcase .tag-nerve { color: #f472b6; }
+    .mnn-showcase .tag-pos { color: #fbbf24; }
+    .mnn-showcase .tag-vec { color: #fb923c; }
+    .mnn-showcase .tag-label {
+      display: block;
+      font-family: var(--font);
+      font-size: .75rem;
+      color: var(--gray);
+      margin-top: .25rem;
+      font-style: italic;
+    }
+    .mnn-showcase-caption {
+      text-align: center;
+      color: var(--gray-light);
+      font-size: .9rem;
+      margin-top: 1rem;
+    }
+
+    /* Core thesis */
+    .thesis {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .thesis-statement {
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+    }
+    .thesis-body {
+      color: var(--gray-light);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+    .thesis-body p { margin-bottom: 1.25rem; }
+    .thesis-body strong { color: var(--white); }
+
+    /* Three domains */
+    .domains {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .domains h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: .75rem;
+    }
+    .domains .section-sub {
+      text-align: center;
+      color: var(--gray-light);
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .domain-card {
+      background: var(--dark-light);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      transition: var(--transition);
+    }
+    .domain-card:hover {
+      border-color: rgba(99,102,241,.3);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .domain-card .domain-icon {
+      font-size: 2rem;
+      margin-bottom: .75rem;
+    }
+    .domain-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: .25rem;
+    }
+    .domain-card .domain-site {
+      color: var(--primary);
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .domain-card p {
+      color: var(--gray-light);
+      font-size: .95rem;
+      line-height: 1.7;
+    }
+    .domain-card .domain-examples {
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      color: var(--gray-light);
+      background: rgba(0,0,0,.3);
+      padding: .75rem 1rem;
+      border-radius: var(--radius-sm);
+      line-height: 1.8;
+    }
+
+    /* Architecture diagram */
+    .architecture {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .architecture h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+    }
+    .arch-diagram {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .arch-layer {
+      text-align: center;
+      padding: 1.25rem 2rem;
+      border-radius: var(--radius-md);
+      margin-bottom: .75rem;
+      font-weight: 600;
+      position: relative;
+    }
+    .arch-layer-top {
+      background: linear-gradient(135deg, rgba(99,102,241,.2), rgba(139,92,246,.2));
+      border: 1px solid rgba(99,102,241,.4);
+      font-size: 1.2rem;
+    }
+    .arch-layer-top small {
+      display: block;
+      font-weight: 400;
+      color: var(--gray-light);
+      font-size: .85rem;
+      margin-top: .25rem;
+    }
+    .arch-connector {
+      text-align: center;
+      color: var(--gray);
+      font-size: 1.25rem;
+      margin: .25rem 0;
+    }
+    .arch-notations {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem;
+      margin: .75rem 0;
+    }
+    .arch-notation {
+      text-align: center;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.1);
+      background: var(--dark-lighter);
+    }
+    .arch-notation strong { display: block; margin-bottom: .25rem; }
+    .arch-notation small { color: var(--gray-light); font-size: .8rem; }
+    .arch-apps {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: .75rem;
+      margin-top: .75rem;
+    }
+    .arch-app {
+      text-align: center;
+      padding: 1rem .75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.1);
+      background: var(--dark-light);
+      font-size: .9rem;
+    }
+    .arch-app .app-icon { font-size: 1.5rem; display: block; margin-bottom: .35rem; }
+    .arch-app .app-name { font-weight: 600; display: block; }
+    .arch-app small { color: var(--gray-light); font-size: .75rem; }
+
+    /* Why section */
+    .why-section {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .why-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .why-section .section-sub {
+      text-align: center;
+      color: var(--gray-light);
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .why-card {
+      background: var(--dark-light);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+    }
+    .why-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: .5rem;
+    }
+    .why-card h3 .icon { margin-right: .4rem; }
+    .why-card p {
+      color: var(--gray-light);
+      font-size: .92rem;
+      line-height: 1.7;
+    }
+
+    /* Prior art table */
+    .prior-art {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .prior-art h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: .75rem;
+    }
+    .prior-art .section-sub {
+      text-align: center;
+      color: var(--gray-light);
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+    }
+    .prior-art-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      margin-bottom: 2rem;
+    }
+    .prior-art-table th {
+      text-align: left;
+      padding: .75rem 1rem;
+      background: var(--dark-lighter);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      color: var(--gray-light);
+      font-weight: 600;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .prior-art-table td {
+      padding: .75rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      color: var(--gray-light);
+    }
+    .prior-art-table tr:last-child td {
+      color: var(--white);
+      font-weight: 600;
+      background: rgba(99,102,241,.08);
+    }
+
+    /* CTA */
+    .notation-cta {
+      padding: 4rem 0 6rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .notation-cta h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .notation-cta p {
+      color: var(--gray-light);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+    .cta-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .cta-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: .95rem;
+      transition: var(--transition);
+    }
+    .cta-links .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .cta-links .btn-primary:hover { background: var(--primary-dark); }
+    .cta-links .btn-outline {
+      border: 1px solid rgba(255,255,255,.2);
+      color: var(--white);
+    }
+    .cta-links .btn-outline:hover {
+      border-color: var(--primary);
+      background: rgba(99,102,241,.1);
+    }
+
+    /* Page footer */
+    .notation-footer {
+      padding: 2rem 0;
+      border-top: 1px solid rgba(255,255,255,.08);
+      text-align: center;
+      color: var(--gray);
+      font-size: .85rem;
+    }
+    .notation-footer a {
+      color: var(--primary);
+    }
+    .notation-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .arch-notations { grid-template-columns: 1fr; }
+      .arch-apps { grid-template-columns: 1fr; }
+      .mnn-showcase { font-size: .8rem; padding: 1.25rem; }
+      .prior-art-table { font-size: .8rem; }
+      .prior-art-table th, .prior-art-table td { padding: .5rem .6rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar .current{color:#6366f1!important;text-decoration:underline;text-underline-offset:3px;}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a class="aiunites-bar-brand current" href="index.html">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/aitsql-site/">AITSQL</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+  <script>(function(){if(location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'){document.querySelectorAll('.aiunites-bar a').forEach(a=>{if(!a.classList.contains('current'))a.href=a.href.replace('https://aiunites.github.io/','../')+'index.html';});}})()</script>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">◆</span>
+        <span class="logo-text">AI<span class="logo-accent">UNITES</span></span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#services">Services</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#portfolio">Portfolio</a>
+        <a href="#" style="color:var(--primary)">Movement</a>
+        <a href="index.html#contact" class="nav-cta">Contact Us</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="notation-hero">
+      <h1>Write Once.<br><span class="gradient-text">Use Everywhere.</span></h1>
+      <p class="subtitle">AIUNITES develops open notation systems for human movement. One string that works in a gym log, a game engine, a clinical record, and a cable rig controller — without conversion, without proprietary software, and without paying anyone for the privilege of reading your own movement data.</p>
+      
+      <div class="mnn-showcase">
+        <span class="tag-move">{Push.H}</span> <span class="tag-con">[Con:Pec.S+++, Dlt.A+]</span> <span class="tag-nerve">→ MedPec/Axil</span><br>
+        <span class="tag-pos">[Pos:L.Sh(IR:25,Flex:90)]</span> <span class="tag-vec">[Vec:H:Mid,A:0°,Src:Cable]</span>
+        <span class="tag-label">One MNN string — readable by humans, parseable by machines, executable by avatars and cable rigs</span>
+      </div>
+    </section>
+
+    <!-- Core Thesis -->
+    <section class="thesis">
+      <p class="thesis-statement">The absence of a unified notation for human movement is not a technical limitation. It's a business model.</p>
+      <div class="thesis-body">
+        <p>Every field that touches human movement has built its own proprietary data formats, its own credentialing systems, and its own vendor ecosystems. A biomechanics lab uses files only their software can read. A gym manufacturer stores joint angles in firmware only their machines can interpret. A clinic documents exercises in prose that no other system can parse. A game studio uses motion capture files that encode skeleton data but nothing about which muscles fired or why.</p>
+        <p>When your movement data is locked inside a vendor's format, <strong>you cannot take it with you</strong>. When you leave the clinic, the lab, the gym franchise, or the game engine, your data stays behind — or becomes meaningless without the proprietary software that created it. Every new context requires re-measurement, re-assessment, and re-subscription.</p>
+        <p><strong>MNN is an open notation.</strong> It is plain text. It requires no special software to read. It requires no license to write. It belongs to the person whose body produced the movement.</p>
+      </div>
+    </section>
+
+    <!-- Three Domains -->
+    <section class="domains">
+      <h2>Three Domains, One Notation</h2>
+      <p class="section-sub">MNN is a notation for human movement — not just exercise. The same string works across all three.</p>
+      <div class="domain-grid">
+        <div class="domain-card">
+          <div class="domain-icon">🏋️</div>
+          <h3>Exercise & Rehabilitation</h3>
+          <span class="domain-site">→ BodSpas (BODWAVE)</span>
+          <p>Gym logging, physical therapy, clinical documentation, personal training. Track which angle clears the acromion, log nerve flare-ups alongside sets, document compensation patterns over time.</p>
+          <div class="domain-examples">
+            3×12×20lb RPE:6<br>
+            <span style="color:#34d399">[Con:Pec.S+++]</span> <span style="color:#fbbf24">[Pos:L.Sh(IR:25)]</span>
+          </div>
+        </div>
+        <div class="domain-card">
+          <div class="domain-icon">🌍</div>
+          <h3>Virtual Worlds & Avatars</h3>
+          <span class="domain-site">→ InThisWorld</span>
+          <p>Game engines, VR training, Second Life / OpenSim, digital twins, animation. Pose an avatar precisely using joint angles, animate contraction sequences, build training simulations.</p>
+          <div class="domain-examples">
+            <span style="color:#fbbf24">[Pos:L.Sh(IR:25,Flex:90)]</span><br>
+            → llEuler2Rot(&lt;x,y,z&gt; * DEG_TO_RAD)
+          </div>
+        </div>
+        <div class="domain-card">
+          <div class="domain-icon">🤖</div>
+          <h3>Remote Control & Robotics</h3>
+          <span class="domain-site">→ InThisWorld + BodSpas</span>
+          <p>Cable rigs, exoskeletons, robotic rehabilitation, isokinetic machines, teleoperation. Drive a pulley to the exact height and angle, set joint limits, reproduce a prescribed position.</p>
+          <div class="domain-examples">
+            <span style="color:#fb923c">[Vec:H:Mid,A:0°,Src:Cable]</span><br>
+            → pulley.setHeight(1.2m), angle(0°)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="architecture">
+      <h2>How It Fits Together</h2>
+      <div class="arch-diagram">
+        <div class="arch-layer arch-layer-top">
+          ◆ AIUNITES LLC
+          <small>The unifying layer — holds the notation standards</small>
+        </div>
+        <div class="arch-connector">↓</div>
+        <div class="arch-notations">
+          <div class="arch-notation">
+            <strong>MNN</strong>
+            <small>Muscular Neuro Notation<br>Human movement</small>
+          </div>
+          <div class="arch-notation">
+            <strong>VRN</strong>
+            <small>Voice Resonance Notation<br>Vocal movement</small>
+          </div>
+        </div>
+        <div class="arch-connector">↓</div>
+        <div class="arch-apps">
+          <a href="https://aiunites.github.io/bodspas-site/" class="arch-app" style="text-decoration:none">
+            <span class="app-icon">🏋️</span>
+            <span class="app-name">BodSpas</span>
+            <small>Exercise & Rehab</small>
+          </a>
+          <a href="https://aiunites.github.io/inthisworld-site/" class="arch-app" style="text-decoration:none">
+            <span class="app-icon">🌍</span>
+            <span class="app-name">InThisWorld</span>
+            <small>Virtual Worlds</small>
+          </a>
+          <a href="https://aiunites.github.io/voicestry-site/" class="arch-app" style="text-decoration:none">
+            <span class="app-icon">🎤</span>
+            <span class="app-name">VoiceStry</span>
+            <small>Vocal Training</small>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why No Standard Exists -->
+    <section class="why-section">
+      <h2>Why No Unified Standard Existed</h2>
+      <p class="section-sub">Every field that touches human movement built its own silo. The fragmentation is structural and economic.</p>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3><span class="icon">🔒</span> Equipment Manufacturers</h3>
+          <p>Sell machines with proprietary tracking that only works within their product line. Your joint angle data doesn't leave the building.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">💰</span> Software Vendors</h3>
+          <p>Sell annual licenses to read the data their own hardware generated. The format is the lock-in.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">🏥</span> Clinical Systems</h3>
+          <p>Store patient movement data in formats that don't transfer between providers. New clinic means starting from zero.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">🎓</span> Credentialing Bodies</h3>
+          <p>Maintain separate terminology and standards that require paid training to learn. The language is the gatekeeping.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">📸</span> Motion Capture Companies</h3>
+          <p>Sell both the hardware and the only software that can process the output. Can't read your own recordings without them.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">📖</span> MNN's Answer</h3>
+          <p>Plain text. Open notation. No proprietary reader. No license fee. The string you write in the gym is the same string a game engine executes. Your data. Your format. Portable.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prior Art Comparison -->
+    <section class="prior-art">
+      <h2>Where MNN Sits</h2>
+      <p class="section-sub">Existing standards each cover one layer. MNN covers all of them in a single string.</p>
+      <table class="prior-art-table">
+        <thead>
+          <tr>
+            <th>Domain</th>
+            <th>Standard</th>
+            <th>What It Captures</th>
+            <th>What It Lacks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Joint angles</td>
+            <td>ISB JCS</td>
+            <td>Per-joint Euler rotations</td>
+            <td>No muscle/nerve, no text format</td>
+          </tr>
+          <tr>
+            <td>Motion data</td>
+            <td>C3D / BVH / OpenSim</td>
+            <td>Full-body time-series</td>
+            <td>No semantic layer, not human-authored</td>
+          </tr>
+          <tr>
+            <td>Muscle activity</td>
+            <td>EMG + SENIAM</td>
+            <td>Voltage waveforms</td>
+            <td>No symbol table, no nerve mapping</td>
+          </tr>
+          <tr>
+            <td>Exercise dose</td>
+            <td>ACSM FITT / NSCA</td>
+            <td>Sets × reps × load</td>
+            <td>No joint position, no targeting</td>
+          </tr>
+          <tr>
+            <td>Choreography</td>
+            <td>Labanotation</td>
+            <td>Spatial path, effort quality</td>
+            <td>No nerve, no muscle, no vector</td>
+          </tr>
+          <tr>
+            <td><strong>All of the above</strong></td>
+            <td><strong>MNN</strong></td>
+            <td><strong>Muscle + nerve + joint + vector + compensation</strong></td>
+            <td><strong>—</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- CTA -->
+    <section class="notation-cta">
+      <h2>Try It Now</h2>
+      <p>The MNN builder is live. Build a notation string, log a workout, pose an avatar.</p>
+      <div class="cta-links">
+        <a href="https://aiunites.github.io/bodspas-site/log.html" class="btn-primary">Open MNN Builder →</a>
+        <a href="https://aiunites.github.io/bodspas-site/MNN_SPEC_v1.md" class="btn-outline">Read the Spec</a>
+        <a href="https://aiunites.github.io/inthisworld-site/" class="btn-outline">InThisWorld →</a>
+        <a href="https://aiunites.github.io/voicestry-site/" class="btn-outline">VoiceStry →</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="notation-footer">
+    <div class="container">
+      <p>© 2026 AIUNITES LLC. MNN and VRN are notation standards developed by AIUNITES.</p>
+      <p><a href="index.html">← Back to AIUNITES</a> · <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
