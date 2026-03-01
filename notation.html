@@ -184,79 +184,6 @@
       line-height: 1.8;
     }
 
-    /* Architecture diagram */
-    .architecture {
-      padding: 4rem 0;
-      border-top: 1px solid rgba(255,255,255,.05);
-    }
-    .architecture h2 {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 3rem;
-    }
-    .arch-diagram {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .arch-layer {
-      text-align: center;
-      padding: 1.25rem 2rem;
-      border-radius: var(--radius-md);
-      margin-bottom: .75rem;
-      font-weight: 600;
-      position: relative;
-    }
-    .arch-layer-top {
-      background: linear-gradient(135deg, rgba(99,102,241,.2), rgba(139,92,246,.2));
-      border: 1px solid rgba(99,102,241,.4);
-      font-size: 1.2rem;
-    }
-    .arch-layer-top small {
-      display: block;
-      font-weight: 400;
-      color: var(--gray-light);
-      font-size: .85rem;
-      margin-top: .25rem;
-    }
-    .arch-connector {
-      text-align: center;
-      color: var(--gray);
-      font-size: 1.25rem;
-      margin: .25rem 0;
-    }
-    .arch-notations {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .75rem;
-      margin: .75rem 0;
-    }
-    .arch-notation {
-      text-align: center;
-      padding: 1rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,.1);
-      background: var(--dark-lighter);
-    }
-    .arch-notation strong { display: block; margin-bottom: .25rem; }
-    .arch-notation small { color: var(--gray-light); font-size: .8rem; }
-    .arch-apps {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: .75rem;
-      margin-top: .75rem;
-    }
-    .arch-app {
-      text-align: center;
-      padding: 1rem .75rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,.1);
-      background: var(--dark-light);
-      font-size: .9rem;
-    }
-    .arch-app .app-icon { font-size: 1.5rem; display: block; margin-bottom: .35rem; }
-    .arch-app .app-name { font-weight: 600; display: block; }
-    .arch-app small { color: var(--gray-light); font-size: .75rem; }
-
     /* Why section */
     .why-section {
       padding: 4rem 0;
@@ -401,8 +328,6 @@
     .notation-footer a:hover { text-decoration: underline; }
 
     @media (max-width: 768px) {
-      .arch-notations { grid-template-columns: 1fr !important; }
-      .arch-apps { grid-template-columns: 1fr; }
       .mnn-showcase { font-size: .8rem; padding: 1.25rem; }
       .prior-art-table { font-size: .8rem; }
       .prior-art-table th, .prior-art-table td { padding: .5rem .6rem; }
@@ -496,61 +421,6 @@
             <span style="color:#fb923c">[Vec:H:Mid,A:0°,Src:Cable]</span><br>
             → pulley.setHeight(1.2m), angle(0°)
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Architecture -->
-    <section class="architecture">
-      <h2>The Middleware Architecture</h2>
-      <div class="arch-diagram">
-        <div class="arch-layer arch-layer-top">
-          ◆ AIUNITES LLC
-          <small>The middleware layer — protocols, auth, sync, notation standards</small>
-        </div>
-        <div class="arch-connector">↓</div>
-        <div class="arch-notations" style="grid-template-columns:1fr 1fr 1fr">
-          <div class="arch-notation">
-            <strong>Cross-Site Auth</strong>
-            <small>Shared identity<br>across 18 apps</small>
-          </div>
-          <div class="arch-notation">
-            <strong>CloudDB</strong>
-            <small>Sync layer<br>local ↔ cloud</small>
-          </div>
-          <div class="arch-notation">
-            <strong>Webring</strong>
-            <small>Navigation context<br>across all sites</small>
-          </div>
-        </div>
-        <div class="arch-connector">↓</div>
-        <div class="arch-notations">
-          <div class="arch-notation">
-            <strong>MNN</strong>
-            <small>Muscular Neuro Notation<br>Human movement</small>
-          </div>
-          <div class="arch-notation">
-            <strong>VRN</strong>
-            <small>Voice Resonance Notation<br>Vocal movement</small>
-          </div>
-        </div>
-        <div class="arch-connector">↓</div>
-        <div class="arch-apps">
-          <a href="https://aiunites.github.io/bodspas-site/" class="arch-app" style="text-decoration:none">
-            <span class="app-icon">🏋️</span>
-            <span class="app-name">BodSpas</span>
-            <small>Exercise & Rehab</small>
-          </a>
-          <a href="https://inthisworld.com" class="arch-app" style="text-decoration:none">
-            <span class="app-icon">🌍</span>
-            <span class="app-name">InThisWorld</span>
-            <small>Virtual Worlds</small>
-          </a>
-          <a href="https://aiunites.github.io/voicestry-site/" class="arch-app" style="text-decoration:none">
-            <span class="app-icon">🎤</span>
-            <span class="app-name">VoiceStry</span>
-            <small>Vocal Training</small>
-          </a>
         </div>
       </div>
     </section>
