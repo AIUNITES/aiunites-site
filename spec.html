@@ -7,33 +7,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Primary Meta Tags -->
-  <title>Middleware Specification | AIUNITES — Cross-Site Auth, CloudDB Sync, MNN & VRN Protocols</title>
-  <meta name="description" content="Technical specification for the AIUNITES middleware stack: cross-site authentication, CloudDB sync, webring navigation, Muscular Neuro Notation (MNN) for human movement, and Vocal Resonance Notation (VRN) for physically-informed voice synthesis.">
-  <meta name="keywords" content="middleware specification, cross-site authentication, CloudDB sync, human movement notation, MNN, vocal resonance notation, VRN, voice synthesis parameters, web application middleware, vanilla JavaScript middleware, AIUNITES">
+  <title>MNN & VRN Notation Specification | AIUNITES — Human Movement & Vocal Resonance Protocols</title>
+  <meta name="description" content="Technical specification for MNN (Muscular Neuro Notation) and VRN (Vocal Resonance Notation). Open text formats for describing human movement and physically-informed vocal production. Machine-parseable, human-readable, vendor-neutral.">
+  <meta name="keywords" content="MNN, Muscular Neuro Notation, VRN, Vocal Resonance Notation, human movement notation, movement specification, vocal production parameters, voice synthesis, exercise notation, avatar posing, BODWAVE, muscle activation notation, nerve mapping, formant targets, larynx position, AIUNITES">
   <meta name="author" content="AIUNITES LLC">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://aiunites.github.io/aiunites-site/spec.html">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="AIUNITES Middleware Specification — 5 Layers, 18 Apps">
-  <meta property="og:description" content="Technical spec for the AIUNITES middleware: cross-site auth, CloudDB sync, webring navigation, MNN for human movement, and VRN for vocal production.">
+  <meta property="og:title" content="MNN & VRN Specification — Open Notation for Human Movement and Voice">
+  <meta property="og:description" content="Technical spec for two open protocols: MNN for human movement (muscle, nerve, joint, vector) and VRN for vocal production (larynx, formants, breath, phonation).">
   <meta property="og:url" content="https://aiunites.github.io/aiunites-site/spec.html">
   <meta property="og:image" content="https://aiunites.github.io/aiunites-site/images/og-image.png">
   <meta property="og:site_name" content="AIUNITES">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AIUNITES Middleware Specification">
-  <meta name="twitter:description" content="5-layer middleware connecting 18 web apps: auth, sync, navigation, movement notation, and vocal notation.">
+  <meta name="twitter:title" content="MNN & VRN Notation Specification">
+  <meta name="twitter:description" content="Open text formats for human movement and vocal production. Machine-parseable, human-readable, no vendor lock-in.">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "AIUNITES Middleware Specification",
-    "description": "Technical specification for a 5-layer middleware stack connecting 18 web applications through shared authentication, data sync, navigation, and domain-specific notation protocols.",
+    "headline": "MNN & VRN Notation Specification",
+    "description": "Technical specification for Muscular Neuro Notation (MNN) and Vocal Resonance Notation (VRN) — open text formats for human movement and physically-informed vocal production.",
     "author": {
       "@type": "Organization",
       "name": "AIUNITES LLC",
@@ -46,12 +46,13 @@
     "datePublished": "2026-03-03",
     "dateModified": "2026-03-03",
     "mainEntityOfPage": "https://aiunites.github.io/aiunites-site/spec.html",
-    "keywords": ["middleware", "cross-site authentication", "CloudDB", "MNN", "VRN", "human movement notation", "vocal resonance notation", "voice synthesis"],
+    "keywords": ["MNN", "Muscular Neuro Notation", "VRN", "Vocal Resonance Notation", "human movement notation", "voice synthesis", "muscle activation", "nerve mapping", "formant targets", "open protocol"],
     "about": [
-      { "@type": "Thing", "name": "Middleware" },
-      { "@type": "Thing", "name": "Web Application Architecture" },
       { "@type": "Thing", "name": "Human Movement Notation" },
-      { "@type": "Thing", "name": "Voice Synthesis" }
+      { "@type": "Thing", "name": "Vocal Production" },
+      { "@type": "Thing", "name": "Voice Synthesis" },
+      { "@type": "Thing", "name": "Exercise Science" },
+      { "@type": "Thing", "name": "Biomechanics" }
     ]
   }
   </script>
@@ -64,7 +65,6 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
 
   <style>
-    /* Spec-specific styles */
     .spec-toc {
       background: var(--dark-light);
       border: 1px solid rgba(255,255,255,.08);
@@ -105,9 +105,7 @@
       text-decoration: none;
       font-size: .95rem;
     }
-    .spec-toc a:hover {
-      color: var(--primary);
-    }
+    .spec-toc a:hover { color: var(--primary); }
 
     .spec-layer {
       padding: 3.5rem 0;
@@ -142,12 +140,8 @@
       font-size: 1.02rem;
       max-width: 760px;
     }
-    .spec-prose p {
-      margin-bottom: 1.25rem;
-    }
-    .spec-prose strong {
-      color: var(--white);
-    }
+    .spec-prose p { margin-bottom: 1.25rem; }
+    .spec-prose strong { color: var(--white); }
 
     .spec-schema {
       background: rgba(0,0,0,.35);
@@ -219,8 +213,51 @@
       font-size: .92rem;
       color: var(--gray-light);
     }
-    .spec-gap-note strong {
-      color: #fbbf24;
+    .spec-gap-note strong { color: #fbbf24; }
+
+    .spec-divider {
+      text-align: center;
+      padding: 3rem 0 0;
+      border-top: 2px solid rgba(99,102,241,.2);
+      margin-top: 1rem;
+    }
+    .spec-divider h2 {
+      font-size: 2rem;
+      margin-bottom: .5rem;
+    }
+    .spec-divider p {
+      color: var(--gray-light);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    /* MNN string showcase (from notation.html) */
+    .mnn-showcase {
+      background: var(--dark-light);
+      border: 1px solid rgba(99,102,241,.25);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 2rem auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .95rem;
+      line-height: 2;
+      text-align: left;
+      overflow-x: auto;
+    }
+    .mnn-showcase .tag-move { color: #818cf8; }
+    .mnn-showcase .tag-con { color: #34d399; }
+    .mnn-showcase .tag-nerve { color: #f472b6; }
+    .mnn-showcase .tag-pos { color: #fbbf24; }
+    .mnn-showcase .tag-vec { color: #fb923c; }
+    .mnn-showcase .tag-label {
+      display: block;
+      font-family: var(--font);
+      font-size: .75rem;
+      color: var(--gray);
+      margin-top: .25rem;
+      font-style: italic;
     }
 
     @media (max-width: 768px) {
@@ -228,6 +265,7 @@
       .spec-param-table { font-size: .8rem; }
       .spec-param-table th, .spec-param-table td { padding: .4rem .5rem; }
       .spec-schema pre { font-size: .72rem; }
+      .mnn-showcase { font-size: .8rem; padding: 1.25rem; }
     }
   </style>
 </head>
@@ -256,14 +294,14 @@
 
     <!-- Hero -->
     <section class="mw-hero">
-      <h1>Middleware<br><span class="gradient-text">Specification</span></h1>
-      <p class="subtitle">AIUNITES is a five-layer middleware stack connecting 18 web applications through shared authentication, synchronized data, unified navigation, and two domain-specific notation protocols for human movement and vocal production.</p>
+      <h1>Notation<br><span class="gradient-text">Specification</span></h1>
+      <p class="subtitle">Two open protocols for describing what the human body does. MNN captures physical movement — muscle, nerve, joint, vector. VRN captures vocal production — larynx, tongue, breath, resonance. Both are plain text, machine-parseable, and vendor-neutral.</p>
 
       <div class="mw-stat-row">
-        <div class="mw-stat"><span class="stat-value">5</span><span class="stat-label">Middleware Layers</span></div>
-        <div class="mw-stat"><span class="stat-value">18</span><span class="stat-label">Connected Apps</span></div>
-        <div class="mw-stat"><span class="stat-value">0</span><span class="stat-label">Frameworks</span></div>
-        <div class="mw-stat"><span class="stat-value">1</span><span class="stat-label">Database</span></div>
+        <div class="mw-stat"><span class="stat-value">2</span><span class="stat-label">Protocols</span></div>
+        <div class="mw-stat"><span class="stat-value">MNN</span><span class="stat-label">Movement</span></div>
+        <div class="mw-stat"><span class="stat-value">VRN</span><span class="stat-label">Voice</span></div>
+        <div class="mw-stat"><span class="stat-value">0</span><span class="stat-label">License Fees</span></div>
       </div>
     </section>
 
@@ -271,308 +309,427 @@
     <div class="spec-toc">
       <h3>Specification Contents</h3>
       <ol>
-        <li><a href="#layer-auth">Cross-Site Authentication</a></li>
-        <li><a href="#layer-clouddb">CloudDB Sync</a></li>
-        <li><a href="#layer-webring">Webring Navigation</a></li>
-        <li><a href="#layer-mnn">MNN — Muscular Neuro Notation</a></li>
-        <li><a href="#layer-vrn">VRN — Vocal Resonance Notation</a></li>
-        <li><a href="#implementation">Implementation: DemoTemplate</a></li>
-        <li><a href="#admin-patterns">Admin Pattern Taxonomy</a></li>
-        <li><a href="#technology">Technology Constraints</a></li>
+        <li><a href="#mnn-overview">MNN — Muscular Neuro Notation</a></li>
+        <li><a href="#mnn-string">MNN String Format</a></li>
+        <li><a href="#mnn-contraction">Contraction Layer</a></li>
+        <li><a href="#mnn-nerve">Nerve & Innervation Layer</a></li>
+        <li><a href="#mnn-position">Position & Joint Layer</a></li>
+        <li><a href="#mnn-vector">Vector & Resistance Layer</a></li>
+        <li><a href="#mnn-consumers">MNN Consumer Sites</a></li>
+        <li><a href="#mnn-prior-art">Prior Art</a></li>
+        <li><a href="#vrn-overview">VRN — Vocal Resonance Notation</a></li>
+        <li><a href="#vrn-params">VRN Parameter Space</a></li>
+        <li><a href="#vrn-ai">VRN and AI Voice Synthesis</a></li>
+        <li><a href="#vrn-consumers">VRN Consumer Sites</a></li>
+        <li><a href="#design-principles">Shared Design Principles</a></li>
       </ol>
     </div>
 
-    <!-- Layer 1: Cross-Site Authentication -->
-    <section class="spec-layer" id="layer-auth">
+
+    <!-- ============================================================ -->
+    <!--  MNN SECTION                                                  -->
+    <!-- ============================================================ -->
+
+    <div class="spec-divider" id="mnn-overview">
+      <h2>🏋️ MNN — Muscular Neuro Notation</h2>
+      <p>An open text format for describing human physical movement. Captures muscle activation, nerve pathways, joint positions, and resistance vectors in a single string.</p>
+    </div>
+
+    <!-- MNN String Format -->
+    <section class="spec-layer" id="mnn-string">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Layer 1</span>
-        <h2>Cross-Site Authentication</h2>
+        <span class="spec-layer-num">MNN §1</span>
+        <h2>String Format</h2>
       </div>
       <div class="spec-prose">
-        <p>All AIUNITES sites share a single SQLite database (<code>app.db</code>) for user identity. A user who registers on any site in the network can authenticate on every other site with the same credentials. There is no OAuth, no third-party identity provider, and no token exchange — the sites share a database file that syncs through a Git-backed mechanism.</p>
+        <p>An MNN string is a single line of text composed of tagged segments. Each segment is wrapped in brackets and prefixed with a tag identifier. The segments can appear in any order — parsers identify them by tag, not position. A minimal MNN string needs only a movement tag and a contraction tag. All other segments are optional and additive.</p>
 
-        <p><strong>Registration</strong> follows a self-service model. The first user to register on any site is automatically assigned the admin role. Subsequent registrations create standard user accounts. Every site also supports a <strong>demo mode</strong> with pre-created demo users, allowing visitors to explore functionality without creating an account.</p>
+        <p>The notation is designed to be <strong>human-authored</strong>. Unlike motion capture formats (BVH, C3D) that are machine-generated time-series data, MNN is written by a person describing what they did, what they felt, or what they want a system to reproduce. It is closer to musical notation than to a data dump.</p>
+      </div>
 
-        <p><strong>Sessions</strong> are managed per-site in localStorage. When a user logs in, their session state is stored locally and persists until explicit logout. There is no cross-site session cookie — each site independently verifies against the shared user table.</p>
-
-        <p><strong>Admin capabilities</strong> include user management (view all users, usernames, join dates, avatars), system settings (email verification toggle, public signup toggle, max items limit, maintenance mode), statistics, and a versioned changelog.</p>
+      <div class="mnn-showcase">
+        <span class="tag-move">{Push.H}</span> <span class="tag-con">[Con:Pec.S+++, Dlt.A+]</span> <span class="tag-nerve">→ MedPec/Axil</span><br>
+        <span class="tag-pos">[Pos:L.Sh(IR:25,Flex:90)]</span> <span class="tag-vec">[Vec:H:Mid,A:0°,Src:Cable]</span>
+        <span class="tag-label">Complete MNN string — movement, contraction, nerve, position, vector</span>
       </div>
 
       <div class="spec-schema">
-        <span class="spec-schema-title">User Table Schema</span>
-<pre>{
-  <span class="str">"id"</span>:        <span class="cmt">// Auto-increment primary key</span>
-  <span class="str">"username"</span>:  <span class="cmt">// Unique, required</span>
-  <span class="str">"email"</span>:     <span class="cmt">// Unique, required</span>
-  <span class="str">"password"</span>:  <span class="cmt">// Hashed</span>
-  <span class="str">"role"</span>:      <span class="cmt">// "admin" | "user"</span>
-  <span class="str">"avatar"</span>:    <span class="cmt">// URL or default</span>
-  <span class="str">"created"</span>:   <span class="cmt">// ISO 8601 timestamp</span>
-}</pre>
+        <span class="spec-schema-title">Segment Tags</span>
+<pre><span class="str">{...}</span>    <span class="cmt">Movement tag — exercise class and variant</span>
+<span class="str">[Con:...]</span> <span class="cmt">Contraction — muscles and activation levels</span>
+<span class="str">→ ...</span>     <span class="cmt">Nerve — innervation pathways</span>
+<span class="str">[Pos:...]</span> <span class="cmt">Position — joint angles and orientations</span>
+<span class="str">[Vec:...]</span> <span class="cmt">Vector — resistance source, direction, height</span>
+<span class="str">[Comp:...]</span><span class="cmt">Compensation — observed compensations and flags</span>
+<span class="str">[Meta:...]</span><span class="cmt">Metadata — sets, reps, load, RPE, timestamp</span></pre>
+      </div>
+    </section>
+
+    <!-- Contraction Layer -->
+    <section class="spec-layer" id="mnn-contraction">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">MNN §2</span>
+        <h2>Contraction Layer</h2>
+      </div>
+      <div class="spec-prose">
+        <p>The contraction segment identifies which muscles are active and how intensely. Muscles are referenced by abbreviated anatomical names. Activation levels use a <code>+</code> scale where more symbols mean greater engagement. The primary mover is listed first, synergists follow.</p>
+
+        <p>Contraction types are implicit in the movement tag but can be made explicit: <strong>concentric</strong> (muscle shortening under load), <strong>eccentric</strong> (muscle lengthening under load), <strong>isometric</strong> (static hold), and <strong>ballistic</strong> (explosive). This matters for rehabilitation logging where the distinction between concentric and eccentric loading of a tendon is clinically significant.</p>
       </div>
 
       <table class="spec-param-table">
-        <thead><tr><th>Feature</th><th>Behavior</th><th>Sites</th></tr></thead>
+        <thead><tr><th>Abbreviation</th><th>Muscle</th><th>Region</th></tr></thead>
         <tbody>
-          <tr><td>First-user admin</td><td>First registered user becomes admin automatically</td><td>All auth sites</td></tr>
-          <tr><td>Demo mode</td><td>Pre-created demo accounts for guest access</td><td>VideoBate, AIByJob, Redomy, DemoTemplate</td></tr>
-          <tr><td>Session storage</td><td><code>localStorage</code> per site, keyed by site prefix</td><td>All auth sites</td></tr>
-          <tr><td>Protected routes</td><td>Redirect to login when unauthenticated</td><td>All auth sites</td></tr>
+          <tr><td><code>Pec.S</code></td><td>Pectoralis major (sternal head)</td><td>Chest</td></tr>
+          <tr><td><code>Pec.C</code></td><td>Pectoralis major (clavicular head)</td><td>Upper chest</td></tr>
+          <tr><td><code>Dlt.A</code></td><td>Deltoid (anterior)</td><td>Front shoulder</td></tr>
+          <tr><td><code>Dlt.L</code></td><td>Deltoid (lateral)</td><td>Side shoulder</td></tr>
+          <tr><td><code>Dlt.P</code></td><td>Deltoid (posterior)</td><td>Rear shoulder</td></tr>
+          <tr><td><code>Lat</code></td><td>Latissimus dorsi</td><td>Back</td></tr>
+          <tr><td><code>Bic</code></td><td>Biceps brachii</td><td>Upper arm</td></tr>
+          <tr><td><code>Tri</code></td><td>Triceps brachii</td><td>Upper arm</td></tr>
+          <tr><td><code>Glu</code></td><td>Gluteus maximus</td><td>Hip</td></tr>
+          <tr><td><code>Quad</code></td><td>Quadriceps</td><td>Thigh</td></tr>
+          <tr><td><code>Ham</code></td><td>Hamstrings</td><td>Thigh</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Activation Scale</span>
+<pre><span class="str">+</span>     <span class="cmt">Light activation (stabilizer, minor synergist)</span>
+<span class="str">++</span>    <span class="cmt">Moderate activation (synergist)</span>
+<span class="str">+++</span>   <span class="cmt">Strong activation (primary mover)</span>
+<span class="str">++++</span>  <span class="cmt">Maximal activation (1RM effort, peak contraction)</span></pre>
+      </div>
+    </section>
+
+    <!-- Nerve Layer -->
+    <section class="spec-layer" id="mnn-nerve">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">MNN §3</span>
+        <h2>Nerve & Innervation Layer</h2>
+      </div>
+      <div class="spec-prose">
+        <p>The nerve segment records which peripheral nerves are responsible for the movement. This is optional for general fitness logging but critical for <strong>rehabilitation and clinical documentation</strong>. A physical therapist tracking a patient with a brachial plexus injury needs to know which nerve pathways are being loaded, not just which muscles are moving.</p>
+
+        <p>Nerve annotations also enable tracking of <strong>nerve flare-ups alongside sets</strong>. If a user reports radiculopathy or paresthesia during a specific movement, the MNN string captures both the movement pattern and the affected nerve — creating a record that a clinician can use for treatment planning.</p>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Abbreviation</th><th>Nerve</th><th>Muscles Served</th></tr></thead>
+        <tbody>
+          <tr><td><code>MedPec</code></td><td>Medial pectoral nerve</td><td>Pectoralis major (sternal)</td></tr>
+          <tr><td><code>LatPec</code></td><td>Lateral pectoral nerve</td><td>Pectoralis major (clavicular)</td></tr>
+          <tr><td><code>Axil</code></td><td>Axillary nerve</td><td>Deltoid, teres minor</td></tr>
+          <tr><td><code>Musc</code></td><td>Musculocutaneous nerve</td><td>Biceps, brachialis</td></tr>
+          <tr><td><code>Rad</code></td><td>Radial nerve</td><td>Triceps, wrist extensors</td></tr>
+          <tr><td><code>SciTib</code></td><td>Sciatic → tibial</td><td>Hamstrings, calf</td></tr>
+          <tr><td><code>Fem</code></td><td>Femoral nerve</td><td>Quadriceps</td></tr>
+          <tr><td><code>SupGlu</code></td><td>Superior gluteal nerve</td><td>Gluteus medius/minimus</td></tr>
+          <tr><td><code>InfGlu</code></td><td>Inferior gluteal nerve</td><td>Gluteus maximus</td></tr>
         </tbody>
       </table>
     </section>
 
-    <!-- Layer 2: CloudDB Sync -->
-    <section class="spec-layer" id="layer-clouddb">
+    <!-- Position Layer -->
+    <section class="spec-layer" id="mnn-position">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Layer 2</span>
-        <h2>CloudDB Sync</h2>
+        <span class="spec-layer-num">MNN §4</span>
+        <h2>Position & Joint Layer</h2>
       </div>
       <div class="spec-prose">
-        <p>CloudDB is the data synchronization layer deployed across all 18 AIUNITES sites. It bridges the gap between localStorage (the primary data store for each site) and a cloud backend powered by Google Sheets via Google Forms and Apps Script. The architecture is <strong>offline-first</strong>: every site works fully without an internet connection, and syncs when connectivity is available.</p>
+        <p>The position segment describes the orientation of joints during the movement. Joints are referenced by abbreviated names, and rotations are expressed in degrees using standard anatomical terms: <strong>flexion/extension</strong>, <strong>abduction/adduction</strong>, <strong>internal rotation/external rotation</strong>.</p>
 
-        <p>Each site includes a <code>cloud-database.js</code> module that handles the sync lifecycle. Data flows from localStorage to Google Forms (as structured submissions), which land in Google Sheets. An Apps Script endpoint provides the read-back API for pulling cloud state into a local site.</p>
-
-        <p>The sync module exposes an <strong>online/offline toggle</strong> in the UI, letting users control when sync happens. When online, changes push automatically. When offline, changes accumulate locally and batch-sync on reconnection.</p>
+        <p>This is the layer that makes MNN work across domains. The same position data that a trainer uses to describe a cable fly angle is the data that <strong>InThisWorld uses to pose an avatar</strong>. Position values map directly to Euler rotations in a 3D engine — the translation from <code>[Pos:L.Sh(IR:25,Flex:90)]</code> to <code>llEuler2Rot()</code> is mechanical, not interpretive.</p>
       </div>
 
       <div class="spec-schema">
-        <span class="spec-schema-title">Sync Flow</span>
-<pre><span class="cmt">Write path:</span>
-  localStorage → cloud-database.js → Google Form POST → Google Sheet
+        <span class="spec-schema-title">Position Syntax</span>
+<pre><span class="str">[Pos:&lt;Side&gt;.&lt;Joint&gt;(&lt;Rotation&gt;:&lt;Degrees&gt;, ...)]</span>
 
-<span class="cmt">Read path:</span>
-  Google Sheet → Apps Script API → cloud-database.js → localStorage
+<span class="cmt">Side:</span>   <span class="str">L</span> = left, <span class="str">R</span> = right, <span class="str">B</span> = bilateral
+<span class="cmt">Joint:</span>  <span class="str">Sh</span> = shoulder, <span class="str">El</span> = elbow, <span class="str">Wr</span> = wrist,
+        <span class="str">Hp</span> = hip, <span class="str">Kn</span> = knee, <span class="str">An</span> = ankle, <span class="str">Sp</span> = spine
 
-<span class="cmt">Conflict resolution:</span>
-  Last-write-wins with timestamp comparison</pre>
+<span class="cmt">Rotation types:</span>
+  <span class="str">Flex</span>  = flexion         <span class="str">Ext</span>  = extension
+  <span class="str">Abd</span>   = abduction       <span class="str">Add</span>  = adduction
+  <span class="str">IR</span>    = internal rot.   <span class="str">ER</span>   = external rot.
+  <span class="str">Lat</span>   = lateral flex.   <span class="str">Rot</span>  = axial rotation
+
+<span class="cmt">Example:</span>
+  <span class="str">[Pos:L.Sh(IR:25,Flex:90)]</span>
+  <span class="cmt">Left shoulder: 25° internal rotation, 90° flexion</span></pre>
       </div>
 
       <table class="spec-param-table">
-        <thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead>
+        <thead><tr><th>Joint</th><th>Code</th><th>Typical Ranges</th></tr></thead>
         <tbody>
-          <tr><td><code>cloud-database.js</code></td><td>Vanilla JavaScript</td><td>Sync orchestration, offline queue</td></tr>
-          <tr><td>Google Forms</td><td>Google Workspace</td><td>Write endpoint (structured data submission)</td></tr>
-          <tr><td>Google Sheets</td><td>Google Workspace</td><td>Cloud data store</td></tr>
-          <tr><td>Apps Script</td><td>Google Apps Script</td><td>Read API, data transformation</td></tr>
+          <tr><td>Shoulder</td><td><code>Sh</code></td><td>Flex 0–180°, Abd 0–180°, IR/ER 0–90°</td></tr>
+          <tr><td>Elbow</td><td><code>El</code></td><td>Flex 0–145°</td></tr>
+          <tr><td>Hip</td><td><code>Hp</code></td><td>Flex 0–125°, Abd 0–45°, IR/ER 0–45°</td></tr>
+          <tr><td>Knee</td><td><code>Kn</code></td><td>Flex 0–140°</td></tr>
+          <tr><td>Ankle</td><td><code>An</code></td><td>Dorsiflex 0–20°, Plantarflex 0–50°</td></tr>
+          <tr><td>Spine</td><td><code>Sp</code></td><td>Flex 0–80°, Lat 0–35°, Rot 0–45°</td></tr>
         </tbody>
       </table>
     </section>
 
-    <!-- Layer 3: Webring Navigation -->
-    <section class="spec-layer" id="layer-webring">
+    <!-- Vector Layer -->
+    <section class="spec-layer" id="mnn-vector">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Layer 3</span>
-        <h2>Webring Navigation</h2>
+        <span class="spec-layer-num">MNN §5</span>
+        <h2>Vector & Resistance Layer</h2>
       </div>
       <div class="spec-prose">
-        <p>Every site in the AIUNITES network displays a fixed navigation bar at the top of every page. This bar lists all sites in the network, highlights the current site, and provides one-click navigation to any other site. It is the most visible expression of the middleware — the thing that makes the network feel like a network rather than a portfolio of unrelated projects.</p>
+        <p>The vector segment describes where the resistance comes from, at what height, and at what angle. This is the layer that makes MNN work for <strong>cable rigs, robotic rehabilitation, and remote-controlled equipment</strong>. A BODWAVE-compatible cable system can read a vector segment and set its pulley to the correct height and angle to reproduce the prescribed movement pattern.</p>
 
-        <p>The webring bar is maintained as a master template (<code>webring-banner.html</code>). When updated, changes propagate across all 18 sites. The bar uses inline CSS for zero-dependency rendering and includes a <strong>local development script</strong> that auto-converts absolute GitHub Pages URLs to relative paths when running on <code>localhost</code> or <code>file://</code> protocol.</p>
-
-        <p>The current site is visually indicated with an underline and the primary brand color. The bar scrolls horizontally on narrow screens without hiding any sites.</p>
+        <p>The distinction between a high cable fly, a mid cable fly, and a low cable fly isn't just about the name — it's about the <strong>line of resistance relative to the muscle's force vector</strong>. The vector segment captures this precisely. A system that knows the height, angle, and source can reproduce the resistance profile on any compatible equipment.</p>
       </div>
 
       <div class="spec-schema">
-        <span class="spec-schema-title">Local Dev URL Rewriting</span>
-<pre><span class="cmt">// Auto-detects local development environment</span>
-<span class="kw">if</span> (location.protocol === <span class="str">'file:'</span> ||
-    location.hostname === <span class="str">'localhost'</span> ||
-    location.hostname === <span class="str">'127.0.0.1'</span>) {
-  <span class="cmt">// Rewrites absolute URLs to relative paths</span>
-  <span class="str">'https://aiunites.github.io/sitename/'</span>
-    → <span class="str">'../sitename/index.html'</span>
-}</pre>
+        <span class="spec-schema-title">Vector Syntax</span>
+<pre><span class="str">[Vec:H:&lt;Height&gt;, A:&lt;Angle&gt;, Src:&lt;Source&gt;]</span>
+
+<span class="cmt">Height:</span>  <span class="str">High</span> | <span class="str">Mid</span> | <span class="str">Low</span> | <span class="str">Floor</span> | <span class="num">&lt;cm&gt;</span>
+<span class="cmt">Angle:</span>   <span class="num">0°</span> = straight ahead, <span class="num">90°</span> = from the side
+<span class="cmt">Source:</span>  <span class="str">Cable</span> | <span class="str">Band</span> | <span class="str">Gravity</span> | <span class="str">Manual</span> | <span class="str">Machine</span>
+
+<span class="cmt">Examples:</span>
+  <span class="str">[Vec:H:High,A:15°,Src:Cable]</span>   <span class="cmt">High cable, slight angle</span>
+  <span class="str">[Vec:H:Floor,A:0°,Src:Band]</span>    <span class="cmt">Floor-anchored band</span>
+  <span class="str">[Vec:H:180cm,A:0°,Src:Cable]</span>   <span class="cmt">Specific pulley height</span></pre>
       </div>
     </section>
 
-    <!-- Layer 4: MNN -->
-    <section class="spec-layer" id="layer-mnn">
+    <!-- MNN Consumer Sites -->
+    <section class="spec-layer" id="mnn-consumers">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Layer 4</span>
-        <h2>MNN — Muscular Neuro Notation</h2>
+        <span class="spec-layer-num">MNN §6</span>
+        <h2>Consumer Sites</h2>
       </div>
       <div class="spec-prose">
-        <p>Muscular Neuro Notation (MNN) is an open text format for describing human movement. It captures which muscles are engaged, the type of contraction, intensity, duration, and neural activation patterns. MNN is designed to be <strong>machine-parseable but human-readable</strong> — a movement can be described in a way that both a fitness app and a physical therapist can interpret.</p>
-
-        <p>MNN powers the <strong>BODWAVE</strong> movement layer in BodSpas (exercise and rehab logging) and the avatar posing system in InThisWorld (virtual world simulation). The same notation that describes a bicep curl can drive an avatar's arm position in a 3D environment.</p>
-
-        <p>The notation operates as a <strong>parameter space</strong> rather than a fixed vocabulary. Each movement is a set of key-value pairs describing body region, muscle group, action type, intensity (0–100), duration, and optional nerve pathway annotations. This means MNN can represent movements not yet catalogued — it is extensible by design.</p>
+        <p>MNN is consumed by three AIUNITES sites, each using a different subset of the notation:</p>
       </div>
 
-      <div class="spec-schema">
-        <span class="spec-schema-title">MNN Record Example</span>
-<pre>{
-  <span class="str">"region"</span>:     <span class="str">"upper_arm"</span>,
-  <span class="str">"muscle"</span>:     <span class="str">"biceps_brachii"</span>,
-  <span class="str">"action"</span>:     <span class="str">"concentric"</span>,
-  <span class="str">"intensity"</span>:  <span class="num">75</span>,            <span class="cmt">// 0-100 scale</span>
-  <span class="str">"duration_ms"</span>: <span class="num">2000</span>,
-  <span class="str">"nerve"</span>:      <span class="str">"musculocutaneous"</span>,
-  <span class="str">"joint"</span>:      <span class="str">"elbow"</span>,
-  <span class="str">"range_deg"</span>:  [<span class="num">20</span>, <span class="num">140</span>],    <span class="cmt">// start, end angle</span>
-  <span class="str">"symmetry"</span>:   <span class="str">"bilateral"</span>
-}</pre>
+      <div class="mw-grid">
+        <div class="mw-card">
+          <div class="card-icon">🏋️</div>
+          <h3>BodSpas</h3>
+          <span class="card-tag">BODWAVE Movement Layer</span>
+          <p>Full MNN support. Workout logging with contraction, nerve, position, and vector data. The MNN Builder lets users construct strings visually. Tracks nerve flare-ups alongside training loads. Drives BODWAVE-compatible cable equipment.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🌍</div>
+          <h3>InThisWorld</h3>
+          <span class="card-tag">inthisworld.com</span>
+          <p>Consumes the Position layer. Translates joint angles from MNN strings into avatar pose data via Three.js. The same string that logs a shoulder press in BodSpas can position an avatar's arm in InThisWorld. Bridges to LSL (Linden Scripting Language) for Second Life / OpenSim.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🎮</div>
+          <h3>Gameatica</h3>
+          <span class="card-tag">Educational Reference</span>
+          <p>References MNN muscle and nerve structures in anatomy-related educational games. Students interact with the same naming conventions used in the clinical notation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prior Art -->
+    <section class="spec-layer" id="mnn-prior-art">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">MNN §7</span>
+        <h2>Prior Art</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Existing standards each capture one layer of movement data. MNN combines all of them into a single string. This is not a criticism of prior work — each system was designed for a specific domain. MNN's contribution is the <strong>integration layer</strong> that makes movement data portable across domains.</p>
       </div>
 
       <table class="spec-param-table">
-        <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+        <thead><tr><th>Domain</th><th>Standard</th><th>Captures</th><th>Lacks</th></tr></thead>
         <tbody>
-          <tr><td><code>region</code></td><td>string</td><td>Anatomical body region (upper_arm, thorax, cervical, etc.)</td></tr>
-          <tr><td><code>muscle</code></td><td>string</td><td>Specific muscle or muscle group (anatomical naming)</td></tr>
-          <tr><td><code>action</code></td><td>string</td><td>Contraction type: concentric, eccentric, isometric, ballistic</td></tr>
-          <tr><td><code>intensity</code></td><td>number</td><td>Engagement level on 0–100 scale</td></tr>
-          <tr><td><code>duration_ms</code></td><td>number</td><td>Duration of the movement phase in milliseconds</td></tr>
-          <tr><td><code>nerve</code></td><td>string</td><td>Primary innervating nerve (optional)</td></tr>
-          <tr><td><code>joint</code></td><td>string</td><td>Joint involved in the movement</td></tr>
-          <tr><td><code>range_deg</code></td><td>array</td><td>Start and end joint angle in degrees</td></tr>
-          <tr><td><code>symmetry</code></td><td>string</td><td>unilateral_left, unilateral_right, or bilateral</td></tr>
+          <tr><td>Joint angles</td><td>ISB JCS</td><td>Per-joint Euler rotations</td><td>No muscle/nerve, no text format</td></tr>
+          <tr><td>Motion data</td><td>C3D / BVH / OpenSim</td><td>Full-body time-series</td><td>No semantic layer, not human-authored</td></tr>
+          <tr><td>Muscle activity</td><td>EMG + SENIAM</td><td>Voltage waveforms</td><td>No symbol table, no nerve mapping</td></tr>
+          <tr><td>Exercise dose</td><td>ACSM FITT / NSCA</td><td>Sets × reps × load</td><td>No joint position, no targeting</td></tr>
+          <tr><td>Choreography</td><td>Labanotation</td><td>Spatial path, effort quality</td><td>No nerve, no muscle, no vector</td></tr>
+          <tr><td><strong>All of the above</strong></td><td><strong>MNN</strong></td><td><strong>Muscle + nerve + joint + vector + compensation</strong></td><td><strong>—</strong></td></tr>
         </tbody>
       </table>
-
-      <div class="spec-prose">
-        <p><strong>Consumer sites:</strong> BodSpas uses MNN for workout logging and nerve tracking. InThisWorld translates MNN into avatar joint rotations via Three.js. Gameatica references MNN structures in anatomy-related educational games.</p>
-      </div>
     </section>
 
-    <!-- Layer 5: VRN -->
-    <section class="spec-layer" id="layer-vrn">
+
+    <!-- ============================================================ -->
+    <!--  VRN SECTION                                                  -->
+    <!-- ============================================================ -->
+
+    <div class="spec-divider" id="vrn-overview">
+      <h2>🎤 VRN — Vocal Resonance Notation</h2>
+      <p>An open parameter space for describing the physical production of vocal sound. Captures what the vocal apparatus is doing — not just what it sounds like.</p>
+    </div>
+
+    <!-- VRN Parameter Space -->
+    <section class="spec-layer" id="vrn-params">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Layer 5</span>
-        <h2>VRN — Vocal Resonance Notation</h2>
+        <span class="spec-layer-num">VRN §1</span>
+        <h2>Parameter Space</h2>
       </div>
       <div class="spec-prose">
-        <p>Vocal Resonance Notation (VRN) is a parameter space for describing the physical production of vocal sound. It captures what the vocal apparatus is <em>doing</em> — larynx position, tongue shape, soft palate state, breath pressure, formant targets — rather than just the acoustic output.</p>
+        <p>VRN describes voice production through the physical configuration of the vocal tract. Each VRN record is a set of parameters representing the state of the larynx, vocal folds, tongue, jaw, lips, soft palate, and breath system at a given moment. Together they define a <strong>complete vocal gesture</strong> — everything the body is doing to produce a specific sound.</p>
 
-        <p><strong>The gap VRN fills:</strong> existing AI voice synthesis engines (ElevenLabs, OpenAI TTS, Google Cloud TTS) model voice as an acoustic waveform transformation. They can clone a voice or apply a style, but they have <strong>no representation of how the voice is physically produced</strong>. VRN provides that missing layer — a parameter space that maps to the physiological mechanics of vocalization. This makes VRN relevant both to vocal training (teaching a human to produce a sound) and to physically-informed AI voice synthesis (generating voice from a model of the vocal tract rather than purely from audio features).</p>
-
-        <p>VRN originated in COSMOS the Opera, where it was needed to notate specific vocal techniques for operatic performance. It was generalized into a standalone notation and is now the core protocol for VoiceStry's vocal training platform.</p>
+        <p>The parameters are grouped into three categories: <strong>source</strong> (what the vocal folds are doing), <strong>filter</strong> (how the vocal tract shapes the sound), and <strong>drive</strong> (the breath energy powering it). This maps to the <a href="https://en.wikipedia.org/wiki/Source%E2%80%93filter_model" style="color:var(--primary)">source-filter model</a> of speech production — the same theoretical framework used in acoustic phonetics and speech synthesis research.</p>
       </div>
 
       <div class="spec-schema">
-        <span class="spec-schema-title">VRN Record Example</span>
+        <span class="spec-schema-title">VRN Record — Full Example</span>
 <pre>{
+  <span class="cmt">// SOURCE — vocal fold behavior</span>
+  <span class="str">"vocal_fold"</span>:      <span class="str">"modal"</span>,       <span class="cmt">// breathy, modal, pressed, falsetto, fry</span>
+  <span class="str">"pitch_hz"</span>:        <span class="num">262</span>,           <span class="cmt">// fundamental frequency</span>
+  <span class="str">"vibrato"</span>: {
+    <span class="str">"rate_hz"</span>: <span class="num">5.5</span>,                  <span class="cmt">// oscillation speed</span>
+    <span class="str">"extent_cents"</span>: <span class="num">40</span>              <span class="cmt">// pitch deviation</span>
+  },
+
+  <span class="cmt">// FILTER — vocal tract shape</span>
   <span class="str">"larynx_height"</span>:   <span class="str">"neutral"</span>,     <span class="cmt">// low, neutral, high</span>
-  <span class="str">"vocal_fold"</span>:      <span class="str">"modal"</span>,       <span class="cmt">// breathy, modal, pressed, falsetto</span>
   <span class="str">"soft_palate"</span>:     <span class="str">"raised"</span>,      <span class="cmt">// raised (oral), lowered (nasal)</span>
   <span class="str">"tongue_body"</span>:     <span class="str">"mid_front"</span>,   <span class="cmt">// position in vowel space</span>
-  <span class="str">"tongue_tip"</span>:      <span class="str">"alveolar"</span>,    <span class="cmt">// contact point</span>
-  <span class="str">"jaw_opening"</span>:     <span class="num">45</span>,            <span class="cmt">// degrees, 0 = closed</span>
+  <span class="str">"tongue_tip"</span>:      <span class="str">"alveolar"</span>,    <span class="cmt">// contact point for consonants</span>
+  <span class="str">"jaw_opening"</span>:     <span class="num">45</span>,            <span class="cmt">// degrees, 0 = closed, 60 = max</span>
   <span class="str">"lip_rounding"</span>:    <span class="num">0.3</span>,           <span class="cmt">// 0 = spread, 1 = fully rounded</span>
-  <span class="str">"breath_pressure"</span>: <span class="num">60</span>,            <span class="cmt">// subglottal pressure, 0-100</span>
   <span class="str">"formants"</span>: {
     <span class="str">"F1"</span>: <span class="num">500</span>,  <span class="str">"F2"</span>: <span class="num">1800</span>,  <span class="str">"F3"</span>: <span class="num">2600</span>   <span class="cmt">// Hz targets</span>
   },
-  <span class="str">"pitch_hz"</span>:        <span class="num">262</span>,           <span class="cmt">// fundamental frequency</span>
-  <span class="str">"duration_ms"</span>:     <span class="num">800</span>,
-  <span class="str">"vibrato"</span>: {
-    <span class="str">"rate_hz"</span>: <span class="num">5.5</span>,  <span class="str">"extent_cents"</span>: <span class="num">40</span>
-  }
+
+  <span class="cmt">// DRIVE — breath system</span>
+  <span class="str">"breath_pressure"</span>: <span class="num">60</span>,            <span class="cmt">// subglottal pressure, 0-100</span>
+  <span class="str">"duration_ms"</span>:     <span class="num">800</span>
 }</pre>
       </div>
 
       <table class="spec-param-table">
-        <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+        <thead><tr><th>Parameter</th><th>Category</th><th>Type</th><th>Description</th></tr></thead>
         <tbody>
-          <tr><td><code>larynx_height</code></td><td>string</td><td>Vertical larynx position: low, neutral, high</td></tr>
-          <tr><td><code>vocal_fold</code></td><td>string</td><td>Phonation mode: breathy, modal, pressed, falsetto, fry</td></tr>
-          <tr><td><code>soft_palate</code></td><td>string</td><td>Velopharyngeal state: raised (oral), lowered (nasal)</td></tr>
-          <tr><td><code>tongue_body</code></td><td>string</td><td>Position in vowel space (high_front, mid_central, low_back, etc.)</td></tr>
-          <tr><td><code>tongue_tip</code></td><td>string</td><td>Articulation contact: dental, alveolar, postalveolar, retroflex</td></tr>
-          <tr><td><code>jaw_opening</code></td><td>number</td><td>Jaw angle in degrees (0 = closed, 60 = max open)</td></tr>
-          <tr><td><code>lip_rounding</code></td><td>number</td><td>Lip shape on 0–1 scale (0 = spread, 1 = fully rounded)</td></tr>
-          <tr><td><code>breath_pressure</code></td><td>number</td><td>Subglottal pressure on 0–100 scale</td></tr>
-          <tr><td><code>formants</code></td><td>object</td><td>Target formant frequencies F1, F2, F3 in Hz</td></tr>
-          <tr><td><code>pitch_hz</code></td><td>number</td><td>Fundamental frequency in Hz</td></tr>
-          <tr><td><code>vibrato</code></td><td>object</td><td>Vibrato rate (Hz) and extent (cents)</td></tr>
+          <tr><td><code>vocal_fold</code></td><td>Source</td><td>string</td><td>Phonation mode: breathy, modal, pressed, falsetto, fry</td></tr>
+          <tr><td><code>pitch_hz</code></td><td>Source</td><td>number</td><td>Fundamental frequency in Hz</td></tr>
+          <tr><td><code>vibrato</code></td><td>Source</td><td>object</td><td>Rate (Hz) and extent (cents) of pitch oscillation</td></tr>
+          <tr><td><code>larynx_height</code></td><td>Filter</td><td>string</td><td>Vertical larynx position: low, neutral, high</td></tr>
+          <tr><td><code>soft_palate</code></td><td>Filter</td><td>string</td><td>Velopharyngeal port: raised (oral) or lowered (nasal)</td></tr>
+          <tr><td><code>tongue_body</code></td><td>Filter</td><td>string</td><td>Vowel space position: high_front, mid_central, low_back, etc.</td></tr>
+          <tr><td><code>tongue_tip</code></td><td>Filter</td><td>string</td><td>Articulation point: dental, alveolar, postalveolar, retroflex</td></tr>
+          <tr><td><code>jaw_opening</code></td><td>Filter</td><td>number</td><td>Jaw angle in degrees (0 = closed, 60 = max open)</td></tr>
+          <tr><td><code>lip_rounding</code></td><td>Filter</td><td>number</td><td>Lip shape on 0–1 scale (0 = spread, 1 = fully rounded)</td></tr>
+          <tr><td><code>formants</code></td><td>Filter</td><td>object</td><td>Target formant frequencies F1, F2, F3 in Hz</td></tr>
+          <tr><td><code>breath_pressure</code></td><td>Drive</td><td>number</td><td>Subglottal pressure on 0–100 scale</td></tr>
+          <tr><td><code>duration_ms</code></td><td>Drive</td><td>number</td><td>Duration of the vocal gesture in milliseconds</td></tr>
         </tbody>
       </table>
+    </section>
+
+    <!-- VRN and AI -->
+    <section class="spec-layer" id="vrn-ai">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">VRN §2</span>
+        <h2>VRN and AI Voice Synthesis</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Current AI voice synthesis engines — ElevenLabs, OpenAI TTS, Google Cloud TTS, Amazon Polly — all model voice as an <strong>acoustic waveform transformation</strong>. They take a text input, select or clone a voice identity, and produce audio. Some accept style parameters (speed, emphasis, emotion). None of them model <em>how the voice is physically produced</em>.</p>
+
+        <p>This means these systems can produce convincing speech, but they cannot answer questions like: "What is the larynx doing during this vowel?" or "What tongue position produces this formant shift?" The physical reality of vocal production is invisible to them — it was never part of their parameter space.</p>
+
+        <p><strong>VRN fills this gap.</strong> It provides a parameter space that maps to the physiological mechanics of vocalization. A VRN record doesn't describe what a voice <em>sounds like</em> — it describes what the body is <em>doing</em> to produce that sound. This is a fundamentally different representation, and it opens a different research direction: <strong>physically-informed voice synthesis</strong> where a model generates speech by simulating vocal tract configuration rather than pattern-matching spectrograms.</p>
+
+        <p>For vocal training (the current primary use case on VoiceStry), VRN enables instruction that goes beyond "make it sound like this." A vocal coach can describe the exact physical configuration that produces a target sound — larynx low, soft palate raised, tongue body forward, specific breath pressure — and the student can work toward reproducing that configuration, not just imitating the acoustic output.</p>
+      </div>
 
       <div class="spec-gap-note">
-        <strong>Why this matters for AI:</strong> Current voice synthesis treats the voice as a black-box waveform. VRN provides the missing parameter space for physically-informed synthesis — a model could generate speech by simulating vocal tract configuration rather than pattern-matching spectrograms. This is a fundamentally different approach and an open research direction.
+        <strong>The gap in current AI voice technology:</strong> Existing engines have no model of physical vocal production. They synthesize voice from acoustic features alone. VRN provides the missing parameter space for physically-informed synthesis — a model that generates speech from vocal tract configuration rather than purely from audio. This is an open research direction with applications in voice training, speech therapy, accent coaching, singing synthesis, and accessible voice technology.
       </div>
     </section>
 
-    <!-- Implementation -->
-    <section class="spec-layer" id="implementation">
+    <!-- VRN Consumer Sites -->
+    <section class="spec-layer" id="vrn-consumers">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Impl.</span>
-        <h2>DemoTemplate — Base Implementation</h2>
+        <span class="spec-layer-num">VRN §3</span>
+        <h2>Consumer Sites</h2>
       </div>
       <div class="spec-prose">
-        <p>DemoTemplate is the canonical base for all AIUNITES sites. New sites are created by cloning DemoTemplate and customizing. It provides the full middleware stack out of the box: authentication, admin panel, user modals (settings, backup/restore, cache viewer, legal), CloudDB module, webring bar, dark theme, CSS variables, and responsive layout.</p>
+        <p>VRN is consumed by two AIUNITES sites:</p>
+      </div>
 
-        <p>The template enforces AIUNITES conventions: vanilla JavaScript only (no frameworks), CSS custom properties for theming, <code>[data-theme="dark"]</code> for dark mode, semantic HTML5, and mobile-first responsive design. Navigation elements never use <code>display: none</code> — mobile menus use CSS transforms (slide-in patterns) to ensure accessibility and functionality.</p>
-
-        <p>Four sites currently run the full DemoTemplate feature set: VideoBate, AIByJob, Redomy, and DemoTemplate itself. One site (AIZines) has authentication but is missing the user modal layer. Ten sites are landing pages with CloudDB deployed but awaiting the full template upgrade. Three sites (COSMOS, AI YHWH, AIUNITES hub) are content-only by design.</p>
+      <div class="mw-grid">
+        <div class="mw-card">
+          <div class="card-icon">🎤</div>
+          <h3>VoiceStry</h3>
+          <span class="card-tag">Vocal Training Platform</span>
+          <p>The primary VRN consumer. Vocal gym, pitch trainer, and sight-reading exercises all use VRN to describe target vocal configurations. Students work toward reproducing specific physical states, not just matching audio.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🌌</div>
+          <h3>COSMOS the Opera</h3>
+          <span class="card-tag">Origin of VRN</span>
+          <p>VRN was created to notate specific vocal techniques for operatic performance in COSMOS. The notation needed to capture what a singer's body does — not just the notes on a staff. COSMOS remains the creative testbed for VRN features before they generalize to VoiceStry.</p>
+        </div>
       </div>
     </section>
 
-    <!-- Admin Patterns -->
-    <section class="spec-layer" id="admin-patterns">
+
+    <!-- ============================================================ -->
+    <!--  SHARED PRINCIPLES                                            -->
+    <!-- ============================================================ -->
+
+    <section class="spec-layer" id="design-principles">
       <div class="spec-layer-header">
-        <span class="spec-layer-num">Patterns</span>
-        <h2>Admin Pattern Taxonomy</h2>
+        <span class="spec-layer-num">Shared</span>
+        <h2>Design Principles</h2>
       </div>
       <div class="spec-prose">
-        <p>AIUNITES sites use one of three admin patterns depending on their complexity. Each pattern builds on the previous one.</p>
+        <p>MNN and VRN share the same design philosophy. These aren't accidental similarities — they're deliberate constraints that make both notations work across contexts.</p>
       </div>
 
-      <div class="mw-grid" style="margin-top:1.5rem">
-        <div class="mw-card">
-          <div class="card-icon">📦</div>
-          <h3>Cache Core</h3>
-          <span class="card-tag">Simplest</span>
-          <p>localStorage and theming only. No authentication, no admin UI. Used by content sites and simple landing pages that just need theme persistence and data caching.</p>
-        </div>
-        <div class="mw-card">
-          <div class="card-icon">🔲</div>
-          <h3>Modal Admin Core</h3>
-          <span class="card-tag">Mid-tier</span>
-          <p>Authentication plus a modal-based admin panel. All admin functionality (users, settings, stats, changelog) lives in overlay modals. Used by games and single-page apps like VideoBate.</p>
-        </div>
+      <div class="mw-grid">
         <div class="mw-card">
           <div class="card-icon">📄</div>
-          <h3>Page Admin Core</h3>
-          <span class="card-tag">Full-featured</span>
-          <p>Authentication plus dedicated admin.html and settings.html pages. For apps complex enough that admin functions need their own page context. Used by multi-page applications with extensive configuration.</p>
+          <h3>Plain Text</h3>
+          <p>Both notations are plain text. No binary formats, no proprietary readers, no special software required. Open the file in any text editor and you can read it. This is a non-negotiable design constraint.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🤖</div>
+          <h3>Machine-Parseable</h3>
+          <p>Both notations use consistent syntax with tagged segments and structured key-value pairs. Any programming language with basic string parsing can read them. MNN has a formal EBNF grammar.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">👤</div>
+          <h3>Human-Authored</h3>
+          <p>Unlike motion capture or EMG data (machine-generated), both notations are designed to be written by a person. A trainer writes MNN. A vocal coach writes VRN. The notation serves the human, not the sensor.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🔓</div>
+          <h3>No License, No Vendor</h3>
+          <p>Both notations are open. No license fee to use them. No vendor lock-in. No proprietary reader. The data belongs to the person whose body produced the movement or sound.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🔀</div>
+          <h3>Parameter Space, Not Vocabulary</h3>
+          <p>Both notations define a parameter space rather than a fixed dictionary. New muscles, new vocal techniques, new joint configurations can be expressed without extending the spec. The notation grows with use.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🌐</div>
+          <h3>Cross-Domain by Design</h3>
+          <p>MNN works in a gym, a game engine, and a cable rig. VRN works in a voice lesson, an opera score, and an AI synthesis pipeline. The same notation, different consumers. That's the point.</p>
         </div>
       </div>
-    </section>
-
-    <!-- Technology -->
-    <section class="spec-layer" id="technology">
-      <div class="spec-layer-header">
-        <span class="spec-layer-num">Stack</span>
-        <h2>Technology Constraints</h2>
-      </div>
-      <div class="spec-prose">
-        <p>AIUNITES enforces a deliberately constrained technology stack. The constraints are architectural decisions, not limitations — they ensure every site in the network is portable, auditable, and maintainable without framework churn.</p>
-      </div>
-
-      <table class="spec-param-table">
-        <thead><tr><th>Constraint</th><th>Decision</th><th>Rationale</th></tr></thead>
-        <tbody>
-          <tr><td>Frontend</td><td>Vanilla JavaScript only</td><td>No build step, no framework dependencies, no version lock-in</td></tr>
-          <tr><td>Styling</td><td>CSS with custom properties</td><td>Theming via variables, dark mode via <code>[data-theme]</code> attribute</td></tr>
-          <tr><td>Database</td><td>SQLite (shared <code>app.db</code>)</td><td>Single-file database, Git-syncable, no server process</td></tr>
-          <tr><td>Backend</td><td>Static HTML or Python/Flask</td><td>GitHub Pages compatible, optional server layer</td></tr>
-          <tr><td>Cloud sync</td><td>Google Forms + Apps Script</td><td>Free tier, no server to maintain, works offline</td></tr>
-          <tr><td>Mobile nav</td><td>CSS transforms only</td><td><code>display:none</code> is prohibited — breaks accessibility and screen readers</td></tr>
-          <tr><td>Versioning</td><td>Semantic (MAJOR.MINOR.PATCH)</td><td>Tracked in UATEST_PLAN.md, config.js, admin panel, PROGRESS_LOG.md</td></tr>
-        </tbody>
-      </table>
     </section>
 
     <!-- CTA -->
     <section class="mw-cta">
-      <h2>Explore the Network</h2>
-      <p>See the middleware in action across 18 connected applications.</p>
+      <h2>Try the Notation</h2>
+      <p>Build an MNN string, train your voice, or explore the network.</p>
       <div class="mw-cta-links">
-        <a href="network.html" class="mw-btn-primary">← Network Overview</a>
-        <a href="identity.html" class="mw-btn-outline">Identity</a>
-        <a href="data.html" class="mw-btn-outline">Data</a>
-        <a href="notation.html" class="mw-btn-outline">Movement</a>
+        <a href="https://aiunites.github.io/bodspas-site/log.html" class="mw-btn-primary">MNN Builder →</a>
+        <a href="https://aiunites.github.io/voicestry-site/" class="mw-btn-outline">VoiceStry →</a>
+        <a href="notation.html" class="mw-btn-outline">← Movement</a>
+        <a href="network.html" class="mw-btn-outline">Network</a>
         <a href="index.html#contact" class="mw-btn-outline">Contact</a>
       </div>
     </section>
@@ -581,8 +738,8 @@
 
   <footer class="mw-footer">
     <div class="container">
-      <p>© 2026 AIUNITES LLC. All rights reserved.</p>
-      <p><a href="index.html">← Home</a> · <a href="network.html">Network</a> · <a href="identity.html">Identity</a> · <a href="data.html">Data</a> · <a href="notation.html">Movement</a> · <a href="legal.html">Legal</a></p>
+      <p>© 2026 AIUNITES LLC. MNN and VRN are open notation protocols developed by AIUNITES.</p>
+      <p><a href="index.html">← Home</a> · <a href="network.html">Network</a> · <a href="notation.html">Movement</a> · <a href="identity.html">Identity</a> · <a href="data.html">Data</a> · <a href="legal.html">Legal</a></p>
     </div>
   </footer>
 
