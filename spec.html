@@ -7,33 +7,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Primary Meta Tags -->
-  <title>MNN & VRN Notation Specification | AIUNITES — Human Movement & Vocal Resonance Protocols</title>
-  <meta name="description" content="Technical specification for MNN (Muscular Neuro Notation) and VRN (Vocal Resonance Notation). Open text formats for describing human movement and physically-informed vocal production. Machine-parseable, human-readable, vendor-neutral.">
-  <meta name="keywords" content="MNN, Muscular Neuro Notation, VRN, Vocal Resonance Notation, human movement notation, movement specification, vocal production parameters, voice synthesis, exercise notation, avatar posing, BODWAVE, muscle activation notation, nerve mapping, formant targets, larynx position, AIUNITES">
+  <title>MNN, VRN & VNN Notation Specification | AIUNITES — Movement, Voice & Neural Protocols</title>
+  <meta name="description" content="Technical specification for MNN (Muscular Neuro Notation), VRN (Vocal Resonance Notation), and VNN (Vocal Neuro Notation). Open text formats for human movement, vocal production, and the cranial nerve pathways that execute them. Machine-parseable, human-readable, vendor-neutral.">
+  <meta name="keywords" content="MNN, Muscular Neuro Notation, VRN, Vocal Resonance Notation, VNN, Vocal Neuro Notation, human movement notation, movement specification, vocal production parameters, voice synthesis, cranial nerves singing, vagus nerve voice, recurrent laryngeal nerve, exercise notation, avatar posing, BODWAVE, muscle activation notation, nerve mapping, formant targets, larynx position, vocal neurology, AIUNITES">
   <meta name="author" content="AIUNITES LLC">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://aiunites.github.io/aiunites-site/spec.html">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
-  <meta property="og:title" content="MNN & VRN Specification — Open Notation for Human Movement and Voice">
-  <meta property="og:description" content="Technical spec for two open protocols: MNN for human movement (muscle, nerve, joint, vector) and VRN for vocal production (larynx, formants, breath, phonation).">
+  <meta property="og:title" content="MNN, VRN & VNN Specification — Open Notation for Movement, Voice & Neural Control">
+  <meta property="og:description" content="Technical spec for three open protocols: MNN for human movement, VRN for vocal production, and VNN for the cranial nerve pathways that execute vocal technique.">
   <meta property="og:url" content="https://aiunites.github.io/aiunites-site/spec.html">
   <meta property="og:image" content="https://aiunites.github.io/aiunites-site/images/og-image.png">
   <meta property="og:site_name" content="AIUNITES">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="MNN & VRN Notation Specification">
-  <meta name="twitter:description" content="Open text formats for human movement and vocal production. Machine-parseable, human-readable, no vendor lock-in.">
+  <meta name="twitter:title" content="MNN, VRN & VNN Notation Specification">
+  <meta name="twitter:description" content="Three open protocols: movement (MNN), voice (VRN), and neural control (VNN). Machine-parseable, human-readable, no vendor lock-in.">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "MNN & VRN Notation Specification",
-    "description": "Technical specification for Muscular Neuro Notation (MNN) and Vocal Resonance Notation (VRN) — open text formats for human movement and physically-informed vocal production.",
+    "headline": "MNN, VRN & VNN Notation Specification",
+    "description": "Technical specification for Muscular Neuro Notation (MNN), Vocal Resonance Notation (VRN), and Vocal Neuro Notation (VNN) — open text formats for human movement, vocal production, and the neural control pathways that execute them.",
     "author": {
       "@type": "Organization",
       "name": "AIUNITES LLC",
@@ -46,13 +46,15 @@
     "datePublished": "2026-03-03",
     "dateModified": "2026-03-03",
     "mainEntityOfPage": "https://aiunites.github.io/aiunites-site/spec.html",
-    "keywords": ["MNN", "Muscular Neuro Notation", "VRN", "Vocal Resonance Notation", "human movement notation", "voice synthesis", "muscle activation", "nerve mapping", "formant targets", "open protocol"],
+    "keywords": ["MNN", "Muscular Neuro Notation", "VRN", "Vocal Resonance Notation", "VNN", "Vocal Neuro Notation", "human movement notation", "voice synthesis", "muscle activation", "nerve mapping", "formant targets", "cranial nerves", "vagus nerve", "recurrent laryngeal nerve", "open protocol"],
     "about": [
       { "@type": "Thing", "name": "Human Movement Notation" },
       { "@type": "Thing", "name": "Vocal Production" },
       { "@type": "Thing", "name": "Voice Synthesis" },
       { "@type": "Thing", "name": "Exercise Science" },
-      { "@type": "Thing", "name": "Biomechanics" }
+      { "@type": "Thing", "name": "Biomechanics" },
+      { "@type": "Thing", "name": "Vocal Neurology" },
+      { "@type": "Thing", "name": "Cranial Nerves" }
     ]
   }
   </script>
@@ -295,13 +297,13 @@
     <!-- Hero -->
     <section class="mw-hero">
       <h1>Notation<br><span class="gradient-text">Specification</span></h1>
-      <p class="subtitle">Two open protocols for describing what the human body does. MNN captures physical movement — muscle, nerve, joint, vector. VRN captures vocal production — larynx, tongue, breath, resonance. Both are plain text, machine-parseable, and vendor-neutral.</p>
+      <p class="subtitle">Three open protocols for describing what the human body does. MNN captures physical movement — muscle, nerve, joint, vector. VRN captures vocal production — larynx, tongue, breath, resonance. VNN maps the neural control behind VRN — cranial nerves, motor cortex, brainstem circuits. All are plain text, machine-parseable, and vendor-neutral.</p>
 
       <div class="mw-stat-row">
-        <div class="mw-stat"><span class="stat-value">2</span><span class="stat-label">Protocols</span></div>
+        <div class="mw-stat"><span class="stat-value">3</span><span class="stat-label">Protocols</span></div>
         <div class="mw-stat"><span class="stat-value">MNN</span><span class="stat-label">Movement</span></div>
         <div class="mw-stat"><span class="stat-value">VRN</span><span class="stat-label">Voice</span></div>
-        <div class="mw-stat"><span class="stat-value">0</span><span class="stat-label">License Fees</span></div>
+        <div class="mw-stat"><span class="stat-value">VNN</span><span class="stat-label">Neural</span></div>
       </div>
     </section>
 
@@ -321,6 +323,11 @@
         <li><a href="#vrn-params">VRN Parameter Space</a></li>
         <li><a href="#vrn-ai">VRN and AI Voice Synthesis</a></li>
         <li><a href="#vrn-consumers">VRN Consumer Sites</a></li>
+        <li><a href="#vnn-overview">VNN — Vocal Neuro Notation</a></li>
+        <li><a href="#vnn-nerves">The 6 Cranial Nerves of Singing</a></li>
+        <li><a href="#vnn-mapping">VRN → VNN Mapping</a></li>
+        <li><a href="#vnn-antagonists">Antagonist Balance Notation</a></li>
+        <li><a href="#vnn-clinical">Clinical Status Codes</a></li>
         <li><a href="#design-principles">Shared Design Principles</a></li>
       </ol>
     </div>
@@ -675,6 +682,227 @@
 
 
     <!-- ============================================================ -->
+    <!--  VNN SECTION                                                  -->
+    <!-- ============================================================ -->
+
+    <div class="spec-divider" id="vnn-overview">
+      <h2>🧠 VNN — Vocal Neuro Notation</h2>
+      <p>The neural control layer behind VRN. VRN maps what happens mechanically. VNN maps what fires to make it happen — cranial nerves, motor cortex pathways, brainstem circuits, and antagonist muscle balance.</p>
+    </div>
+
+    <section class="spec-layer">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">VNN §1</span>
+        <h2>Two Layers of Vocal Production</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Traditional vocal pedagogy tells you <em>what to do</em>: open the throat, lift the palate, support from the diaphragm. VRN gives you symbols for these mechanical events. VNN adds the deeper layer — the nervous system that actually <strong>executes</strong> those commands.</p>
+
+        <p>Every VRN symbol implies a VNN command chain. When a score says <code>[Zy]</code> (zygomatic lift), the facial nerve (CN VII) is sending signals to the zygomaticus major. When it says <code>[D+++]</code> (maximum diaphragm), the phrenic nerve (C3–C5) is driving the primary breathing muscle. <strong>VRN is the score. VNN is the orchestra.</strong></p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Mechanical Layer (VRN) vs Neural Layer (VNN)</span>
+<pre><span class="cmt">VRN — Mechanical (what happens):</span>
+<span class="str">[H+++, N++, O++, Sq+, Vib.r6]</span>
+<span class="cmt">Resonance placement, fold config, airflow, vibrato rate</span>
+
+<span class="cmt">VNN — Neural (what fires):</span>
+<span class="str">CN X → RLN → fold adduction</span>
+<span class="str">CN VII → zygomatic lift</span>
+<span class="str">C3-C5 → diaphragm</span>
+<span class="cmt">Which nerves fire, which muscles contract, which brain regions coordinate</span></pre>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">The Neural Command Chain</span>
+<pre><span class="str">Motor Cortex</span>  <span class="cmt">→ Voluntary intent</span>
+<span class="str">Broca's Area</span> <span class="cmt">→ Motor planning</span>
+<span class="str">Basal Ganglia</span><span class="cmt">→ Learned sequences (trained VRN patterns)</span>
+<span class="str">Cerebellum</span>   <span class="cmt">→ Timing &amp; precision</span>
+<span class="str">Brainstem</span>    <span class="cmt">→ Nerve relay</span>
+<span class="str">Cranial Nerves</span><span class="cmt">→ Muscle activation</span>
+<span class="str">Sound</span>        <span class="cmt">→ VRN output</span>
+
+<span class="cmt">Total latency: ~50–100ms from intent to sound</span></pre>
+      </div>
+    </section>
+
+    <!-- VNN: 6 Cranial Nerves -->
+    <section class="spec-layer" id="vnn-nerves">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">VNN §2</span>
+        <h2>The 6 Cranial Nerves of Singing</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Six cranial nerves form the core wiring harness of the vocal instrument. Every VRN symbol traces back to one or more of these nerves.</p>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Nerve</th><th>Name</th><th>Role</th><th>VRN Symbols Controlled</th></tr></thead>
+        <tbody>
+          <tr><td><code>CN V</code></td><td>Trigeminal</td><td>Jaw positioning — temporalis, masseter, pterygoids</td><td><code>[Jw↓] [Jw→] [Jw~] [Jw:X°]</code></td></tr>
+          <tr><td><code>CN VII</code></td><td>Facial</td><td>Lips, cheeks, embouchure — orbicularis oris, zygomaticus</td><td><code>[Lp] [Zy] [Ey] [B]</code></td></tr>
+          <tr><td><code>CN IX</code></td><td>Glossopharyngeal</td><td>Pharynx elevation — stylopharyngeus</td><td><code>[P] [P+] [P++] [P+++]</code></td></tr>
+          <tr><td><code>CN X</code></td><td>Vagus</td><td>Master controller — larynx, soft palate, all fold behavior via RLN and SLN branches</td><td><code>[Th] [Tn] [Fl] [Prs] [Br] [Gl] [Co] [Vib] [SP] [Sq]</code></td></tr>
+          <tr><td><code>CN XI</code></td><td>Accessory</td><td>Posture support — sternocleidomastoid, trapezius</td><td><code>[M]</code> posture &amp; laryngeal stability</td></tr>
+          <tr><td><code>CN XII</code></td><td>Hypoglossal</td><td>Sole motor nerve to tongue — all intrinsic/extrinsic tongue muscles</td><td><code>[Tg] [Tg↑] [Tg↓] [Tg→F] [Tg→B]</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-prose" style="margin-top:1.5rem">
+        <p><strong>The Vagus Nerve (CN X)</strong> deserves special attention. Its two critical branches divide the work of phonation: the <strong>recurrent laryngeal nerve (RLN)</strong> controls 4 of 5 intrinsic laryngeal muscles (fold adduction, abduction, body tension, closure), while the <strong>superior laryngeal nerve (SLN)</strong> controls the cricothyroid — the pitch muscle that stretches and thins the folds. Every register transition involves a shift in RLN vs SLN dominance.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Vagus Nerve Branch Mapping</span>
+<pre><span class="str">Recurrent Laryngeal (RLN)</span> → <span class="num">4 muscles</span>
+  Thyroarytenoid     → fold body tension     <span class="cmt">[Th]</span>
+  Lateral Cricoarytenoid → fold adduction   <span class="cmt">[Prs]</span>
+  Posterior Cricoarytenoid → fold abduction  <span class="cmt">[Br]</span>
+  Interarytenoid     → fold closure          <span class="cmt">[Fl] [Gl]</span>
+
+<span class="str">Superior Laryngeal (SLN)</span> → <span class="num">1 muscle</span>
+  Cricothyroid       → fold stretch/thinning <span class="cmt">[Tn]</span>
+  <span class="cmt">The "pitch" muscle — controls fold length and tension</span></pre>
+      </div>
+    </section>
+
+    <!-- VNN: VRN-to-Nerve Mapping -->
+    <section class="spec-layer" id="vnn-mapping">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">VNN §3</span>
+        <h2>VRN → VNN Mapping</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Every VRN symbol traces to a specific nerve or nerve combination. VNN organizes these mappings into tiers based on who needs them: singers (Level 1), teachers (Level 2), and clinicians (Level 3).</p>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Tier</th><th>Audience</th><th>What It Adds</th></tr></thead>
+        <tbody>
+          <tr><td><code>🟢 Level 1</code></td><td>Singers</td><td>VRN symbol → nerve → muscle (core mapping)</td></tr>
+          <tr><td><code>🟡 Level 2</code></td><td>Teachers &amp; coaches</td><td>+ Articulatory position codes, antagonist balance, neural intensity</td></tr>
+          <tr><td><code>🔴 Level 3</code></td><td>Clinicians, ENTs, SLPs, AI researchers</td><td>+ Clinical status codes, pathological markers, recovery tracking</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Level 1 — Core VRN → Nerve Mapping (Sample)</span>
+<pre><span class="cmt">Resonance &amp; Placement:</span>
+<span class="str">[C]</span>  Chest resonance    → <span class="kw">CN X (RLN)</span>    → Thyroarytenoid
+<span class="str">[H]</span>  Head resonance     → <span class="kw">CN X (SLN)</span>    → Cricothyroid
+<span class="str">[N]</span>  Nasal resonance    → <span class="kw">CN X (pharyn)</span> → Levator veli palatini
+<span class="str">[O]</span>  Oral resonance     → <span class="kw">CN XII + VII</span>  → Tongue + lips
+<span class="str">[P]</span>  Pharyngeal space   → <span class="kw">CN IX + X</span>     → Stylopharyngeus
+
+<span class="cmt">Fold Behavior:</span>
+<span class="str">[Th]</span> Thick fold         → <span class="kw">CN X (RLN)</span>    → Thyroarytenoid
+<span class="str">[Tn]</span> Thin fold          → <span class="kw">CN X (SLN)</span>    → Cricothyroid
+<span class="str">[Fl]</span> Flow phonation     → <span class="kw">CN X (RLN)</span>    → Balanced IA + LCA
+<span class="str">[Prs]</span>Pressed phonation  → <span class="kw">CN X (RLN)</span>    → LCA hyperadduction
+<span class="str">[Br]</span> Breathy phonation  → <span class="kw">CN X (RLN)</span>    → PCA partial abduction
+
+<span class="cmt">Breath &amp; Airflow:</span>
+<span class="str">[D]</span>  Diaphragm          → <span class="kw">Phrenic C3-C5</span> → Diaphragm
+<span class="str">[IC]</span> Intercostal        → <span class="kw">Intercostal T1-T11</span> → External intercostals
+<span class="str">[Ap]</span> Appoggio           → <span class="kw">Phrenic + IC</span>  → Diaphragm vs intercostal antagonism
+
+<span class="cmt">Articulation:</span>
+<span class="str">[Tg]</span> Tongue             → <span class="kw">CN XII</span>        → Genioglossus, styloglossus, etc.
+<span class="str">[SP]</span> Soft palate        → <span class="kw">CN X (pharyn)</span> → Levator veli palatini
+<span class="str">[Jw]</span> Jaw                → <span class="kw">CN V (motor)</span>  → Temporalis, masseter
+<span class="str">[Lp]</span> Lips               → <span class="kw">CN VII</span>        → Orbicularis oris
+<span class="str">[Zy]</span> Zygomatic lift     → <span class="kw">CN VII (zyg)</span>  → Zygomaticus major</pre>
+      </div>
+    </section>
+
+    <!-- VNN: Antagonist Balance -->
+    <section class="spec-layer" id="vnn-antagonists">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">VNN §4</span>
+        <h2>Antagonist Balance Notation</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Vocal production depends on muscle <em>pairs</em> that oppose each other. The balance point between them determines the sound. This is the vocal equivalent of MNN's agonist/antagonist pairing — and it's where most vocal problems live. VNN uses a <strong>ratio notation</strong> to express the balance between antagonist pairs.</p>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Pair</th><th>Agonist</th><th>Antagonist</th><th>What the Balance Controls</th></tr></thead>
+        <tbody>
+          <tr><td><code>CT:TA</code></td><td>Cricothyroid (SLN)</td><td>Thyroarytenoid (RLN)</td><td>Fold length vs mass — the pitch/register mechanism. CT-dominant = head voice. TA-dominant = chest voice.</td></tr>
+          <tr><td><code>LCA:PCA</code></td><td>Lat. Cricoarytenoid (RLN)</td><td>Post. Cricoarytenoid (RLN)</td><td>Fold adduction vs abduction — the open/close mechanism. LCA-dominant = pressed. PCA-dominant = breathy.</td></tr>
+          <tr><td><code>Elev:Depr</code></td><td>Suprahyoid (CN V, VII, XII)</td><td>Infrahyoid (Ansa cervicalis)</td><td>Larynx height — elevators pull up (belt), depressors pull down (cover).</td></tr>
+          <tr><td><code>D:IC</code></td><td>Diaphragm (Phrenic)</td><td>Intercostals + Abdominals</td><td>Inhalation vs exhalation force — appoggio is the trained balance.</td></tr>
+          <tr><td><code>Gn:St</code></td><td>Genioglossus (CN XII)</td><td>Styloglossus (CN XII)</td><td>Tongue forward vs back — formant shaping.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Ratio Notation Examples</span>
+<pre><span class="str">CT:TA 70:30</span>   <span class="cmt">CT-dominant (head mix)</span>
+<span class="str">CT:TA 30:70</span>   <span class="cmt">TA-dominant (chest belt)</span>
+<span class="str">CT:TA 50:50</span>   <span class="cmt">Balanced (neutral mix, speech-quality phonation)</span>
+<span class="str">LCA:PCA 80:20</span> <span class="cmt">Firm adduction (pressed phonation)</span>
+<span class="str">LCA:PCA 40:60</span> <span class="cmt">Loose adduction (breathy phonation)</span>
+<span class="str">D:IC 60:40</span>    <span class="cmt">Diaphragm-dominant breath (strong appoggio)</span>
+
+<span class="cmt">Full example — Classical Tenor High A:</span>
+<span class="str">[H+++, Sq+, Cov, Lx↓, CT:TA 65:35, LCA:PCA 70:30, D:IC 60:40, SP↑, Zy, Tg→B]</span>
+<span class="cmt">Head-dominant mix with squillo ring. Larynx low, palate high,</span>
+<span class="cmt">tongue retracted. Firm adduction, strong appoggio.</span></pre>
+      </div>
+    </section>
+
+    <!-- VNN: Clinical Status Codes -->
+    <section class="spec-layer" id="vnn-clinical">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">VNN §5</span>
+        <h2>Clinical Status Codes</h2>
+      </div>
+      <div class="spec-prose">
+        <p>For ENTs, speech-language pathologists, and vocal therapists. These codes document pathology, track recovery, and identify compensation patterns — the vocal equivalent of MNN's clinical layer.</p>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Symbol</th><th>Status</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>❌</code></td><td>Paralysis / no activation</td><td><code>[Fold.L❌] → RLN</code> — left fold paralysis</td></tr>
+          <tr><td><code>Par:</code></td><td>Paresis (partial weakness)</td><td><code>[Par:Fold.L–] → RLN</code> — reduced adduction</td></tr>
+          <tr><td><code>Atr:</code></td><td>Atrophy present</td><td><code>[Atr:Fold.R] → SLN</code> — fold bowing from muscle wasting</td></tr>
+          <tr><td><code>Spas:</code></td><td>Spasmodic / involuntary contraction</td><td><code>[Spas:LCA] → RLN</code> — adductor spasmodic dysphonia</td></tr>
+          <tr><td><code>Trem:</code></td><td>Tremor</td><td><code>[Trem:CT, Vib.irreg]</code> — cricothyroid tremor</td></tr>
+          <tr><td><code>Comp:</code></td><td>Compensation pattern</td><td><code>[Comp:FVF for Fold.L❌]</code> — false folds compensating</td></tr>
+          <tr><td><code>Rec↑</code></td><td>Recovery / reinnervation</td><td><code>[Rec↑:Fold.L+, LCA:PCA 50:50]</code> — improving post-surgery</td></tr>
+          <tr><td><code>Les:</code></td><td>Lesion present</td><td><code>[Les:Fold.R.ant⅓]</code> — nodule location</td></tr>
+          <tr><td><code>Gap:</code></td><td>Glottal gap</td><td><code>[Gap:Post, Br++]</code> — incomplete closure</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Clinical Documentation Example</span>
+<pre><span class="cmt">Post-Thyroidectomy Assessment (Day 14):</span>
+<span class="str">[Par:Fold.L–, Gap:Post, Br++, Comp:Trp.U++] → RLN (left)</span>
+<span class="str">[Rec↑:Fold.L, LCA:PCA 45:55]</span>
+
+<span class="cmt">Left fold paresis from RLN damage during thyroid surgery.</span>
+<span class="cmt">Posterior glottal gap causing breathiness.</span>
+<span class="cmt">Compensating with upper trapezius tension (neck strain).</span>
+<span class="cmt">Early signs of reinnervation — adduction improving. Compare at 6 weeks.</span></pre>
+      </div>
+
+      <div class="spec-gap-note">
+        <strong>Why VNN matters for AI:</strong> Current voice synthesis has no concept of neural control pathways. VNN provides the structured parameter space that maps vocal output to neuromuscular commands — enabling AI systems that understand <em>how</em> voices are produced at the neural level, not just what they sound like acoustically. Combined with VRN's mechanical layer, this creates a complete three-layer model: intention → neural command → mechanical output → sound.
+      </div>
+
+      <div class="spec-prose" style="margin-top:1.5rem">
+        <p>The spec above covers the core VNN framework. The <strong>full VNN reference</strong> — including all Level 2 articulatory position codes (tongue, larynx height, jaw, palate), the complete vibrato/squillo/timbral color mappings, the emotional brain pathway (periaqueductal gray), vagus nerve and wellbeing research, and VNN as a neural training framework — lives on VoiceStry:</p>
+        <p style="margin-top:.75rem"><a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary);font-weight:600;font-size:1.05rem">Read the full VNN reference on VoiceStry →</a></p>
+      </div>
+    </section>
+
+
+    <!-- ============================================================ -->
     <!--  SHARED PRINCIPLES                                            -->
     <!-- ============================================================ -->
 
@@ -724,13 +952,13 @@
     <!-- CTA -->
     <section class="mw-cta">
       <h2>Try the Notation</h2>
-      <p>Build an MNN string, train your voice, or explore the network.</p>
+      <p>Build an MNN string, train your voice, explore the neural mapping, or browse the network.</p>
       <div class="mw-cta-links">
         <a href="https://aiunites.github.io/bodspas-site/log.html" class="mw-btn-primary">MNN Builder →</a>
-        <a href="https://aiunites.github.io/voicestry-site/" class="mw-btn-outline">VoiceStry →</a>
+        <a href="https://aiunites.github.io/voicestry-site/" class="mw-btn-outline">VoiceStry (VRN) →</a>
+        <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" class="mw-btn-outline">Full VNN Reference →</a>
         <a href="notation.html" class="mw-btn-outline">← Movement</a>
         <a href="network.html" class="mw-btn-outline">Network</a>
-        <a href="index.html#contact" class="mw-btn-outline">Contact</a>
       </div>
     </section>
 
