@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Middleware Specification | AIUNITES — Cross-Site Auth, CloudDB Sync, MNN & VRN Protocols</title>
+  <meta name="description" content="Technical specification for the AIUNITES middleware stack: cross-site authentication, CloudDB sync, webring navigation, Muscular Neuro Notation (MNN) for human movement, and Vocal Resonance Notation (VRN) for physically-informed voice synthesis.">
+  <meta name="keywords" content="middleware specification, cross-site authentication, CloudDB sync, human movement notation, MNN, vocal resonance notation, VRN, voice synthesis parameters, web application middleware, vanilla JavaScript middleware, AIUNITES">
+  <meta name="author" content="AIUNITES LLC">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://aiunites.github.io/aiunites-site/spec.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AIUNITES Middleware Specification — 5 Layers, 18 Apps">
+  <meta property="og:description" content="Technical spec for the AIUNITES middleware: cross-site auth, CloudDB sync, webring navigation, MNN for human movement, and VRN for vocal production.">
+  <meta property="og:url" content="https://aiunites.github.io/aiunites-site/spec.html">
+  <meta property="og:image" content="https://aiunites.github.io/aiunites-site/images/og-image.png">
+  <meta property="og:site_name" content="AIUNITES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIUNITES Middleware Specification">
+  <meta name="twitter:description" content="5-layer middleware connecting 18 web apps: auth, sync, navigation, movement notation, and vocal notation.">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "AIUNITES Middleware Specification",
+    "description": "Technical specification for a 5-layer middleware stack connecting 18 web applications through shared authentication, data sync, navigation, and domain-specific notation protocols.",
+    "author": {
+      "@type": "Organization",
+      "name": "AIUNITES LLC",
+      "url": "https://aiunites.github.io/aiunites-site/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "AIUNITES LLC"
+    },
+    "datePublished": "2026-03-03",
+    "dateModified": "2026-03-03",
+    "mainEntityOfPage": "https://aiunites.github.io/aiunites-site/spec.html",
+    "keywords": ["middleware", "cross-site authentication", "CloudDB", "MNN", "VRN", "human movement notation", "vocal resonance notation", "voice synthesis"],
+    "about": [
+      { "@type": "Thing", "name": "Middleware" },
+      { "@type": "Thing", "name": "Web Application Architecture" },
+      { "@type": "Thing", "name": "Human Movement Notation" },
+      { "@type": "Thing", "name": "Voice Synthesis" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/middleware.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+
+  <style>
+    /* Spec-specific styles */
+    .spec-toc {
+      background: var(--dark-light);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .spec-toc h3 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--gray-light);
+      margin-bottom: 1rem;
+    }
+    .spec-toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding: 0;
+      margin: 0;
+    }
+    .spec-toc li {
+      counter-increment: toc;
+      margin-bottom: .5rem;
+    }
+    .spec-toc li::before {
+      content: counter(toc) ".";
+      color: var(--primary);
+      font-weight: 600;
+      margin-right: .5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem;
+    }
+    .spec-toc a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: .95rem;
+    }
+    .spec-toc a:hover {
+      color: var(--primary);
+    }
+
+    .spec-layer {
+      padding: 3.5rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .spec-layer-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .spec-layer-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: rgba(99,102,241,.15);
+      border: 1px solid rgba(99,102,241,.3);
+      border-radius: var(--radius-sm);
+      padding: .35rem .75rem;
+      flex-shrink: 0;
+    }
+    .spec-layer h2 {
+      text-align: left;
+      font-size: 1.6rem;
+      margin-bottom: 0;
+    }
+
+    .spec-prose {
+      color: var(--gray-light);
+      line-height: 1.8;
+      font-size: 1.02rem;
+      max-width: 760px;
+    }
+    .spec-prose p {
+      margin-bottom: 1.25rem;
+    }
+    .spec-prose strong {
+      color: var(--white);
+    }
+
+    .spec-schema {
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    .spec-schema-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .75rem;
+      display: block;
+    }
+    .spec-schema pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: var(--gray-light);
+      line-height: 1.7;
+      margin: 0;
+      white-space: pre;
+    }
+    .spec-schema .kw { color: #c084fc; }
+    .spec-schema .str { color: #34d399; }
+    .spec-schema .num { color: #fbbf24; }
+    .spec-schema .cmt { color: #6b7280; font-style: italic; }
+
+    .spec-param-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      margin: 1.5rem 0;
+    }
+    .spec-param-table th {
+      text-align: left;
+      padding: .6rem .75rem;
+      background: var(--dark-lighter);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      color: var(--gray-light);
+      font-weight: 600;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .spec-param-table td {
+      padding: .6rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      color: var(--gray-light);
+    }
+    .spec-param-table code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      color: var(--primary);
+      background: rgba(99,102,241,.1);
+      padding: .15rem .4rem;
+      border-radius: 3px;
+    }
+
+    .spec-gap-note {
+      background: rgba(251,191,36,.08);
+      border-left: 3px solid #fbbf24;
+      padding: 1rem 1.25rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 1.5rem 0;
+      font-size: .92rem;
+      color: var(--gray-light);
+    }
+    .spec-gap-note strong {
+      color: #fbbf24;
+    }
+
+    @media (max-width: 768px) {
+      .spec-layer-header { flex-direction: column; align-items: flex-start; gap: .5rem; }
+      .spec-param-table { font-size: .8rem; }
+      .spec-param-table th, .spec-param-table td { padding: .4rem .5rem; }
+      .spec-schema pre { font-size: .72rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar .current{color:#6366f1!important;text-decoration:underline;text-underline-offset:3px;}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a class="aiunites-bar-brand current" href="index.html">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/aitsql-site/">AITSQL</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+  <script>(function(){if(location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'){document.querySelectorAll('.aiunites-bar a').forEach(a=>{if(!a.classList.contains('current'))a.href=a.href.replace('https://aiunites.github.io/','../')+'index.html';});}})()</script>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">◆</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="network.html">Network</a>
+        <a href="identity.html">Identity</a>
+        <a href="data.html">Data</a>
+        <a href="notation.html">Movement</a>
+        <a href="consulting.html">Consulting</a>
+        <a href="index.html#contact" class="nav-cta">Contact Us</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="mw-hero">
+      <h1>Middleware<br><span class="gradient-text">Specification</span></h1>
+      <p class="subtitle">AIUNITES is a five-layer middleware stack connecting 18 web applications through shared authentication, synchronized data, unified navigation, and two domain-specific notation protocols for human movement and vocal production.</p>
+
+      <div class="mw-stat-row">
+        <div class="mw-stat"><span class="stat-value">5</span><span class="stat-label">Middleware Layers</span></div>
+        <div class="mw-stat"><span class="stat-value">18</span><span class="stat-label">Connected Apps</span></div>
+        <div class="mw-stat"><span class="stat-value">0</span><span class="stat-label">Frameworks</span></div>
+        <div class="mw-stat"><span class="stat-value">1</span><span class="stat-label">Database</span></div>
+      </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <div class="spec-toc">
+      <h3>Specification Contents</h3>
+      <ol>
+        <li><a href="#layer-auth">Cross-Site Authentication</a></li>
+        <li><a href="#layer-clouddb">CloudDB Sync</a></li>
+        <li><a href="#layer-webring">Webring Navigation</a></li>
+        <li><a href="#layer-mnn">MNN — Muscular Neuro Notation</a></li>
+        <li><a href="#layer-vrn">VRN — Vocal Resonance Notation</a></li>
+        <li><a href="#implementation">Implementation: DemoTemplate</a></li>
+        <li><a href="#admin-patterns">Admin Pattern Taxonomy</a></li>
+        <li><a href="#technology">Technology Constraints</a></li>
+      </ol>
+    </div>
+
+    <!-- Layer 1: Cross-Site Authentication -->
+    <section class="spec-layer" id="layer-auth">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Layer 1</span>
+        <h2>Cross-Site Authentication</h2>
+      </div>
+      <div class="spec-prose">
+        <p>All AIUNITES sites share a single SQLite database (<code>app.db</code>) for user identity. A user who registers on any site in the network can authenticate on every other site with the same credentials. There is no OAuth, no third-party identity provider, and no token exchange — the sites share a database file that syncs through a Git-backed mechanism.</p>
+
+        <p><strong>Registration</strong> follows a self-service model. The first user to register on any site is automatically assigned the admin role. Subsequent registrations create standard user accounts. Every site also supports a <strong>demo mode</strong> with pre-created demo users, allowing visitors to explore functionality without creating an account.</p>
+
+        <p><strong>Sessions</strong> are managed per-site in localStorage. When a user logs in, their session state is stored locally and persists until explicit logout. There is no cross-site session cookie — each site independently verifies against the shared user table.</p>
+
+        <p><strong>Admin capabilities</strong> include user management (view all users, usernames, join dates, avatars), system settings (email verification toggle, public signup toggle, max items limit, maintenance mode), statistics, and a versioned changelog.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">User Table Schema</span>
+<pre>{
+  <span class="str">"id"</span>:        <span class="cmt">// Auto-increment primary key</span>
+  <span class="str">"username"</span>:  <span class="cmt">// Unique, required</span>
+  <span class="str">"email"</span>:     <span class="cmt">// Unique, required</span>
+  <span class="str">"password"</span>:  <span class="cmt">// Hashed</span>
+  <span class="str">"role"</span>:      <span class="cmt">// "admin" | "user"</span>
+  <span class="str">"avatar"</span>:    <span class="cmt">// URL or default</span>
+  <span class="str">"created"</span>:   <span class="cmt">// ISO 8601 timestamp</span>
+}</pre>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Feature</th><th>Behavior</th><th>Sites</th></tr></thead>
+        <tbody>
+          <tr><td>First-user admin</td><td>First registered user becomes admin automatically</td><td>All auth sites</td></tr>
+          <tr><td>Demo mode</td><td>Pre-created demo accounts for guest access</td><td>VideoBate, AIByJob, Redomy, DemoTemplate</td></tr>
+          <tr><td>Session storage</td><td><code>localStorage</code> per site, keyed by site prefix</td><td>All auth sites</td></tr>
+          <tr><td>Protected routes</td><td>Redirect to login when unauthenticated</td><td>All auth sites</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Layer 2: CloudDB Sync -->
+    <section class="spec-layer" id="layer-clouddb">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Layer 2</span>
+        <h2>CloudDB Sync</h2>
+      </div>
+      <div class="spec-prose">
+        <p>CloudDB is the data synchronization layer deployed across all 18 AIUNITES sites. It bridges the gap between localStorage (the primary data store for each site) and a cloud backend powered by Google Sheets via Google Forms and Apps Script. The architecture is <strong>offline-first</strong>: every site works fully without an internet connection, and syncs when connectivity is available.</p>
+
+        <p>Each site includes a <code>cloud-database.js</code> module that handles the sync lifecycle. Data flows from localStorage to Google Forms (as structured submissions), which land in Google Sheets. An Apps Script endpoint provides the read-back API for pulling cloud state into a local site.</p>
+
+        <p>The sync module exposes an <strong>online/offline toggle</strong> in the UI, letting users control when sync happens. When online, changes push automatically. When offline, changes accumulate locally and batch-sync on reconnection.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Sync Flow</span>
+<pre><span class="cmt">Write path:</span>
+  localStorage → cloud-database.js → Google Form POST → Google Sheet
+
+<span class="cmt">Read path:</span>
+  Google Sheet → Apps Script API → cloud-database.js → localStorage
+
+<span class="cmt">Conflict resolution:</span>
+  Last-write-wins with timestamp comparison</pre>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>cloud-database.js</code></td><td>Vanilla JavaScript</td><td>Sync orchestration, offline queue</td></tr>
+          <tr><td>Google Forms</td><td>Google Workspace</td><td>Write endpoint (structured data submission)</td></tr>
+          <tr><td>Google Sheets</td><td>Google Workspace</td><td>Cloud data store</td></tr>
+          <tr><td>Apps Script</td><td>Google Apps Script</td><td>Read API, data transformation</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Layer 3: Webring Navigation -->
+    <section class="spec-layer" id="layer-webring">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Layer 3</span>
+        <h2>Webring Navigation</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Every site in the AIUNITES network displays a fixed navigation bar at the top of every page. This bar lists all sites in the network, highlights the current site, and provides one-click navigation to any other site. It is the most visible expression of the middleware — the thing that makes the network feel like a network rather than a portfolio of unrelated projects.</p>
+
+        <p>The webring bar is maintained as a master template (<code>webring-banner.html</code>). When updated, changes propagate across all 18 sites. The bar uses inline CSS for zero-dependency rendering and includes a <strong>local development script</strong> that auto-converts absolute GitHub Pages URLs to relative paths when running on <code>localhost</code> or <code>file://</code> protocol.</p>
+
+        <p>The current site is visually indicated with an underline and the primary brand color. The bar scrolls horizontally on narrow screens without hiding any sites.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Local Dev URL Rewriting</span>
+<pre><span class="cmt">// Auto-detects local development environment</span>
+<span class="kw">if</span> (location.protocol === <span class="str">'file:'</span> ||
+    location.hostname === <span class="str">'localhost'</span> ||
+    location.hostname === <span class="str">'127.0.0.1'</span>) {
+  <span class="cmt">// Rewrites absolute URLs to relative paths</span>
+  <span class="str">'https://aiunites.github.io/sitename/'</span>
+    → <span class="str">'../sitename/index.html'</span>
+}</pre>
+      </div>
+    </section>
+
+    <!-- Layer 4: MNN -->
+    <section class="spec-layer" id="layer-mnn">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Layer 4</span>
+        <h2>MNN — Muscular Neuro Notation</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Muscular Neuro Notation (MNN) is an open text format for describing human movement. It captures which muscles are engaged, the type of contraction, intensity, duration, and neural activation patterns. MNN is designed to be <strong>machine-parseable but human-readable</strong> — a movement can be described in a way that both a fitness app and a physical therapist can interpret.</p>
+
+        <p>MNN powers the <strong>BODWAVE</strong> movement layer in BodSpas (exercise and rehab logging) and the avatar posing system in InThisWorld (virtual world simulation). The same notation that describes a bicep curl can drive an avatar's arm position in a 3D environment.</p>
+
+        <p>The notation operates as a <strong>parameter space</strong> rather than a fixed vocabulary. Each movement is a set of key-value pairs describing body region, muscle group, action type, intensity (0–100), duration, and optional nerve pathway annotations. This means MNN can represent movements not yet catalogued — it is extensible by design.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">MNN Record Example</span>
+<pre>{
+  <span class="str">"region"</span>:     <span class="str">"upper_arm"</span>,
+  <span class="str">"muscle"</span>:     <span class="str">"biceps_brachii"</span>,
+  <span class="str">"action"</span>:     <span class="str">"concentric"</span>,
+  <span class="str">"intensity"</span>:  <span class="num">75</span>,            <span class="cmt">// 0-100 scale</span>
+  <span class="str">"duration_ms"</span>: <span class="num">2000</span>,
+  <span class="str">"nerve"</span>:      <span class="str">"musculocutaneous"</span>,
+  <span class="str">"joint"</span>:      <span class="str">"elbow"</span>,
+  <span class="str">"range_deg"</span>:  [<span class="num">20</span>, <span class="num">140</span>],    <span class="cmt">// start, end angle</span>
+  <span class="str">"symmetry"</span>:   <span class="str">"bilateral"</span>
+}</pre>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>region</code></td><td>string</td><td>Anatomical body region (upper_arm, thorax, cervical, etc.)</td></tr>
+          <tr><td><code>muscle</code></td><td>string</td><td>Specific muscle or muscle group (anatomical naming)</td></tr>
+          <tr><td><code>action</code></td><td>string</td><td>Contraction type: concentric, eccentric, isometric, ballistic</td></tr>
+          <tr><td><code>intensity</code></td><td>number</td><td>Engagement level on 0–100 scale</td></tr>
+          <tr><td><code>duration_ms</code></td><td>number</td><td>Duration of the movement phase in milliseconds</td></tr>
+          <tr><td><code>nerve</code></td><td>string</td><td>Primary innervating nerve (optional)</td></tr>
+          <tr><td><code>joint</code></td><td>string</td><td>Joint involved in the movement</td></tr>
+          <tr><td><code>range_deg</code></td><td>array</td><td>Start and end joint angle in degrees</td></tr>
+          <tr><td><code>symmetry</code></td><td>string</td><td>unilateral_left, unilateral_right, or bilateral</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-prose">
+        <p><strong>Consumer sites:</strong> BodSpas uses MNN for workout logging and nerve tracking. InThisWorld translates MNN into avatar joint rotations via Three.js. Gameatica references MNN structures in anatomy-related educational games.</p>
+      </div>
+    </section>
+
+    <!-- Layer 5: VRN -->
+    <section class="spec-layer" id="layer-vrn">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Layer 5</span>
+        <h2>VRN — Vocal Resonance Notation</h2>
+      </div>
+      <div class="spec-prose">
+        <p>Vocal Resonance Notation (VRN) is a parameter space for describing the physical production of vocal sound. It captures what the vocal apparatus is <em>doing</em> — larynx position, tongue shape, soft palate state, breath pressure, formant targets — rather than just the acoustic output.</p>
+
+        <p><strong>The gap VRN fills:</strong> existing AI voice synthesis engines (ElevenLabs, OpenAI TTS, Google Cloud TTS) model voice as an acoustic waveform transformation. They can clone a voice or apply a style, but they have <strong>no representation of how the voice is physically produced</strong>. VRN provides that missing layer — a parameter space that maps to the physiological mechanics of vocalization. This makes VRN relevant both to vocal training (teaching a human to produce a sound) and to physically-informed AI voice synthesis (generating voice from a model of the vocal tract rather than purely from audio features).</p>
+
+        <p>VRN originated in COSMOS the Opera, where it was needed to notate specific vocal techniques for operatic performance. It was generalized into a standalone notation and is now the core protocol for VoiceStry's vocal training platform.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">VRN Record Example</span>
+<pre>{
+  <span class="str">"larynx_height"</span>:   <span class="str">"neutral"</span>,     <span class="cmt">// low, neutral, high</span>
+  <span class="str">"vocal_fold"</span>:      <span class="str">"modal"</span>,       <span class="cmt">// breathy, modal, pressed, falsetto</span>
+  <span class="str">"soft_palate"</span>:     <span class="str">"raised"</span>,      <span class="cmt">// raised (oral), lowered (nasal)</span>
+  <span class="str">"tongue_body"</span>:     <span class="str">"mid_front"</span>,   <span class="cmt">// position in vowel space</span>
+  <span class="str">"tongue_tip"</span>:      <span class="str">"alveolar"</span>,    <span class="cmt">// contact point</span>
+  <span class="str">"jaw_opening"</span>:     <span class="num">45</span>,            <span class="cmt">// degrees, 0 = closed</span>
+  <span class="str">"lip_rounding"</span>:    <span class="num">0.3</span>,           <span class="cmt">// 0 = spread, 1 = fully rounded</span>
+  <span class="str">"breath_pressure"</span>: <span class="num">60</span>,            <span class="cmt">// subglottal pressure, 0-100</span>
+  <span class="str">"formants"</span>: {
+    <span class="str">"F1"</span>: <span class="num">500</span>,  <span class="str">"F2"</span>: <span class="num">1800</span>,  <span class="str">"F3"</span>: <span class="num">2600</span>   <span class="cmt">// Hz targets</span>
+  },
+  <span class="str">"pitch_hz"</span>:        <span class="num">262</span>,           <span class="cmt">// fundamental frequency</span>
+  <span class="str">"duration_ms"</span>:     <span class="num">800</span>,
+  <span class="str">"vibrato"</span>: {
+    <span class="str">"rate_hz"</span>: <span class="num">5.5</span>,  <span class="str">"extent_cents"</span>: <span class="num">40</span>
+  }
+}</pre>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>larynx_height</code></td><td>string</td><td>Vertical larynx position: low, neutral, high</td></tr>
+          <tr><td><code>vocal_fold</code></td><td>string</td><td>Phonation mode: breathy, modal, pressed, falsetto, fry</td></tr>
+          <tr><td><code>soft_palate</code></td><td>string</td><td>Velopharyngeal state: raised (oral), lowered (nasal)</td></tr>
+          <tr><td><code>tongue_body</code></td><td>string</td><td>Position in vowel space (high_front, mid_central, low_back, etc.)</td></tr>
+          <tr><td><code>tongue_tip</code></td><td>string</td><td>Articulation contact: dental, alveolar, postalveolar, retroflex</td></tr>
+          <tr><td><code>jaw_opening</code></td><td>number</td><td>Jaw angle in degrees (0 = closed, 60 = max open)</td></tr>
+          <tr><td><code>lip_rounding</code></td><td>number</td><td>Lip shape on 0–1 scale (0 = spread, 1 = fully rounded)</td></tr>
+          <tr><td><code>breath_pressure</code></td><td>number</td><td>Subglottal pressure on 0–100 scale</td></tr>
+          <tr><td><code>formants</code></td><td>object</td><td>Target formant frequencies F1, F2, F3 in Hz</td></tr>
+          <tr><td><code>pitch_hz</code></td><td>number</td><td>Fundamental frequency in Hz</td></tr>
+          <tr><td><code>vibrato</code></td><td>object</td><td>Vibrato rate (Hz) and extent (cents)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-gap-note">
+        <strong>Why this matters for AI:</strong> Current voice synthesis treats the voice as a black-box waveform. VRN provides the missing parameter space for physically-informed synthesis — a model could generate speech by simulating vocal tract configuration rather than pattern-matching spectrograms. This is a fundamentally different approach and an open research direction.
+      </div>
+    </section>
+
+    <!-- Implementation -->
+    <section class="spec-layer" id="implementation">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Impl.</span>
+        <h2>DemoTemplate — Base Implementation</h2>
+      </div>
+      <div class="spec-prose">
+        <p>DemoTemplate is the canonical base for all AIUNITES sites. New sites are created by cloning DemoTemplate and customizing. It provides the full middleware stack out of the box: authentication, admin panel, user modals (settings, backup/restore, cache viewer, legal), CloudDB module, webring bar, dark theme, CSS variables, and responsive layout.</p>
+
+        <p>The template enforces AIUNITES conventions: vanilla JavaScript only (no frameworks), CSS custom properties for theming, <code>[data-theme="dark"]</code> for dark mode, semantic HTML5, and mobile-first responsive design. Navigation elements never use <code>display: none</code> — mobile menus use CSS transforms (slide-in patterns) to ensure accessibility and functionality.</p>
+
+        <p>Four sites currently run the full DemoTemplate feature set: VideoBate, AIByJob, Redomy, and DemoTemplate itself. One site (AIZines) has authentication but is missing the user modal layer. Ten sites are landing pages with CloudDB deployed but awaiting the full template upgrade. Three sites (COSMOS, AI YHWH, AIUNITES hub) are content-only by design.</p>
+      </div>
+    </section>
+
+    <!-- Admin Patterns -->
+    <section class="spec-layer" id="admin-patterns">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Patterns</span>
+        <h2>Admin Pattern Taxonomy</h2>
+      </div>
+      <div class="spec-prose">
+        <p>AIUNITES sites use one of three admin patterns depending on their complexity. Each pattern builds on the previous one.</p>
+      </div>
+
+      <div class="mw-grid" style="margin-top:1.5rem">
+        <div class="mw-card">
+          <div class="card-icon">📦</div>
+          <h3>Cache Core</h3>
+          <span class="card-tag">Simplest</span>
+          <p>localStorage and theming only. No authentication, no admin UI. Used by content sites and simple landing pages that just need theme persistence and data caching.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">🔲</div>
+          <h3>Modal Admin Core</h3>
+          <span class="card-tag">Mid-tier</span>
+          <p>Authentication plus a modal-based admin panel. All admin functionality (users, settings, stats, changelog) lives in overlay modals. Used by games and single-page apps like VideoBate.</p>
+        </div>
+        <div class="mw-card">
+          <div class="card-icon">📄</div>
+          <h3>Page Admin Core</h3>
+          <span class="card-tag">Full-featured</span>
+          <p>Authentication plus dedicated admin.html and settings.html pages. For apps complex enough that admin functions need their own page context. Used by multi-page applications with extensive configuration.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology -->
+    <section class="spec-layer" id="technology">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">Stack</span>
+        <h2>Technology Constraints</h2>
+      </div>
+      <div class="spec-prose">
+        <p>AIUNITES enforces a deliberately constrained technology stack. The constraints are architectural decisions, not limitations — they ensure every site in the network is portable, auditable, and maintainable without framework churn.</p>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>Constraint</th><th>Decision</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>Frontend</td><td>Vanilla JavaScript only</td><td>No build step, no framework dependencies, no version lock-in</td></tr>
+          <tr><td>Styling</td><td>CSS with custom properties</td><td>Theming via variables, dark mode via <code>[data-theme]</code> attribute</td></tr>
+          <tr><td>Database</td><td>SQLite (shared <code>app.db</code>)</td><td>Single-file database, Git-syncable, no server process</td></tr>
+          <tr><td>Backend</td><td>Static HTML or Python/Flask</td><td>GitHub Pages compatible, optional server layer</td></tr>
+          <tr><td>Cloud sync</td><td>Google Forms + Apps Script</td><td>Free tier, no server to maintain, works offline</td></tr>
+          <tr><td>Mobile nav</td><td>CSS transforms only</td><td><code>display:none</code> is prohibited — breaks accessibility and screen readers</td></tr>
+          <tr><td>Versioning</td><td>Semantic (MAJOR.MINOR.PATCH)</td><td>Tracked in UATEST_PLAN.md, config.js, admin panel, PROGRESS_LOG.md</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- CTA -->
+    <section class="mw-cta">
+      <h2>Explore the Network</h2>
+      <p>See the middleware in action across 18 connected applications.</p>
+      <div class="mw-cta-links">
+        <a href="network.html" class="mw-btn-primary">← Network Overview</a>
+        <a href="identity.html" class="mw-btn-outline">Identity</a>
+        <a href="data.html" class="mw-btn-outline">Data</a>
+        <a href="notation.html" class="mw-btn-outline">Movement</a>
+        <a href="index.html#contact" class="mw-btn-outline">Contact</a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="mw-footer">
+    <div class="container">
+      <p>© 2026 AIUNITES LLC. All rights reserved.</p>
+      <p><a href="index.html">← Home</a> · <a href="network.html">Network</a> · <a href="identity.html">Identity</a> · <a href="data.html">Data</a> · <a href="notation.html">Movement</a> · <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
