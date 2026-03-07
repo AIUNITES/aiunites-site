@@ -294,4 +294,6 @@
   .mw-stat-row { flex-direction: column; align-items: center; }
   .mw-table { font-size: .8rem; }
   .mw-table th, .mw-table td { padding: .5rem .6rem; }
+  /* Nav wraps to 2 rows on mobile — bump hero padding to clear both fixed bars */
+  .mw-hero { padding-top: 12rem; }
 }

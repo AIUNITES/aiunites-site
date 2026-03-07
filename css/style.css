@@ -804,6 +804,9 @@ a { color: inherit; text-decoration: none; }
   }
   .nav-links a { font-size: 0.85rem; }
   .nav-toggle { display: none; }
+  /* Nav wraps to 2 rows on mobile (~120px tall vs ~65px desktop).
+     Increase hero top padding so content clears both fixed bars. */
+  .hero { padding-top: calc(var(--webring-height) + 9.5rem); }
   .hero h1 { font-size: 2.25rem; }
   .hero-stats { flex-direction: column; gap: 2rem; }
   .services-grid { grid-template-columns: 1fr; }
