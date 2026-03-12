@@ -269,6 +269,101 @@
       background: rgba(99,102,241,.08);
     }
 
+    /* Joint Taxonomy */
+    .joint-taxonomy {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .joint-taxonomy h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: .75rem;
+    }
+    .joint-taxonomy .section-sub {
+      text-align: center;
+      color: var(--gray-light);
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .chain-tree {
+      background: var(--dark-light);
+      border: 1px solid rgba(99,102,241,.2);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      margin-bottom: 2.5rem;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .chain-tree .tree-root { color: #818cf8; font-weight: 600; }
+    .chain-tree .tree-axial { color: #f472b6; }
+    .chain-tree .tree-upper { color: #34d399; }
+    .chain-tree .tree-lower { color: #fbbf24; }
+    .chain-tree .tree-dim { color: var(--gray); }
+    .joint-table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    .joint-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    .joint-table th {
+      text-align: left;
+      padding: .65rem 1rem;
+      background: var(--dark-lighter);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      color: var(--gray-light);
+      font-weight: 600;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .joint-table td {
+      padding: .65rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      color: var(--gray-light);
+      vertical-align: top;
+    }
+    .joint-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: #818cf8;
+      font-size: .82rem;
+    }
+    .joint-table .region-header td {
+      background: rgba(99,102,241,.07);
+      color: var(--white);
+      font-weight: 600;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      padding: .5rem 1rem;
+    }
+    .dof-badge {
+      display: inline-block;
+      background: rgba(99,102,241,.2);
+      color: #818cf8;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: .75rem;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .joint-note {
+      text-align: center;
+      color: var(--gray);
+      font-size: .85rem;
+      margin-top: 1rem;
+    }
+
     /* CTA */
     .notation-cta {
       padding: 4rem 0 6rem;
@@ -458,6 +553,73 @@
           <p>The string you write in the gym is the same string a game engine executes. Your data. Your format. Portable.</p>
         </div>
       </div>
+    </section>
+
+    <!-- Joint Taxonomy -->
+    <section class="joint-taxonomy">
+      <h2>Joint Taxonomy</h2>
+      <p class="section-sub">MNN models the body as a tree of joints rooted at the pelvis. Every joint has a symbol, defined degrees of freedom, and physiological range limits. The same taxonomy is used in the gym, in the avatar rig, and in the cable controller.</p>
+
+      <pre class="chain-tree"><span class="tree-root">Pelvis (root)</span>
+<span class="tree-axial">├── Spine
+│   ├── Sp.L  Lumbar
+│   ├── Sp.T  Thoracic
+│   ├── Sp.C  Cervical
+│   │   └── AA    Atlantoaxial (C1–C2)
+│   └── Head
+│       └── TMJ   Jaw</span>
+<span class="tree-upper">├── SC    Sternoclavicular  (L/R)
+│   └── AC    Acromioclavicular (L/R)
+│       └── Scap  Scapula        (L/R)
+│           └── Sh    Shoulder       (L/R)
+│               └── El    Elbow         (L/R)
+│                   └── RU    Forearm       (L/R)
+│                       └── Wr    Wrist         (L/R)
+│                           └── MCP/PIP/DIP  Fingers 1–5</span>
+<span class="tree-lower">└── Hip   Hip            (L/R)
+    └── Kn    Knee          (L/R)
+        └── Ank   Ankle        (L/R)
+            └── Sub   Subtalar    (L/R)
+                └── MTP/PIP/DIP  Toes 1–5</span></pre>
+
+      <div class="joint-table-wrap">
+        <table class="joint-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Joint</th>
+              <th>DOF</th>
+              <th>Key Axes</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="region-header"><td colspan="5">Axial — Midline</td></tr>
+            <tr><td>Sp.L</td><td>Lumbar Spine</td><td><span class="dof-badge">3</span></td><td>Flex, Lat, Rot</td><td>−30 to 80° flex</td></tr>
+            <tr><td>Sp.T</td><td>Thoracic Spine</td><td><span class="dof-badge">3</span></td><td>Flex, Lat, Rot</td><td>Primary rotation segment</td></tr>
+            <tr><td>Sp.C</td><td>Cervical Spine</td><td><span class="dof-badge">3</span></td><td>Flex, Lat, Rot</td><td>C3–C7 aggregated</td></tr>
+            <tr><td>AA</td><td>Atlantoaxial (C1–C2)</td><td><span class="dof-badge">1</span></td><td>Rot</td><td>Up to 45° each side</td></tr>
+            <tr><td>TMJ</td><td>Temporomandibular (Jaw)</td><td><span class="dof-badge">2</span></td><td>Open, Lat</td><td>Value in mm, not degrees</td></tr>
+            <tr class="region-header"><td colspan="5">Shoulder Girdle — Paired</td></tr>
+            <tr><td>SC</td><td>Sternoclavicular</td><td><span class="dof-badge">3</span></td><td>Elev, Pro, Rot</td><td>Often implicit in Scap</td></tr>
+            <tr><td>AC</td><td>Acromioclavicular</td><td><span class="dof-badge">3</span></td><td>UpRot, Tilt, Rot</td><td>Often implicit in Scap</td></tr>
+            <tr><td>Scap</td><td>Scapulothoracic</td><td><span class="dof-badge">3</span></td><td>Pro, Elev, UpRot</td><td>Composite SC + AC motion</td></tr>
+            <tr><td>Sh</td><td>Glenohumeral (Shoulder)</td><td><span class="dof-badge">3</span></td><td>Flex, Abd, IR, ER</td><td>−45 to 180° flex; 0–180° abd</td></tr>
+            <tr class="region-header"><td colspan="5">Upper Limb — Paired</td></tr>
+            <tr><td>El</td><td>Elbow (Humeroulnar)</td><td><span class="dof-badge">1</span></td><td>Flex</td><td>0–145°</td></tr>
+            <tr><td>RU</td><td>Radioulnar / Forearm</td><td><span class="dof-badge">1</span></td><td>Pro, Sup</td><td>0–90° each</td></tr>
+            <tr><td>Wr</td><td>Wrist</td><td><span class="dof-badge">2</span></td><td>Flex, Rad, Uln</td><td>−70 to 80° flex</td></tr>
+            <tr><td>MCP/PIP/DIP</td><td>Fingers (F1–F5)</td><td><span class="dof-badge">1–2</span></td><td>Flex, Abd</td><td>Digit suffix: F1=thumb … F5=little</td></tr>
+            <tr class="region-header"><td colspan="5">Lower Limb — Paired</td></tr>
+            <tr><td>Hip</td><td>Hip (Femoroacetabular)</td><td><span class="dof-badge">3</span></td><td>Flex, Abd, IR, ER</td><td>−30 to 125° flex</td></tr>
+            <tr><td>Kn</td><td>Knee (Tibiofemoral)</td><td><span class="dof-badge">1</span></td><td>Flex</td><td>0–140°</td></tr>
+            <tr><td>Ank</td><td>Ankle (Talocrural)</td><td><span class="dof-badge">1</span></td><td>Dors, Plan</td><td>Dorsi/plantarflexion only</td></tr>
+            <tr><td>Sub</td><td>Subtalar</td><td><span class="dof-badge">1</span></td><td>Inv, Ev</td><td>Inversion/eversion separate</td></tr>
+            <tr><td>MTP/PIP/DIP</td><td>Toes (T1–T5)</td><td><span class="dof-badge">1</span></td><td>Flex</td><td>T1=hallux; negative=extension</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="joint-note">~139 DOF full body · ~25 DOF for typical exercise & rehab use · Full spec: <a href="spec.html" style="color:var(--primary)">MNN Spec v1.1 →</a></p>
     </section>
 
     <!-- Prior Art Comparison -->
