@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HMN Builder — Human Movement Notation | AIUNITES</title>
+  <meta name="description" content="Build an MNN (Muscular Neuro Notation) string interactively. Pick muscles, set joint angles, choose a movement pattern. Copy the result anywhere.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <style>
+    :root {
+      --bg:       #080810;
+      --bg2:      #0f0f1a;
+      --bg3:      #16162a;
+      --border:   rgba(99,102,241,.22);
+      --indigo:   #6366f1;
+      --indigo2:  #818cf8;
+      --green:    #22c55e;
+      --yellow:   #eab308;
+      --red:      #ef4444;
+      --pink:     #f472b6;
+      --orange:   #fb923c;
+      --cyan:     #22d3ee;
+      --gray:     #6b7280;
+      --text:     #e2e8f0;
+      --text2:    #94a3b8;
+
+      --col-move:  #818cf8;
+      --col-con:   #34d399;
+      --col-nerve: #f472b6;
+      --col-pos:   #fbbf24;
+      --col-vec:   #fb923c;
+      --col-comp:  #f87171;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+    /* Webring */
+    .aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}
+    .aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}
+    .aiunites-bar-content::-webkit-scrollbar{display:none}
+    .aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}
+    .aiunites-bar a:hover{color:#fff}
+    .aiunites-bar-brand{color:#6366f1!important;font-weight:600}
+
+    /* Layout */
+    .page-wrap { padding-top: 33px; display:flex; flex-direction:column; height:100vh; }
+    .top-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .top-bar-logo { font-weight:800; font-size:1.1rem; color:var(--indigo2); letter-spacing:.5px; }
+    .top-bar-logo span { color:var(--text2); font-weight:400; font-size:.8rem; margin-left:8px; }
+    .top-bar-links { margin-left:auto; display:flex; gap:12px; font-size:.82rem; }
+    .top-bar-links a { color:var(--text2); text-decoration:none; padding:4px 10px; border-radius:6px; transition:all .15s; }
+    .top-bar-links a:hover { background:var(--bg3); color:var(--text); }
+
+    .builder-shell {
+      display: grid;
+      grid-template-columns: 280px 1fr 320px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Panels */
+    .panel {
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .panel:last-child { border-right: none; border-left: 1px solid var(--border); }
+    .panel-header {
+      padding: 14px 16px 10px;
+      font-size:.68rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1.2px;
+      color:var(--text2);
+      border-bottom:1px solid var(--border);
+      background:var(--bg2);
+      position:sticky;
+      top:0;
+      z-index:10;
+      flex-shrink:0;
+    }
+
+    /* Left panel — controls */
+    .section-group { padding:12px 14px; border-bottom:1px solid rgba(99,102,241,.08); }
+    .section-label {
+      font-size:.7rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .section-label .dot { width:8px;height:8px;border-radius:50%; }
+
+    /* Movement pattern */
+    .pattern-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:5px;
+    }
+    .pattern-btn {
+      background:var(--bg3);
+      border:1px solid var(--border);
+      border-radius:6px;
+      padding:6px 8px;
+      font-size:.75rem;
+      color:var(--text2);
+      cursor:pointer;
+      text-align:center;
+      transition:all .15s;
+      font-family:monospace;
+    }
+    .pattern-btn:hover { border-color:var(--col-move); color:var(--col-move); }
+    .pattern-btn.active { background:rgba(129,140,248,.15); border-color:var(--col-move); color:var(--col-move); font-weight:600; }
+
+    /* Muscle list */
+    .muscle-group-label {
+      font-size:.65rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.8px;
+      color:var(--gray);
+      padding:8px 0 4px;
+    }
+    .muscle-row {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 0;
+    }
+    .muscle-name {
+      flex:1;
+      font-size:.78rem;
+      color:var(--text2);
+      cursor:pointer;
+      padding:3px 6px;
+      border-radius:4px;
+      transition:all .12s;
+    }
+    .muscle-name:hover { background:var(--bg3); color:var(--text); }
+    .muscle-name.active { color:var(--col-con); }
+    .level-btns { display:flex; gap:2px; }
+    .level-btn {
+      width:22px; height:22px;
+      font-size:.65rem; font-weight:700;
+      background:var(--bg3);
+      border:1px solid var(--border);
+      border-radius:4px;
+      color:var(--text2);
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      transition:all .12s;
+    }
+    .level-btn:hover { border-color:var(--col-con); color:var(--col-con); }
+    .level-btn.active { background:rgba(52,211,153,.2); border-color:var(--col-con); color:var(--col-con); }
+
+    /* Joint sliders */
+    .joint-row {
+      margin-bottom: 10px;
+    }
+    .joint-header {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      margin-bottom:4px;
+    }
+    .joint-symbol {
+      font-family:monospace;
+      font-size:.78rem;
+      color:var(--col-pos);
+      font-weight:600;
+      width:50px;
+    }
+    .joint-name-small {
+      font-size:.72rem;
+      color:var(--text2);
+      flex:1;
+    }
+    .side-toggle {
+      display:flex;
+      gap:2px;
+    }
+    .side-btn {
+      padding:1px 6px;
+      font-size:.65rem;
+      font-weight:700;
+      border:1px solid var(--border);
+      border-radius:3px;
+      background:transparent;
+      color:var(--text2);
+      cursor:pointer;
+      transition:all .12s;
+    }
+    .side-btn.active { background:rgba(251,191,36,.15); border-color:var(--col-pos); color:var(--col-pos); }
+    .axis-row {
+      display:flex;
+      align-items:center;
+      gap:6px;
+      margin-bottom:3px;
+      padding-left:8px;
+    }
+    .axis-name { font-size:.68rem; color:var(--gray); width:34px; flex-shrink:0; }
+    .axis-slider {
+      flex:1;
+      height:3px;
+      -webkit-appearance:none;
+      appearance:none;
+      background:var(--bg3);
+      border-radius:2px;
+      outline:none;
+      cursor:pointer;
+    }
+    .axis-slider::-webkit-slider-thumb {
+      -webkit-appearance:none;
+      width:12px;height:12px;
+      border-radius:50%;
+      background:var(--col-pos);
+      cursor:pointer;
+    }
+    .axis-val {
+      font-family:monospace;
+      font-size:.7rem;
+      color:var(--col-pos);
+      width:32px;
+      text-align:right;
+      flex-shrink:0;
+    }
+
+    /* Vector */
+    .vec-row {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:8px;
+    }
+    .vec-label { font-size:.72rem; color:var(--text2); width:50px; flex-shrink:0; }
+    .vec-select {
+      flex:1;
+      background:var(--bg3);
+      border:1px solid var(--border);
+      border-radius:5px;
+      color:var(--text);
+      font-size:.75rem;
+      padding:4px 8px;
+      outline:none;
+    }
+    .vec-select:focus { border-color:var(--col-vec); }
+    .angle-wrap { display:flex; align-items:center; gap:6px; flex:1; }
+    .angle-slider {
+      flex:1;
+      height:3px;
+      -webkit-appearance:none;
+      appearance:none;
+      background:var(--bg3);
+      border-radius:2px;
+      outline:none;
+      cursor:pointer;
+    }
+    .angle-slider::-webkit-slider-thumb {
+      -webkit-appearance:none;
+      width:12px;height:12px;
+      border-radius:50%;
+      background:var(--col-vec);
+      cursor:pointer;
+    }
+
+    /* Nerve / compensation */
+    .text-input {
+      width:100%;
+      background:var(--bg3);
+      border:1px solid var(--border);
+      border-radius:6px;
+      color:var(--text);
+      font-size:.78rem;
+      font-family:monospace;
+      padding:6px 10px;
+      outline:none;
+      margin-bottom:6px;
+      transition:border-color .15s;
+    }
+    .text-input:focus { border-color:var(--indigo); }
+
+    /* Center panel — output */
+    .center-panel {
+      display:flex;
+      flex-direction:column;
+      background:var(--bg);
+      overflow:hidden;
+    }
+    .output-area {
+      flex:1;
+      padding:24px;
+      overflow-y:auto;
+    }
+    .output-label {
+      font-size:.68rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:var(--gray);
+      margin-bottom:10px;
+    }
+    .mnn-output {
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:20px 22px;
+      font-family:'JetBrains Mono',monospace;
+      font-size:.95rem;
+      line-height:2;
+      min-height:80px;
+      word-break:break-all;
+      position:relative;
+    }
+    .mnn-output .tok-move  { color:var(--col-move); }
+    .mnn-output .tok-con   { color:var(--col-con); }
+    .mnn-output .tok-nerve { color:var(--col-nerve); }
+    .mnn-output .tok-pos   { color:var(--col-pos); }
+    .mnn-output .tok-vec   { color:var(--col-vec); }
+    .mnn-output .tok-comp  { color:var(--col-comp); }
+    .mnn-output .tok-empty { color:var(--gray); font-style:italic; font-size:.85rem; }
+
+    .copy-row {
+      display:flex;
+      gap:8px;
+      padding:12px 24px;
+      border-top:1px solid var(--border);
+      background:var(--bg2);
+      flex-shrink:0;
+    }
+    .copy-btn {
+      flex:1;
+      padding:9px 16px;
+      border-radius:7px;
+      font-size:.82rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .15s;
+      border:none;
+    }
+    .copy-btn.primary { background:var(--indigo); color:#fff; }
+    .copy-btn.primary:hover { background:#4f46e5; }
+    .copy-btn.secondary { background:var(--bg3); color:var(--text2); border:1px solid var(--border); }
+    .copy-btn.secondary:hover { background:var(--bg3); color:var(--text); border-color:var(--indigo); }
+    .copy-btn.danger { background:transparent; color:var(--red); border:1px solid rgba(239,68,68,.3); }
+    .copy-btn.danger:hover { background:rgba(239,68,68,.1); }
+
+    /* Examples panel */
+    .example-card {
+      margin:10px 14px;
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:12px;
+      cursor:pointer;
+      transition:all .15s;
+    }
+    .example-card:hover { border-color:var(--indigo2); }
+    .example-title { font-size:.8rem; font-weight:600; margin-bottom:4px; color:var(--text); }
+    .example-desc { font-size:.72rem; color:var(--text2); margin-bottom:8px; line-height:1.5; }
+    .example-string {
+      font-family:monospace;
+      font-size:.7rem;
+      color:var(--text2);
+      background:var(--bg3);
+      padding:6px 8px;
+      border-radius:5px;
+      line-height:1.7;
+      word-break:break-all;
+    }
+
+    /* Tag legend */
+    .legend {
+      padding:12px 14px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .legend-item {
+      display:flex;
+      align-items:center;
+      gap:4px;
+      font-size:.68rem;
+    }
+    .legend-dot { width:7px;height:7px;border-radius:50%; flex-shrink:0; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--bg3); border-radius:3px; }
+
+    /* Toast */
+    .toast {
+      position:fixed;
+      bottom:24px;
+      left:50%;
+      transform:translateX(-50%) translateY(80px);
+      background:var(--green);
+      color:#fff;
+      padding:8px 20px;
+      border-radius:20px;
+      font-size:.82rem;
+      font-weight:600;
+      transition:transform .25s;
+      z-index:9999;
+      pointer-events:none;
+    }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+
+    @media (max-width:900px) {
+      .builder-shell { grid-template-columns:1fr; }
+      .panel { max-height:40vh; }
+      .panel:last-child { border-left:none; border-top:1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Webring -->
+<div class="aiunites-bar"><div class="aiunites-bar-content"><a class="aiunites-bar-brand" href="index.html">◆ AIUNITES</a><span style="color:rgba(255,255,255,.2)">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a><a href="https://aiunites.github.io/bodspas-site/">BodSpas</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a></div></div>
+
+<div class="page-wrap">
+  <div class="top-bar">
+    <div class="top-bar-logo">◆ HMN Builder <span>Human Movement Notation — MNN v1.5.0</span></div>
+    <div class="top-bar-links">
+      <a href="movement.html">← HMN</a>
+      <a href="spec.html">Spec</a>
+      <a href="https://aiunites.github.io/bodspas-site/log.html" target="_blank">BodSpas Log</a>
+    </div>
+  </div>
+
+  <div class="builder-shell">
+
+    <!-- LEFT: Controls -->
+    <div class="panel" id="left-panel">
+      <div class="panel-header">Build String</div>
+
+      <!-- Movement Pattern -->
+      <div class="section-group">
+        <div class="section-label">
+          <span class="dot" style="background:var(--col-move)"></span>
+          Movement Pattern
+        </div>
+        <div class="pattern-grid" id="pattern-grid">
+          <div class="pattern-btn" data-val="{Push.H}" onclick="togglePattern(this)">{Push.H}</div>
+          <div class="pattern-btn" data-val="{Push.V}" onclick="togglePattern(this)">{Push.V}</div>
+          <div class="pattern-btn" data-val="{Pull.H}" onclick="togglePattern(this)">{Pull.H}</div>
+          <div class="pattern-btn" data-val="{Pull.V}" onclick="togglePattern(this)">{Pull.V}</div>
+          <div class="pattern-btn" data-val="{Squat}"  onclick="togglePattern(this)">{Squat}</div>
+          <div class="pattern-btn" data-val="{Hinge}"  onclick="togglePattern(this)">{Hinge}</div>
+          <div class="pattern-btn" data-val="{Lunge}"  onclick="togglePattern(this)">{Lunge}</div>
+          <div class="pattern-btn" data-val="{Iso}"    onclick="togglePattern(this)">{Iso}</div>
+          <div class="pattern-btn" data-val="{Rotate}" onclick="togglePattern(this)">{Rotate}</div>
+          <div class="pattern-btn" data-val="{Carry}"  onclick="togglePattern(this)">{Carry}</div>
+        </div>
+      </div>
+
+      <!-- Muscles -->
+      <div class="section-group">
+        <div class="section-label">
+          <span class="dot" style="background:var(--col-con)"></span>
+          Muscles <span style="font-size:.62rem;font-weight:400;color:var(--gray);margin-left:4px;">(click name + set level)</span>
+        </div>
+        <div id="muscle-list"></div>
+      </div>
+
+      <!-- Nerve override -->
+      <div class="section-group">
+        <div class="section-label">
+          <span class="dot" style="background:var(--col-nerve)"></span>
+          Nerve Override <span style="font-size:.62rem;font-weight:400;color:var(--gray);margin-left:4px;">(auto-filled; override here)</span>
+        </div>
+        <input class="text-input" id="nerve-input" placeholder="e.g. MedPec/Axil" oninput="update()">
+      </div>
+
+      <!-- Compensation -->
+      <div class="section-group">
+        <div class="section-label">
+          <span class="dot" style="background:var(--col-comp)"></span>
+          Compensation
+        </div>
+        <input class="text-input" id="comp-a" placeholder="Compensator muscle (e.g. Dlt.A)" oninput="update()">
+        <input class="text-input" id="comp-b" placeholder="Target muscle (e.g. Pec.S)" oninput="update()">
+      </div>
+
+      <!-- Nerve Status -->
+      <div class="section-group">
+        <div class="section-label">
+          <span class="dot" style="background:var(--gray)"></span>
+          Nerve Status
+        </div>
+        <input class="text-input" id="nerve-status" placeholder="e.g. C5-C6,L4-L5" oninput="update()">
+      </div>
+    </div>
+
+    <!-- CENTER: Output -->
+    <div class="center-panel">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--col-move)"></div><span style="color:var(--col-move)">{Move}</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--col-con)"></div><span style="color:var(--col-con)">[Con:]</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--col-nerve)"></div><span style="color:var(--col-nerve)">→ Nerve</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--col-pos)"></div><span style="color:var(--col-pos)">[Pos:]</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--col-vec)"></div><span style="color:var(--col-vec)">[Vec:]</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--col-comp)"></div><span style="color:var(--col-comp)">[Comp:]</span></div>
+      </div>
+
+      <div class="output-area">
+        <div class="output-label">MNN String</div>
+        <div class="mnn-output" id="mnn-output">
+          <span class="tok-empty">Select muscles and joints to build a notation string…</span>
+        </div>
+
+        <!-- Joints -->
+        <div style="margin-top:24px;">
+          <div class="output-label">Joint Positions <span style="color:var(--col-pos)">[Pos:]</span></div>
+          <div id="joint-controls"></div>
+        </div>
+
+        <!-- Vector -->
+        <div style="margin-top:20px;">
+          <div class="output-label">Resistance Vector <span style="color:var(--col-vec)">[Vec:]</span></div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;">
+            <div class="vec-row">
+              <div class="vec-label">Height</div>
+              <select class="vec-select" id="vec-height" onchange="update()">
+                <option value="">— none —</option>
+                <option value="Floor">Floor</option>
+                <option value="Low">Low (knee)</option>
+                <option value="Mid">Mid (chest)</option>
+                <option value="High">High (head)</option>
+                <option value="Over">Over (overhead)</option>
+              </select>
+            </div>
+            <div class="vec-row">
+              <div class="vec-label">Angle</div>
+              <div class="angle-wrap">
+                <input type="range" class="angle-slider" id="vec-angle" min="-180" max="180" value="0" oninput="update(); document.getElementById('vec-angle-val').textContent=this.value+'°'">
+                <span id="vec-angle-val" style="font-family:monospace;font-size:.75rem;color:var(--col-vec);width:36px;text-align:right;">0°</span>
+              </div>
+            </div>
+            <div class="vec-row">
+              <div class="vec-label">Source</div>
+              <select class="vec-select" id="vec-src" onchange="update()">
+                <option value="">— none —</option>
+                <option value="Cable">Cable</option>
+                <option value="Band">Band</option>
+                <option value="Gravity">Gravity</option>
+                <option value="Machine">Machine</option>
+                <option value="Manual">Manual</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="copy-row">
+        <button class="copy-btn primary"   onclick="copyString()">⎘ Copy MNN String</button>
+        <button class="copy-btn secondary" onclick="copyPlain()">Copy Plain Text</button>
+        <button class="copy-btn danger"    onclick="clearAll()">✕ Clear</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Examples -->
+    <div class="panel">
+      <div class="panel-header">Examples — click to load</div>
+
+      <div class="example-card" onclick="loadExample(0)">
+        <div class="example-title">Cable Chest Fly (L)</div>
+        <div class="example-desc">Single-arm horizontal pull, sternal pec prime mover, shoulder at 90° flex / 25° IR.</div>
+        <div class="example-string">{Pull.H} [Con:Pec.S+++, Dlt.A+] → MedPec/Axil<br>[Pos:L.Sh(IR:25,Flex:90)] [Vec:H:Mid,A:0°,Src:Cable]</div>
+      </div>
+
+      <div class="example-card" onclick="loadExample(1)">
+        <div class="example-title">Overhead Press</div>
+        <div class="example-desc">Bilateral vertical push, clavicular pec + anterior delt + triceps.</div>
+        <div class="example-string">{Push.V} [Con:Pec.C+++, Dlt.A+++, Tri++] → LatPec/Axil/Rad<br>[Pos:Bi.Sh(Flex:180,Abd:30)] [Vec:H:Over,A:0°,Src:Gravity]</div>
+      </div>
+
+      <div class="example-card" onclick="loadExample(2)">
+        <div class="example-title">Squat (Bilateral)</div>
+        <div class="example-desc">Hip hinge + squat, glutes and quads prime movers.</div>
+        <div class="example-string">{Squat} [Con:Glu.Mx+++, Quad.RF+++, Quad.VL++] → InfGlu/Fem<br>[Pos:Bi.Hip(Flex:90) Bi.Kn(Flex:90)] [Vec:H:Over,A:0°,Src:Gravity]</div>
+      </div>
+
+      <div class="example-card" onclick="loadExample(3)">
+        <div class="example-title">Lat Pulldown</div>
+        <div class="example-desc">Vertical pull with biceps compensation pattern.</div>
+        <div class="example-string">{Pull.V} [Con:Lat+++, Trp.L++, Bic+] → ThDors/CNXI<br>[Pos:Bi.Sh(Abd:60,Flex:160)] [Vec:H:Over,A:0°,Src:Cable]<br>[Comp:Bic for Lat]</div>
+      </div>
+
+      <div class="example-card" onclick="loadExample(4)">
+        <div class="example-title">Avatar — Duchenne Smile</div>
+        <div class="example-desc">Facial expression: genuine smile with eye engagement (AU6+AU12).</div>
+        <div class="example-string">[Con:Zyg.Mj+++, Orb.Oc++, Zyg.Mn+] → CNVII</div>
+      </div>
+
+      <div class="example-card" onclick="loadExample(5)">
+        <div class="example-title">Nerve Status Context</div>
+        <div class="example-desc">Row logged on a day with C5-C6 nerve irritation.</div>
+        <div class="example-string">[Nerve:C5-C6]<br>{Pull.H} [Con:Lat+++, Rhm++] → ThDors/DorsScap<br>[Pos:Bi.Sh(Flex:90,Abd:30)] [Vec:H:Mid,Src:Cable]</div>
+      </div>
+
+      <div style="padding:14px;border-top:1px solid var(--border);margin-top:auto;">
+        <div style="font-size:.72rem;color:var(--gray);line-height:1.7;">
+          <strong style="color:var(--text2);">HMN — Human Movement Notation</strong><br>
+          MNN v1.5.0 · ~149 muscles LOD 1–4<br>
+          © 2026 AIUNITES LLC · <a href="spec.html" style="color:var(--indigo2);">Full spec →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────
+const MUSCLES = [
+  { group:'Chest', sym:'Pec.S',    name:'Pec Major — Sternal',  nerve:'MedPec' },
+  { group:'Chest', sym:'Pec.C',    name:'Pec Major — Clavicular',nerve:'LatPec' },
+  { group:'Chest', sym:'Pec.Min',  name:'Pec Minor',            nerve:'MedPec' },
+  { group:'Shoulder', sym:'Dlt.A', name:'Anterior Deltoid',     nerve:'Axil' },
+  { group:'Shoulder', sym:'Dlt.L', name:'Lateral Deltoid',      nerve:'Axil' },
+  { group:'Shoulder', sym:'Dlt.P', name:'Posterior Deltoid',    nerve:'Axil' },
+  { group:'Rotator Cuff', sym:'Ssp',    name:'Supraspinatus',   nerve:'SupScap' },
+  { group:'Rotator Cuff', sym:'Inf',    name:'Infraspinatus',   nerve:'SupScap' },
+  { group:'Rotator Cuff', sym:'Sub',    name:'Subscapularis',   nerve:'Subscap' },
+  { group:'Rotator Cuff', sym:'Ter.Mn', name:'Teres Minor',     nerve:'Axil' },
+  { group:'Arms', sym:'Bic',  name:'Biceps Brachii',  nerve:'MusCut' },
+  { group:'Arms', sym:'Tri',  name:'Triceps Brachii', nerve:'Rad' },
+  { group:'Back', sym:'Lat',   name:'Latissimus Dorsi', nerve:'ThDors' },
+  { group:'Back', sym:'Trp.U', name:'Upper Trapezius',  nerve:'CNXI' },
+  { group:'Back', sym:'Trp.M', name:'Middle Trapezius', nerve:'CNXI' },
+  { group:'Back', sym:'Trp.L', name:'Lower Trapezius',  nerve:'CNXI' },
+  { group:'Back', sym:'Rhm',   name:'Rhomboids',         nerve:'DorsScap' },
+  { group:'Back', sym:'Ser',   name:'Serratus Anterior', nerve:'LTh' },
+  { group:'Back', sym:'Ers',   name:'Erector Spinae',    nerve:'DorsRami' },
+  { group:'Core', sym:'Rect.Ab',  name:'Rectus Abdominis',     nerve:'Intercostal' },
+  { group:'Core', sym:'Obl.E',   name:'External Oblique',      nerve:'Intercostal' },
+  { group:'Core', sym:'Obl.I',   name:'Internal Oblique',      nerve:'Intercostal' },
+  { group:'Core', sym:'Trans.Ab',name:'Transverse Abdominis',  nerve:'Intercostal' },
+  { group:'Glutes', sym:'Glu.Mx', name:'Gluteus Maximus', nerve:'InfGlu' },
+  { group:'Glutes', sym:'Glu.Md', name:'Gluteus Medius',  nerve:'SupGlu' },
+  { group:'Glutes', sym:'Glu.Mn', name:'Gluteus Minimus', nerve:'SupGlu' },
+  { group:'Quads', sym:'Quad.RF', name:'Rectus Femoris',   nerve:'Fem' },
+  { group:'Quads', sym:'Quad.VL', name:'Vastus Lateralis', nerve:'Fem' },
+  { group:'Quads', sym:'Quad.VM', name:'Vastus Medialis',  nerve:'Fem' },
+  { group:'Hamstrings', sym:'Ham', name:'Hamstrings', nerve:'Sci.T' },
+  { group:'Legs', sym:'Gas',   name:'Gastrocnemius',     nerve:'Sci.T' },
+  { group:'Legs', sym:'Sol',   name:'Soleus',            nerve:'Sci.T' },
+  { group:'Legs', sym:'Tib.A', name:'Tibialis Anterior', nerve:'Sci.P' },
+  { group:'Neck', sym:'SCM',     name:'Sternocleidomastoid', nerve:'CNXI' },
+  { group:'Face', sym:'Zyg.Mj', name:'Zygomaticus Major', nerve:'CNVII' },
+  { group:'Face', sym:'Zyg.Mn', name:'Zygomaticus Minor', nerve:'CNVII' },
+  { group:'Face', sym:'Orb.Oc', name:'Orbicularis Oculi', nerve:'CNVII' },
+  { group:'Face', sym:'Orb.Or', name:'Orbicularis Oris',  nerve:'CNVII' },
+  { group:'Face', sym:'Front',  name:'Frontalis',         nerve:'CNVII' },
+  { group:'Face', sym:'Corr',   name:'Corrugator',        nerve:'CNVII' },
+  { group:'Face', sym:'Dep.Ang',name:'Depressor Anguli',  nerve:'CNVII' },
+];
+
+const JOINTS = [
+  { sym:'Sh',   name:'Shoulder',    paired:true,  axes:[{a:'Flex',min:-45,max:180,def:0},{a:'Abd',min:0,max:180,def:0},{a:'IR',min:0,max:90,def:0},{a:'ER',min:0,max:90,def:0}] },
+  { sym:'El',   name:'Elbow',       paired:true,  axes:[{a:'Flex',min:0,max:145,def:0}] },
+  { sym:'Wr',   name:'Wrist',       paired:true,  axes:[{a:'Flex',min:-70,max:80,def:0},{a:'Rad',min:0,max:20,def:0},{a:'Uln',min:0,max:35,def:0}] },
+  { sym:'Sp.L', name:'Lumbar',      paired:false, axes:[{a:'Flex',min:-30,max:80,def:0},{a:'Lat',min:-35,max:35,def:0},{a:'Rot',min:-25,max:25,def:0}] },
+  { sym:'Sp.C', name:'Cervical',    paired:false, axes:[{a:'Flex',min:-60,max:80,def:0},{a:'Lat',min:-45,max:45,def:0},{a:'Rot',min:-80,max:80,def:0}] },
+  { sym:'Hip',  name:'Hip',         paired:true,  axes:[{a:'Flex',min:-30,max:125,def:0},{a:'Abd',min:0,max:45,def:0},{a:'IR',min:0,max:45,def:0},{a:'ER',min:0,max:45,def:0}] },
+  { sym:'Kn',   name:'Knee',        paired:true,  axes:[{a:'Flex',min:0,max:140,def:0}] },
+  { sym:'Ank',  name:'Ankle',       paired:true,  axes:[{a:'Dors',min:0,max:20,def:0},{a:'Plan',min:0,max:50,def:0}] },
+  { sym:'Scap', name:'Scapula',     paired:true,  axes:[{a:'Pro',min:-15,max:15,def:0},{a:'Elev',min:-10,max:12,def:0},{a:'UpRot',min:0,max:60,def:0}] },
+];
+
+// ── State ─────────────────────────────────────────────────────────────
+const state = {
+  pattern: null,
+  muscles: {},   // { sym: level 1|2|3 }
+  joints:  {},   // { 'L.Sh': { Flex:0, ... } }
+  sides:   {},   // { Sh: 'L' | 'R' | 'Bi' }
+};
+
+// ── Build muscle list ──────────────────────────────────────────────────
+function buildMuscleList() {
+  const el = document.getElementById('muscle-list');
+  let html = '', lastGroup = '';
+  MUSCLES.forEach(m => {
+    if (m.group !== lastGroup) {
+      html += `<div class="muscle-group-label">${m.group}</div>`;
+      lastGroup = m.group;
+    }
+    html += `<div class="muscle-row" id="mrow-${m.sym}">
+      <div class="muscle-name" id="mname-${m.sym}" title="${m.name}" onclick="toggleMuscle('${m.sym}')">${m.sym}</div>
+      <div class="level-btns">
+        <div class="level-btn" id="mlvl-${m.sym}-1" onclick="setLevel('${m.sym}',1)">+</div>
+        <div class="level-btn" id="mlvl-${m.sym}-2" onclick="setLevel('${m.sym}',2)">++</div>
+        <div class="level-btn" id="mlvl-${m.sym}-3" onclick="setLevel('${m.sym}',3)">+++</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ── Build joint sliders ────────────────────────────────────────────────
+function buildJointControls() {
+  const el = document.getElementById('joint-controls');
+  let html = '';
+  JOINTS.forEach(j => {
+    const defaultSide = j.paired ? 'L' : '';
+    state.sides[j.sym] = defaultSide;
+    state.joints[j.sym] = {};
+    j.axes.forEach(a => { state.joints[j.sym][a.a] = a.def; });
+
+    html += `<div class="joint-row" style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+      <div class="joint-header">
+        <span class="joint-symbol">${j.sym}</span>
+        <span class="joint-name-small">${j.name}</span>
+        ${j.paired ? `
+        <div class="side-toggle">
+          <button class="side-btn active" id="side-${j.sym}-L" onclick="setSide('${j.sym}','L')">L</button>
+          <button class="side-btn" id="side-${j.sym}-R" onclick="setSide('${j.sym}','R')">R</button>
+          <button class="side-btn" id="side-${j.sym}-Bi" onclick="setSide('${j.sym}','Bi')">Bi</button>
+        </div>` : ''}
+      </div>`;
+    j.axes.forEach(a => {
+      html += `<div class="axis-row">
+        <span class="axis-name">${a.a}</span>
+        <input type="range" class="axis-slider" id="slider-${j.sym}-${a.a}"
+          min="${a.min}" max="${a.max}" value="${a.def}"
+          oninput="setJointAxis('${j.sym}','${a.a}',+this.value)">
+        <span class="axis-val" id="val-${j.sym}-${a.a}">0°</span>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  el.innerHTML = html;
+}
+
+// ── State mutators ────────────────────────────────────────────────────
+function togglePattern(btn) {
+  const v = btn.dataset.val;
+  if (state.pattern === v) {
+    state.pattern = null;
+    btn.classList.remove('active');
+  } else {
+    document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+    state.pattern = v;
+    btn.classList.add('active');
+  }
+  update();
+}
+
+function toggleMuscle(sym) {
+  if (state.muscles[sym]) {
+    delete state.muscles[sym];
+    document.getElementById('mname-'+sym).classList.remove('active');
+    [1,2,3].forEach(l => document.getElementById('mlvl-'+sym+'-'+l).classList.remove('active'));
+  } else {
+    state.muscles[sym] = 1;
+    document.getElementById('mname-'+sym).classList.add('active');
+    document.getElementById('mlvl-'+sym+'-1').classList.add('active');
+  }
+  update();
+}
+
+function setLevel(sym, level) {
+  state.muscles[sym] = level;
+  document.getElementById('mname-'+sym).classList.add('active');
+  [1,2,3].forEach(l => {
+    const btn = document.getElementById('mlvl-'+sym+'-'+l);
+    l <= level ? btn.classList.add('active') : btn.classList.remove('active');
+  });
+  update();
+}
+
+function setSide(sym, side) {
+  state.sides[sym] = side;
+  ['L','R','Bi'].forEach(s => {
+    const btn = document.getElementById('side-'+sym+'-'+s);
+    if (btn) side === s ? btn.classList.add('active') : btn.classList.remove('active');
+  });
+  update();
+}
+
+function setJointAxis(sym, axis, val) {
+  state.joints[sym][axis] = val;
+  document.getElementById('val-'+sym+'-'+axis).textContent = val + '°';
+  update();
+}
+
+// ── Build MNN string ───────────────────────────────────────────────────
+function buildString() {
+  const parts = [];
+
+  // Nerve status
+  const ns = document.getElementById('nerve-status').value.trim();
+  if (ns) parts.push(`[Nerve:${ns}]`);
+
+  // Movement
+  if (state.pattern) parts.push(state.pattern);
+
+  // Muscles
+  const activeMuscles = Object.entries(state.muscles).filter(([,v]) => v > 0);
+  if (activeMuscles.length) {
+    const lvlStr = { 1:'+', 2:'++', 3:'+++' };
+    const conStr = activeMuscles.map(([sym,lvl]) => `${sym}${lvlStr[lvl]}`).join(', ');
+    parts.push(`[Con:${conStr}]`);
+  }
+
+  // Nerves — auto from selected muscles, or override
+  const nerveOverride = document.getElementById('nerve-input').value.trim();
+  if (nerveOverride) {
+    parts.push(`→ ${nerveOverride}`);
+  } else if (activeMuscles.length) {
+    const nerves = [...new Set(activeMuscles.map(([sym]) => {
+      const m = MUSCLES.find(x => x.sym === sym);
+      return m ? m.nerve : null;
+    }).filter(Boolean))];
+    if (nerves.length) parts.push(`→ ${nerves.join('/')}`);
+  }
+
+  // Joint positions — only non-zero
+  const posParts = [];
+  JOINTS.forEach(j => {
+    const axes = j.axes.filter(a => state.joints[j.sym][a.a] !== 0);
+    if (!axes.length) return;
+    const side = j.paired ? (state.sides[j.sym] || 'L') + '.' : '';
+    const axisStr = axes.map(a => `${a.a}:${state.joints[j.sym][a.a]}`).join(',');
+    posParts.push(`${side}${j.sym}(${axisStr})`);
+  });
+  if (posParts.length) parts.push(`[Pos:${posParts.join(' ')}]`);
+
+  // Vector
+  const h = document.getElementById('vec-height').value;
+  const a = document.getElementById('vec-angle').value;
+  const s = document.getElementById('vec-src').value;
+  if (h || s) {
+    const vecParts = [];
+    if (h) vecParts.push(`H:${h}`);
+    vecParts.push(`A:${a}°`);
+    if (s) vecParts.push(`Src:${s}`);
+    parts.push(`[Vec:${vecParts.join(',')}]`);
+  }
+
+  // Compensation
+  const ca = document.getElementById('comp-a').value.trim();
+  const cb = document.getElementById('comp-b').value.trim();
+  if (ca && cb) parts.push(`[Comp:${ca} for ${cb}]`);
+
+  return parts.join(' ');
+}
+
+// ── Colorize output ────────────────────────────────────────────────────
+function colorize(str) {
+  if (!str) return '<span class="tok-empty">Select muscles and joints to build a notation string…</span>';
+  return str
+    .replace(/(\{[^}]+\})/g, '<span class="tok-move">$1</span>')
+    .replace(/(\[Con:[^\]]+\])/g, '<span class="tok-con">$1</span>')
+    .replace(/(→ [\w/]+)/g, '<span class="tok-nerve">$1</span>')
+    .replace(/(\[Pos:[^\]]+\])/g, '<span class="tok-pos">$1</span>')
+    .replace(/(\[Vec:[^\]]+\])/g, '<span class="tok-vec">$1</span>')
+    .replace(/(\[Comp:[^\]]+\])/g, '<span class="tok-comp">$1</span>')
+    .replace(/(\[Nerve:[^\]]+\])/g, '<span class="tok-nerve">$1</span>');
+}
+
+function update() {
+  const str = buildString();
+  document.getElementById('mnn-output').innerHTML = colorize(str);
+}
+
+// ── Examples ──────────────────────────────────────────────────────────
+const EXAMPLES = [
+  { pattern:'{Pull.H}', muscles:{'Pec.S':3,'Dlt.A':1}, joints:{'Sh':{Flex:90,Abd:0,IR:25,ER:0}}, sides:{Sh:'L'}, vec:{h:'Mid',a:0,s:'Cable'} },
+  { pattern:'{Push.V}', muscles:{'Pec.C':3,'Dlt.A':3,'Tri':2}, joints:{'Sh':{Flex:180,Abd:30,IR:0,ER:0}}, sides:{Sh:'Bi'}, vec:{h:'Over',a:0,s:'Gravity'} },
+  { pattern:'{Squat}', muscles:{'Glu.Mx':3,'Quad.RF':3,'Quad.VL':2}, joints:{'Hip':{Flex:90,Abd:0,IR:0,ER:0},'Kn':{Flex:90}}, sides:{Hip:'Bi',Kn:'Bi'}, vec:{h:'Over',a:0,s:'Gravity'} },
+  { pattern:'{Pull.V}', muscles:{'Lat':3,'Trp.L':2,'Bic':1}, joints:{'Sh':{Flex:160,Abd:60,IR:0,ER:0}}, sides:{Sh:'Bi'}, comp:['Bic','Lat'], vec:{h:'Over',a:0,s:'Cable'} },
+  { pattern:null, muscles:{'Zyg.Mj':3,'Orb.Oc':2,'Zyg.Mn':1}, joints:{}, sides:{} },
+  { pattern:'{Pull.H}', muscles:{'Lat':3,'Rhm':2}, joints:{'Sh':{Flex:90,Abd:30,IR:0,ER:0}}, sides:{Sh:'Bi'}, nerveStatus:'C5-C6', vec:{h:'Mid',a:0,s:'Cable'} },
+];
+
+function loadExample(idx) {
+  const ex = EXAMPLES[idx];
+
+  // Clear
+  clearAll(false);
+
+  // Pattern
+  if (ex.pattern) {
+    state.pattern = ex.pattern;
+    document.querySelectorAll('.pattern-btn').forEach(b => {
+      if (b.dataset.val === ex.pattern) b.classList.add('active');
+    });
+  }
+
+  // Muscles
+  if (ex.muscles) {
+    Object.entries(ex.muscles).forEach(([sym,lvl]) => {
+      state.muscles[sym] = lvl;
+      const nameEl = document.getElementById('mname-'+sym);
+      if (nameEl) nameEl.classList.add('active');
+      [1,2,3].forEach(l => {
+        const btn = document.getElementById('mlvl-'+sym+'-'+l);
+        if (btn) l <= lvl ? btn.classList.add('active') : btn.classList.remove('active');
+      });
+    });
+  }
+
+  // Joints
+  if (ex.joints) {
+    Object.entries(ex.joints).forEach(([sym, axes]) => {
+      Object.entries(axes).forEach(([axis, val]) => {
+        state.joints[sym][axis] = val;
+        const slider = document.getElementById('slider-'+sym+'-'+axis);
+        const valEl  = document.getElementById('val-'+sym+'-'+axis);
+        if (slider) slider.value = val;
+        if (valEl)  valEl.textContent = val + '°';
+      });
+    });
+  }
+
+  // Sides
+  if (ex.sides) {
+    Object.entries(ex.sides).forEach(([sym, side]) => {
+      setSide(sym, side);
+    });
+  }
+
+  // Vec
+  if (ex.vec) {
+    document.getElementById('vec-height').value = ex.vec.h || '';
+    document.getElementById('vec-angle').value  = ex.vec.a || 0;
+    document.getElementById('vec-angle-val').textContent = (ex.vec.a || 0) + '°';
+    document.getElementById('vec-src').value    = ex.vec.s || '';
+  }
+
+  // Comp
+  if (ex.comp) {
+    document.getElementById('comp-a').value = ex.comp[0];
+    document.getElementById('comp-b').value = ex.comp[1];
+  }
+
+  // Nerve status
+  if (ex.nerveStatus) {
+    document.getElementById('nerve-status').value = ex.nerveStatus;
+  }
+
+  update();
+}
+
+// ── Copy / Clear ───────────────────────────────────────────────────────
+function copyString() {
+  const str = buildString();
+  if (!str) return;
+  navigator.clipboard.writeText(str);
+  showToast('MNN string copied!');
+}
+
+function copyPlain() {
+  const str = buildString();
+  if (!str) return;
+  navigator.clipboard.writeText(str);
+  showToast('Copied as plain text');
+}
+
+function clearAll(doUpdate = true) {
+  state.pattern = null;
+  state.muscles = {};
+  document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.muscle-name').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+  JOINTS.forEach(j => {
+    j.axes.forEach(a => {
+      state.joints[j.sym][a.a] = a.def;
+      const slider = document.getElementById('slider-'+j.sym+'-'+a.a);
+      const valEl  = document.getElementById('val-'+j.sym+'-'+a.a);
+      if (slider) slider.value = a.def;
+      if (valEl)  valEl.textContent = a.def + '°';
+    });
+    if (j.paired) setSide(j.sym, 'L');
+  });
+  document.getElementById('nerve-input').value  = '';
+  document.getElementById('nerve-status').value = '';
+  document.getElementById('comp-a').value = '';
+  document.getElementById('comp-b').value = '';
+  document.getElementById('vec-height').value = '';
+  document.getElementById('vec-angle').value  = '0';
+  document.getElementById('vec-angle-val').textContent = '0°';
+  document.getElementById('vec-src').value = '';
+  if (doUpdate) update();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────
+buildMuscleList();
+buildJointControls();
+update();
+</script>
+</body>
+</html>
