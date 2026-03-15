@@ -651,56 +651,106 @@
 
     <!-- Prior Art Comparison -->
     <section class="prior-art">
-      <h2>Where MNN Sits</h2>
-      <p class="section-sub">Existing standards each cover one layer. MNN covers all of them in a single string.</p>
-      <table class="prior-art-table">
+      <h2>Where HMN Sits</h2>
+      <p class="section-sub">Every field that touches human movement built its own silo. HMN is the first system that crosses all of them in portable plain text.</p>
+
+      <table class="prior-art-table" style="margin-bottom:2rem;">
         <thead>
           <tr>
+            <th>System</th>
             <th>Domain</th>
-            <th>Standard</th>
-            <th>What It Captures</th>
-            <th>What It Lacks</th>
+            <th style="text-align:center">Text-portable</th>
+            <th style="text-align:center">Neuromuscular</th>
+            <th style="text-align:center">Joint angles</th>
+            <th style="text-align:center">Voice</th>
+            <th style="text-align:center">Avatar-ready</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Joint angles</td>
-            <td>ISB JCS</td>
-            <td>Per-joint Euler rotations</td>
-            <td>No muscle/nerve, no text format</td>
-          </tr>
-          <tr>
-            <td>Motion data</td>
-            <td>C3D / BVH / OpenSim</td>
-            <td>Full-body time-series</td>
-            <td>No semantic layer, not human-authored</td>
-          </tr>
-          <tr>
-            <td>Muscle activity</td>
-            <td>EMG + SENIAM</td>
-            <td>Voltage waveforms</td>
-            <td>No symbol table, no nerve mapping</td>
-          </tr>
-          <tr>
-            <td>Exercise dose</td>
-            <td>ACSM FITT / NSCA</td>
-            <td>Sets × reps × load</td>
-            <td>No joint position, no targeting</td>
-          </tr>
-          <tr>
-            <td>Choreography</td>
             <td>Labanotation</td>
-            <td>Spatial path, effort quality</td>
-            <td>No nerve, no muscle, no vector</td>
+            <td style="color:var(--gray-light)">Dance / theater</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
           </tr>
           <tr>
-            <td><strong>All of the above</strong></td>
-            <td><strong>MNN</strong></td>
-            <td><strong>Muscle + nerve + joint + vector + compensation</strong></td>
-            <td><strong>—</strong></td>
+            <td>Eshkol-Wachman</td>
+            <td style="color:var(--gray-light)">Movement research</td>
+            <td style="text-align:center;color:var(--gray)">~</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">~</td>
+          </tr>
+          <tr>
+            <td>HamNoSys / SiGML</td>
+            <td style="color:var(--gray-light)">Sign language / avatars</td>
+            <td style="text-align:center;color:var(--gray)">~</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓ (arms/hands)</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓ (arms only)</td>
+          </tr>
+          <tr>
+            <td>BVH / FBX</td>
+            <td style="color:var(--gray-light)">Motion capture / animation</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+          </tr>
+          <tr>
+            <td>SMPL / SMPL-X</td>
+            <td style="color:var(--gray-light)">AI / ML body models</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:var(--gray)">~ (face)</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+          </tr>
+          <tr>
+            <td>ISB JCS</td>
+            <td style="color:var(--gray-light)">Biomechanics research</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+          </tr>
+          <tr>
+            <td>EMG + SENIAM</td>
+            <td style="color:var(--gray-light)">Muscle activity measurement</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:#22c55e">✓ (sensor)</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+            <td style="text-align:center;color:var(--gray)">✗</td>
+          </tr>
+          <tr>
+            <td>VRN (HMN)</td>
+            <td style="color:var(--gray-light)">Vocal production</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:var(--gray)">~ (jaw/larynx)</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+            <td style="text-align:center;color:#22c55e">✓</td>
+          </tr>
+          <tr style="background:rgba(99,102,241,.1);">
+            <td><strong>MNN (HMN)</strong></td>
+            <td style="color:var(--gray-light)"><strong>Universal body</strong></td>
+            <td style="text-align:center;color:#22c55e"><strong>✓</strong></td>
+            <td style="text-align:center;color:#22c55e"><strong>✓</strong></td>
+            <td style="text-align:center;color:#22c55e"><strong>✓</strong></td>
+            <td style="text-align:center;color:var(--gray)">via VRN</td>
+            <td style="text-align:center;color:#22c55e"><strong>✓</strong></td>
           </tr>
         </tbody>
       </table>
+      <p style="text-align:center;color:var(--gray);font-size:.82rem;">∼ = partial coverage · ✗ = not supported · ✓ = fully supported</p>
     </section>
 
     <!-- CTA -->
