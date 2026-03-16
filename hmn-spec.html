@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HMN Specification v1.0 — Human Movement Notation | AIUNITES</title>
+  <meta name="description" content="Human Movement Notation (HMN) v1.0 — the umbrella specification for MNN, VRN, and VNN. Architecture, design principles, shared grammar, cross-protocol interoperability, prior art analysis, and implementation requirements.">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.github.io/aiunites-site/hmn-spec.html">
+  <meta property="og:title" content="HMN Specification v1.0 — Human Movement Notation">
+  <meta property="og:description" content="The umbrella specification for the HMN protocol family: MNN (body), VRN (voice), VNN (neural). Architecture, grammar, interoperability, prior art.">
+  <meta property="og:site_name" content="AIUNITES">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <style>
+    .spec-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 8rem 2rem 6rem;
+    }
+    .spec-hero {
+      text-align: center;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      margin-bottom: 3rem;
+    }
+    .spec-hero h1 { font-size: clamp(2rem,4vw,3rem); font-weight:800; margin-bottom:.75rem; }
+    .spec-hero .sub { color:var(--gray-light); font-size:1.05rem; line-height:1.7; max-width:680px; margin:0 auto 1.5rem; }
+    .spec-meta {
+      display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center;
+      font-size:.8rem; font-family:'JetBrains Mono',monospace;
+    }
+    .spec-meta span {
+      background:rgba(99,102,241,.12); border:1px solid rgba(99,102,241,.3);
+      color:var(--primary); border-radius:4px; padding:3px 10px;
+    }
+
+    /* TOC */
+    .toc {
+      background:var(--dark-light); border:1px solid rgba(255,255,255,.07);
+      border-radius:12px; padding:1.75rem 2rem; margin-bottom:3rem;
+    }
+    .toc h3 { font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:var(--gray-light); margin-bottom:1rem; }
+    .toc ol { list-style:none; counter-reset:toc; padding:0; margin:0; columns:2; column-gap:2rem; }
+    .toc li { counter-increment:toc; margin-bottom:.4rem; break-inside:avoid; }
+    .toc li::before { content:counter(toc)". "; color:var(--primary); font-weight:600; font-family:'JetBrains Mono',monospace; font-size:.82rem; }
+    .toc a { color:var(--white); text-decoration:none; font-size:.9rem; }
+    .toc a:hover { color:var(--primary); }
+
+    /* Sections */
+    .spec-section { padding:2.5rem 0; border-top:1px solid rgba(255,255,255,.05); }
+    .spec-section h2 {
+      font-size:1.55rem; font-weight:700; margin-bottom:1rem;
+      padding-bottom:.6rem; border-bottom:2px solid rgba(99,102,241,.2);
+    }
+    .spec-section h3 { font-size:1.15rem; font-weight:600; margin:1.75rem 0 .6rem; color:var(--white); }
+    .spec-section h4 { font-size:.95rem; font-weight:600; margin:1.25rem 0 .4rem; color:var(--gray-light); text-transform:uppercase; letter-spacing:.05em; }
+    .spec-section p { color:var(--gray-light); line-height:1.8; margin-bottom:1rem; }
+    .spec-section p strong { color:var(--white); }
+    .spec-section p code { font-family:'JetBrains Mono',monospace; font-size:.84rem; color:var(--primary); background:rgba(99,102,241,.1); padding:1px 5px; border-radius:3px; }
+
+    /* Section number badge */
+    .sec-badge {
+      display:inline-block; font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600;
+      color:var(--primary); background:rgba(99,102,241,.15); border:1px solid rgba(99,102,241,.3);
+      border-radius:4px; padding:.2rem .6rem; margin-right:.6rem; vertical-align:middle;
+    }
+
+    /* Code blocks */
+    pre {
+      background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.07);
+      border-radius:8px; padding:1.25rem 1.5rem; overflow-x:auto;
+      font-family:'JetBrains Mono',monospace; font-size:.82rem;
+      color:var(--gray-light); line-height:1.7; margin:1rem 0 1.5rem;
+    }
+    pre .c  { color:#6b7280; font-style:italic; }  /* comment */
+    pre .k  { color:#c084fc; }  /* keyword/tag */
+    pre .s  { color:#34d399; }  /* string/symbol */
+    pre .n  { color:#fbbf24; }  /* number */
+    pre .h  { color:#f472b6; }  /* highlight */
+
+    /* Tables */
+    table { width:100%; border-collapse:collapse; font-size:.86rem; margin:1rem 0 1.75rem; }
+    th { text-align:left; padding:.6rem .85rem; background:var(--dark-lighter);
+         border-bottom:1px solid rgba(255,255,255,.1); color:var(--gray-light);
+         font-weight:600; font-size:.76rem; text-transform:uppercase; letter-spacing:.04em; }
+    td { padding:.6rem .85rem; border-bottom:1px solid rgba(255,255,255,.04); color:var(--gray-light); vertical-align:top; }
+    td code { font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--primary); background:rgba(99,102,241,.1); padding:1px 5px; border-radius:3px; }
+    tr:last-child td { border-bottom:none; }
+    tr.hl td { background:rgba(99,102,241,.08); color:var(--white); font-weight:600; }
+
+    /* Note box */
+    .note {
+      background:rgba(251,191,36,.07); border-left:3px solid #fbbf24;
+      padding:.9rem 1.1rem; border-radius:0 6px 6px 0;
+      font-size:.9rem; color:var(--gray-light); margin:1.25rem 0;
+    }
+    .note strong { color:#fbbf24; }
+
+    /* Download link */
+    .dl-bar {
+      background:var(--dark-light); border:1px solid rgba(255,255,255,.07);
+      border-radius:8px; padding:.9rem 1.25rem; display:flex; align-items:center;
+      justify-content:space-between; gap:1rem; margin-bottom:2rem; flex-wrap:wrap;
+    }
+    .dl-bar span { font-size:.85rem; color:var(--gray-light); }
+    .dl-bar a { font-size:.82rem; color:var(--primary); text-decoration:none; border:1px solid rgba(99,102,241,.4); padding:4px 12px; border-radius:4px; white-space:nowrap; }
+    .dl-bar a:hover { background:rgba(99,102,241,.1); }
+
+    /* Footer nav */
+    .spec-fnav { border-top:1px solid rgba(255,255,255,.06); padding:2rem 0; text-align:center; font-size:.88rem; color:var(--gray); margin-top:2rem; }
+    .spec-fnav a { color:var(--primary); text-decoration:none; margin:0 .4rem; }
+    .spec-fnav a:hover { text-decoration:underline; }
+
+    @media(max-width:768px) {
+      .spec-wrap { padding:6rem 1.25rem 4rem; }
+      .toc ol { columns:1; }
+      table { font-size:.78rem; }
+      th, td { padding:.45rem .6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Webring -->
+<style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.wb-arrow{display:none;position:fixed;top:0;width:36px;height:33px;align-items:center;justify-content:center;cursor:pointer;z-index:1102;border:none;padding:0;font-size:16px;line-height:1;color:rgba(255,255,255,.8)}.wb-left{left:0;background:linear-gradient(90deg,#0d0d1a 55%,transparent)}.wb-right{right:0;background:linear-gradient(270deg,#0d0d1a 55%,transparent)}@media(hover:hover) and (pointer:fine){.wb-arrow{display:flex}}</style>
+<button class="wb-arrow wb-left" id="wb-left">&#8249;</button>
+<div class="aiunites-bar"><div class="aiunites-bar-content" id="wb-content"><a class="aiunites-bar-brand current" href="index.html">◆ AIUNITES</a><span style="color:rgba(255,255,255,.2)">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a><a href="https://aiunites.github.io/bodspas-site/">BodSpas</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a></div></div>
+<button class="wb-arrow wb-right" id="wb-right">&#8250;</button>
+<script>(function(){var c=document.getElementById('wb-content'),l=document.getElementById('wb-left'),r=document.getElementById('wb-right');if(!c||!l||!r)return;function u(){var aL=c.scrollLeft<8,aR=c.scrollLeft>=c.scrollWidth-c.clientWidth-8;l.style.opacity=aL?'0':'1';r.style.opacity=aR?'0':'1';}l.onclick=function(){c.scrollBy({left:-220,behavior:'smooth'})};r.onclick=function(){c.scrollBy({left:220,behavior:'smooth'})};c.addEventListener('scroll',u,{passive:true});u();})()</script>
+
+<nav class="nav">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo"><span class="logo-icon">◆</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+    <div class="nav-links" id="nav-links">
+      <a href="network.html">Network</a>
+      <a href="movement.html">Movement</a>
+      <a href="builder.html">HMN Builder</a>
+      <a href="#" style="color:var(--primary)">HMN Spec</a>
+      <a href="spec.html">MNN Spec</a>
+      <a href="consulting.html">Consulting</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="spec-wrap">
+
+  <div class="spec-hero">
+    <h1>HMN — <span class="gradient-text">System Specification</span></h1>
+    <p class="sub">Human Movement Notation is an open protocol family for encoding human movement as portable, human-readable, machine-parseable plain text. Three sub-protocols. One architecture. Write once, use everywhere.</p>
+    <div class="spec-meta">
+      <span>v1.0.0</span>
+      <span>March 15, 2026</span>
+      <span>© 2026 AIUNITES LLC</span>
+      <span>MNN · VRN · VNN</span>
+    </div>
+  </div>
+
+  <div class="dl-bar">
+    <span>This page is the canonical web publication of HMN_SPEC_v1.md</span>
+    <a href="HMN_SPEC_v1.md" download>⬇ Download .md</a>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#s1">Architecture Overview</a></li>
+      <li><a href="#s2">Design Principles</a></li>
+      <li><a href="#s3">Shared Grammar</a></li>
+      <li><a href="#s4">MNN — Muscular Neuro Notation</a></li>
+      <li><a href="#s5">VRN — Vocal Resonance Notation</a></li>
+      <li><a href="#s6">VNN — Voice Neural Notation</a></li>
+      <li><a href="#s7">Cross-Protocol Interoperability</a></li>
+      <li><a href="#s8">Three-Domain Architecture</a></li>
+      <li><a href="#s9">Consumer Site Registry</a></li>
+      <li><a href="#s10">Prior Art</a></li>
+      <li><a href="#s11">Implementation Requirements</a></li>
+      <li><a href="#s12">Versioning</a></li>
+      <li><a href="#s13">Intellectual Property</a></li>
+    </ol>
+  </div>
+
+  <!-- §1 Architecture -->
+  <div class="spec-section" id="s1">
+    <h2><span class="sec-badge">§1</span> Architecture Overview</h2>
+    <h3>The Problem HMN Solves</h3>
+    <p>Every field that involves human movement built its own notation silo. Biomechanics labs use C3D and BVH files only their software can read. Gym equipment stores joint angles in proprietary firmware. Physical therapy clinics document exercises in prose no system can parse. Game studios use motion capture formats that encode skeleton motion but not muscle intent. Vocal pedagogy uses metaphor with no parametric system. AI voice synthesis models acoustic waveforms with no model of physical vocal production.</p>
+    <p>The result is that a clinically complete description of a movement cannot be expressed in any single, portable, human-readable format that works across all of these contexts. HMN exists because that description should be writable as:</p>
+<pre>[Con:Pec.S+++] → MedPec [Pos:L.Sh(IR:25,Flex:90)] [Vec:H:Mid,A:0°,Src:Cable]</pre>
+    <p>...and that string should work in a gym log, a clinical record, a game engine, a cable rig controller, and a research paper — without conversion, without proprietary software, and without vendor lock-in.</p>
+
+    <h3>The Three Sub-Protocols</h3>
+<pre><span class="s">HMN — Human Movement Notation</span>
+│
+├── <span class="k">MNN</span> — Muscular Neuro Notation
+│         muscles · nerves · joints · resistance
+│         Spec: MNN_SPEC_v1.md  Status: v1.5.1 — production
+│
+├── <span class="k">VRN</span> — Vocal Resonance Notation
+│         larynx · articulation · resonance · breath
+│         Spec: VRN_SPEC_v1.md  Status: v1.0.0
+│
+└── <span class="k">VNN</span> — Voice Neural Notation
+          cranial nerves · motor pathways · antagonist balance
+          Spec: VNN_SPEC_v1.md  Status: v1.0.0</pre>
+
+    <h3>Why These Three Are a Family</h3>
+    <p>MNN, VRN, and VNN share a common origin in the same question: <strong>how do you encode what a human body does in a format that any system can use?</strong> The vocal folds are muscles. The larynx is a joint complex. Breath support is a resistance vector. VRN is, at the deepest level, a specialized application of the same encoding approach as MNN — applied to the vocal apparatus with its own parameter vocabulary. VNN extends one layer deeper: the cranial nerves that execute a VRN state are the vocal equivalent of MNN's nerve tags. The three sub-protocols are the same idea at three levels of the same system.</p>
+  </div>
+
+  <!-- §2 Design Principles -->
+  <div class="spec-section" id="s2">
+    <h2><span class="sec-badge">§2</span> Design Principles</h2>
+    <p>These principles apply to all three sub-protocols. They are design constraints, not suggestions. Any implementation claiming HMN compliance must respect all of them.</p>
+
+    <table>
+      <thead><tr><th>Principle</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Plain Text</strong></td><td>No binary formats. No proprietary readers. Open the file in any text editor and read it. Non-negotiable.</td></tr>
+        <tr><td><strong>Human-Authored</strong></td><td>Designed to be written by a person, not generated by a sensor. A trainer writes MNN. A vocal coach writes VRN.</td></tr>
+        <tr><td><strong>Machine-Parseable</strong></td><td>Consistent syntax with tagged segments and key-value pairs. Any language with basic string parsing can read a valid HMN string.</td></tr>
+        <tr><td><strong>Semantically Meaningful</strong></td><td>Every element maps to a real anatomical referent. <code>Pec.S</code> means sternal pec. <code>CN X</code> means vagus nerve. Not a code system — a structured description of physical reality.</td></tr>
+        <tr><td><strong>Cross-Domain</strong></td><td>The same string works in clinical, educational, virtual-world, and robotic contexts without modification.</td></tr>
+        <tr><td><strong>Anatomically Grounded</strong></td><td>Vocabulary anchored in standard anatomical nomenclature, ISB Joint Coordinate System, and the source-filter model of speech production.</td></tr>
+        <tr><td><strong>Compositional</strong></td><td>Every element is optional. A minimum valid string is a single tag. Adding tags adds information without rewriting.</td></tr>
+        <tr><td><strong>Forward Compatible</strong></td><td>Parsers must preserve unknown tags without error. New symbols in future versions must not break earlier parsers.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §3 Shared Grammar -->
+  <div class="spec-section" id="s3">
+    <h2><span class="sec-badge">§3</span> Shared Grammar</h2>
+    <h3>Tag Structure</h3>
+<pre><span class="s">[TAG_ID:content]</span>     <span class="c">bracket tag (most common)</span>
+<span class="s">{PATTERN_ID}</span>         <span class="c">brace tag (movement/pattern)</span>
+<span class="s">→ TARGET_ID/TARGET</span>  <span class="c">arrow tag (pathway/nerve)</span></pre>
+
+    <h3>Activation Scale</h3>
+    <table>
+      <thead><tr><th>Symbol</th><th>Level</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>+</code></td><td>1</td><td>Low — stabilizer, mild engagement</td></tr>
+        <tr><td><code>++</code></td><td>2</td><td>Moderate — synergist, secondary mover</td></tr>
+        <tr><td><code>+++</code></td><td>3</td><td>High — prime mover, dominant</td></tr>
+        <tr><td><code>++++</code></td><td>4</td><td>Maximum — 1RM effort, peak</td></tr>
+        <tr><td><code>0</code></td><td>0</td><td>Explicit absence (clinical use only)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Side Identifiers</h3>
+    <table>
+      <thead><tr><th>Symbol</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>L.</code></td><td>Left</td></tr>
+        <tr><td><code>R.</code></td><td>Right</td></tr>
+        <tr><td><code>Bi.</code></td><td>Bilateral (both sides equally)</td></tr>
+        <tr><td><em>omitted</em></td><td>Unspecified — only valid for midline structures</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Formal EBNF (Shared Layer)</h3>
+<pre>HMNString  := Segment*
+Segment    := BraceTag | BracketTag | ArrowTag
+BraceTag   := <span class="s">"{"</span> Identifier [<span class="s">"."</span> Identifier] <span class="s">"}"</span>
+BracketTag := <span class="s">"["</span> TagId <span class="s">":"</span> TagContent <span class="s">"]"</span>
+ArrowTag   := <span class="s">"→"</span> Identifier (<span class="s">"/"</span> Identifier)*
+TagContent := TagEntry (<span class="s">","</span> <span class="s">" "</span>? TagEntry)*
+TagEntry   := Identifier ActivLevel?
+           | Identifier <span class="s">"("</span> AxisList <span class="s">")"</span>
+           | KVPair
+ActivLevel := <span class="s">"+"</span>+ | <span class="s">"0"</span>
+AxisList   := Identifier <span class="s">":"</span> Number (<span class="s">","</span> Identifier <span class="s">":"</span> Number)*</pre>
+  </div>
+
+  <!-- §4 MNN -->
+  <div class="spec-section" id="s4">
+    <h2><span class="sec-badge">§4</span> MNN — Muscular Neuro Notation</h2>
+    <p>MNN is the HMN sub-protocol for physical movement of the musculoskeletal system. It encodes: which muscles contracted and at what level; which nerves drove them; which movement pattern was performed; what joint positions were held; what resistance vector was applied; whether compensation occurred.</p>
+
+    <h3>Tag Vocabulary</h3>
+    <table>
+      <thead><tr><th>Tag</th><th>Example</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>{Pattern}</code></td><td><code>{Push.H}</code>, <code>{Squat}</code></td><td>Movement pattern category</td></tr>
+        <tr><td><code>[Con:...]</code></td><td><code>[Con:Pec.S+++, Dlt.A+]</code></td><td>Muscle contractions with activation levels</td></tr>
+        <tr><td><code>→ Nerve</code></td><td><code>→ MedPec/Axil</code></td><td>Nerve innervation pathway</td></tr>
+        <tr><td><code>[Pos:...]</code></td><td><code>[Pos:L.Sh(IR:25,Flex:90)]</code></td><td>Joint positions in degrees</td></tr>
+        <tr><td><code>[Vec:...]</code></td><td><code>[Vec:H:Mid,A:0°,Src:Cable]</code></td><td>Resistance vector</td></tr>
+        <tr><td><code>[Comp:...]</code></td><td><code>[Comp:Bic for Lat]</code></td><td>Compensation pattern observed</td></tr>
+        <tr><td><code>[Nerve:...]</code></td><td><code>[Nerve:C5-C6]</code></td><td>Symptomatic spinal levels</td></tr>
+        <tr><td><code>[Meta:...]</code></td><td><code>[Meta:Sets:3,Reps:12,Load:20lb]</code></td><td>Training dose metadata</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Complete Example</h3>
+<pre><span class="c">// Cable fly — left side, with C5-C6 context</span>
+<span class="k">[Nerve:C5-C6]</span>
+<span class="s">{Push.H}</span> <span class="k">[Con:Pec.S+++, Dlt.A+]</span> <span class="h">→ MedPec/Axil</span>
+<span class="n">[Pos:L.Sh(IR:25,Flex:90,Abd:10)]</span> <span class="k">[Vec:H:Mid,A:0°,Src:Cable]</span>
+<span class="c">[Meta:Sets:3,Reps:12,Load:20lb,RPE:7]</span></pre>
+
+    <div class="note">
+      <strong>Three-domain portability:</strong> The same MNN string is simultaneously a gym log entry, a clinical record, an avatar pose command, and a machine instruction. The notation does not change between contexts — the parser and actuator do.
+    </div>
+
+    <p>Full MNN specification — complete muscle symbol tables (149 muscles, LOD 1–4), nerve tables, joint taxonomy (139+ DOF), formal EBNF grammar, prior art analysis: <a href="spec.html" style="color:var(--primary)">spec.html</a> and <a href="HMN_SPEC_v1.md" style="color:var(--primary)">MNN_SPEC_v1.md</a> (bodspas-site repo, v1.5.1)</p>
+  </div>
+
+  <!-- §5 VRN -->
+  <div class="spec-section" id="s5">
+    <h2><span class="sec-badge">§5</span> VRN — Vocal Resonance Notation</h2>
+    <p>VRN is the HMN sub-protocol for vocal production. It encodes the <strong>physical configuration of the vocal apparatus</strong> — not what a voice sounds like, but what the body is doing to produce it. This is the critical distinction from all existing vocal notation systems.</p>
+
+    <h3>Three-Layer Model</h3>
+    <table>
+      <thead><tr><th>Layer</th><th>What It Describes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Source</strong></td><td>What the vocal folds are doing — phonation mode, fundamental frequency, vibrato</td></tr>
+        <tr><td><strong>Filter</strong></td><td>How the vocal tract shapes the sound — larynx, tongue, jaw, lips, soft palate, formants</td></tr>
+        <tr><td><strong>Drive</strong></td><td>The breath system — subglottal pressure, airflow, appoggio</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Core Tags</h3>
+    <table>
+      <thead><tr><th>Tag</th><th>Values</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>[VF:...]</code></td><td><code>modal</code>, <code>breathy</code>, <code>pressed</code>, <code>falsetto</code>, <code>fry</code></td><td>Vocal fold phonation mode (Source)</td></tr>
+        <tr><td><code>[Hz:...]</code></td><td>number</td><td>Fundamental frequency in Hz (Source)</td></tr>
+        <tr><td><code>[Vib:...]</code></td><td><code>rate:N,ext:N</code></td><td>Vibrato — rate (Hz) and extent (cents) (Source)</td></tr>
+        <tr><td><code>[Lx:...]</code></td><td><code>low</code>, <code>neutral</code>, <code>high</code></td><td>Larynx height (Filter)</td></tr>
+        <tr><td><code>[SP:...]</code></td><td><code>raised</code>, <code>lowered</code></td><td>Soft palate (Filter)</td></tr>
+        <tr><td><code>[Tg:...]</code></td><td><code>high.front</code>, <code>low.back</code>, etc.</td><td>Tongue body position (Filter)</td></tr>
+        <tr><td><code>[Jw:...]</code></td><td>0–60°</td><td>Jaw opening angle (Filter)</td></tr>
+        <tr><td><code>[F1/F2/F3:...]</code></td><td>Hz</td><td>Formant targets (Filter)</td></tr>
+        <tr><td><code>[BP:...]</code></td><td>0–100</td><td>Breath pressure — subglottal, relative (Drive)</td></tr>
+        <tr><td><code>[App]</code></td><td>—</td><td>Appoggio active (Drive)</td></tr>
+        <tr><td><code>[D:...]</code></td><td><code>+</code> to <code>+++</code></td><td>Diaphragm engagement (Drive)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Example — Classical Soprano High C</h3>
+<pre>[VF:modal] [Hz:1047] [Reg:head] [Squil]
+[Lx:low] [SP:raised] [Tg:high.back] [Jw:50] [Zy]
+[F1:1000,F2:3200,F3:3400]
+[BP:85] [D+++] [App]</pre>
+
+    <h3>VRN and AI Voice Synthesis</h3>
+    <p>Current AI voice synthesis systems have no model of physical vocal production — no concept of larynx height, fold phonation mode, or tongue position. VRN provides the missing parameter space for physically-informed synthesis: a model that generates speech from vocal tract configuration rather than acoustic pattern-matching. A complete physically-informed pipeline would operate: <strong>Intent → VRN record → VNN neural command → physical simulation → acoustic output</strong> — rather than the current: Text → acoustic model → waveform.</p>
+  </div>
+
+  <!-- §6 VNN -->
+  <div class="spec-section" id="s6">
+    <h2><span class="sec-badge">§6</span> VNN — Voice Neural Notation</h2>
+    <p>VNN is the HMN sub-protocol for the neural control layer of vocal production. Where VRN describes what the vocal apparatus does mechanically, VNN describes what fires to make it happen — cranial nerves, motor pathways, antagonist balance, and clinical status.</p>
+
+    <h3>The Six Cranial Nerves of Singing</h3>
+    <table>
+      <thead><tr><th>Nerve</th><th>Name</th><th>Primary Role</th></tr></thead>
+      <tbody>
+        <tr><td><code>CN V</code></td><td>Trigeminal</td><td>Jaw positioning — temporalis, masseter, pterygoids</td></tr>
+        <tr><td><code>CN VII</code></td><td>Facial</td><td>Lips, cheeks, embouchure — orbicularis oris, zygomaticus</td></tr>
+        <tr><td><code>CN IX</code></td><td>Glossopharyngeal</td><td>Pharynx elevation — stylopharyngeus</td></tr>
+        <tr><td><code>CN X</code></td><td>Vagus</td><td>Master controller — all fold behavior via RLN and SLN branches</td></tr>
+        <tr><td><code>CN XI</code></td><td>Accessory</td><td>Posture support — SCM, trapezius, laryngeal stability</td></tr>
+        <tr><td><code>CN XII</code></td><td>Hypoglossal</td><td>Sole motor nerve to tongue — all intrinsic and extrinsic tongue muscles</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Vagus Nerve Branch Architecture</h3>
+<pre><span class="k">CN X (Vagus)</span>
+├── Recurrent Laryngeal (RLN) → 4 muscles
+│   ├── Thyroarytenoid      fold body/mass      <span class="s">[VRN: Th]</span>
+│   ├── Lat. Cricoarytenoid fold adduction       <span class="s">[VRN: Prs, Fl]</span>
+│   ├── Post. Cricoarytenoid fold abduction      <span class="s">[VRN: Br]</span>
+│   └── Interarytenoid      posterior closure    <span class="s">[VRN: Gl]</span>
+└── Superior Laryngeal (SLN) → 1 muscle
+    └── Cricothyroid        fold stretch/thinning <span class="s">[VRN: Tn, Hz]</span>
+    <span class="c">The "pitch muscle" — every register shift is a CT:TA balance change</span></pre>
+
+    <h3>Antagonist Balance Notation</h3>
+    <table>
+      <thead><tr><th>Pair</th><th>What It Controls</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><code>CT:TA</code></td><td>Fold length vs mass — register</td><td><code>70:30</code> = head mix · <code>30:70</code> = chest belt</td></tr>
+        <tr><td><code>LCA:PCA</code></td><td>Fold adduction vs abduction — closure</td><td><code>80:20</code> = pressed · <code>40:60</code> = breathy</td></tr>
+        <tr><td><code>Elev:Depr</code></td><td>Larynx height — register color</td><td><code>70:30</code> = belt · <code>30:70</code> = covered</td></tr>
+        <tr><td><code>D:IC</code></td><td>Breath antagonism — appoggio</td><td><code>60:40</code> = strong appoggio</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Clinical Status Codes</h3>
+    <table>
+      <thead><tr><th>Code</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>❌</code></td><td>Paralysis / no activation</td><td><code>[Fold.L❌] → RLN</code></td></tr>
+        <tr><td><code>Par:</code></td><td>Paresis — partial weakness</td><td><code>[Par:Fold.L–]</code></td></tr>
+        <tr><td><code>Spas:</code></td><td>Spasmodic contraction</td><td><code>[Spas:LCA] → RLN</code></td></tr>
+        <tr><td><code>Comp:</code></td><td>Compensation pattern</td><td><code>[Comp:FVF for Fold.L❌]</code></td></tr>
+        <tr><td><code>Rec↑</code></td><td>Recovery / reinnervation</td><td><code>[Rec↑:Fold.L+]</code></td></tr>
+        <tr><td><code>Gap:</code></td><td>Glottal gap</td><td><code>[Gap:Post, Br++]</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §7 Cross-Protocol -->
+  <div class="spec-section" id="s7">
+    <h2><span class="sec-badge">§7</span> Cross-Protocol Interoperability</h2>
+    <p>All three sub-protocols occupy the same string namespace. A valid HMN string may contain tags from multiple sub-protocols simultaneously — useful when describing a performer combining physical movement with vocal production, or a clinician documenting both musculoskeletal and vocal pathology in a single record.</p>
+    <p>Tags from different sub-protocols do not conflict because they use distinct tag identifiers. A parser implementing only MNN compliance ignores VRN and VNN tags per the forward compatibility rule. A full HMN-compliant parser handles all three.</p>
+    <h3>The Neural Unity of MNN and VNN</h3>
+    <p>MNN's nerve tags and VNN's cranial nerve annotations use the same arrow syntax and the same naming convention. The structural parallel is deliberate — the cricothyroid is a muscle, the vagus nerve is a peripheral nerve, and a VNN annotation of the cricothyroid is structurally identical to an MNN annotation of the biceps:</p>
+<pre>MNN: [Con:Bic+++] → MusCut         <span class="c">biceps, musculocutaneous nerve</span>
+VNN: [VF:modal, CT+++] → CN X SLN  <span class="c">cricothyroid, superior laryngeal nerve</span></pre>
+  </div>
+
+  <!-- §8 Three Domains -->
+  <div class="spec-section" id="s8">
+    <h2><span class="sec-badge">§8</span> The Three-Domain Architecture</h2>
+    <table>
+      <thead><tr><th>Domain</th><th>Who writes it</th><th>Who consumes it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Clinical &amp; Fitness</strong></td><td>Trainers, physios, clinicians, vocal coaches</td><td>Training logs, clinical records, rehab plans, research databases</td></tr>
+        <tr><td><strong>2. Virtual Worlds &amp; AI</strong></td><td>Avatar designers, game devs, AI engineers</td><td>Game engines, virtual platforms, AI synthesis pipelines, digital humans</td></tr>
+        <tr><td><strong>3. Remote Control &amp; Robotics</strong></td><td>Hardware engineers, AI systems</td><td>Cable rigs, exoskeletons, voice synthesis hardware, AI training datasets</td></tr>
+      </tbody>
+    </table>
+    <p>The notation does not change between domains. The parser and actuator do. This is the core design principle: <strong>write once, use everywhere.</strong></p>
+  </div>
+
+  <!-- §9 Consumer Registry -->
+  <div class="spec-section" id="s9">
+    <h2><span class="sec-badge">§9</span> Consumer Site Registry</h2>
+    <table>
+      <thead><tr><th>Site</th><th>Protocols</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><strong>BodSpas</strong> (BODWAVE)</td><td>MNN full</td><td>Primary MNN consumer. Workout logging, BODWAVE equipment, MNN Builder</td></tr>
+        <tr><td><strong>InThisWorld</strong></td><td>MNN <code>[Pos:]</code></td><td>Avatar posing. <code>[Pos:]</code> → Three.js joint rotations. LSL bridge for SL/OpenSim</td></tr>
+        <tr><td><strong>VoiceStry</strong></td><td>VRN, VNN</td><td>Primary VRN/VNN consumer. Vocal training, sight-reading, VNN reference</td></tr>
+        <tr><td><strong>COSMOS the Opera</strong></td><td>VRN</td><td>VRN origin. Operatic performance notation. VRN creative testbed</td></tr>
+        <tr><td><strong>Gameatica</strong></td><td>MNN reference</td><td>Educational anatomy games use MNN naming conventions</td></tr>
+        <tr><td><strong>AIUNITES</strong></td><td>All (host)</td><td>Specification authority. movement.html, spec.html, builder.html, this page</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §10 Prior Art -->
+  <div class="spec-section" id="s10">
+    <h2><span class="sec-badge">§10</span> Prior Art</h2>
+    <p>HMN's original contribution is not any individual symbol table or parameter vocabulary — those draw on established anatomical nomenclature. The contribution is: (1) the <strong>architecture</strong> — identifying that body movement, vocal production, and neural vocal control are applications of the same encoding principle; (2) the <strong>cross-domain design</strong> — the deliberate requirement that each notation work simultaneously in clinical, educational, virtual-world, and robotic contexts; (3) the <strong>integration</strong> — the shared grammar, shared activation scale, structural parallel between MNN nerve tags and VNN cranial nerve annotations; (4) the <strong>middleware positioning</strong> — HMN as a protocol layer between domain-specific applications that don't normally communicate.</p>
+
+    <table>
+      <thead><tr><th>System</th><th>Closest to</th><th>Lacks vs HMN</th></tr></thead>
+      <tbody>
+        <tr><td>ISB JCS</td><td>MNN <code>[Pos:]</code></td><td>No muscle/nerve, no text format</td></tr>
+        <tr><td>BVH / C3D</td><td>MNN <code>[Pos:]</code></td><td>No semantic layer, not human-authored</td></tr>
+        <tr><td>EMG + SENIAM</td><td>MNN <code>[Con:]</code></td><td>No standard symbol table, no nerve mapping</td></tr>
+        <tr><td>Labanotation</td><td>MNN <code>{Pattern}</code></td><td>No neuromuscular data, not machine-parseable</td></tr>
+        <tr><td>Eshkol-Wachman</td><td>MNN <code>[Pos:]</code></td><td>Proprietary notation, no muscle/nerve</td></tr>
+        <tr><td>HamNoSys / SiGML</td><td>MNN <code>[Pos:]</code> (arms)</td><td>Arms/hands only, no muscle activation</td></tr>
+        <tr><td>IPA</td><td>VRN <code>[Tg:]</code>, <code>[Lp:]</code></td><td>No continuous parameters, no fold/breath data</td></tr>
+        <tr><td>TTS style params</td><td>VRN acoustic outputs</td><td>No physical production model</td></tr>
+        <tr class="hl"><td>MNN + VRN + VNN (HMN)</td><td>All of the above</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §11 Implementation -->
+  <div class="spec-section" id="s11">
+    <h2><span class="sec-badge">§11</span> Implementation Requirements</h2>
+    <h3>MNN Compliance</h3>
+    <p>Accept tags in any order · treat all tags as optional · preserve unknown tags without error · parse muscle symbols case-sensitively · accept both <code>→</code> and <code>-&gt;</code> as nerve arrow · validate joint angles against physiological range limits · require explicit side specification for paired joints · support compact and full anatomy display modes.</p>
+    <h3>VRN Compliance</h3>
+    <p>Accept the three-layer structure as optional-additive · treat all parameters as optional · support Hz values for pitch and formants · accept the <code>+</code> scale for non-numeric parameters · preserve unknown tags.</p>
+    <h3>VNN Compliance</h3>
+    <p>Requires VRN compliance as prerequisite · support the six cranial nerve designations · support antagonist balance ratio notation · implement at minimum the Level 1 VRN→VNN mapping table · antagonist ratios must sum to 100.</p>
+    <h3>Full HMN Compliance</h3>
+    <p>All three compliance tiers above, plus: parse tags from all three sub-protocols in a single string without conflict · support forward compatibility for all three.</p>
+  </div>
+
+  <!-- §12 Versioning -->
+  <div class="spec-section" id="s12">
+    <h2><span class="sec-badge">§12</span> Versioning</h2>
+    <p>HMN and all sub-protocols follow semantic versioning: <strong>MAJOR.MINOR.PATCH</strong>. MAJOR = breaking syntax changes. MINOR = new symbols or tags (backward compatible). PATCH = documentation and clarification. Sub-protocol versions are independent — MNN v1.5 and VRN v1.0 coexist in the same HMN v1.0 deployment. A string's version may be declared: <code>[Meta:HMN:1.0,MNN:1.5,VRN:1.0]</code></p>
+  </div>
+
+  <!-- §13 IP -->
+  <div class="spec-section" id="s13">
+    <h2><span class="sec-badge">§13</span> Intellectual Property</h2>
+    <p>HMN and its sub-protocols MNN, VRN, and VNN are original works created by Tom and published by AIUNITES LLC. This specification and all companion specification documents are original literary works protected by copyright from date of first publication. AIUNITES LLC intends to register each work with the United States Copyright Office.</p>
+    <p><strong>BODWAVE™</strong> is the primary consumer-facing trademark planned for federal registration. <strong>MNN™, VRN™, VNN™, HMN™</strong> are planned acronym word mark registrations. The phrases "Human Movement Notation," "Muscular Neuro Notation," "Vocal Resonance Notation," and "Voice Neural Notation" are protected as descriptive names by prior art and copyright.</p>
+    <div class="note">
+      <strong>Prior art record:</strong> This specification, MNN_SPEC_v1.md, spec.html, and the GitHub commit history of AIUNITES repositories collectively establish a dated prior art record for the HMN architecture, cross-domain design, neuromuscular encoding approach, physically-grounded vocal production notation, neural control mapping for vocal production, antagonist balance ratio notation, and middleware positioning.
+    </div>
+    <p>Personal, research, and educational use of the notation is permitted without restriction. Commercial use requires a license from AIUNITES LLC.</p>
+  </div>
+
+  <div class="spec-fnav">
+    <p>© 2026 AIUNITES LLC · HMN Specification v1.0.0 · March 15, 2026</p>
+    <p>
+      <a href="index.html">← Home</a> ·
+      <a href="movement.html">Movement</a> ·
+      <a href="builder.html">HMN Builder</a> ·
+      <a href="spec.html">MNN/VRN/VNN Web Spec</a> ·
+      <a href="HMN_SPEC_v1.md" download>Download .md</a> ·
+      <a href="legal.html">Legal</a>
+    </p>
+  </div>
+
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
