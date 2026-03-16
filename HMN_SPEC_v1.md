@@ -9,6 +9,14 @@
 
 ---
 
+## Disambiguation
+
+**MNN (Muscular Neuro Notation)** is the AIUNITES notation protocol for encoding human body movement as plain text. It is distinct from "MNN" as used in computer vision and machine learning literature, where the acronym denotes *Motion Neural Network* — a class of ML architectures that predict body pose from sensor or video data. These are unrelated systems: AIUNITES MNN is a human-authored text notation; Motion Neural Network models are machine learning inference systems.
+
+The primary consumer-facing trademark for the AIUNITES MNN product line is **BODWAVE™**. The full protocol name **Muscular Neuro Notation** is the authoritative designation. MNN is the abbreviation.
+
+---
+
 ## Abstract
 
 Human Movement Notation (HMN) is an open protocol family for encoding human movement as portable, human-readable, machine-parseable plain text. HMN is organized as an umbrella architecture with three sub-protocols:
