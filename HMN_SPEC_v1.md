@@ -310,11 +310,128 @@ The same MNN string is simultaneously valid as:
 
 The notation does not change between these contexts. The parser and actuator do.
 
-### 4.5 Reference Implementation
+### 4.5 Transition Notation (MNN v1.6)
+
+Static `[Pos:]` tags describe a body at a single instant. Transition notation extends MNN to describe **movement between states** — encoding duration, easing curve, sequence chaining, and cycle behavior. This is the layer that maps to the cerebellum’s role in motor control: timing, coordination, and smooth interpolation between intended positions.
+
+Without transition notation, an MNN consumer (avatar engine, cable rig, rehabilitation robot) must either snap instantly between poses or invent its own interpolation. Transition notation standardizes this so the same string produces biologically plausible motion on any compliant renderer.
+
+#### 4.5.1 The Transition Operator
+
+The transition operator `~Nms` appears between two pose states and specifies the duration of the interpolation:
+
+```
+[Pos:A] ~800ms [Pos:B]
+```
+
+This means: move from pose A to pose B over 800 milliseconds. The operator is directional — left side is origin state, right side is target state.
+
+Supported time units: `ms` (milliseconds), `s` (seconds), `bpm:N` (beat-relative, e.g. `~bpm:120`).
+
+#### 4.5.2 Easing Curves
+
+The easing modifier follows the duration, separated by a dot:
+
+```
+[Pos:A] ~800ms.ease-bio [Pos:B]
+```
+
+Human movement does not travel at constant velocity. The cerebellum produces a characteristic bell-shaped velocity profile — acceleration at onset, peak velocity at midpoint, deceleration at arrival. This is `ease-bio`. It is the default for all biological movement.
+
+| Curve | Symbol | Description | Use case |
+|-------|--------|-------------|----------|
+| Biological | `ease-bio` | Bell-shaped velocity curve | **Default for all human movement** |
+| Linear | `ease-linear` | Constant velocity | Mechanical systems, cable rigs |
+| Snap | `ease-snap` | Ballistic — fast onset, abrupt stop | Reflexes, ballistic throws |
+| Ease-in | `ease-in` | Slow start, fast arrival | Reaching, extending |
+| Ease-out | `ease-out` | Fast start, slow arrival | Catching, landing |
+| Spring | `ease-spring` | Overshoot and return | Fine motor tremor, springy joints |
+
+If no easing is specified, `ease-bio` is assumed by all v1.6-compliant parsers.
+
+#### 4.5.3 Sequence Chaining
+
+Multiple transitions are chained with `→` between pose-transition pairs:
+
+```
+{Curl}
+[Pos:L.El(Flex:0)] ~400ms.ease-in
+→ [Pos:L.El(Flex:130)] ~600ms.ease-out
+→ [Pos:L.El(Flex:0)]
+```
+
+Each `→` continues the timeline from where the previous transition ended. One full bicep curl rep.
+
+#### 4.5.4 Simultaneous Joint Transitions
+
+All joints within one `[Pos:]` tag transition simultaneously over the same duration:
+
+```
+{Squat}
+[Pos:L.Hip(Flex:0) R.Hip(Flex:0) L.Kn(Flex:0) R.Kn(Flex:0)] ~800ms.ease-bio
+→ [Pos:L.Hip(Flex:90) R.Hip(Flex:90) L.Kn(Flex:100) R.Kn(Flex:100)]
+→ [Pos:L.Hip(Flex:0) R.Hip(Flex:0) L.Kn(Flex:0) R.Kn(Flex:0)] ~900ms.ease-bio
+```
+
+#### 4.5.5 Muscle Activation Over Transitions
+
+`[Con:]` tags in a transition sequence describe peak activation at the midpoint — the moment of maximum muscular effort. Activation ramps up from origin and ramps down to target:
+
+```
+{Curl}
+[Pos:L.El(Flex:0)] ~400ms.ease-in [Con:Bic+++, Dlt.A+]
+→ [Pos:L.El(Flex:130)] ~600ms.ease-out [Con:Bic+]
+→ [Pos:L.El(Flex:0)]
+```
+
+#### 4.5.6 Loop and Cycle Tags
+
+Repetitive movements use loop and cycle tags:
+
+```
+@loop           — repeat indefinitely
+@loop:N         — repeat N times
+@cycle:Nms      — set the period of one complete cycle
+@phase:N        — offset start point (0–1, for out-of-phase bilateral movement)
+```
+
+Walk cycle example:
+```
+{Walk} @loop @cycle:800ms
+[Pos:L.Hip(Flex:30) R.Hip(Flex:-10)] ~400ms.ease-bio
+→ [Pos:L.Hip(Flex:-10) R.Hip(Flex:30)] ~400ms.ease-bio @phase:0.5
+```
+
+Idle breathing example:
+```
+{Breathe} @loop @cycle:4000ms
+[Pos:Sp.T(Flex:2)] ~1800ms.ease-in
+→ [Pos:Sp.T(Flex:0)] ~2200ms.ease-out
+```
+
+#### 4.5.7 Neuroscience Basis
+
+The three-layer structure of transition notation maps to the brain’s motor control hierarchy:
+
+| Neural layer | Role | MNN equivalent |
+|---|---|---|
+| Motor cortex | Intent — target joint angle | `[Pos:]` tag pair |
+| Cerebellum | Timing + easing — smooth interpolation | `~Nms.ease-bio` |
+| Alpha motor neurons | Peak muscle activation at midpoint | `[Con:]` on transition |
+| Proprioceptive loop | Cycle period, phase offset | `@cycle`, `@phase` |
+
+The `ease-bio` curve encodes the cerebellar minimum-jerk trajectory that distinguishes biological movement from mechanical actuation. Parsers rendering without `ease-bio` produce mechanically accurate but biologically implausible motion.
+
+#### 4.5.8 Compatibility
+
+Transition tags are additive. A static `[Pos:]` string without transition operators remains valid MNN. v1.5 parsers must preserve transition operators as unknown tokens (forward compatibility rule). v1.6 compliance requires implementing all operators in this section. Declare with `[Meta:MNN:1.6]`.
+
+### 4.6 Reference Implementation
 
 Full MNN specification including complete muscle symbol tables (149 muscles across 4 LOD levels), nerve symbol tables, joint taxonomy (139+ DOF), formal EBNF grammar, prior art analysis, and version history:
 
 → `MNN_SPEC_v1.md` (bodspas-site repository, current version: v1.5.1)
+→ `mnn-avatar.html` (inthisworld-site) — reference implementation of transition rendering with lerp engine
 
 ---
 
@@ -819,6 +936,7 @@ The notation format and specification are published for interoperability and pri
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | March 15, 2026 | Added MNN v1.6 Transition Notation (Section 4.5): transition operator `~Nms`, easing curves (`ease-bio`, `ease-linear`, `ease-snap`, `ease-in`, `ease-out`, `ease-spring`), sequence chaining, simultaneous joint transitions, muscle activation over transitions, loop/cycle/phase tags, neuroscience basis mapping to motor cortex/cerebellum/alpha motor neuron hierarchy. Updated reference implementation notes. |
 | 1.0.0 | March 15, 2026 | Initial HMN umbrella specification. Establishes three-protocol family architecture (MNN/VRN/VNN), shared grammar, design principles, cross-protocol interoperability, three-domain architecture, consumer site registry, prior art analysis, implementation requirements, versioning policy, IP section. Incorporates VRN specification (source-filter model, full parameter space, complete examples) and VNN specification (six cranial nerves of singing, vagus nerve branch architecture, VRN-to-VNN mapping, antagonist balance notation, clinical status codes). References MNN_SPEC_v1.5.1 for full MNN symbol tables. |
 
 ---

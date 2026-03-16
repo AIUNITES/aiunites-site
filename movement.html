@@ -651,6 +651,100 @@
       <p class="joint-note">~139 DOF full body · ~25 DOF for typical exercise & rehab use · ~149 muscles LOD 1–4 · Full spec: <a href="spec.html" style="color:var(--primary)">MNN Spec v1.5 →</a></p>
     </section>
 
+    <!-- Transition Notation -->
+    <section class="why-section" id="transitions">
+      <h2>MNN v1.6 — Transition Notation</h2>
+      <p class="section-sub" style="max-width:760px;margin-left:auto;margin-right:auto;">Static poses are snapshots. A living avatar needs duration, easing, and sequencing. Transition notation is the layer that maps to what the cerebellum actually does — timing and smoothing movement between intended states.</p>
+
+      <!-- Operator explainer -->
+      <div style="background:var(--dark-light);border:1px solid rgba(99,102,241,.2);border-radius:var(--radius-md);padding:1.75rem 2rem;max-width:760px;margin:0 auto 2rem;">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:1rem;">The Transition Operator</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.92rem;line-height:2.2;">
+          <span style="color:#818cf8">{Curl}</span><br>
+          <span style="color:#fbbf24">[Pos:L.El(Flex:0)]</span> <span style="color:#f472b6">~400ms.ease-in</span> <span style="color:#34d399">[Con:Bic+++]</span><br>
+          <span style="color:#6b7280">&rarr;</span> <span style="color:#fbbf24">[Pos:L.El(Flex:130)]</span> <span style="color:#f472b6">~600ms.ease-out</span> <span style="color:#34d399">[Con:Bic+]</span><br>
+          <span style="color:#6b7280">&rarr;</span> <span style="color:#fbbf24">[Pos:L.El(Flex:0)]</span>
+        </div>
+        <div style="margin-top:1rem;font-size:.82rem;color:var(--gray-light);line-height:1.7;">One rep of a bicep curl. Origin pose &rarr; duration &rarr; easing &rarr; muscle peak &rarr; target pose &rarr; repeat. The <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">~Nms</code> operator is the transition. The <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">.ease-</code> suffix is the curve. <code style="color:#34d399;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">[Con:]</code> marks peak activation at the midpoint.</div>
+      </div>
+
+      <!-- Easing curves + neuro map grid -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem;">
+        <div class="why-card">
+          <h3><span class="icon">🧠</span> ease-bio — the default</h3>
+          <p>The cerebellum produces a bell-shaped velocity profile on every voluntary movement: acceleration at onset, peak at midpoint, deceleration at arrival. <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-bio</code> is this curve. Any avatar using a linear lerp looks mechanical. <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-bio</code> is the default when no curve is specified.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">⚡</span> Other curves</h3>
+          <p><code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-linear</code> — mechanical, cable rigs &amp; robots.<br>
+          <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-snap</code> — ballistic/reflex, fast and abrupt.<br>
+          <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-in</code> — slow start, reaching &amp; extending.<br>
+          <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-out</code> — fast start, catching &amp; landing.<br>
+          <code style="color:#f472b6;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">ease-spring</code> — overshoot and return, tremor.</p>
+        </div>
+        <div class="why-card">
+          <h3><span class="icon">🔁</span> Loop &amp; cycle tags</h3>
+          <p>Living avatars need repeating motion. <code style="color:#818cf8;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">@loop</code> repeats a sequence indefinitely. <code style="color:#818cf8;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">@cycle:800ms</code> sets the period. <code style="color:#818cf8;background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;">@phase:0.5</code> offsets bilateral limbs out of phase — the walk cycle.</p>
+        </div>
+      </div>
+
+      <!-- Examples row -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;">
+        <div style="background:var(--dark-light);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius-md);padding:1.5rem;">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);margin-bottom:.75rem;">Squat — simultaneous joints</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.9;color:var(--gray-light);">
+            <span style="color:#818cf8">{Squat}</span><br>
+            <span style="color:#fbbf24">[Pos:L.Hip(Flex:0) R.Hip(Flex:0)</span><br>
+            <span style="color:#fbbf24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L.Kn(Flex:0) R.Kn(Flex:0)]</span> <span style="color:#f472b6">~800ms.ease-bio</span><br>
+            <span style="color:#6b7280">&rarr;</span> <span style="color:#fbbf24">[Pos:L.Hip(Flex:90) R.Hip(Flex:90)</span><br>
+            <span style="color:#fbbf24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L.Kn(Flex:100) R.Kn(Flex:100)]</span><br>
+            <span style="color:#6b7280">&rarr;</span> <span style="color:#fbbf24">[Pos:L.Hip(Flex:0) R.Hip(Flex:0)</span><br>
+            <span style="color:#fbbf24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L.Kn(Flex:0) R.Kn(Flex:0)]</span> <span style="color:#f472b6">~900ms.ease-bio</span>
+          </div>
+        </div>
+        <div style="background:var(--dark-light);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius-md);padding:1.5rem;">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);margin-bottom:.75rem;">Walk cycle — loop + phase</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.9;color:var(--gray-light);">
+            <span style="color:#818cf8">{Walk}</span> <span style="color:#818cf8">@loop @cycle:800ms</span><br>
+            <span style="color:#fbbf24">[Pos:L.Hip(Flex:30) R.Hip(Flex:-10)]</span><br>
+            <span style="color:#f472b6">~400ms.ease-bio</span><br>
+            <span style="color:#6b7280">&rarr;</span> <span style="color:#fbbf24">[Pos:L.Hip(Flex:-10) R.Hip(Flex:30)]</span><br>
+            <span style="color:#f472b6">~400ms.ease-bio</span> <span style="color:#818cf8">@phase:0.5</span>
+          </div>
+        </div>
+        <div style="background:var(--dark-light);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius-md);padding:1.5rem;">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);margin-bottom:.75rem;">Idle breathing — infinite loop</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.9;color:var(--gray-light);">
+            <span style="color:#818cf8">{Breathe}</span> <span style="color:#818cf8">@loop @cycle:4000ms</span><br>
+            <span style="color:#fbbf24">[Pos:Sp.T(Flex:2)]</span><br>
+            <span style="color:#f472b6">~1800ms.ease-in</span><br>
+            <span style="color:#6b7280">&rarr;</span> <span style="color:#fbbf24">[Pos:Sp.T(Flex:0)]</span><br>
+            <span style="color:#f472b6">~2200ms.ease-out</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neuro mapping -->
+      <div style="margin-top:2rem;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15);border-radius:var(--radius-md);padding:1.5rem 2rem;max-width:700px;margin-left:auto;margin-right:auto;">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:1rem;">Neural ↔ Notation Mapping</div>
+        <table style="width:100%;font-size:.82rem;border-collapse:collapse;">
+          <thead><tr style="color:var(--gray-light);"><th style="text-align:left;padding:.4rem .6rem;font-weight:600;">Neural layer</th><th style="text-align:left;padding:.4rem .6rem;font-weight:600;">Role</th><th style="text-align:left;padding:.4rem .6rem;font-weight:600;">MNN equivalent</th></tr></thead>
+          <tbody>
+            <tr style="border-top:1px solid rgba(255,255,255,.05);"><td style="padding:.5rem .6rem;color:var(--gray-light);">Motor cortex</td><td style="padding:.5rem .6rem;color:var(--gray-light);">Target joint angle</td><td style="padding:.5rem .6rem;font-family:'JetBrains Mono',monospace;color:#fbbf24;font-size:.78rem;">[Pos:] pair</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,.05);"><td style="padding:.5rem .6rem;color:var(--gray-light);">Cerebellum</td><td style="padding:.5rem .6rem;color:var(--gray-light);">Timing &amp; smoothing</td><td style="padding:.5rem .6rem;font-family:'JetBrains Mono',monospace;color:#f472b6;font-size:.78rem;">~Nms.ease-bio</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,.05);"><td style="padding:.5rem .6rem;color:var(--gray-light);">Alpha motor neurons</td><td style="padding:.5rem .6rem;color:var(--gray-light);">Peak activation</td><td style="padding:.5rem .6rem;font-family:'JetBrains Mono',monospace;color:#34d399;font-size:.78rem;">[Con:] on transition</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,.05);"><td style="padding:.5rem .6rem;color:var(--gray-light);">Proprioceptive loop</td><td style="padding:.5rem .6rem;color:var(--gray-light);">Cycle &amp; phase</td><td style="padding:.5rem .6rem;font-family:'JetBrains Mono',monospace;color:#818cf8;font-size:.78rem;">@cycle, @phase</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center;margin-top:1.5rem;">
+        <a href="https://aiunites.github.io/inthisworld-site/mnn-avatar.html" style="display:inline-flex;align-items:center;gap:8px;color:#00e5ff;text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid rgba(0,229,255,.3);padding:8px 18px;border-radius:6px;">&#127917; Try MNN Avatar Viewer (v1.5) &rarr;</a>
+        <span style="margin:0 12px;color:var(--gray);">|</span>
+        <a href="hmn-spec.html" style="color:var(--primary);font-weight:600;font-size:.9rem;">Full HMN Spec v1.1 &rarr;</a>
+      </div>
+    </section>
+
     <!-- Prior Art Comparison -->
     <section class="prior-art">
       <h2>Where HMN Sits</h2>
