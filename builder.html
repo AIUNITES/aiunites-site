@@ -60,6 +60,21 @@
     .top-bar-links { margin-left:auto; display:flex; gap:12px; font-size:.82rem; }
     .top-bar-links a { color:var(--text2); text-decoration:none; padding:4px 10px; border-radius:6px; transition:all .15s; }
     .top-bar-links a:hover { background:var(--bg3); color:var(--text); }
+    .fullscreen-notice {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: .72rem;
+      color: var(--yellow);
+      background: rgba(234,179,8,.08);
+      border: 1px solid rgba(234,179,8,.25);
+      border-radius: 6px;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+    @media (max-width: 1100px) {
+      .fullscreen-notice { display: flex; }
+    }
 
     .builder-shell {
       display: grid;
@@ -421,10 +436,124 @@
     }
     .toast.show { transform:translateX(-50%) translateY(0); }
 
-    @media (max-width:900px) {
-      .builder-shell { grid-template-columns:1fr; }
-      .panel { max-height:40vh; }
-      .panel:last-child { border-left:none; border-top:1px solid var(--border); }
+    /* ── Desktop toggle button (mobile only) ── */
+    .desktop-toggle-btn {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      font-size: .7rem;
+      color: var(--indigo2);
+      background: rgba(99,102,241,.1);
+      border: 1px solid rgba(99,102,241,.3);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      margin-left: auto;
+      font-family: inherit;
+    }
+
+    /* ── Mobile output strip ── */
+    .mobile-output-strip {
+      display: none;
+      flex-direction: column;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 8px 14px 6px;
+      flex-shrink: 0;
+    }
+    .mob-out-label { font-size: .62rem; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .mob-out-string {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--text);
+      line-height: 1.6;
+      word-break: break-all;
+      min-height: 18px;
+      max-height: 48px;
+      overflow: hidden;
+    }
+    .mob-copy-row { display: flex; gap: 6px; margin-top: 6px; }
+    .mob-copy-btn {
+      flex: 1;
+      padding: 6px 0;
+      border-radius: 6px;
+      font-size: .72rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .mob-copy-btn.pri { background: var(--indigo); color: #fff; }
+    .mob-copy-btn.sec { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); }
+    .mob-copy-btn.clr { background: transparent; color: var(--red); border: 1px solid rgba(239,68,68,.3); }
+
+    /* ── Mobile tab bar ── */
+    .mobile-tab-bar {
+      display: none;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .mob-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 8px 4px 10px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+    }
+    .mob-tab-icon { font-size: 14px; line-height: 1; color: rgba(255,255,255,.35); }
+    .mob-tab-lbl { font-size: 9px; color: rgba(255,255,255,.35); letter-spacing: .5px; text-transform: uppercase; }
+    .mob-tab.active .mob-tab-icon { color: var(--indigo2); }
+    .mob-tab.active .mob-tab-lbl { color: var(--indigo2); }
+
+    /* ════════════════════════════════════════
+       MOBILE UI — applied by JS when mobile-ui class is on body
+       Overridden by .force-desktop on body
+    ════════════════════════════════════════ */
+    body.mobile-ui:not(.force-desktop) .desktop-toggle-btn { display: flex; }
+    body.mobile-ui:not(.force-desktop) .top-bar-logo span { display: none; }
+    body.mobile-ui:not(.force-desktop) .top-bar-links { display: none; }
+    body.mobile-ui:not(.force-desktop) .fullscreen-notice { display: none; }
+    body.mobile-ui:not(.force-desktop) .top-bar { padding: 8px 12px; gap: 8px; }
+
+    body.mobile-ui:not(.force-desktop) .builder-shell {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* Hide all panels/sections by default */
+    body.mobile-ui:not(.force-desktop) .panel,
+    body.mobile-ui:not(.force-desktop) .center-panel { display: none; }
+
+    /* Mobile active tab content */
+    body.mobile-ui:not(.force-desktop) .panel.mob-active,
+    body.mobile-ui:not(.force-desktop) .center-panel.mob-active { display: flex; flex: 1; overflow-y: auto; }
+
+    /* Section filtering inside panels */
+    body.mobile-ui:not(.force-desktop) .panel.mob-active .section-group { display: none; }
+    body.mobile-ui:not(.force-desktop) .panel.mob-active .section-group.mob-visible { display: block; }
+
+    /* Center panel: hide things not needed per tab */
+    body.mobile-ui:not(.force-desktop) .center-panel.mob-active .legend { display: none; }
+    body.mobile-ui:not(.force-desktop) .center-panel.mob-active .copy-row { display: none; }
+    body.mobile-ui:not(.force-desktop) .center-panel.mob-joints .output-area > div:first-child { display: none; } /* hide MNN output block in joints tab */
+
+    /* Show the mobile chrome */
+    body.mobile-ui:not(.force-desktop) .mobile-output-strip { display: flex; }
+    body.mobile-ui:not(.force-desktop) .mobile-tab-bar { display: flex; }
+
+    /* Force desktop override */
+    body.force-desktop .desktop-toggle-btn { display: flex !important; }
+    body.force-desktop .desktop-toggle-btn { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.4); color: var(--green); }
+
+    @media (max-width: 900px) {
+      /* Fallback for very old browsers without JS */
     }
   </style>
 </head>
@@ -436,6 +565,8 @@
 <div class="page-wrap">
   <div class="top-bar">
     <div class="top-bar-logo">◆ HMN Builder <span>Human Movement Notation — MNN v1.5.0</span></div>
+    <div class="fullscreen-notice">⛶ Best experienced full screen</div>
+    <button class="desktop-toggle-btn" id="desktop-toggle-btn" onclick="toggleDesktopLayout()">&#x26F6; Full layout</button>
     <div class="top-bar-links">
       <a href="movement.html">← HMN</a>
       <a href="hmn-spec.html">HMN Spec</a>
@@ -451,7 +582,7 @@
       <div class="panel-header">Build String</div>
 
       <!-- Movement Pattern -->
-      <div class="section-group">
+      <div class="section-group" data-mob-tab="pattern">
         <div class="section-label">
           <span class="dot" style="background:var(--col-move)"></span>
           Movement Pattern
@@ -471,7 +602,7 @@
       </div>
 
       <!-- Muscles -->
-      <div class="section-group">
+      <div class="section-group" data-mob-tab="muscles">
         <div class="section-label">
           <span class="dot" style="background:var(--col-con)"></span>
           Muscles <span style="font-size:.62rem;font-weight:400;color:var(--gray);margin-left:4px;">(click name + set level)</span>
@@ -480,7 +611,7 @@
       </div>
 
       <!-- Nerve override -->
-      <div class="section-group">
+      <div class="section-group" data-mob-tab="extras">
         <div class="section-label">
           <span class="dot" style="background:var(--col-nerve)"></span>
           Nerve Override <span style="font-size:.62rem;font-weight:400;color:var(--gray);margin-left:4px;">(auto-filled; override here)</span>
@@ -489,7 +620,7 @@
       </div>
 
       <!-- Compensation -->
-      <div class="section-group">
+      <div class="section-group" data-mob-tab="extras">
         <div class="section-label">
           <span class="dot" style="background:var(--col-comp)"></span>
           Compensation
@@ -499,7 +630,7 @@
       </div>
 
       <!-- Nerve Status -->
-      <div class="section-group">
+      <div class="section-group" data-mob-tab="extras">
         <div class="section-label">
           <span class="dot" style="background:var(--gray)"></span>
           Nerve Status
@@ -624,6 +755,36 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Mobile output strip -->
+<div class="mobile-output-strip" id="mobile-output-strip">
+  <div class="mob-out-label">MNN String</div>
+  <div class="mob-out-string" id="mob-out-string"><span style="color:var(--gray);font-style:italic">Build your string above…</span></div>
+  <div class="mob-copy-row">
+    <button class="mob-copy-btn pri" onclick="copyString()">&#x2398; Copy</button>
+    <button class="mob-copy-btn sec" onclick="copyPlain()">Plain text</button>
+    <button class="mob-copy-btn clr" onclick="clearAll()">&#x2715; Clear</button>
+  </div>
+</div>
+
+<!-- Mobile tab bar -->
+<div class="mobile-tab-bar" id="mobile-tab-bar">
+  <button class="mob-tab active" id="mobt-pattern" onclick="switchMobTab('pattern')">
+    <span class="mob-tab-icon">▤</span><span class="mob-tab-lbl">Pattern</span>
+  </button>
+  <button class="mob-tab" id="mobt-muscles" onclick="switchMobTab('muscles')">
+    <span class="mob-tab-icon">⊕</span><span class="mob-tab-lbl">Muscles</span>
+  </button>
+  <button class="mob-tab" id="mobt-joints" onclick="switchMobTab('joints')">
+    <span class="mob-tab-icon">⊿</span><span class="mob-tab-lbl">Joints</span>
+  </button>
+  <button class="mob-tab" id="mobt-vector" onclick="switchMobTab('vector')">
+    <span class="mob-tab-icon">↗</span><span class="mob-tab-lbl">Vector</span>
+  </button>
+  <button class="mob-tab" id="mobt-examples" onclick="switchMobTab('examples')">
+    <span class="mob-tab-icon">≡</span><span class="mob-tab-lbl">Examples</span>
+  </button>
 </div>
 
 <div class="toast" id="toast">Copied!</div>
@@ -1014,6 +1175,115 @@ function showToast(msg) {
 buildMuscleList();
 buildJointControls();
 update();
+
+// ── Mobile layout ──────────────────────────────────────────
+let currentMobTab = 'pattern';
+
+function checkMobileLayout() {
+  const forceDT = localStorage.getItem('hmn-force-desktop') === '1';
+  const isMobile = window.innerWidth <= 900;
+  const body = document.body;
+  if (isMobile) {
+    body.classList.add('mobile-ui');
+    if (forceDT) body.classList.add('force-desktop');
+    else body.classList.remove('force-desktop');
+  } else {
+    body.classList.remove('mobile-ui', 'force-desktop');
+  }
+  updateDesktopToggleBtn();
+  if (body.classList.contains('mobile-ui') && !body.classList.contains('force-desktop')) {
+    const pw = document.querySelector('.page-wrap');
+    const strip = document.getElementById('mobile-output-strip');
+    const tbar = document.getElementById('mobile-tab-bar');
+    if (pw && strip && strip.parentElement !== pw) {
+      pw.appendChild(strip);
+      pw.appendChild(tbar);
+    }
+    switchMobTab(currentMobTab, false);
+  }
+}
+
+function updateDesktopToggleBtn() {
+  const btn = document.getElementById('desktop-toggle-btn');
+  if (!btn) return;
+  const forceDT = document.body.classList.contains('force-desktop');
+  const isMobile = document.body.classList.contains('mobile-ui');
+  if (!isMobile) { btn.style.display = 'none'; return; }
+  btn.style.display = 'flex';
+  if (forceDT) {
+    btn.textContent = '⬯ Mobile';
+    btn.style.background = 'rgba(52,211,153,.1)';
+    btn.style.borderColor = 'rgba(52,211,153,.4)';
+    btn.style.color = 'var(--green)';
+  } else {
+    btn.textContent = '⛶ Full layout';
+    btn.style.background = 'rgba(99,102,241,.1)';
+    btn.style.borderColor = 'rgba(99,102,241,.3)';
+    btn.style.color = 'var(--indigo2)';
+  }
+}
+
+function toggleDesktopLayout() {
+  const forceDT = document.body.classList.toggle('force-desktop');
+  localStorage.setItem('hmn-force-desktop', forceDT ? '1' : '0');
+  updateDesktopToggleBtn();
+}
+
+function switchMobTab(tab, updateBtn = true) {
+  currentMobTab = tab;
+  const leftPanel = document.getElementById('left-panel');
+  const centerPanel = document.querySelector('.center-panel');
+  const rightPanel = document.querySelector('.panel:not(#left-panel)');
+  [leftPanel, centerPanel, rightPanel].forEach(p => {
+    if (p) p.classList.remove('mob-active', 'mob-joints', 'mob-vector');
+  });
+  document.querySelectorAll('[data-mob-tab]').forEach(el => el.classList.remove('mob-visible'));
+  const outputArea = centerPanel ? centerPanel.querySelector('.output-area') : null;
+  if (outputArea) outputArea.querySelectorAll(':scope > div').forEach(d => d.style.display = '');
+
+  if (tab === 'pattern') {
+    leftPanel.classList.add('mob-active');
+    document.querySelectorAll('[data-mob-tab="pattern"]').forEach(el => el.classList.add('mob-visible'));
+  } else if (tab === 'muscles') {
+    leftPanel.classList.add('mob-active');
+    document.querySelectorAll('[data-mob-tab="muscles"]').forEach(el => el.classList.add('mob-visible'));
+  } else if (tab === 'joints') {
+    centerPanel.classList.add('mob-active', 'mob-joints');
+    if (outputArea) {
+      const divs = outputArea.querySelectorAll(':scope > div');
+      divs.forEach((d, i) => { d.style.display = (i === 1) ? '' : 'none'; });
+    }
+  } else if (tab === 'vector') {
+    centerPanel.classList.add('mob-active', 'mob-vector');
+    if (outputArea) {
+      const divs = outputArea.querySelectorAll(':scope > div');
+      divs.forEach((d, i) => { d.style.display = (i === 2) ? '' : 'none'; });
+    }
+  } else if (tab === 'examples') {
+    rightPanel.classList.add('mob-active');
+  }
+
+  if (updateBtn) {
+    document.querySelectorAll('.mob-tab').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('mobt-' + tab);
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+}
+
+function mobUpdate() {
+  const mobOut = document.getElementById('mob-out-string');
+  if (mobOut) {
+    const str = buildString();
+    mobOut.innerHTML = str ? colorize(str)
+      : '<span style="color:var(--gray);font-style:italic">Build your string…</span>';
+  }
+}
+
+const _origUpdate2 = window.update;
+window.update = function() { _origUpdate2(); mobUpdate(); };
+
+window.addEventListener('resize', checkMobileLayout);
+checkMobileLayout();
 </script>
 </body>
 </html>
