@@ -443,6 +443,206 @@ Full MNN specification including complete muscle symbol tables (149 muscles acro
 
 ---
 
+## 4.7 Avatar Surface Layer
+
+### 4.7.1 The Problem
+
+MNN's `[Con:]` and `[Pos:]` tags are sufficient to drive a skeleton — joint angles position the bones, activation levels indicate which muscles are working. But they leave a gap for avatar rendering: **what does the surface of the body look like?**
+
+This matters for three reasons that are specific to avatars and not relevant to gym logs, cable rigs, or clinical records:
+
+1. **Morph target weight** — game engines and virtual world platforms drive muscle surface appearance via blend shapes or morph targets. Without explicit weights, an engine must invent its own mapping from activation level to surface deformation.
+
+2. **Isometric contraction** — a maximally contracted quadriceps at full knee extension looks dramatically different on the surface from a relaxed quad at the same angle. Both have `[Pos:Kn(Flex:0)]` but only one has `[Con:Quad++++]`. The joint doesn't move, so there's no skeletal signal — but the surface must still change.
+
+3. **Baseline morphology** — whether `[Con:Bic+++]` produces a subtle or prominent surface change depends entirely on the avatar's body composition. A 250lb powerlifter and a 140lb distance runner have the same notation but radically different expected surfaces. Without a declared baseline, every implementation invents its own default.
+
+### 4.7.2 Design Principles
+
+The Avatar Surface Layer follows the same additive design as the rest of MNN:
+
+- **Omitting it is always valid.** A string with no `[Morph:]` or `[Body:]` is complete MNN. The surface layer adds information; it does not change existing semantics.
+- **`[Con:]` activation level is the primary source of truth.** The surface layer provides optional overrides, not a replacement.
+- **Skin deformation at joints is always implicit.** Wrinkle maps, skin stretching, and compression folds at joint angles are derived from `[Pos:]` by the engine's own skin weights. MNN does not encode these — they are implementation-specific.
+- **Face is already handled.** The face muscle symbols in `[Con:]` drive face morphs via the FACS AU mapping table in MNN_SPEC_v1.md Section 10. No surface layer additions are needed for the face.
+
+### 4.7.3 Default Activation-to-Morph Mapping
+
+Compliant avatar renderers MUST implement the following default morph weight derivation from `[Con:]` activation level when no `[Morph:]` override is present:
+
+| Activation | Morph Weight | Description |
+|---|---|---|
+| *(absent)* | 0.0 | Fully relaxed — no surface change |
+| `+` | 0.25 | Low tone — subtle definition |
+| `++` | 0.50 | Moderate activation — visible engagement |
+| `+++` | 0.75 | High activation — clear surface shape |
+| `++++` | 1.00 | Maximum effort — full deformation |
+
+This mapping applies per muscle symbol. `[Con:Bic+++]` → engine sets morph target named `Bic` to weight 0.75.
+
+The morph target identifier is the MNN muscle symbol. LOD 2+ sub-muscle symbols map to sub-morphs: `Bic.Long` → morph target `Bic.Long`, `Bic.Short` → morph target `Bic.Short`. An engine that only has a single `Bic` morph target MUST apply `Bic.Long` activation to it and ignore `Bic.Short` (forward compatibility rule).
+
+### 4.7.4 The `[Morph:]` Tag — Optional Surface Override
+
+The `[Morph:]` tag provides explicit morph target weights, overriding the default derivation for specific targets. It is used when the visible surface should differ from what the activation level would produce — for isometric contractions, vascular response, atrophy, or muscle head specificity.
+
+**Format:**
+```
+[Morph:Target:weight, Target:weight, ...]
+```
+
+Weights are floats in the range 0.0–1.0.
+
+**Target names** follow the MNN muscle symbol convention with an optional `.descriptor` suffix for sub-targets:
+
+| Target | Description |
+|---|---|
+| `Bic` | Biceps overall surface morph |
+| `Bic.Long` | Long head peak emphasis — "peaked" bicep shape |
+| `Bic.Short` | Short head thickness — "round" bicep shape |
+| `Pec.S` | Sternal pec surface |
+| `Quad.VL` | Vastus lateralis tear-drop visibility |
+| `Dlt.A` | Anterior deltoid cap |
+| *(any MNN muscle symbol)* | Direct morph target reference |
+
+**Descriptor suffixes** — standard across all muscle morphs:
+
+| Suffix | Description | Notes |
+|---|---|---|
+| *(none)* | Default overall morph | Standard case |
+| `.Long` / `.Short` | Muscle head specificity | LOD 2+ only |
+| `.Vasc` | Vascular surface response | Pump, exertion flush |
+| `.Atr` | Atrophy modifier | Reduces surface below `[Body:]` baseline |
+| `.Str` | Striation visibility | High definition only |
+
+**When to use `[Morph:]`:**
+
+```
+// Isometric quad contraction — joint doesn't move, surface must still show
+[Con:Quad.VL++++] [Pos:L.Kn(Flex:0)] [Morph:Quad.VL:1.0]
+
+// Peaked bicep emphasis — long head dominant
+[Con:Bic+++] → MusCut [Morph:Bic.Long:0.95,Bic.Short:0.4]
+
+// Vascular response after high-rep set
+[Con:Bic+++] [Morph:Bic:0.75,Bic.Vasc:0.6]
+
+// Clinical atrophy — surface below baseline
+[Con:Quad.VM+] [Morph:Quad.VM:0.25,Quad.VM.Atr:0.7]
+```
+
+**When NOT to use `[Morph:]`:**
+
+```
+// Standard activation — default mapping handles it
+[Con:Pec.S+++] → MedPec         // No [Morph:] needed — engine uses 0.75
+
+// Multiple muscles at standard activation
+[Con:Dlt.A+++, Dlt.L++, Dlt.P+] // No [Morph:] needed for any of these
+```
+
+### 4.7.5 The `[Body:]` Tag — Avatar Baseline Morphology
+
+The `[Body:]` tag declares the avatar's baseline body composition. It is placed once at the record or session level, not per movement. All subsequent `[Con:]` and `[Morph:]` weights in the session are applied relative to this baseline.
+
+**Format:**
+```
+[Body:Mass:Nkg,BF:N%,Frame:X,Height:Ncm]
+```
+
+| Parameter | Values | Description |
+|---|---|---|
+| `Mass` | number + `kg` or `lb` | Total body mass |
+| `BF` | percentage | Body fat percentage — affects muscle surface visibility |
+| `Frame` | `XS`, `S`, `M`, `L`, `XL` | Skeletal frame size — scales morph target magnitudes |
+| `Height` | number + `cm` or `in` | Affects limb length and overall scale |
+
+All parameters are optional. An engine encountering an unknown `[Body:]` parameter MUST preserve it without error.
+
+**Examples:**
+
+```
+// Athletic male physique
+[Body:Mass:85kg,BF:12%,Frame:L,Height:182cm]
+
+// Lean female physique
+[Body:Mass:62kg,BF:22%,Frame:S,Height:168cm]
+
+// Clinical — post-injury with atrophy noted
+[Body:Mass:78kg,BF:18%,Frame:M,Height:175cm]
+```
+
+**BF% and surface rendering:** Body fat percentage is the most significant variable for muscle surface visibility. Compliant renderers SHOULD scale morph target magnitudes proportionally to `(1 - BF_normalized)` where `BF_normalized` maps the physiological range (3–40%) to 0.0–1.0. At BF:8%, `[Con:Bic+++]` produces a prominent surface. At BF:30%, the same activation produces a subtle contour.
+
+If no `[Body:]` tag is present, renderers SHOULD use their default avatar baseline.
+
+### 4.7.6 LOD and Surface Layer Compatibility
+
+| LOD | Surface capability | Notes |
+|---|---|---|
+| **LOD 1** | Overall muscle morph per symbol | `[Con:Bic+++]` → single `Bic` morph target |
+| **LOD 2** | Muscle head sub-morphs | `[Con:Bic.Long+++]` → `Bic.Long` morph target |
+| **LOD 3** | Intrinsic hand / foot surface | Finger tendons, foot arch deformation |
+| **LOD 4** | Full body surface fidelity | Respiratory muscle surface, all erector detail |
+
+An LOD 1 renderer that encounters `[Morph:Bic.Long:0.9]` MUST treat it as `[Morph:Bic:0.9]` — fall back to the parent symbol. This is the standard forward compatibility rule applied to the surface layer.
+
+### 4.7.7 Interaction with Transition Notation
+
+Morph target weights animate over the same transition duration as joint positions. A `[Morph:]` tag within a transition sequence applies at the transition midpoint — consistent with the `[Con:]` peak activation rule in Section 4.5.5:
+
+```
+{Curl}
+[Pos:L.El(Flex:0)] ~400ms.ease-in [Con:Bic+++] [Morph:Bic.Long:0.95]
+→ [Pos:L.El(Flex:130)] ~600ms.ease-out [Con:Bic+] [Morph:Bic.Long:0.3]
+→ [Pos:L.El(Flex:0)]
+```
+
+Morph weights lerp between keyframe values using the same easing curve as the joint transition they accompany.
+
+### 4.7.8 Formal Grammar Extension
+
+```ebnf
+MorphTag    := "[Morph:" MorphEntry ("," MorphEntry)* "]"
+MorphEntry  := MorphTarget ":" MorphWeight
+MorphTarget := Identifier ("." Identifier)*
+MorphWeight := Float
+Float       := Digit+ "." Digit+  |  Digit+
+
+BodyTag     := "[Body:" BodyParam ("," BodyParam)* "]"
+BodyParam   := BodyKey ":" BodyValue
+BodyKey     := "Mass" | "BF" | "Frame" | "Height" | Identifier
+BodyValue   := (Digit+ (".")? Digit* ("kg" | "lb" | "%" | "cm" | "in" | ""))
+             | "XS" | "S" | "M" | "L" | "XL"
+```
+
+### 4.7.9 Complete Avatar Surface Example
+
+A session record with baseline, a cable fly, and a bicep curl, with surface layer annotations:
+
+```
+// Session baseline
+[Body:Mass:82kg,BF:14%,Frame:L,Height:178cm]
+
+// Cable fly — standard activation, no morph override needed
+[Nerve:C5-C6]
+{Push.H} [Con:Pec.S+++, Dlt.A+] → MedPec/Axil
+[Pos:L.Sh(IR:25,Flex:90,Abd:10)] [Vec:H:Mid,A:0°,Src:Cable]
+[Meta:Sets:3,Reps:12,Load:20lb]
+
+// Bicep curl — long head emphasis, vascular response on last set
+{Iso}
+[Pos:L.El(Flex:0)] ~400ms.ease-in [Con:Bic.Long+++, Bic.Short++] → MusCut
+[Morph:Bic.Long:0.95,Bic.Short:0.5,Bic.Vasc:0.45]
+→ [Pos:L.El(Flex:132)] ~700ms.ease-out [Con:Bic+] [Morph:Bic.Long:0.3]
+→ [Pos:L.El(Flex:0)]
+[Meta:Sets:4,Reps:10,Load:15lb,RPE:8]
+```
+
+An LOD 1 renderer reads `[Body:]`, uses BF:14% to scale morph magnitudes, applies `Bic` morph at 0.95 (falling back from `Bic.Long`), ignores `Bic.Vasc` if not implemented. An LOD 2 renderer applies `Bic.Long` and `Bic.Short` as distinct morph targets and renders the vascular response if it has a `Bic.Vasc` morph. Both are correct — the string is valid at both LOD levels.
+
+---
+
 ## 4.5 MNN Transition & Animation Notation
 
 ### 4.5.1 Overview
@@ -1072,6 +1272,7 @@ The notation format and specification are published for interoperability and pri
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.2.0 | March 18, 2026 | Added Section 4.7 — Avatar Surface Layer: `[Morph:]` tag (explicit morph target weights with `.Long`/`.Short`/`.Vasc`/`.Atr`/`.Str` descriptor suffixes), `[Body:]` tag (baseline morphology: Mass, BF%, Frame, Height), default activation-to-morph weight mapping (+→0.25, ++→0.50, +++→0.75, ++++→1.00), LOD compatibility table for surface layer, BF%-to-surface scaling formula, transition notation integration (morph weights lerp with same easing curve as joints), formal EBNF grammar for both tags. Motivation: isometric contraction surface gap, muscle head specificity at LOD 2+, cross-implementation baseline consistency. |
 | 1.1.0 | March 16, 2026 | Added MNN Transition & Animation Notation (Section 4.5): transition operator `~Nms`, easing curves (`ease-bio`, `ease-linear`, `ease-snap`, `ease-in`, `ease-out`, `ease-spring`), sequence chaining, simultaneous joint transitions, muscle activation over transitions, loop/cycle/phase tags, `[Seq:]` named sequence declarations, `[Play:]` sequence references, timing reference table, neuroscience basis mapping to motor cortex/cerebellum/basal ganglia/SSC hierarchy. Updated reference implementation notes. |
 | 1.0.0 | March 15, 2026 | Initial HMN umbrella specification. Establishes three-protocol family architecture (MNN/VRN/VNN), shared grammar, design principles, cross-protocol interoperability, three-domain architecture, consumer site registry, prior art analysis, implementation requirements, versioning policy, IP section. Incorporates VRN specification (source-filter model, full parameter space, complete examples) and VNN specification (six cranial nerves of singing, vagus nerve branch architecture, VRN-to-VNN mapping, antagonist balance notation, clinical status codes). References MNN_SPEC_v1.5.1 for full MNN symbol tables. |
 

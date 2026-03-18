@@ -292,7 +292,7 @@
         <a href="consulting.html">Consulting</a>
         <a href="index.html#contact" class="nav-cta">Contact Us</a>
       </div>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -323,6 +323,7 @@
         <li><a href="#mnn-vector">Vector & Resistance Layer</a></li>
         <li><a href="#mnn-consumers">MNN Consumer Sites</a></li>
         <li><a href="#mnn-prior-art">Prior Art</a></li>
+        <li><a href="#mnn-surface">Avatar Surface Layer</a></li>
         <li><a href="#vrn-overview">VRN — Vocal Resonance Notation</a></li>
         <li><a href="#vrn-params">VRN Parameter Space</a></li>
         <li><a href="#vrn-ai">VRN and AI Voice Synthesis</a></li>
@@ -528,7 +529,7 @@
           <div class="card-icon">🏋️</div>
           <h3>BodSpas</h3>
           <span class="card-tag">BODWAVE Movement Layer</span>
-          <p>Full MNN support. Workout logging with contraction, nerve, position, and vector data. The MNN Builder lets users construct strings visually. Tracks nerve flare-ups alongside training loads. Drives BODWAVE-compatible cable equipment.</p>
+          <p>Full MNN support including Avatar Surface Layer (<code>[Morph:]</code>, <code>[Body:]</code>). Workout logging with contraction, nerve, position, and vector data. The MNN Builder lets users construct strings visually. Tracks nerve flare-ups alongside training loads. Drives BODWAVE-compatible cable equipment.</p>
         </div>
         <div class="mw-card">
           <div class="card-icon">🌍</div>
@@ -568,6 +569,117 @@
       </table>
     </section>
 
+
+    <!-- Avatar Surface Layer -->
+    <section class="spec-layer" id="mnn-surface">
+      <div class="spec-layer-header">
+        <span class="spec-layer-num">MNN §8</span>
+        <h2>Avatar Surface Layer</h2>
+      </div>
+      <div class="spec-prose">
+        <p><code>[Con:]</code> and <code>[Pos:]</code> are sufficient to drive a skeleton — joint angles position the bones, activation levels say which muscles are working. But they leave a gap for avatar rendering: <strong>what does the surface of the body actually look like?</strong></p>
+        <p>Three things matter for avatars that don't matter for gym logs, cable rigs, or clinical records: morph target weights, isometric contractions, and body composition baseline. The Avatar Surface Layer adds two optional tags that cover all three without changing anything about existing MNN strings.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Default Activation → Morph Weight Mapping</span>
+<pre><span class="cmt">When no [Morph:] override is present, compliant renderers derive</span>
+<span class="cmt">morph target weights directly from [Con:] activation level:</span>
+
+<span class="str">(absent)</span>  <span class="num">0.0</span>   <span class="cmt">fully relaxed — no surface change</span>
+<span class="str">+</span>         <span class="num">0.25</span>  <span class="cmt">low tone — subtle definition</span>
+<span class="str">++</span>        <span class="num">0.50</span>  <span class="cmt">moderate — visible engagement</span>
+<span class="str">+++</span>       <span class="num">0.75</span>  <span class="cmt">high — clear surface shape</span>
+<span class="str">++++</span>      <span class="num">1.00</span>  <span class="cmt">maximum effort — full deformation</span>
+
+<span class="cmt">Morph target ID = MNN muscle symbol.</span>
+<span class="cmt">[Con:Bic+++] → engine sets morph target "Bic" to 0.75.</span>
+<span class="cmt">No [Morph:] tag needed for standard contractions.</span></pre>
+      </div>
+
+      <div class="spec-prose">
+        <p>Use <code>[Morph:]</code> only when the visible surface should differ from the default — for isometric contractions (joint doesn't move but muscle is firing hard), muscle head specificity, vascular pump response, or clinical atrophy.</p>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">[Morph:] — Optional Surface Override</span>
+<pre><span class="kw">[Morph:Target:weight, Target:weight, ...]</span>
+
+<span class="cmt">Weights: floats 0.0–1.0. Targets: MNN muscle symbols + optional suffix.</span>
+
+<span class="cmt">Descriptor suffixes:</span>
+<span class="str">.Long / .Short</span>  <span class="cmt">muscle head specificity (LOD 2+) — peaked vs round bicep</span>
+<span class="str">.Vasc</span>           <span class="cmt">vascular surface response — pump, exertion flush</span>
+<span class="str">.Atr</span>            <span class="cmt">atrophy — reduces surface below [Body:] baseline</span>
+<span class="str">.Str</span>            <span class="cmt">striation visibility — high definition</span>
+
+<span class="cmt">When to use:</span>
+<span class="str">[Con:Quad.VL++++] [Pos:L.Kn(Flex:0)] [Morph:Quad.VL:1.0]</span>
+<span class="cmt">  ↑ Isometric — joint doesn't move, surface must still show</span>
+
+<span class="str">[Con:Bic+++] [Morph:Bic.Long:0.95, Bic.Short:0.4]</span>
+<span class="cmt">  ↑ Long head dominant — "peaked" bicep shape</span>
+
+<span class="str">[Con:Bic+++] [Morph:Bic.Vasc:0.6]</span>
+<span class="cmt">  ↑ Vascular response — last set pump</span>
+
+<span class="cmt">LOD 1 fallback: [Morph:Bic.Long:0.9] → treated as [Morph:Bic:0.9]</span></pre>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">[Body:] — Session Baseline Morphology</span>
+<pre><span class="kw">[Body:Mass:Nkg, BF:N%, Frame:X, Height:Ncm]</span>
+
+<span class="cmt">Place once at session or record level. All [Con:] and [Morph:] weights</span>
+<span class="cmt">in the session are applied relative to this baseline.</span>
+
+<span class="cmt">Parameters:</span>
+  <span class="str">Mass</span>    <span class="cmt">number + kg or lb</span>
+  <span class="str">BF</span>      <span class="cmt">body fat % — most significant variable for surface visibility</span>
+  <span class="str">Frame</span>   <span class="cmt">XS / S / M / L / XL — skeletal frame size</span>
+  <span class="str">Height</span>  <span class="cmt">number + cm or in</span>
+
+<span class="cmt">BF% scaling formula:</span>
+<span class="cmt">  morph_scale = 1 - BF_normalized   (BF 3–40% → 0.0–1.0)</span>
+<span class="cmt">  At BF:8%,  [Con:Bic+++] → prominent surface</span>
+<span class="cmt">  At BF:30%, [Con:Bic+++] → subtle contour</span>
+
+<span class="cmt">Examples:</span>
+<span class="str">[Body:Mass:85kg, BF:12%, Frame:L, Height:182cm]</span>
+<span class="str">[Body:Mass:62kg, BF:22%, Frame:S, Height:168cm]</span></pre>
+      </div>
+
+      <div class="spec-schema">
+        <span class="spec-schema-title">Complete Session Example</span>
+<pre><span class="cmt">// Session baseline</span>
+<span class="str">[Body:Mass:82kg, BF:14%, Frame:L, Height:178cm]</span>
+
+<span class="cmt">// Cable fly — no [Morph:] needed, default mapping handles it</span>
+<span class="kw">{Push.H}</span> <span class="str">[Con:Pec.S+++, Dlt.A+]</span> <span class="num">→ MedPec/Axil</span>
+<span class="str">[Pos:L.Sh(IR:25,Flex:90,Abd:10)]</span> <span class="str">[Vec:H:Mid,A:0°,Src:Cable]</span>
+
+<span class="cmt">// Bicep curl — long head emphasis + vascular response</span>
+<span class="kw">{Iso}</span>
+<span class="str">[Pos:L.El(Flex:0)]</span> <span class="num">~400ms.ease-in</span> <span class="str">[Con:Bic.Long+++, Bic.Short++]</span>
+<span class="str">[Morph:Bic.Long:0.95, Bic.Short:0.5, Bic.Vasc:0.45]</span>
+<span class="num">→</span> <span class="str">[Pos:L.El(Flex:132)]</span> <span class="num">~700ms.ease-out</span> <span class="str">[Con:Bic+]</span> <span class="str">[Morph:Bic.Long:0.3]</span>
+<span class="num">→</span> <span class="str">[Pos:L.El(Flex:0)]</span></pre>
+      </div>
+
+      <table class="spec-param-table">
+        <thead><tr><th>LOD</th><th>Surface capability</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>LOD 1</code></td><td>One morph per muscle symbol</td><td><code>[Con:Bic+++]</code> → single <code>Bic</code> morph at 0.75</td></tr>
+          <tr><td><code>LOD 2</code></td><td>Muscle head sub-morphs</td><td><code>Bic.Long</code> and <code>Bic.Short</code> as separate targets</td></tr>
+          <tr><td><code>LOD 3</code></td><td>Intrinsic hand / foot surface</td><td>Finger tendon definition, foot arch deformation</td></tr>
+          <tr><td><code>LOD 4</code></td><td>Full body surface fidelity</td><td>Respiratory muscle surface, all erector detail</td></tr>
+        </tbody>
+      </table>
+
+      <div class="spec-gap-note">
+        <strong>Transition integration:</strong> <code>[Morph:]</code> weights within a transition sequence lerp between keyframe values using the same easing curve as the accompanying joint transition — consistent with <code>[Con:]</code> peak activation at the midpoint. The entire curl animation — joint angle, muscle activation, and surface deformation — is driven by one string.
+      </div>
+    </section>
 
     <!-- ============================================================ -->
     <!--  VRN SECTION                                                  -->
@@ -902,6 +1014,7 @@
       <div class="spec-prose" style="margin-top:1.5rem">
         <p>The spec above covers the core VNN framework. The <strong>full VNN reference</strong> — including all Level 2 articulatory position codes (tongue, larynx height, jaw, palate), the complete vibrato/squillo/timbral color mappings, the emotional brain pathway (periaqueductal gray), vagus nerve and wellbeing research, and VNN as a neural training framework — lives on VoiceStry:</p>
         <p style="margin-top:.75rem"><a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary);font-weight:600;font-size:1.05rem">Read the full VNN reference on VoiceStry →</a></p>
+        <p style="margin-top:.75rem;font-size:.85rem;color:var(--gray)">Spec versions: MNN v1.6.0 · HMN v1.2.0 · March 18, 2026</p>
       </div>
     </section>
 
