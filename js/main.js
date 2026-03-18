@@ -2,20 +2,20 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile Navigation Toggle
-  const navToggle = document.getElementById('nav-toggle');
+  const navToggle = document.getElementById('nav-hamburger');
   const navLinks = document.getElementById('nav-links');
   
   if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open');
     });
     
     // Close mobile nav when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        navToggle.classList.remove('active');
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
       });
     });
   }

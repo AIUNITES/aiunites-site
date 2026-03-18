@@ -118,22 +118,33 @@ a { color: inherit; text-decoration: none; }
   background: var(--primary-dark) !important;
 }
 
-.nav-toggle {
+.nav-hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 6px;
+  color: var(--white);
+  z-index: 200;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
-.nav-toggle span {
-  width: 24px;
+.nav-hamburger span {
+  display: block;
+  width: 22px;
   height: 2px;
-  background: var(--white);
-  transition: var(--transition);
+  background: currentColor;
+  border-radius: 2px;
+  transition: all .25s;
 }
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ==================== BUTTONS ==================== */
 .btn {
@@ -794,15 +805,13 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 768px) {
   .nav-container { flex-wrap: nowrap; }
-  .nav-toggle {
+  .nav-hamburger {
     display: flex;
-    flex-shrink: 0;
   }
-  .nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.active span:nth-child(2) { opacity: 0; }
-  .nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .nav-links {
-    display: none;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
     position: absolute;
     top: 100%;
     left: 0;
@@ -810,12 +819,19 @@ a { color: inherit; text-decoration: none; }
     background: rgba(10,10,15,0.98);
     backdrop-filter: blur(20px);
     flex-direction: column;
-    padding: 1rem 1.5rem;
-    gap: 1rem;
+    padding: 0 1.5rem;
+    gap: 0;
     border-bottom: 1px solid rgba(99,102,241,0.2);
     z-index: 999;
+    transition: max-height .3s ease, visibility 0s .3s, padding .3s, gap .3s;
   }
-  .nav-links.active { display: flex !important; }
+  .nav-links.open {
+    visibility: visible;
+    max-height: 400px;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+    transition: max-height .3s ease, padding .3s, gap .3s;
+  }
   .nav-links a { font-size: 0.95rem; }
   .hero { padding-top: calc(var(--webring-height) + 5rem); }
   .hero h1 { font-size: 2.25rem; }
