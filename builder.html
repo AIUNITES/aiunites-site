@@ -564,7 +564,7 @@
 
 <div class="page-wrap">
   <div class="top-bar">
-    <div class="top-bar-logo">◆ HMN Builder <span>Human Movement Notation — MNN v1.5.0</span></div>
+    <div class="top-bar-logo">◆ HMN Builder <span>Human Movement Notation — MNN v1.6.0</span></div>
     <div class="fullscreen-notice">⛶ Best experienced full screen</div>
     <button class="desktop-toggle-btn" id="desktop-toggle-btn" onclick="toggleDesktopLayout()">&#x26F6; Full layout</button>
     <div class="top-bar-links">
@@ -746,10 +746,22 @@
         <div class="example-string">[Nerve:C5-C6]<br>{Pull.H} [Con:Lat+++, Rhm++] → ThDors/DorsScap<br>[Pos:Bi.Sh(Flex:90,Abd:30)] [Vec:H:Mid,Src:Cable]</div>
       </div>
 
+      <div class="example-card" onclick="loadExample(6)">
+        <div class="example-title">Avatar Surface — Isometric Quad Hold</div>
+        <div class="example-desc">Max quad contraction at full knee extension. Joint doesn't move — [Morph:] needed to show surface.</div>
+        <div class="example-string">[Body:Mass:82kg,BF:14%,Frame:L,Height:178cm]<br>[Con:Quad.VL++++] [Pos:L.Kn(Flex:0)]<br>[Morph:Quad.VL:1.0]</div>
+      </div>
+
+      <div class="example-card" onclick="loadExample(7)">
+        <div class="example-title">Avatar Surface — Peaked Bicep Curl</div>
+        <div class="example-desc">Long head emphasis + vascular response. Session baseline declared.</div>
+        <div class="example-string">[Body:Mass:85kg,BF:12%,Frame:L,Height:182cm]<br>{Iso} [Con:Bic.Long+++, Bic.Short++] → MusCut<br>[Morph:Bic.Long:0.95,Bic.Short:0.5,Bic.Vasc:0.45]</div>
+      </div>
+
       <div style="padding:14px;border-top:1px solid var(--border);margin-top:auto;">
         <div style="font-size:.72rem;color:var(--gray);line-height:1.7;">
           <strong style="color:var(--text2);">HMN — Human Movement Notation</strong><br>
-          MNN v1.5.0 · ~149 muscles LOD 1–4<br>
+          MNN v1.6.0 · ~149 muscles LOD 1–4 · Surface Layer<br>
           © 2026 AIUNITES LLC · <a href="spec.html" style="color:var(--indigo2);">Full spec →</a>
         </div>
       </div>
@@ -1051,6 +1063,9 @@ const EXAMPLES = [
   { pattern:'{Pull.V}', muscles:{'Lat':3,'Trp.L':2,'Bic':1}, joints:{'Sh':{Flex:160,Abd:60,IR:0,ER:0}}, sides:{Sh:'Bi'}, comp:['Bic','Lat'], vec:{h:'Over',a:0,s:'Cable'} },
   { pattern:null, muscles:{'Zyg.Mj':3,'Orb.Oc':2,'Zyg.Mn':1}, joints:{}, sides:{} },
   { pattern:'{Pull.H}', muscles:{'Lat':3,'Rhm':2}, joints:{'Sh':{Flex:90,Abd:30,IR:0,ER:0}}, sides:{Sh:'Bi'}, nerveStatus:'C5-C6', vec:{h:'Mid',a:0,s:'Cable'} },
+  // Avatar Surface examples (idx 6, 7) — muscles only, no joints changed
+  { pattern:null, muscles:{'Quad.VL':3}, joints:{}, sides:{}, nerveStatus:'' },
+  { pattern:'{Iso}', muscles:{'Bic':3}, joints:{}, sides:{}, nerveStatus:'' },
 ];
 
 function loadExample(idx) {
@@ -1285,5 +1300,6 @@ window.update = function() { _origUpdate2(); mobUpdate(); };
 window.addEventListener('resize', checkMobileLayout);
 checkMobileLayout();
 </script>
+  <script src="js/search.js"></script>
 </body>
 </html>

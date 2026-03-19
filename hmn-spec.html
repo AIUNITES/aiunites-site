@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HMN Specification v1.0 — Human Movement Notation | AIUNITES</title>
-  <meta name="description" content="Human Movement Notation (HMN) v1.0 — the umbrella specification for MNN, VRN, and VNN. Architecture, design principles, shared grammar, cross-protocol interoperability, prior art analysis, and implementation requirements.">
+  <title>HMN Specification v1.2 — Human Movement Notation | AIUNITES</title>
+  <meta name="description" content="Human Movement Notation (HMN) v1.2 — the umbrella specification for MNN, VRN, and VNN. Architecture, design principles, shared grammar, Avatar Surface Layer, cross-protocol interoperability, prior art analysis, and implementation requirements.">
   <meta name="author" content="AIUNITES LLC">
   <link rel="canonical" href="https://aiunites.github.io/aiunites-site/hmn-spec.html">
-  <meta property="og:title" content="HMN Specification v1.0 — Human Movement Notation">
-  <meta property="og:description" content="The umbrella specification for the HMN protocol family: MNN (body), VRN (voice), VNN (neural). Architecture, grammar, interoperability, prior art.">
+  <meta property="og:title" content="HMN Specification v1.2 — Human Movement Notation">
+  <meta property="og:description" content="The umbrella specification for the HMN protocol family: MNN (body), VRN (voice), VNN (neural). Architecture, grammar, Avatar Surface Layer, interoperability, prior art.">
   <meta property="og:site_name" content="AIUNITES">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -152,8 +152,8 @@
     <h1>HMN — <span class="gradient-text">System Specification</span></h1>
     <p class="sub">Human Movement Notation is an open protocol family for encoding human movement as portable, human-readable, machine-parseable plain text. Three sub-protocols. One architecture. Write once, use everywhere.</p>
     <div class="spec-meta">
-      <span>v1.0.0</span>
-      <span>March 15, 2026</span>
+      <span>v1.2.0</span>
+      <span>March 18, 2026</span>
       <span>© 2026 AIUNITES LLC</span>
       <span>MNN · VRN · VNN</span>
     </div>
@@ -198,7 +198,7 @@
 │
 ├── <span class="k">MNN</span> — Muscular Neuro Notation
 │         muscles · nerves · joints · resistance
-│         Spec: MNN_SPEC_v1.md  Status: v1.5.1 — production
+│         Spec: MNN_SPEC_v1.md  Status: v1.6.0 — production
 │
 ├── <span class="k">VRN</span> — Vocal Resonance Notation
 │         larynx · articulation · resonance · breath
@@ -308,7 +308,18 @@ AxisList   := Identifier <span class="s">":"</span> Number (<span class="s">","<
       <strong>Three-domain portability:</strong> The same MNN string is simultaneously a gym log entry, a clinical record, an avatar pose command, and a machine instruction. The notation does not change between contexts — the parser and actuator do.
     </div>
 
-    <p>Full MNN specification — complete muscle symbol tables (149 muscles, LOD 1–4), nerve tables, joint taxonomy (139+ DOF), formal EBNF grammar, prior art analysis: <a href="spec.html" style="color:var(--primary)">spec.html</a> and <a href="HMN_SPEC_v1.md" style="color:var(--primary)">MNN_SPEC_v1.md</a> (bodspas-site repo, v1.5.1)</p>
+    <h3>Avatar Surface Layer (MNN v1.6)</h3>
+    <p>Two optional tags close the gap between skeleton driving and avatar surface rendering. <code>[Con:]</code> activation level maps to morph target weights by default (+→0.25, ++→0.50, +++→0.75, ++++→1.00) without any extra tags. <code>[Morph:]</code> provides explicit overrides for isometric contractions, muscle head specificity, vascular response, or atrophy. <code>[Body:]</code> declares the session baseline (mass, BF%, frame, height) so the same notation renders consistently across different avatar body types. Both tags are fully optional and additive — omitting them is always valid MNN.</p>
+<pre><span class="c">// Session baseline</span>
+<span class="s">[Body:Mass:82kg,BF:14%,Frame:L,Height:178cm]</span>
+
+<span class="c">// Standard activation — default mapping, no [Morph:] needed</span>
+<span class="k">{Push.H}</span> <span class="s">[Con:Pec.S+++, Dlt.A+]</span> <span class="h">→ MedPec/Axil</span>
+
+<span class="c">// Isometric — joint doesn't move, explicit morph required</span>
+<span class="s">[Con:Quad.VL++++]</span> <span class="n">[Pos:L.Kn(Flex:0)]</span> <span class="s">[Morph:Quad.VL:1.0]</span></pre>
+
+    <p>Full MNN specification — complete muscle symbol tables (149 muscles, LOD 1–4), nerve tables, joint taxonomy (139+ DOF), Avatar Surface Layer (<code>[Morph:]</code>, <code>[Body:]</code>), formal EBNF grammar, prior art analysis: <a href="spec.html" style="color:var(--primary)">spec.html</a> and <a href="HMN_SPEC_v1.md" style="color:var(--primary)">MNN_SPEC_v1.md</a> (bodspas-site repo, v1.6.0)</p>
   </div>
 
   <!-- §5 VRN -->
@@ -439,8 +450,8 @@ VNN: [VF:modal, CT+++] → CN X SLN  <span class="c">cricothyroid, superior lary
     <table>
       <thead><tr><th>Site</th><th>Protocols</th><th>Role</th></tr></thead>
       <tbody>
-        <tr><td><strong>BodSpas</strong> (BODWAVE)</td><td>MNN full</td><td>Primary MNN consumer. Workout logging, BODWAVE equipment, MNN Builder</td></tr>
-        <tr><td><strong>InThisWorld</strong></td><td>MNN <code>[Pos:]</code></td><td>Avatar posing. <code>[Pos:]</code> → Three.js joint rotations. LSL bridge for SL/OpenSim</td></tr>
+        <tr><td><strong>BodSpas</strong> (BODWAVE)</td><td>MNN full + Surface Layer</td><td>Primary MNN consumer. Workout logging, BODWAVE equipment, MNN Builder. <code>[Morph:]</code> and <code>[Body:]</code> supported.</td></tr>
+        <tr><td><strong>InThisWorld</strong></td><td>MNN <code>[Pos:]</code> + Surface Layer</td><td>Avatar posing. <code>[Pos:]</code> → Three.js joint rotations. <code>[Morph:]</code> → blend shapes. LSL bridge for SL/OpenSim.</td></tr>
         <tr><td><strong>VoiceStry</strong></td><td>VRN, VNN</td><td>Primary VRN/VNN consumer. Vocal training, sight-reading, VNN reference</td></tr>
         <tr><td><strong>COSMOS the Opera</strong></td><td>VRN</td><td>VRN origin. Operatic performance notation. VRN creative testbed</td></tr>
         <tr><td><strong>Gameatica</strong></td><td>MNN reference</td><td>Educational anatomy games use MNN naming conventions</td></tr>
@@ -501,7 +512,7 @@ VNN: [VF:modal, CT+++] → CN X SLN  <span class="c">cricothyroid, superior lary
   </div>
 
   <div class="spec-fnav">
-    <p>© 2026 AIUNITES LLC · HMN Specification v1.0.0 · March 15, 2026</p>
+    <p>© 2026 AIUNITES LLC · HMN Specification v1.2.0 · March 18, 2026</p>
     <p>
       <a href="index.html">← Home</a> ·
       <a href="movement.html">Movement</a> ·
@@ -515,5 +526,6 @@ VNN: [VF:modal, CT+++] → CN X SLN  <span class="c">cricothyroid, superior lary
 </div>
 
 <script src="js/main.js"></script>
+<script src="js/search.js"></script>
 </body>
 </html>
