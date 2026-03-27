@@ -1,11 +1,3 @@
-# Robots.txt for AIUNITES
-# https://aiunites.github.io/aiunites-site/
-
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://aiunites.github.io/aiunites-site/sitemap.xml
-
-# Crawl-delay (optional, be nice to servers)
-Crawl-delay: 1
+Sitemap: https://aiunites.com/sitemap.xml
