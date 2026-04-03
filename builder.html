@@ -666,7 +666,7 @@
       </div>
 
       <div class="output-area">
-        <div class="output-label">MNN String</div>
+        <div class="output-label">HMN String</div>
         <div class="mnn-output" id="mnn-output">
           <span class="tok-empty">Select muscles and joints to build a notation string…</span>
         </div>
@@ -715,7 +715,7 @@
       </div>
 
       <div class="copy-row">
-        <button class="copy-btn primary"   onclick="copyString()">⎘ Copy MNN String</button>
+        <button class="copy-btn primary"   onclick="copyString()">⎘ Copy HMN String</button>
         <button class="copy-btn secondary" onclick="copyPlain()">Copy Plain Text</button>
         <button class="copy-btn danger"    onclick="clearAll()">✕ Clear</button>
       </div>
@@ -786,10 +786,10 @@
 
 <!-- Mobile output strip -->
 <div class="mobile-output-strip" id="mobile-output-strip">
-  <div class="mob-out-label">MNN String</div>
+  <div class="mob-out-label">HMN String</div>
   <div class="mob-out-string" id="mob-out-string"><span style="color:var(--gray);font-style:italic">Build your string above…</span></div>
   <div class="mob-copy-row">
-    <button class="mob-copy-btn pri" onclick="copyString()">&#x2398; Copy</button>
+    <button class="mob-copy-btn pri" onclick="copyString()">&#x2398; Copy HMN</button>
     <button class="mob-copy-btn sec" onclick="copyPlain()">Plain text</button>
     <button class="mob-copy-btn clr" onclick="clearAll()">&#x2715; Clear</button>
   </div>
@@ -1009,7 +1009,18 @@ function setSyntax(v) {
     bv2.style.background = 'transparent'; bv2.style.color = 'var(--gray)';
     lv1.style.display = 'flex'; lv2.style.display = 'none';
   }
+  updateLevelBtnLabels();
   update();
+}
+
+function updateLevelBtnLabels() {
+  const lbls = syntaxVersion === 'v2' ? [':1', ':2', ':3'] : ['+', '++', '+++'];
+  MUSCLES.forEach(m => {
+    [1, 2, 3].forEach((l, i) => {
+      const btn = document.getElementById('mlvl-' + m.sym + '-' + l);
+      if (btn) btn.textContent = lbls[i];
+    });
+  });
 }
 
 // ── Build MNN string (v2.0 @TAG format) ───────────────────────────────
@@ -1259,7 +1270,7 @@ function copyString() {
   const str = buildString();
   if (!str) return;
   navigator.clipboard.writeText(str);
-  showToast('MNN string copied!');
+  showToast('HMN string copied!');
 }
 
 function copyPlain() {
