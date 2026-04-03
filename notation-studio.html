@@ -390,12 +390,10 @@ const MNN = {
      str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2, Gas:1) >> InfGlu/Fem/Tib',
      load(st,cfg){st.pattern='Walk';st.muscles={'Glu.Mx':2,'Quad.RF':2,'Gas':1};}},
     {title:'Greeting Wave',desc:'Right arm raised, waving. Anterior + lateral delt, tricep stabilizing.',
-     str:'@MOV(Wave) @ACT(Dlt.A:2, Dlt.L:1, Tri:1) >> Axil/Rad
-@JNT(R.Sh:Flex=100,Abd=60)',
+     str:'@MOV(Wave) @ACT(Dlt.A:2, Dlt.L:1, Tri:1) >> Axil/Rad\n@JNT(R.Sh:Flex=100,Abd=60)',
      load(st,cfg){st.pattern='Wave';st.muscles={'Dlt.A':2,'Dlt.L':1,'Tri':1};st.joints.Sh={Flex:100,Abd:60,IR:0,ER:0};st.sides.Sh='R';}},
-    {title:'Avatar + Expression',desc:'Walking with open smile — compound MNN + FNN scene string.',
-     str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2) >> InfGlu/Fem
-@FNN(Zyg.Mj:2, Orb.Oc.O:1) >> CNVII/Zyg',
+    {title:'Avatar + Expression',desc:'Walking with open smile. Compound MNN + FNN scene string.',
+     str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2) >> InfGlu/Fem\n@FNN(Zyg.Mj:2, Orb.Oc.O:1) >> CNVII/Zyg',
      load(st,cfg){st.pattern='Walk';st.muscles={'Glu.Mx':2,'Quad.RF':2};}},
   ]
 };
@@ -581,7 +579,7 @@ const VMN = {
   },
 
   colorize(str) {
-    if (!str) return '<span class="t-empty">Select a vehicle class to begin…</span>';
+  if (!str) return '<span class="t-empty">&#x2191; Select a vehicle class above, then adjust parameters below</span>';
     return str
       .replace(/(@VMN\([^)]+\))/g,'<span class="t-vmn">$1</span>')
       .replace(/(@ATT\([^)]+\))/g,'<span class="t-jnt">$1</span>')
@@ -1112,9 +1110,16 @@ function loadExample(idx) {
 // ── Copy / clear ─────────────────────────────────────────────────────
 function copyString() {
   const str = PROTOS[ACTIVE].buildString(ST);
-  if (!str) return;
+  if (!str) {
+    if (ACTIVE === 'VMN' && !ST.cls) toast('Select a vehicle class first ↑');
+    else if (ACTIVE === 'MNN') toast('Select a pattern or muscle first');
+    else if (ACTIVE === 'FNN') toast('Select a macro or facial muscle first');
+    else if (ACTIVE === 'VRN') toast('Select a resonator first');
+    else toast('Nothing to copy yet');
+    return;
+  }
   navigator.clipboard.writeText(str);
-  toast('Copied!');
+  toast('⎘ Copied!');
 }
 function copyJSON() {
   const j = PROTOS[ACTIVE].toJSON(ST);
