@@ -565,7 +565,7 @@
 
 <div class="page-wrap">
   <div class="top-bar">
-    <div class="top-bar-logo">◆ HMN Builder <span>Human Movement Notation — MNN v1.6.0</span></div>
+    <div class="top-bar-logo">◆ HMN Builder <span>Human Movement Notation — MNN v2.0.0</span></div>
     <div class="fullscreen-notice">⛶ Best experienced full screen</div>
     <button class="desktop-toggle-btn" id="desktop-toggle-btn" onclick="toggleDesktopLayout()">&#x26F6; Full layout</button>
     <div class="top-bar-links">
@@ -643,12 +643,26 @@
     <!-- CENTER: Output -->
     <div class="center-panel">
       <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--col-move)"></div><span style="color:var(--col-move)">{Move}</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--col-con)"></div><span style="color:var(--col-con)">[Con:]</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--col-nerve)"></div><span style="color:var(--col-nerve)">→ Nerve</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--col-pos)"></div><span style="color:var(--col-pos)">[Pos:]</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--col-vec)"></div><span style="color:var(--col-vec)">[Vec:]</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--col-comp)"></div><span style="color:var(--col-comp)">[Comp:]</span></div>
+        <div id="legend-v2" style="display:flex;flex-wrap:wrap;gap:8px;flex:1">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-move)"></div><span style="color:var(--col-move)">@MOV()</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-con)"></div><span style="color:var(--col-con)">@ACT()</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-nerve)"></div><span style="color:var(--col-nerve)">>> Nerve</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-pos)"></div><span style="color:var(--col-pos)">@JNT()</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-vec)"></div><span style="color:var(--col-vec)">@VEC()</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-comp)"></div><span style="color:var(--col-comp)">@COMP()</span></div>
+        </div>
+        <div id="legend-v1" style="display:none;flex-wrap:wrap;gap:8px;flex:1">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-move)"></div><span style="color:var(--col-move)">{Move}</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-con)"></div><span style="color:var(--col-con)">[Con:]</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-nerve)"></div><span style="color:var(--col-nerve)">&rarr; Nerve</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-pos)"></div><span style="color:var(--col-pos)">[Pos:]</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-vec)"></div><span style="color:var(--col-vec)">[Vec:]</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--col-comp)"></div><span style="color:var(--col-comp)">[Comp:]</span></div>
+        </div>
+        <div style="display:flex;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:3px;flex-shrink:0;margin-left:8px">
+          <button id="bv2" onclick="setSyntax('v2')" style="padding:2px 9px;border:none;border-radius:12px;font-size:.65rem;font-weight:700;cursor:pointer;background:var(--indigo);color:#fff;font-family:inherit">v2.0 @TAG</button>
+          <button id="bv1" onclick="setSyntax('v1')" style="padding:2px 9px;border:none;border-radius:12px;font-size:.65rem;font-weight:700;cursor:pointer;background:transparent;color:var(--gray);font-family:inherit">v1.x [ ]</button>
+        </div>
       </div>
 
       <div class="output-area">
@@ -714,55 +728,55 @@
       <div class="example-card" onclick="loadExample(0)">
         <div class="example-title">Cable Chest Fly (L)</div>
         <div class="example-desc">Single-arm horizontal pull, sternal pec prime mover, shoulder at 90° flex / 25° IR.</div>
-        <div class="example-string">{Pull.H} [Con:Pec.S+++, Dlt.A+] → MedPec/Axil<br>[Pos:L.Sh(IR:25,Flex:90)] [Vec:H:Mid,A:0°,Src:Cable]</div>
+        <div class="example-string">@MOV(Pull.H) @ACT(Pec.S:3, Dlt.A:1) >> MedPec/Axil<br>@JNT(L.Sh:IR=25,Flex=90) @VEC(Ht=Mid,Ang=0°,Src=Cable)</div>
       </div>
 
       <div class="example-card" onclick="loadExample(1)">
         <div class="example-title">Overhead Press</div>
         <div class="example-desc">Bilateral vertical push, clavicular pec + anterior delt + triceps.</div>
-        <div class="example-string">{Push.V} [Con:Pec.C+++, Dlt.A+++, Tri++] → LatPec/Axil/Rad<br>[Pos:Bi.Sh(Flex:180,Abd:30)] [Vec:H:Over,A:0°,Src:Gravity]</div>
+        <div class="example-string">@MOV(Push.V) @ACT(Pec.C:3, Dlt.A:3, Tri:2) >> LatPec/Axil/Rad<br>@JNT(Bi.Sh:Flex=180,Abd=30) @VEC(Ht=Over,Ang=0°,Src=Gravity)</div>
       </div>
 
       <div class="example-card" onclick="loadExample(2)">
         <div class="example-title">Squat (Bilateral)</div>
         <div class="example-desc">Hip hinge + squat, glutes and quads prime movers.</div>
-        <div class="example-string">{Squat} [Con:Glu.Mx+++, Quad.RF+++, Quad.VL++] → InfGlu/Fem<br>[Pos:Bi.Hip(Flex:90) Bi.Kn(Flex:90)] [Vec:H:Over,A:0°,Src:Gravity]</div>
+        <div class="example-string">@MOV(Squat) @ACT(Glu.Mx:3, Quad.RF:3, Quad.VL:2) >> InfGlu/Fem<br>@JNT(Bi.Hip:Flex=90 Bi.Kn:Flex=90) @VEC(Ht=Over,Ang=0°,Src=Gravity)</div>
       </div>
 
       <div class="example-card" onclick="loadExample(3)">
         <div class="example-title">Lat Pulldown</div>
         <div class="example-desc">Vertical pull with biceps compensation pattern.</div>
-        <div class="example-string">{Pull.V} [Con:Lat+++, Trp.L++, Bic+] → ThDors/CNXI<br>[Pos:Bi.Sh(Abd:60,Flex:160)] [Vec:H:Over,A:0°,Src:Cable]<br>[Comp:Bic for Lat]</div>
+        <div class="example-string">@MOV(Pull.V) @ACT(Lat:3, Trp.L:2, Bic:1) >> ThDors/CNXI<br>@JNT(Bi.Sh:Abd=60,Flex=160) @VEC(Ht=Over,Ang=0°,Src=Cable)<br>@COMP(Bic/Lat)</div>
       </div>
 
       <div class="example-card" onclick="loadExample(4)">
         <div class="example-title">Avatar — Duchenne Smile</div>
         <div class="example-desc">Facial expression: genuine smile with eye engagement (AU6+AU12).</div>
-        <div class="example-string">[Con:Zyg.Mj+++, Orb.Oc++, Zyg.Mn+] → CNVII</div>
+        <div class="example-string">@ACT(Zyg.Mj:3, Orb.Oc:2, Zyg.Mn:1) >> CNVII</div>
       </div>
 
       <div class="example-card" onclick="loadExample(5)">
         <div class="example-title">Nerve Status Context</div>
         <div class="example-desc">Row logged on a day with C5-C6 nerve irritation.</div>
-        <div class="example-string">[Nerve:C5-C6]<br>{Pull.H} [Con:Lat+++, Rhm++] → ThDors/DorsScap<br>[Pos:Bi.Sh(Flex:90,Abd:30)] [Vec:H:Mid,Src:Cable]</div>
+        <div class="example-string">@NERV(C5-C6)<br>@MOV(Pull.H) @ACT(Lat:3, Rhm:2) >> ThDors/DorsScap<br>@JNT(Bi.Sh:Flex=90,Abd=30) @VEC(Ht=Mid,Src=Cable)</div>
       </div>
 
       <div class="example-card" onclick="loadExample(6)">
         <div class="example-title">Avatar Surface — Isometric Quad Hold</div>
-        <div class="example-desc">Max quad contraction at full knee extension. Joint doesn't move — [Morph:] needed to show surface.</div>
-        <div class="example-string">[Body:Mass:82kg,BF:14%,Frame:L,Height:178cm]<br>[Con:Quad.VL++++] [Pos:L.Kn(Flex:0)]<br>[Morph:Quad.VL:1.0]</div>
+        <div class="example-desc">Max quad contraction at full knee extension. Joint doesn't move — @MORPH() needed to show surface.</div>
+        <div class="example-string">@BODY(Mass=82kg,BF=14%,Frame=L,Height=178cm)<br>@ACT(Quad.VL:4) @JNT(L.Kn:Flex=0)<br>@MORPH(Quad.VL=1.0)</div>
       </div>
 
       <div class="example-card" onclick="loadExample(7)">
         <div class="example-title">Avatar Surface — Peaked Bicep Curl</div>
         <div class="example-desc">Long head emphasis + vascular response. Session baseline declared.</div>
-        <div class="example-string">[Body:Mass:85kg,BF:12%,Frame:L,Height:182cm]<br>{Iso} [Con:Bic.Long+++, Bic.Short++] → MusCut<br>[Morph:Bic.Long:0.95,Bic.Short:0.5,Bic.Vasc:0.45]</div>
+        <div class="example-string">@BODY(Mass=85kg,BF=12%,Frame=L,Height=182cm)<br>@MOV(Iso) @ACT(Bic.Long:3, Bic.Short:2) >> MusCut<br>@MORPH(Bic.Long=0.95,Bic.Short=0.5,Bic.Vasc=0.45)</div>
       </div>
 
       <div style="padding:14px;border-top:1px solid var(--border);margin-top:auto;">
         <div style="font-size:.72rem;color:var(--gray);line-height:1.7;">
           <strong style="color:var(--text2);">HMN — Human Movement Notation</strong><br>
-          MNN v1.6.0 · ~149 muscles LOD 1–4 · Surface Layer<br>
+          MNN v2.0.0 · ~149 muscles LOD 1–4 · Surface Layer<br>
           © 2026 AIUNITES LLC · <a href="spec.html" style="color:var(--indigo2);">Full spec →</a>
         </div>
       </div>
@@ -976,7 +990,108 @@ function setJointAxis(sym, axis, val) {
   update();
 }
 
-// ── Build MNN string ───────────────────────────────────────────────────
+// ── Syntax version ──────────────────────────────────────────────────
+let syntaxVersion = localStorage.getItem('hmn-syntax') || 'v2';
+
+function setSyntax(v) {
+  syntaxVersion = v;
+  localStorage.setItem('hmn-syntax', v);
+  const bv2 = document.getElementById('bv2');
+  const bv1 = document.getElementById('bv1');
+  const lv2 = document.getElementById('legend-v2');
+  const lv1 = document.getElementById('legend-v1');
+  if (v === 'v2') {
+    bv2.style.background = 'var(--indigo)'; bv2.style.color = '#fff';
+    bv1.style.background = 'transparent'; bv1.style.color = 'var(--gray)';
+    lv2.style.display = 'flex'; lv1.style.display = 'none';
+  } else {
+    bv1.style.background = 'var(--indigo)'; bv1.style.color = '#fff';
+    bv2.style.background = 'transparent'; bv2.style.color = 'var(--gray)';
+    lv1.style.display = 'flex'; lv2.style.display = 'none';
+  }
+  update();
+}
+
+// ── Build MNN string (v2.0 @TAG format) ───────────────────────────────
+function buildStringV2() {
+  const parts = [];
+
+  // Nerve status
+  const ns = document.getElementById('nerve-status').value.trim();
+  if (ns) parts.push(`@NERV(${ns})`);
+
+  // Movement -- convert {Push.H} to @MOV(Push.H)
+  if (state.pattern) {
+    const m = state.pattern.match(/^\{(.+)\}$/);
+    parts.push('@MOV(' + (m ? m[1] : state.pattern) + ')');
+  }
+
+  // Muscles -- @ACT(Pec.S:3, Dlt.A:1)
+  const activeMuscles = Object.entries(state.muscles).filter(([,v]) => v > 0);
+  if (activeMuscles.length) {
+    const conStr = activeMuscles.map(([sym,lvl]) => `${sym}:${lvl}`).join(', ');
+    parts.push(`@ACT(${conStr})`);
+  }
+
+  // Nerves -- >> (auto or override)
+  const nerveOverride = document.getElementById('nerve-input').value.trim();
+  if (nerveOverride) {
+    parts.push(`>> ${nerveOverride}`);
+  } else if (activeMuscles.length) {
+    const nerves = [...new Set(activeMuscles.map(([sym]) => {
+      const m = MUSCLES.find(x => x.sym === sym);
+      return m ? m.nerve : null;
+    }).filter(Boolean))];
+    if (nerves.length) parts.push(`>> ${nerves.join('/')}`);
+  }
+
+  // Joint positions -- @JNT(Side.Joint:Axis=val)
+  const jParts = [];
+  JOINTS.forEach(j => {
+    const axes = j.axes.filter(a => state.joints[j.sym][a.a] !== 0);
+    if (!axes.length) return;
+    const side = j.paired ? (state.sides[j.sym] || 'L') + '.' : '';
+    const axisStr = axes.map(a => `${a.a}=${state.joints[j.sym][a.a]}`).join(',');
+    jParts.push(`${side}${j.sym}:${axisStr}`);
+  });
+  if (jParts.length) parts.push(`@JNT(${jParts.join(' ')})`);
+
+  // Vector -- @VEC(Ht=,Ang=,Src=)
+  const h = document.getElementById('vec-height').value;
+  const a = document.getElementById('vec-angle').value;
+  const s = document.getElementById('vec-src').value;
+  if (h || s) {
+    const vParts = [];
+    if (h) vParts.push(`Ht=${h}`);
+    vParts.push(`Ang=${a}°`);
+    if (s) vParts.push(`Src=${s}`);
+    parts.push(`@VEC(${vParts.join(',')})`);
+  }
+
+  // Compensation -- @COMP(A/B)
+  const ca = document.getElementById('comp-a').value.trim();
+  const cb = document.getElementById('comp-b').value.trim();
+  if (ca && cb) parts.push(`@COMP(${ca}/${cb})`);
+
+  return parts.join(' ');
+}
+
+// ── Colorize v2.0 output ───────────────────────────────────────────────
+function colorizeV2(str) {
+  if (!str) return '<span class="tok-empty">Select muscles and joints to build a notation string…</span>';
+  return str
+    .replace(/(@MOV\([^)]+\))/g, '<span class="tok-move">$1</span>')
+    .replace(/(@ACT\([^)]+\))/g, '<span class="tok-con">$1</span>')
+    .replace(/(>> [\w/]+)/g, '<span class="tok-nerve">$1</span>')
+    .replace(/(@JNT\([^)]+\))/g, '<span class="tok-pos">$1</span>')
+    .replace(/(@VEC\([^)]+\))/g, '<span class="tok-vec">$1</span>')
+    .replace(/(@COMP\([^)]+\))/g, '<span class="tok-comp">$1</span>')
+    .replace(/(@NERV\([^)]+\))/g, '<span class="tok-nerve">$1</span>')
+    .replace(/(@MORPH\([^)]+\))/g, '<span class="tok-pos">$1</span>')
+    .replace(/(@BODY\([^)]+\))/g, '<span class="tok-vec">$1</span>');
+}
+
+// ── Build MNN string (v1.x legacy) ────────────────────────────────────
 function buildString() {
   const parts = [];
 
@@ -1052,8 +1167,9 @@ function colorize(str) {
 }
 
 function update() {
-  const str = buildString();
-  document.getElementById('mnn-output').innerHTML = colorize(str);
+  const str = syntaxVersion === 'v2' ? buildStringV2() : buildString();
+  const html = syntaxVersion === 'v2' ? colorizeV2(str) : colorize(str);
+  document.getElementById('mnn-output').innerHTML = html;
 }
 
 // ── Examples ──────────────────────────────────────────────────────────
@@ -1289,14 +1405,17 @@ function switchMobTab(tab, updateBtn = true) {
 function mobUpdate() {
   const mobOut = document.getElementById('mob-out-string');
   if (mobOut) {
-    const str = buildString();
-    mobOut.innerHTML = str ? colorize(str)
-      : '<span style="color:var(--gray);font-style:italic">Build your string…</span>';
+    const str = syntaxVersion === 'v2' ? buildStringV2() : buildString();
+    const html = syntaxVersion === 'v2' ? colorizeV2(str) : colorize(str);
+    mobOut.innerHTML = html || '<span style="color:var(--gray);font-style:italic">Build your string…</span>';
   }
 }
 
 const _origUpdate2 = window.update;
 window.update = function() { _origUpdate2(); mobUpdate(); };
+
+// Apply saved syntax preference on load
+setSyntax(syntaxVersion);
 
 window.addEventListener('resize', checkMobileLayout);
 checkMobileLayout();
