@@ -5,156 +5,166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://aiunites.com/notation-studio.html">
 <title>UMN Studio — Universal Movement Notation | AIUNITES</title>
-<meta name="description" content="Build MNN, FNN, VMN, VRN notation strings interactively. UMN: Universal Movement Notation — one studio for every kind of movement.">
+<meta name="description" content="Build MNN, FNN, VMN, and VRN notation strings interactively. UMN: Universal Movement Notation — one studio for every kind of movement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
 <style>
 :root {
   --bg:#080810; --bg2:#0f0f1a; --bg3:#16162a;
-  --border:rgba(99,102,241,.22);
+  --border:rgba(99,102,241,.2);
   --indigo:#6366f1; --indigo2:#818cf8;
   --gray:#6b7280; --text:#e2e8f0; --text2:#94a3b8;
-  --red:#ef4444; --yellow:#eab308;
-  /* Protocol accent — updated by JS */
-  --proto-color: #34d399;
-  --proto-rgb: 52,211,153;
+  --red:#ef4444;
+  --c-mnn:#34d399; --rgb-mnn:52,211,153;
+  --c-fnn:#f472b6; --rgb-fnn:244,114,182;
+  --c-vmn:#22d3ee; --rgb-vmn:34,211,238;
+  --c-vrn:#fb923c; --rgb-vrn:251,146,60;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
 
 /* Webring */
-.wb{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}
-.wb-c{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}
-.wb-c::-webkit-scrollbar{display:none}
-.wb-c a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}
-.wb-c a:hover{color:#fff}
-.wb-brand{color:#6366f1!important;font-weight:600}
-
-/* Page layout */
-.page{padding-top:33px;display:flex;flex-direction:column;height:100vh;}
+.wb{background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:7px 0;font-size:12px;flex-shrink:0;}
+.wb-c{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none;}
+.wb-c::-webkit-scrollbar{display:none;}
+.wb-c a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;}
+.wb-c a:hover{color:#fff;}
+.wb-brand{color:#6366f1!important;font-weight:600;}
 
 /* Top bar */
-.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:stretch;gap:0;flex-shrink:0;height:46px;}
-.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1rem;color:var(--indigo2);padding-right:20px;border-right:1px solid var(--border);white-space:nowrap;}
-.topbar-logo .sub{color:var(--gray);font-weight:400;font-size:.75rem;margin-left:6px;}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:stretch;flex-shrink:0;height:44px;gap:0;}
+.topbar-logo{display:flex;align-items:center;font-weight:800;font-size:.95rem;color:var(--indigo2);padding-right:16px;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+.topbar-logo .sub{color:var(--gray);font-weight:400;font-size:.72rem;margin-left:6px;}
 
-/* Protocol tabs */
-.proto-tabs{display:flex;align-items:stretch;padding:0 4px;}
-.proto-tab{display:flex;align-items:center;gap:7px;padding:0 20px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:.8rem;font-weight:600;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;letter-spacing:.2px;flex-shrink:0;}
-.proto-tab:hover{color:var(--text);}
-.proto-tab.active{color:var(--proto-color);border-bottom-color:var(--proto-color);}
-.proto-tab .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;opacity:.5;}
-.proto-tab.active .dot{opacity:1;}
-.proto-tab .pid{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;}
-.proto-tab .plabel{font-size:.72rem;font-weight:400;color:var(--gray);}
-.proto-tab.active .plabel{color:var(--proto-color);opacity:.8;}
+/* Add block buttons */
+.add-bar{display:flex;align-items:stretch;flex:1;padding:0 10px;gap:2px;}
+.add-btn{display:flex;align-items:center;gap:6px;padding:0 14px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:.78rem;font-weight:600;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;border-radius:0;}
+.add-btn:hover{background:rgba(255,255,255,.04);color:var(--text);}
+.add-btn .plus{font-size:.9rem;font-weight:700;opacity:.5;}
+.add-btn .proto{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;}
+.add-btn.mnn:hover,.add-btn.mnn.any{color:var(--c-mnn);}
+.add-btn.fnn:hover,.add-btn.fnn.any{color:var(--c-fnn);}
+.add-btn.vmn:hover,.add-btn.vmn.any{color:var(--c-vmn);}
+.add-btn.vrn:hover,.add-btn.vrn.any{color:var(--c-vrn);}
+.add-btn.soon{opacity:.4;cursor:default;}
 
-.topbar-links{display:flex;align-items:center;gap:4px;margin-left:auto;border-left:1px solid var(--border);padding-left:12px;}
-.topbar-links a{color:var(--text2);text-decoration:none;padding:5px 8px;border-radius:5px;font-size:.72rem;transition:all .15s;white-space:nowrap;}
+.topbar-links{display:flex;align-items:center;gap:4px;border-left:1px solid var(--border);padding-left:12px;flex-shrink:0;}
+.topbar-links a{color:var(--text2);text-decoration:none;padding:4px 8px;border-radius:5px;font-size:.72rem;transition:all .15s;}
 .topbar-links a:hover{background:var(--bg3);color:var(--text);}
 
-/* Builder shell */
-.shell{display:grid;grid-template-columns:280px 1fr 320px;flex:1;overflow:hidden;}
+/* Main layout */
+.studio{display:grid;grid-template-columns:1fr 300px;flex:1;overflow:hidden;}
 
-/* Panels */
-.panel{overflow-y:auto;border-right:1px solid var(--border);display:flex;flex-direction:column;}
-.panel:last-child{border-right:none;border-left:1px solid var(--border);}
-.panel-hdr{padding:12px 16px 9px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text2);border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:10;flex-shrink:0;display:flex;align-items:center;gap:8px;}
-.panel-hdr .proto-badge{font-size:.62rem;color:var(--proto-color);border:1px solid var(--proto-color);border-radius:8px;padding:1px 7px;font-weight:700;opacity:.8;}
+/* Left workspace */
+.workspace{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);}
 
-/* Section groups */
-.sg{padding:12px 14px;border-bottom:1px solid rgba(99,102,241,.07);}
-.sl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:var(--text2);}
-.sl .d{width:7px;height:7px;border-radius:50%;}
-
-/* Pattern buttons */
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-.pbtn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:.73rem;color:var(--text2);cursor:pointer;text-align:center;transition:all .15s;font-family:monospace;}
-.pbtn:hover{border-color:var(--proto-color);color:var(--proto-color);}
-.pbtn.active{background:rgba(var(--proto-rgb),.12);border-color:var(--proto-color);color:var(--proto-color);font-weight:600;}
-
-/* Muscle / symbol rows */
-.mgl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gray);padding:7px 0 3px;}
-.mrow{display:flex;align-items:center;gap:5px;padding:3px 0;}
-.mname{flex:1;font-size:.77rem;color:var(--text2);cursor:pointer;padding:3px 5px;border-radius:4px;transition:all .12s;font-family:monospace;}
-.mname:hover{background:var(--bg3);color:var(--text);}
-.mname.active{color:var(--proto-color);}
-.lvlbtns{display:flex;gap:2px;}
-.lvl{width:22px;height:22px;font-size:.63rem;font-weight:700;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
-.lvl:hover{border-color:var(--proto-color);color:var(--proto-color);}
-.lvl.active{background:rgba(var(--proto-rgb),.18);border-color:var(--proto-color);color:var(--proto-color);}
-
-/* Joint / param sliders */
-.jrow{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:11px 13px;margin-bottom:7px;}
-.jhdr{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
-.jsym{font-family:monospace;font-size:.77rem;color:var(--proto-color);font-weight:600;width:52px;}
-.jname{font-size:.71rem;color:var(--text2);flex:1;}
-.sides{display:flex;gap:2px;}
-.sbtn{padding:1px 6px;font-size:.64rem;font-weight:700;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--text2);cursor:pointer;transition:all .12s;}
-.sbtn.active{background:rgba(var(--proto-rgb),.15);border-color:var(--proto-color);color:var(--proto-color);}
-.arow{display:flex;align-items:center;gap:6px;margin-bottom:3px;padding-left:8px;}
-.aname{font-size:.67rem;color:var(--gray);width:36px;flex-shrink:0;}
-.aslider{flex:1;height:3px;-webkit-appearance:none;appearance:none;background:var(--bg3);border-radius:2px;outline:none;cursor:pointer;}
-.aslider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--proto-color);cursor:pointer;}
-.aval{font-family:monospace;font-size:.69rem;color:var(--proto-color);width:34px;text-align:right;flex-shrink:0;}
-
-/* Select / inputs */
-.si{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.76rem;padding:5px 8px;outline:none;margin-bottom:5px;font-family:inherit;}
-.si:focus{border-color:var(--proto-color);}
-.ti{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.76rem;font-family:monospace;padding:5px 9px;outline:none;margin-bottom:5px;transition:border-color .15s;}
-.ti:focus{border-color:var(--indigo);}
-
-/* Expression macro buttons */
-.macro-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;}
-.macro-btn{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:5px 7px;font-size:.7rem;color:var(--text2);cursor:pointer;text-align:center;transition:all .15s;font-family:monospace;}
-.macro-btn:hover{border-color:var(--proto-color);color:var(--proto-color);}
-.macro-btn.active{background:rgba(var(--proto-rgb),.15);border-color:var(--proto-color);color:var(--proto-color);font-weight:600;}
-
-/* Center */
-.center{display:flex;flex-direction:column;background:var(--bg);overflow:hidden;}
-.legend{padding:10px 18px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bg2);flex-shrink:0;}
-.ltag{font-size:.68rem;color:var(--text2);font-family:monospace;display:flex;align-items:center;gap:3px;}
-.ldot{width:6px;height:6px;border-radius:50%;}
-.outarea{flex:1;padding:20px 24px;overflow-y:auto;}
-.olabel{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:9px;display:flex;align-items:center;gap:8px;}
-.obox{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-family:'JetBrains Mono',monospace;font-size:.92rem;line-height:2;min-height:80px;word-break:break-all;transition:border-color .3s;}
-.obox.has-content{border-color:rgba(var(--proto-rgb),.35);}
-/* Syntax colors (dynamic via data-) */
-.t-move{color:#818cf8;}
-.t-act{color:var(--proto-color);}
-.t-nerve{color:#f472b6;}
+/* Scene string panel */
+.scene-string-panel{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 20px;flex-shrink:0;}
+.scene-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--gray);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.scene-label-text{display:flex;align-items:center;gap:8px;}
+.block-count{font-size:.6rem;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:8px;border:1px solid var(--border);}
+.scene-out{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;min-height:56px;word-break:break-all;transition:border-color .3s;cursor:text;user-select:all;}
+.scene-out.has-content{border-color:rgba(99,102,241,.4);}
+.scene-out .t-empty{color:var(--gray);font-style:italic;font-size:.78rem;}
+/* Token colors */
+.t-mnn{color:var(--c-mnn);}
+.t-fnn{color:var(--c-fnn);}
+.t-vmn{color:var(--c-vmn);}
+.t-vrn{color:var(--c-vrn);}
 .t-jnt{color:#fbbf24;}
+.t-mov{color:#818cf8;}
+.t-nerve{color:#f472b6;}
 .t-vec{color:#fb923c;}
-.t-comp{color:#f87171;}
-.t-vmn{color:#22d3ee;}
 .t-mode{color:#a78bfa;}
-.t-empty{color:var(--gray);font-style:italic;font-size:.82rem;}
+.t-prog{color:var(--c-vmn);}
+.scene-actions{display:flex;gap:6px;margin-top:10px;}
+.sact{padding:7px 14px;border-radius:6px;font-size:.76rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;border:none;}
+.sact.pri{background:var(--indigo);color:#fff;flex:1;}
+.sact.pri:hover{background:#4f46e5;}
+.sact.sec{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.sact.sec:hover{color:var(--text);border-color:var(--indigo);}
+.sact.del{background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.sact.del:hover{background:rgba(239,68,68,.1);}
+.sact.lsl-btn{color:var(--c-vmn);border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.06);display:none;}
+.sact.lsl-btn:hover{background:rgba(34,211,238,.12);}
+
+/* Blocks area */
+.blocks-area{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;color:var(--gray);padding:40px;}
+.empty-state .big{font-size:2rem;margin-bottom:12px;opacity:.3;}
+.empty-state p{font-size:.82rem;line-height:1.7;max-width:320px;}
+.empty-state p strong{color:var(--text2);}
+
+/* Notation block cards */
+.block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s;}
+.block:hover{border-color:rgba(99,102,241,.35);}
+.block-head{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);gap:8px;cursor:pointer;user-select:none;}
+.block-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.block-proto{font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:700;}
+.block-name{font-size:.78rem;color:var(--text2);flex:1;}
+.block-fragment{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--text2);background:var(--bg3);padding:2px 7px;border-radius:4px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0;}
+.block-toggle{color:var(--gray);font-size:.7rem;width:16px;text-align:center;flex-shrink:0;}
+.block-remove{color:var(--gray);font-size:.75rem;cursor:pointer;padding:2px 5px;border-radius:3px;transition:all .12s;border:none;background:transparent;font-family:inherit;flex-shrink:0;}
+.block-remove:hover{color:var(--red);background:rgba(239,68,68,.1);}
+.block-body{padding:12px 14px;}
+.block.collapsed .block-body{display:none;}
+.block.collapsed .block-toggle::before{content:'▶';}
+.block-toggle::before{content:'▼';}
+
+/* Type selector row inside a block */
+.type-row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px;padding-bottom:2px;}
+.type-row::-webkit-scrollbar{display:none;}
+.type-chip{flex-shrink:0;padding:4px 10px;border-radius:5px;border:1px solid var(--border);background:var(--bg3);font-size:.72rem;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .12s;font-family:monospace;}
+.type-chip:hover{border-color:currentColor;}
+.type-chip.active{font-weight:600;}
+
+/* Param grid — compact sliders and selects */
+.param-grid{display:flex;flex-direction:column;gap:5px;}
+.param-row{display:flex;align-items:center;gap:8px;}
+.param-label{font-size:.66rem;color:var(--gray);width:62px;flex-shrink:0;font-family:monospace;}
+.param-slider{flex:1;height:3px;-webkit-appearance:none;appearance:none;background:var(--bg3);border-radius:2px;outline:none;cursor:pointer;}
+.param-slider::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;border-radius:50%;cursor:pointer;}
+.param-val{font-family:monospace;font-size:.67rem;width:42px;text-align:right;flex-shrink:0;}
+.param-select{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:.72rem;padding:4px 6px;outline:none;font-family:inherit;}
+
+/* MNN-specific: pattern chips + muscle toggle rows */
+.section-divider{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--gray);margin:10px 0 5px;}
+.muscle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-height:160px;overflow-y:auto;}
+.muscle-chip{padding:3px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg3);font-size:.67rem;color:var(--text2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:3px;}
+.muscle-chip:hover{border-color:var(--c-mnn);color:var(--c-mnn);}
+.muscle-chip.active{background:rgba(52,211,153,.12);border-color:var(--c-mnn);color:var(--c-mnn);}
+.muscle-lvl{font-size:.6rem;opacity:.7;}
+.muscle-group{font-size:.6rem;font-weight:700;text-transform:uppercase;color:var(--gray);letter-spacing:.5px;margin:6px 0 2px;grid-column:1/-1;}
+
+/* FNN macros */
+.macro-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:8px;}
+.macro-chip{padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg3);font-size:.7rem;color:var(--text2);cursor:pointer;text-align:center;}
+.macro-chip:hover,.macro-chip.active{border-color:var(--c-fnn);color:var(--c-fnn);background:rgba(244,114,182,.1);}
+
+/* VRN resonator chips */
+.res-grid{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
+.res-chip{padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--bg3);font-size:.72rem;cursor:pointer;font-family:monospace;}
+.res-chip.active{font-weight:600;}
+
+/* Right panel: examples */
+.examples-panel{display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.examples-hdr{padding:12px 14px 9px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text2);border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
+.examples-list{flex:1;overflow-y:auto;}
+.ex-card{margin:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:border-color .15s;}
+.ex-card:hover{border-color:var(--indigo2);}
+.ex-title{font-size:.78rem;font-weight:600;margin-bottom:3px;}
+.ex-desc{font-size:.69rem;color:var(--text2);margin-bottom:6px;line-height:1.4;}
+.ex-tag{display:inline-flex;align-items:center;gap:3px;font-size:.62rem;padding:1px 6px;border-radius:6px;border:1px solid;font-family:monospace;margin-bottom:5px;}
+.ex-str{font-family:monospace;font-size:.67rem;color:var(--text2);background:var(--bg3);padding:5px 7px;border-radius:4px;line-height:1.7;word-break:break-all;}
 
 /* LSL panel */
-.lsl-panel{margin-top:16px;display:none;}
-.lsl-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.lsl-box{background:#050510;border:1px solid rgba(34,211,238,.2);border-radius:8px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#22d3ee;line-height:1.9;white-space:pre-wrap;word-break:break-all;}
-
-/* Copy row */
-.copyrow{display:flex;gap:7px;padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
-.cbtn{flex:1;padding:9px 14px;border-radius:7px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;border:none;font-family:inherit;}
-.cbtn.pri{background:var(--indigo);color:#fff;}
-.cbtn.pri:hover{background:#4f46e5;}
-.cbtn.sec{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
-.cbtn.sec:hover{color:var(--text);border-color:var(--indigo);}
-.cbtn.del{background:transparent;color:var(--red);border:1px solid rgba(239,68,68,.3);}
-.cbtn.del:hover{background:rgba(239,68,68,.1);}
-
-/* Examples */
-.ecard{margin:9px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:11px;cursor:pointer;transition:all .15s;}
-.ecard:hover{border-color:var(--proto-color);}
-.etitle{font-size:.79rem;font-weight:600;margin-bottom:3px;color:var(--text);}
-.edesc{font-size:.71rem;color:var(--text2);margin-bottom:7px;line-height:1.5;}
-.estr{font-family:monospace;font-size:.69rem;color:var(--text2);background:var(--bg3);padding:5px 8px;border-radius:5px;line-height:1.7;word-break:break-all;}
+.lsl-panel{background:var(--bg2);border-top:1px solid var(--border);padding:12px 16px;display:none;}
+.lsl-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--c-vmn);margin-bottom:6px;}
+.lsl-box{background:#040410;border:1px solid rgba(34,211,238,.2);border-radius:6px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#22d3ee;line-height:1.8;white-space:pre-wrap;max-height:140px;overflow-y:auto;}
 
 /* Toast */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--proto-color);color:#000;padding:7px 18px;border-radius:18px;font-size:.8rem;font-weight:700;transition:transform .25s;z-index:9999;pointer-events:none;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--indigo);color:#fff;padding:6px 16px;border-radius:16px;font-size:.78rem;font-weight:700;transition:transform .22s;z-index:9999;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 
 ::-webkit-scrollbar{width:4px;}
@@ -176,976 +186,860 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   <a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a>
 </div></div>
 
-<div class="page">
+<!-- Top bar -->
 <div class="topbar">
-  <div class="topbar-logo">◆ AIUNITES <span class="sub" style="display:none" id="logo-sub">UMN Studio</span></div>
+  <div class="topbar-logo">◆ AIUNITES <span class="sub">UMN Studio</span></div>
 
-  <div class="proto-tabs">
-    <button class="proto-tab active" id="ptab-MNN" onclick="switchProtocol('MNN')">
-      <span class="dot" style="background:#34d399"></span>
-      <span class="pid">MNN</span><span class="plabel">Body</span>
+  <div class="add-bar">
+    <button class="add-btn mnn" onclick="addBlock('MNN')" title="Add body movement notation">
+      <span class="plus">+</span><span class="proto" style="color:var(--c-mnn)">MNN</span> Body
     </button>
-    <button class="proto-tab" id="ptab-FNN" onclick="switchProtocol('FNN')">
-      <span class="dot" style="background:#f472b6"></span>
-      <span class="pid">FNN</span><span class="plabel">Face</span>
+    <button class="add-btn fnn" onclick="addBlock('FNN')" title="Add facial expression notation">
+      <span class="plus">+</span><span class="proto" style="color:var(--c-fnn)">FNN</span> Face
     </button>
-    <button class="proto-tab" id="ptab-VMN" onclick="switchProtocol('VMN')">
-      <span class="dot" style="background:#22d3ee"></span>
-      <span class="pid">VMN</span><span class="plabel">Vehicle</span>
+    <button class="add-btn vmn" onclick="addBlock('VMN')" title="Add vehicle motion notation">
+      <span class="plus">+</span><span class="proto" style="color:var(--c-vmn)">VMN</span> Vehicle
     </button>
-    <button class="proto-tab" id="ptab-VRN" onclick="switchProtocol('VRN')">
-      <span class="dot" style="background:#fb923c"></span>
-      <span class="pid">VRN</span><span class="plabel">Voice</span>
+    <button class="add-btn vrn" onclick="addBlock('VRN')" title="Add voice resonance notation">
+      <span class="plus">+</span><span class="proto" style="color:var(--c-vrn)">VRN</span> Voice
+    </button>
+    <button class="add-btn soon" title="Building notation — coming soon" style="cursor:default">
+      <span class="plus" style="opacity:.3">+</span><span class="proto" style="color:var(--gray)">BEN</span> Building
+    </button>
+    <button class="add-btn soon" title="Environment notation — coming soon" style="cursor:default">
+      <span class="plus" style="opacity:.3">+</span><span class="proto" style="color:var(--gray)">ENS</span> Environment
     </button>
   </div>
 
   <div class="topbar-links">
-    <a href="movement.html" title="UMN Hub">Hub</a>
-    <a href="hmn-spec.html" title="Specs">Specs</a>
+    <a href="movement.html">Hub</a>
+    <a href="hmn-spec.html">Specs</a>
+    <a href="https://aiunites.github.io/inthisworld-site/umm.html" target="_blank">VW Reference</a>
   </div>
 </div>
 
-<div class="shell">
+<!-- Studio -->
+<div class="studio">
 
-  <!-- LEFT: protocol input controls (rendered dynamically) -->
-  <div class="panel" id="left-panel">
-    <div class="panel-hdr">Build String <span class="proto-badge" id="proto-badge">MNN</span></div>
-    <div id="left-content"></div>
-  </div>
+  <!-- Left: workspace -->
+  <div class="workspace">
 
-  <!-- CENTER: output + joints/params -->
-  <div class="center">
-    <div class="legend" id="legend-bar"></div>
-
-    <div class="outarea">
-      <div class="olabel" id="out-label">Notation String</div>
-      <div class="obox" id="out-box"><span class="t-empty">Select symbols above to build a notation string…</span></div>
-
-      <!-- Secondary controls: joints for MNN, params for VMN, etc -->
-      <div id="secondary-controls"></div>
-
-      <!-- LSL output: VMN only -->
-      <div class="lsl-panel" id="lsl-panel">
-        <div class="lsl-hdr">
-          <div class="olabel" style="margin:0">LSL Translation <span style="color:#22d3ee;font-family:monospace;font-size:.7rem;margin-left:8px;">Second Life / OpenSim</span></div>
-          <button class="cbtn sec" style="flex:0;padding:4px 10px;font-size:.72rem" onclick="copyLSL()">⎘ Copy LSL</button>
-        </div>
-        <div class="lsl-box" id="lsl-box">// Select a vehicle type to see LSL translation</div>
+    <!-- Scene string -->
+    <div class="scene-string-panel">
+      <div class="scene-label">
+        <span class="scene-label-text">
+          Scene String
+          <span class="block-count" id="block-count">0 blocks</span>
+        </span>
+        <span style="font-size:.63rem;color:var(--gray)">click to select all</span>
+      </div>
+      <div class="scene-out" id="scene-out" onclick="selectSceneString()">
+        <span class="t-empty">Add a block above to begin composing…</span>
+      </div>
+      <div class="scene-actions">
+        <button class="sact pri" onclick="copyScene()" id="copy-scene-btn">⎘ Copy Scene String</button>
+        <button class="sact sec" onclick="copyJSON()">{ } JSON</button>
+        <button class="sact lsl-btn" id="lsl-toggle-btn" onclick="toggleLSL()">⌁ LSL</button>
+        <button class="sact del" onclick="clearAll()">✕ Clear</button>
       </div>
     </div>
 
-    <div class="copyrow">
-      <button class="cbtn pri" onclick="copyString()" id="copy-btn">⎘ Copy String</button>
-      <button class="cbtn sec" onclick="copyJSON()">{ } JSON</button>
-      <button class="cbtn del" onclick="clearAll()">✕ Clear</button>
+    <!-- LSL panel (VMN only, hidden by default) -->
+    <div class="lsl-panel" id="lsl-panel">
+      <div class="lsl-label">⌁ LSL Translation — Second Life / OpenSim</div>
+      <div class="lsl-box" id="lsl-box">// Add a VMN Vehicle block to see LSL</div>
+      <button class="sact sec" style="margin-top:8px;padding:5px 10px;font-size:.72rem" onclick="copyLSL()">⎘ Copy LSL</button>
     </div>
+
+    <!-- Blocks -->
+    <div class="blocks-area" id="blocks-area">
+      <div class="empty-state" id="empty-state">
+        <div class="big">◆</div>
+        <p>Use the <strong>+ buttons above</strong> to add notation blocks.<br>Each block generates a fragment. All fragments combine into a single scene string.</p>
+      </div>
+    </div>
+
   </div>
 
-  <!-- RIGHT: examples -->
-  <div class="panel" id="right-panel">
-    <div class="panel-hdr">Examples — click to load</div>
-    <div id="examples-content"></div>
+  <!-- Right: examples -->
+  <div class="examples-panel">
+    <div class="examples-hdr">Examples — click to load</div>
+    <div class="examples-list" id="examples-list"></div>
   </div>
 
-</div>
 </div>
 
 <div class="toast" id="toast">Copied!</div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════
-// PROTOCOL CONFIGS
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// DATA — Protocol configs
+// ═══════════════════════════════════════════════════════════
 
-// ── MNN — Muscular Neuro Notation ───────────────────────────────────
-const MNN = {
-  id:'MNN', label:'Body', color:'#34d399', rgb:'52,211,153',
-  subtitle:'Muscles · Joints · Movement',
-
-  muscles:[
-    {g:'Chest',    sym:'Pec.S',   name:'Pec Major (Sternal)',   nerve:'MedPec'},
-    {g:'Chest',    sym:'Pec.C',   name:'Pec Major (Clavicular)',nerve:'LatPec'},
-    {g:'Chest',    sym:'Pec.Min', name:'Pec Minor',             nerve:'MedPec'},
-    {g:'Chest',    sym:'Ser',     name:'Serratus Anterior',     nerve:'LTh'},
-    {g:'Shoulder', sym:'Dlt.A',   name:'Anterior Deltoid',      nerve:'Axil'},
-    {g:'Shoulder', sym:'Dlt.L',   name:'Lateral Deltoid',       nerve:'Axil'},
-    {g:'Shoulder', sym:'Dlt.P',   name:'Posterior Deltoid',     nerve:'Axil'},
-    {g:'Cuff',     sym:'Ssp',     name:'Supraspinatus',         nerve:'SupScap'},
-    {g:'Cuff',     sym:'Inf',     name:'Infraspinatus',         nerve:'SupScap'},
-    {g:'Cuff',     sym:'Sub',     name:'Subscapularis',         nerve:'Subscap'},
-    {g:'Arms',     sym:'Bic',     name:'Biceps Brachii',        nerve:'MusCut'},
-    {g:'Arms',     sym:'Tri',     name:'Triceps Brachii',       nerve:'Rad'},
-    {g:'Arms',     sym:'Brk',     name:'Brachialis',            nerve:'MusCut'},
-    {g:'Back',     sym:'Lat',     name:'Latissimus Dorsi',      nerve:'ThDors'},
-    {g:'Back',     sym:'Trp.U',   name:'Upper Trapezius',       nerve:'CNXI'},
-    {g:'Back',     sym:'Trp.L',   name:'Lower Trapezius',       nerve:'CNXI'},
-    {g:'Back',     sym:'Rhm',     name:'Rhomboids',             nerve:'DorsScap'},
-    {g:'Back',     sym:'Ers',     name:'Erector Spinae',        nerve:'DorsRami'},
-    {g:'Core',     sym:'RA.U',    name:'Rectus Ab (Upper)',      nerve:'Intercost'},
-    {g:'Core',     sym:'RA.L',    name:'Rectus Ab (Lower)',      nerve:'Intercost'},
-    {g:'Core',     sym:'Obl.E',   name:'External Oblique',      nerve:'Intercost'},
-    {g:'Core',     sym:'TrA',     name:'Transversus Abdominis', nerve:'Intercost'},
-    {g:'Core',     sym:'Dia',     name:'Diaphragm',             nerve:'Phr'},
-    {g:'Glutes',   sym:'Glu.Mx',  name:'Gluteus Maximus',       nerve:'InfGlu'},
-    {g:'Glutes',   sym:'Glu.Md',  name:'Gluteus Medius',        nerve:'SupGlu'},
-    {g:'Quads',    sym:'Quad.RF', name:'Rectus Femoris',        nerve:'Fem'},
-    {g:'Quads',    sym:'Quad.VL', name:'Vastus Lateralis',      nerve:'Fem'},
-    {g:'Quads',    sym:'Quad.VM', name:'Vastus Medialis (VMO)', nerve:'Fem'},
-    {g:'Hams',     sym:'Ham.BF',  name:'Biceps Femoris',        nerve:'Sci.T'},
-    {g:'Hams',     sym:'Ham.SM',  name:'Semimembranosus',       nerve:'Sci.T'},
-    {g:'Legs',     sym:'Gas',     name:'Gastrocnemius',         nerve:'Tib'},
-    {g:'Legs',     sym:'Sol',     name:'Soleus',                nerve:'Tib'},
-    {g:'Hip',      sym:'HpFl',    name:'Hip Flexors',           nerve:'Fem'},
-    {g:'Hip',      sym:'Pir',     name:'Piriformis',            nerve:'Sci.T'},
-  ],
-
-  joints:[
-    {sym:'Sh',  name:'Shoulder', paired:true,  axes:[{a:'Flex',min:-45,max:180,def:0},{a:'Abd',min:0,max:180,def:0},{a:'IR',min:0,max:90,def:0},{a:'ER',min:0,max:90,def:0}]},
-    {sym:'El',  name:'Elbow',   paired:true,  axes:[{a:'Flex',min:0,max:145,def:0}]},
-    {sym:'Wr',  name:'Wrist',   paired:true,  axes:[{a:'Flex',min:-70,max:80,def:0},{a:'Rad',min:0,max:20,def:0}]},
-    {sym:'Sp.L',name:'Lumbar',  paired:false, axes:[{a:'Flex',min:-30,max:80,def:0},{a:'Lat',min:-35,max:35,def:0},{a:'Rot',min:-25,max:25,def:0}]},
-    {sym:'Sp.C',name:'Cervical',paired:false, axes:[{a:'Flex',min:-60,max:80,def:0},{a:'Rot',min:-80,max:80,def:0}]},
-    {sym:'Hip', name:'Hip',     paired:true,  axes:[{a:'Flex',min:-30,max:125,def:0},{a:'Abd',min:0,max:45,def:0},{a:'IR',min:0,max:45,def:0}]},
-    {sym:'Kn',  name:'Knee',    paired:true,  axes:[{a:'Flex',min:0,max:140,def:0}]},
-    {sym:'Ank', name:'Ankle',   paired:true,  axes:[{a:'Dors',min:0,max:20,def:0},{a:'Plan',min:0,max:50,def:0}]},
-  ],
-
-  patterns:['Push.H','Push.V','Pull.H','Pull.V','Squat','Hinge','Lunge','Iso','Rotate','Carry'],
-  vwPatterns:['Idle','Walk','Run','Fly','Sit','Sit.Floor','Swim','Dance','Wave','Bow','Crouch','Reach'],
-
-  initState() {
-    const st = {pattern:null,muscles:{},joints:{},sides:{},nerve:'',comp:['',''],nerveStatus:''};
-    this.joints.forEach(j => {
-      st.joints[j.sym] = {}; st.sides[j.sym] = j.paired ? 'L' : '';
-      j.axes.forEach(a => { st.joints[j.sym][a.a] = a.def; });
-    });
-    return st;
-  },
-
-  buildString(st) {
-    const p = [];
-    if (st.nerveStatus) p.push(`@NERV(${st.nerveStatus})`);
-    if (st.pattern) p.push(`@MOV(${st.pattern})`);
-    const am = Object.entries(st.muscles).filter(([,v])=>v>0);
-    if (am.length) p.push(`@ACT(${am.map(([s,l])=>s+':'+l).join(', ')})`);
-    const nOvr = st.nerve;
-    if (nOvr) { p.push(`>> ${nOvr}`); }
-    else if (am.length) {
-      const nerves = [...new Set(am.map(([s])=>{const m=this.muscles.find(x=>x.sym===s);return m?m.nerve:null;}).filter(Boolean))];
-      if (nerves.length) p.push(`>> ${nerves.join('/')}`);
-    }
-    const jpts = [];
-    this.joints.forEach(j => {
-      const axs = j.axes.filter(a=>st.joints[j.sym][a.a]!==0);
-      if (!axs.length) return;
-      const side = j.paired?(st.sides[j.sym]||'L')+'.':'';
-      jpts.push(`${side}${j.sym}:${axs.map(a=>a.a+'='+st.joints[j.sym][a.a]).join(',')}`);
-    });
-    if (jpts.length) p.push(`@JNT(${jpts.join(' ')})`);
-    const {vecH,vecA,vecS} = st;
-    if (vecH||vecS) { const vp=[]; if(vecH)vp.push('Ht='+vecH); vp.push('Ang='+(vecA||0)+'°'); if(vecS)vp.push('Src='+vecS); p.push(`@VEC(${vp.join(',')})`); }
-    if (st.comp[0]&&st.comp[1]) p.push(`@COMP(${st.comp[0]}/${st.comp[1]})`);
-    return p.join(' ');
-  },
-
-  colorize(str) {
-    if (!str) return '<span class="t-empty">Select muscles and joints to build a notation string…</span>';
-    return str
-      .replace(/(@MOV\([^)]+\))/g,'<span class="t-move">$1</span>')
-      .replace(/(@ACT\([^)]+\))/g,'<span class="t-act">$1</span>')
-      .replace(/(>> [\w/]+)/g,'<span class="t-nerve">$1</span>')
-      .replace(/(@JNT\([^)]+\))/g,'<span class="t-jnt">$1</span>')
-      .replace(/(@VEC\([^)]+\))/g,'<span class="t-vec">$1</span>')
-      .replace(/(@COMP\([^)]+\))/g,'<span class="t-comp">$1</span>')
-      .replace(/(@NERV\([^)]+\))/g,'<span class="t-nerve">$1</span>');
-  },
-
-  legend:'<span class="ltag"><span class="ldot" style="background:#818cf8"></span><span style="color:#818cf8">@MOV()</span></span><span class="ltag"><span class="ldot" style="background:#34d399"></span><span style="color:#34d399">@ACT()</span></span><span class="ltag"><span class="ldot" style="background:#f472b6"></span><span style="color:#f472b6">&gt;&gt; Nerve</span></span><span class="ltag"><span class="ldot" style="background:#fbbf24"></span><span style="color:#fbbf24">@JNT()</span></span><span class="ltag"><span class="ldot" style="background:#fb923c"></span><span style="color:#fb923c">@VEC()</span></span>',
-
-  toJSON(st) {
-    const am = Object.entries(st.muscles).filter(([,v])=>v>0);
-    return JSON.stringify({protocol:'MNN',version:'2.0',movement:st.pattern,activation:am.map(([s,l])=>({sym:s,lvl:l})),joints:st.joints,vec:{Ht:st.vecH,Ang:st.vecA,Src:st.vecS}},null,2);
-  },
-
-  examples:[
-    {title:'Cable Chest Fly (L)',desc:'Horizontal pull, sternal pec prime mover, IR 25°.',
-     str:'@MOV(Pull.H) @ACT(Pec.S:3, Dlt.A:1) >> MedPec/Axil\n@JNT(L.Sh:IR=25,Flex=90) @VEC(Ht=Mid,Ang=0°,Src=Cable)',
-     load(st,cfg){st.pattern='Pull.H';st.muscles={'Pec.S':3,'Dlt.A':1};st.joints.Sh={Flex:90,Abd:0,IR:25,ER:0};st.sides.Sh='L';st.vecH='Mid';st.vecA=0;st.vecS='Cable';}},
-    {title:'Overhead Press',desc:'Bilateral vertical push, front delt + clavicular pec.',
-     str:'@MOV(Push.V) @ACT(Pec.C:3, Dlt.A:3, Tri:2) >> LatPec/Axil/Rad\n@JNT(Bi.Sh:Flex=180,Abd=30) @VEC(Ht=Over,Ang=0°,Src=Gravity)',
-     load(st,cfg){st.pattern='Push.V';st.muscles={'Pec.C':3,'Dlt.A':3,'Tri':2};st.joints.Sh={Flex:180,Abd:30,IR:0,ER:0};st.sides.Sh='Bi';st.vecH='Over';st.vecA=0;st.vecS='Gravity';}},
-    {title:'Barbell Squat',desc:'Bilateral hinge-squat, glutes + quads prime movers.',
-     str:'@MOV(Squat) @ACT(Glu.Mx:3, Quad.RF:3, Quad.VL:2) >> InfGlu/Fem\n@JNT(Bi.Hip:Flex=90 Bi.Kn:Flex=90) @VEC(Ht=Over,Src=Gravity)',
-     load(st,cfg){st.pattern='Squat';st.muscles={'Glu.Mx':3,'Quad.RF':3,'Quad.VL':2};st.joints.Hip={Flex:90,Abd:0,IR:0};st.joints.Kn={Flex:90};st.sides.Hip='Bi';st.sides.Kn='Bi';st.vecH='Over';st.vecS='Gravity';}},
-    {title:'Lat Pulldown',desc:'Vertical pull, lat dominant, bicep assist.',
-     str:'@MOV(Pull.V) @ACT(Lat:3, Trp.L:2, Bic:1) >> ThDors/CNXI\n@JNT(Bi.Sh:Flex=160,Abd=60) @VEC(Ht=Over,Src=Cable)',
-     load(st,cfg){st.pattern='Pull.V';st.muscles={'Lat':3,'Trp.L':2,'Bic':1};st.joints.Sh={Flex:160,Abd:60,IR:0,ER:0};st.sides.Sh='Bi';st.vecH='Over';st.vecS='Cable';}},
-    {title:'Plank (Core Bracing)',desc:'Anti-extension isometric. TrA + obliques.',
-     str:'@MOV(Iso) @ACT(TrA:3, Obl.E:2, Ers:2) >> Intercost/DorsRami',
-     load(st,cfg){st.pattern='Iso';st.muscles={'TrA':3,'Obl.E':2,'Ers':2};}},
-    {title:'Avatar Idle Stance',desc:'Neutral standing. Core lightly engaged, postural muscles active.',
-     str:'@MOV(Idle) @ACT(TrA:1, Ers:1) >> Intercost/DorsRami',
-     load(st,cfg){st.pattern='Idle';st.muscles={'TrA':1,'Ers':1};}},
-    {title:'Avatar Walking',desc:'Natural forward gait. Glutes + quads alternating, calf push-off.',
-     str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2, Gas:1) >> InfGlu/Fem/Tib',
-     load(st,cfg){st.pattern='Walk';st.muscles={'Glu.Mx':2,'Quad.RF':2,'Gas':1};}},
-    {title:'Greeting Wave',desc:'Right arm raised, waving. Anterior + lateral delt, tricep stabilizing.',
-     str:'@MOV(Wave) @ACT(Dlt.A:2, Dlt.L:1, Tri:1) >> Axil/Rad\n@JNT(R.Sh:Flex=100,Abd=60)',
-     load(st,cfg){st.pattern='Wave';st.muscles={'Dlt.A':2,'Dlt.L':1,'Tri':1};st.joints.Sh={Flex:100,Abd:60,IR:0,ER:0};st.sides.Sh='R';}},
-    {title:'Avatar + Expression',desc:'Walking with open smile. Compound MNN + FNN scene string.',
-     str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2) >> InfGlu/Fem\n@FNN(Zyg.Mj:2, Orb.Oc.O:1) >> CNVII/Zyg',
-     load(st,cfg){st.pattern='Walk';st.muscles={'Glu.Mx':2,'Quad.RF':2};}},
-  ]
-};
-
-// ── FNN — Facial Neuro Notation ─────────────────────────────────────
-const FNN = {
-  id:'FNN', label:'Face', color:'#f472b6', rgb:'244,114,182',
-  subtitle:'Facial Muscles · Expressions · CN VII',
-
-  macros:[
-    {id:'Smile.D', label:'Smile ✓', fnn:'Zyg.Mj:3,Orb.Oc.O:2', nerve:'CNVII/Zyg', desc:'Duchenne (genuine)'},
-    {id:'Smile.S', label:'Smile ○', fnn:'Zyg.Mj:3,Orb.Oc.O:0', nerve:'CNVII/Zyg', desc:'Social (posed)'},
-    {id:'Frown',   label:'Frown',   fnn:'Dep.Ang:3,Corr:2,Dep.Lab:1', nerve:'CNVII/Mand', desc:'Sadness'},
-    {id:'Angry',   label:'Angry',   fnn:'Corr:3,Proc:2,Dep.Ang:2', nerve:'CNVII/Temp', desc:'Anger brow'},
-    {id:'Surprise',label:'Surprise',fnn:'Front:3,Orb.Oc.O:3,Lat.Pter:2', nerve:'CNVII/Temp+CNV3', desc:'Wide eyes + jaw'},
-    {id:'Fear',    label:'Fear',    fnn:'Front:2,Corr:2,Orb.Or.S:3,Plat:2', nerve:'CNVII', desc:'Fear brow'},
-    {id:'Disgust', label:'Disgust', fnn:'Nas.A:3,Lev.Lab.Alq:2,Dep.Ang:2', nerve:'CNVII', desc:'Nose wrinkle'},
-    {id:'Contempt',label:'Contempt',fnn:'R:Zyg.Mj:2,R:Ris:2', nerve:'CNVII/Zyg+Buc', desc:'Unilateral smirk'},
-    {id:'Pain',    label:'Pain',    fnn:'Corr:3,Orb.Oc.O:3,Nas.A:2,Dep.Lab:2,Plat:2', nerve:'CNVII', desc:'PSPI pain'},
-    {id:'Laugh',   label:'Laugh',   fnn:'Zyg.Mj:4,Orb.Oc.O:3,Dep.Lab:2', nerve:'CNVII', desc:'Full laughter'},
-  ],
-
-  muscles:[
-    {g:'Forehead', sym:'Front',      name:'Frontalis',          nerve:'CNVII/Temp'},
-    {g:'Forehead', sym:'Corr',       name:'Corrugator',         nerve:'CNVII/Temp'},
-    {g:'Forehead', sym:'Proc',       name:'Procerus',           nerve:'CNVII/Temp'},
-    {g:'Forehead', sym:'Dep.Sup',    name:'Depressor Supercilii',nerve:'CNVII/Temp'},
-    {g:'Eyes',     sym:'Orb.Oc',     name:'Orbicularis Oculi',  nerve:'CNVII/Zyg'},
-    {g:'Eyes',     sym:'Orb.Oc.O',   name:'Orb. Oculi (orbital)',nerve:'CNVII/Zyg'},
-    {g:'Eyes',     sym:'Orb.Oc.P',   name:'Orb. Oculi (palpeb)',nerve:'CNVII/Zyg'},
-    {g:'Mid-face', sym:'Nas',        name:'Nasalis',            nerve:'CNVII/Buc'},
-    {g:'Mid-face', sym:'Nas.A',      name:'Nasalis (alar)',     nerve:'CNVII/Buc'},
-    {g:'Mid-face', sym:'Zyg.Mj',     name:'Zygomaticus Major',  nerve:'CNVII/Zyg'},
-    {g:'Mid-face', sym:'Zyg.Mi',     name:'Zygomaticus Minor',  nerve:'CNVII/Zyg'},
-    {g:'Mid-face', sym:'Lev.Lab',    name:'Levator Labii Sup',  nerve:'CNVII/Zyg'},
-    {g:'Mid-face', sym:'Lev.Lab.Alq',name:'Levator Labii + Alae',nerve:'CNVII/Zyg'},
-    {g:'Mid-face', sym:'Lev.Ang',    name:'Levator Anguli Oris', nerve:'CNVII/Buc'},
-    {g:'Mid-face', sym:'Buc',        name:'Buccinator',         nerve:'CNVII/Buc'},
-    {g:'Mouth',    sym:'Orb.Or',     name:'Orbicularis Oris',   nerve:'CNVII/Buc'},
-    {g:'Mouth',    sym:'Orb.Or.S',   name:'Orb. Oris (superfic)',nerve:'CNVII/Buc'},
-    {g:'Mouth',    sym:'Dep.Ang',    name:'Depressor Anguli',   nerve:'CNVII/Mand'},
-    {g:'Mouth',    sym:'Dep.Lab',    name:'Depressor Labii',    nerve:'CNVII/Mand'},
-    {g:'Mouth',    sym:'Ment',       name:'Mentalis',           nerve:'CNVII/Mand'},
-    {g:'Mouth',    sym:'Ris',        name:'Risorius',           nerve:'CNVII/Buc'},
-    {g:'Jaw',      sym:'Mass',       name:'Masseter',           nerve:'CNV3'},
-    {g:'Jaw',      sym:'Temp',       name:'Temporalis',         nerve:'CNV3'},
-    {g:'Jaw',      sym:'Lat.Pter',   name:'Lateral Pterygoid',  nerve:'CNV3'},
-    {g:'Jaw',      sym:'Plat',       name:'Platysma',           nerve:'CNVII/Cerv'},
-  ],
-
-  initState() {
-    return {muscles:{},macro:null,side:'Bi'};
-  },
-
-  buildString(st) {
-    const p = [];
-    const am = Object.entries(st.muscles).filter(([,v])=>v>0);
-    if (!am.length && !st.macro) return '';
-
-    if (st.macro) {
-      // Named macro with full fnn
-      const m = this.macros.find(x=>x.id===st.macro);
-      if (m) {
-        p.push(`@EXPR(${st.macro})`);
-        p.push(`@FNN(${m.fnn})`);
-        p.push(`>> ${m.nerve}`);
-      }
-    }
-
-    // Individual muscles
-    const indiv = am.filter(([s])=>!st.macro || !this.macros.find(x=>x.id===st.macro)?.fnn.includes(s));
-    if (indiv.length) {
-      const sidePrefix = st.side && st.side !== 'Bi' ? st.side+':' : '';
-      p.push(`@FNN(${indiv.map(([s,l])=>`${sidePrefix}${s}:${l}`).join(', ')})`);
-      const nerves = [...new Set(indiv.map(([s])=>{const m=this.muscles.find(x=>x.sym===s);return m?m.nerve:null;}).filter(Boolean))];
-      if (nerves.length&&!st.macro) p.push(`>> ${nerves.join('/')}`);
-    }
-    return p.join(' ');
-  },
-
-  colorize(str) {
-    if (!str) return '<span class="t-empty">Select facial muscles or an expression macro…</span>';
-    return str
-      .replace(/(@EXPR\([^)]+\))/g,'<span class="t-move">$1</span>')
-      .replace(/(@FNN\([^)]+\))/g,'<span class="t-act">$1</span>')
-      .replace(/(>> [\w/+]+)/g,'<span class="t-nerve">$1</span>');
-  },
-
-  legend:'<span class="ltag"><span class="ldot" style="background:#818cf8"></span><span style="color:#818cf8">@EXPR()</span></span><span class="ltag"><span class="ldot" style="background:#f472b6"></span><span style="color:#f472b6">@FNN()</span></span><span class="ltag"><span class="ldot" style="background:#ec4899"></span><span style="color:#ec4899">&gt;&gt; CNerve</span></span>',
-
-  toJSON(st) {
-    return JSON.stringify({protocol:'FNN',version:'1.0',macro:st.macro,activation:Object.entries(st.muscles).filter(([,v])=>v>0).map(([s,l])=>({sym:s,lvl:l})),side:st.side},null,2);
-  },
-
-  examples:[
-    {title:'Duchenne Smile', desc:'Genuine smile — orbicularis oculi engagement (AU6+AU12).', str:'@EXPR(Smile.D) @FNN(Zyg.Mj:3, Orb.Oc.O:2) >> CNVII/Zyg'},
-    {title:'Contempt (R)',   desc:'Unilateral right-sided smirk. Risorius + Zyg.Mj right only.', str:'@EXPR(Contempt) @FNN(R:Zyg.Mj:2, R:Ris:2) >> CNVII/Zyg+Buc'},
-    {title:'Disgust',        desc:'Nose wrinkle + lip raise + depressor. CN VII buccal dominant.', str:'@FNN(Nas.A:3, Lev.Lab.Alq:2, Dep.Ang:2) >> CNVII/Buc+Mand'},
-    {title:'Bell\'s Palsy (R)', desc:'Right-side complete. All CN VII branches paralyzed, left intact.', str:'@CLIN(Pars0:R.CNVII/Temp) @CLIN(Pars0:R.CNVII/Zyg)\n@FNN(L:Zyg.Mj:3, R:Zyg.Mj:0)\n@FNN(L:Front:3, R:Front:0)'},
-    {title:'Kiss Pucker',    desc:'Lip protraction. Orbicularis oris superficial layer.', str:'@FNN(Orb.Or.S:3) >> CNVII/Buc'},
-    {title:'Pain Expression',desc:'PSPI-validated pain face: brow lowerer + eye closure + platysma.', str:'@EXPR(Pain) @FNN(Corr:3, Orb.Oc.O:3, Nas.A:2, Dep.Lab:2, Plat:2) >> CNVII'},
-  ]
-};
-
-// ── VMN — Vehicle Motion Notation ───────────────────────────────────
-const VMN_CLASSES = [
-  {id:'Air',     label:'✈ Air',       lsl:'VEHICLE_TYPE_AIRPLANE', desc:'Fixed-wing aircraft'},
-  {id:'Heli',    label:'🚁 Heli',      lsl:'VEHICLE_TYPE_AIRPLANE', desc:'Helicopter / rotorcraft'},
-  {id:'Sea',     label:'⛵ Sea',       lsl:'VEHICLE_TYPE_BOAT',     desc:'Surface vessel'},
-  {id:'Sub',     label:'🤿 Sub',       lsl:'VEHICLE_TYPE_BOAT',     desc:'Submarine'},
-  {id:'Car',     label:'🚗 Car',       lsl:'VEHICLE_TYPE_CAR',      desc:'Ground vehicle'},
-  {id:'Space',   label:'🚀 Space',     lsl:'VEHICLE_TYPE_SLED',     desc:'Spacecraft'},
-  {id:'Balloon', label:'🎈 Balloon',   lsl:'VEHICLE_TYPE_AIRPLANE', desc:'Lighter-than-air'},
-  {id:'Drone',   label:'🛸 Drone',     lsl:'VEHICLE_TYPE_AIRPLANE', desc:'UAV / quadcopter'},
-  {id:'Air+Sea', label:'✈⛵ Seaplane',  lsl:'MULTI',                 desc:'Air ⇔ Sea morphing'},
-  {id:'Car+Sea', label:'🚗⛵ Amphib',  lsl:'MULTI',                 desc:'Car ⇔ Sea morphing'},
-  {id:'Space+Air',label:'🚀✈ Spaceplane',lsl:'MULTI',              desc:'Space → Air re-entry'},
-  {id:'Sub+Sea', label:'🤿⛵ Surfsub',  lsl:'MULTI',                 desc:'Sub ⇔ Sea surface'},
+const MNN_MUSCLES = [
+  {g:'Chest',   sym:'Pec.S',  nerve:'MedPec'}, {g:'Chest',   sym:'Pec.C',  nerve:'LatPec'},
+  {g:'Chest',   sym:'Pec.Min',nerve:'MedPec'}, {g:'Chest',   sym:'Ser',    nerve:'LTh'},
+  {g:'Shoulder',sym:'Dlt.A',  nerve:'Axil'},   {g:'Shoulder',sym:'Dlt.L',  nerve:'Axil'},
+  {g:'Shoulder',sym:'Dlt.P',  nerve:'Axil'},   {g:'Cuff',    sym:'Ssp',    nerve:'SupScap'},
+  {g:'Cuff',    sym:'Inf',    nerve:'SupScap'},{g:'Cuff',    sym:'Sub',    nerve:'Subscap'},
+  {g:'Arms',    sym:'Bic',    nerve:'MusCut'}, {g:'Arms',    sym:'Tri',    nerve:'Rad'},
+  {g:'Arms',    sym:'Brk',    nerve:'MusCut'}, {g:'Back',    sym:'Lat',    nerve:'ThDors'},
+  {g:'Back',    sym:'Trp.U',  nerve:'CNXI'},   {g:'Back',    sym:'Trp.L',  nerve:'CNXI'},
+  {g:'Back',    sym:'Rhm',    nerve:'DorsScap'},{g:'Back',   sym:'Ers',    nerve:'DorsRami'},
+  {g:'Core',    sym:'RA.U',   nerve:'Intercost'},{g:'Core',  sym:'Obl.E',  nerve:'Intercost'},
+  {g:'Core',    sym:'TrA',    nerve:'Intercost'},{g:'Core',  sym:'Dia',    nerve:'Phr'},
+  {g:'Glutes',  sym:'Glu.Mx', nerve:'InfGlu'}, {g:'Glutes', sym:'Glu.Md', nerve:'SupGlu'},
+  {g:'Quads',   sym:'Quad.RF',nerve:'Fem'},    {g:'Quads',  sym:'Quad.VL',nerve:'Fem'},
+  {g:'Hams',    sym:'Ham.BF', nerve:'Sci.T'},  {g:'Legs',   sym:'Gas',    nerve:'Tib'},
+  {g:'Legs',    sym:'Sol',    nerve:'Tib'},    {g:'Hip',    sym:'HpFl',   nerve:'Fem'},
+  {g:'Hip',     sym:'Pir',    nerve:'Sci.T'},
 ];
 
-const VMN = {
-  id:'VMN', label:'Vehicle', color:'#22d3ee', rgb:'34,211,238',
-  subtitle:'Vehicles · Morphing · Physics · LSL Bridge',
-  classes: VMN_CLASSES,
+const MNN_JOINTS = [
+  {sym:'Sh',name:'Shoulder',paired:true, axes:[{a:'Flex',min:-45,max:180,def:0},{a:'Abd',min:0,max:180,def:0},{a:'IR',min:0,max:90,def:0}]},
+  {sym:'El',name:'Elbow',  paired:true, axes:[{a:'Flex',min:0,max:145,def:0}]},
+  {sym:'Sp.L',name:'Lumbar',paired:false,axes:[{a:'Flex',min:-30,max:80,def:0},{a:'Lat',min:-35,max:35,def:0},{a:'Rot',min:-25,max:25,def:0}]},
+  {sym:'Sp.C',name:'Cervical',paired:false,axes:[{a:'Flex',min:-60,max:80,def:0},{a:'Rot',min:-80,max:80,def:0}]},
+  {sym:'Hip',name:'Hip',   paired:true, axes:[{a:'Flex',min:-30,max:125,def:0},{a:'Abd',min:0,max:45,def:0}]},
+  {sym:'Kn', name:'Knee',  paired:true, axes:[{a:'Flex',min:0,max:140,def:0}]},
+];
 
-  initState() {
-    return {cls:null,pit:0,rol:0,yaw:0,fwd:0,vert:0,alt:0,throt:0,mode:'',progress:0.5};
-  },
+const MNN_PATTERNS = [
+  {id:'Exercise', items:['Push.H','Push.V','Pull.H','Pull.V','Squat','Hinge','Lunge','Iso','Rotate','Carry']},
+  {id:'Avatar',   items:['Idle','Walk','Run','Fly','Sit','Sit.Floor','Swim','Dance','Wave','Bow','Crouch','Float']},
+];
 
-  buildString(st) {
-    if (!st.cls) return '';
-    const isMulti = st.cls.includes('+');
-    const p = [];
-    if (isMulti) {
-      p.push(`@VMN(Multi:${st.cls})`);
-      const parts = st.cls.split('+');
-      const pct = Math.round((st.progress||0.5)*100);
-      p.push(`@PROGRESS(${(st.progress||0.5).toFixed(2)})`);
-      if (pct < 50) p.push(`@MODE(Transition:${parts[0]}To${parts[1]})`);
-      else p.push(`@MODE(Transition:${parts[0]}To${parts[1]})`);
-    } else {
-      p.push(`@VMN(${st.cls})`);
-    }
-    if (st.pit||st.rol||st.yaw) p.push(`@ATT(Pit=${st.pit},Rol=${st.rol},Yaw=${st.yaw})`);
-    if (st.fwd||st.vert) p.push(`@VEL(Fwd=${st.fwd}${st.vert?',Vert='+st.vert:''})`);
-    if (st.alt) p.push(`@ALT(m=${st.alt})`);
-    if (st.throt) p.push(`@CTRL(Throt=${st.throt})`);
-    if (!isMulti && st.mode) p.push(`@MODE(${st.mode})`);
-    return p.join(' ');
-  },
+const FNN_MACROS = [
+  {id:'Smile.D',label:'Smile ✓',fnn:'Zyg.Mj:3,Orb.Oc.O:2',nerve:'CNVII/Zyg'},
+  {id:'Smile.S',label:'Smile ○',fnn:'Zyg.Mj:3',nerve:'CNVII/Zyg'},
+  {id:'Frown',  label:'Frown',  fnn:'Dep.Ang:3,Corr:2',nerve:'CNVII/Mand'},
+  {id:'Angry',  label:'Angry',  fnn:'Corr:3,Proc:2',nerve:'CNVII/Temp'},
+  {id:'Surprise',label:'Surprise',fnn:'Front:3,Orb.Oc.O:3',nerve:'CNVII/Temp'},
+  {id:'Disgust',label:'Disgust',fnn:'Nas.A:3,Dep.Ang:2',nerve:'CNVII/Buc'},
+  {id:'Contempt',label:'Contempt',fnn:'R:Zyg.Mj:2,R:Ris:2',nerve:'CNVII'},
+  {id:'Pain',   label:'Pain',   fnn:'Corr:3,Orb.Oc.O:3,Plat:2',nerve:'CNVII'},
+  {id:'Laugh',  label:'Laugh',  fnn:'Zyg.Mj:4,Orb.Oc.O:3',nerve:'CNVII'},
+  {id:'Neutral',label:'Neutral',fnn:'',nerve:''},
+];
 
-  toLSL(st) {
-    if (!st.cls) return '// Select a vehicle type above';
-    const isMulti = st.cls.includes('+');
-    if (isMulti) {
-      const parts = st.cls.split('+');
-      const pr = (st.progress||0.5).toFixed(2);
-      const destVC = VMN_CLASSES.find(c=>c.id===parts[1]);
-      return [
-        `// @VMN(Multi:${st.cls}) @PROGRESS(${pr}) -- UMN Studio morphing vehicle`,
-        `// Interpolating ${parts[0]} -> ${parts[1]} physics at ${Math.round(pr*100)}%`,
-        `float p = ${pr};`,
-        `llSetVehicleFloatParam(VEHICLE_LINEAR_DEFLECTION_EFFICIENCY, 0.5*(1.0-p));`,
-        `llSetVehicleFloatParam(VEHICLE_ANGULAR_DEFLECTION_EFFICIENCY, 0.5*(1.0-p));`,
-        `llSetVehicleFloatParam(VEHICLE_BUOYANCY, p * 1.0);`,
-        `llSetVehicleFloatParam(VEHICLE_LINEAR_FRICTION_TIMESCALE, 4.0 + (6.0*p));`,
-        `// Commit to destination mode when p >= 0.95:`,
-        `if (p >= 0.95) llSetVehicleType(${destVC?.lsl||'VEHICLE_TYPE_BOAT'});`,
-      ].join('\n');
-    }
-    const vc = VMN_CLASSES.find(c=>c.id===st.cls);
-    const lines = [
-      `// VMN: @VMN(${st.cls}) -- AIUNITES UMN Studio`,
-      `llSetVehicleType(${vc.lsl});`,
-    ];
-    if (st.pit||st.rol||st.yaw) lines.push(`llSetVehicleRotationParam(VEHICLE_REFERENCE_FRAME,\n    llEuler2Rot(<${st.pit}.0, ${st.rol}.0, ${st.yaw}.0> * DEG_TO_RAD));`);
-    if (st.fwd||st.vert) lines.push(`llSetVehicleVectorParam(VEHICLE_LINEAR_MOTOR_DIRECTION, <${st.fwd}, 0.0, ${st.vert}>);`);
-    if (st.throt) lines.push(`llSetVehicleFloatParam(VEHICLE_LINEAR_MOTOR_TIMESCALE, ${(1-st.throt).toFixed(1)});`);
-    if (st.cls==='Car') lines.push('llSetVehicleFlags(VEHICLE_FLAG_NO_DEFLECTION_UP);\nllSetVehicleFlags(VEHICLE_FLAG_LIMIT_ROLL_ONLY);');
-    if (st.cls==='Sea'||st.cls==='Sub') lines.push(`llSetVehicleFloatParam(VEHICLE_BUOYANCY, ${st.cls==='Sub'?'0.4':'1.0'});`);
-    if (st.cls==='Space') lines.push('llSetVehicleFloatParam(VEHICLE_BUOYANCY, 1.0);\nllSetVehicleFloatParam(VEHICLE_LINEAR_FRICTION_TIMESCALE, 1000.0);');
-    return lines.join('\n');
-  },
+const FNN_MUSCLES = [
+  {g:'Forehead',sym:'Front'},{g:'Forehead',sym:'Corr'},{g:'Forehead',sym:'Proc'},
+  {g:'Eyes',sym:'Orb.Oc.O'},{g:'Eyes',sym:'Orb.Oc.P'},
+  {g:'Mid-face',sym:'Zyg.Mj'},{g:'Mid-face',sym:'Zyg.Mi'},{g:'Mid-face',sym:'Lev.Lab'},
+  {g:'Mid-face',sym:'Nas.A'},{g:'Mid-face',sym:'Buc'},
+  {g:'Mouth',sym:'Orb.Or'},{g:'Mouth',sym:'Dep.Ang'},{g:'Mouth',sym:'Dep.Lab'},
+  {g:'Mouth',sym:'Ment'},{g:'Mouth',sym:'Ris'},
+  {g:'Jaw',sym:'Mass'},{g:'Jaw',sym:'Lat.Pter'},{g:'Jaw',sym:'Plat'},
+];
 
-  colorize(str) {
-  if (!str) return '<span class="t-empty">&#x2191; Select a vehicle class above, then adjust parameters below</span>';
-    return str
-      .replace(/(@VMN\([^)]+\))/g,'<span class="t-vmn">$1</span>')
-      .replace(/(@ATT\([^)]+\))/g,'<span class="t-jnt">$1</span>')
-      .replace(/(@VEL\([^)]+\))/g,'<span class="t-act">$1</span>')
-      .replace(/(@ALT\([^)]+\))/g,'<span class="t-nerve">$1</span>')
-      .replace(/(@CTRL\([^)]+\))/g,'<span class="t-vec">$1</span>')
-      .replace(/(@MODE\([^)]+\))/g,'<span class="t-mode">$1</span>');
-  },
+const VMN_TYPES = [
+  {id:'Air',    label:'✈ Air',    lsl:'VEHICLE_TYPE_AIRPLANE'},
+  {id:'Heli',   label:'🚁 Heli',   lsl:'VEHICLE_TYPE_AIRPLANE'},
+  {id:'Sea',    label:'⛵ Sea',    lsl:'VEHICLE_TYPE_BOAT'},
+  {id:'Sub',    label:'🤿 Sub',    lsl:'VEHICLE_TYPE_BOAT'},
+  {id:'Car',    label:'🚗 Car',    lsl:'VEHICLE_TYPE_CAR'},
+  {id:'Space',  label:'🚀 Space',  lsl:'VEHICLE_TYPE_SLED'},
+  {id:'Balloon',label:'🎈 Balloon',lsl:'VEHICLE_TYPE_AIRPLANE'},
+  {id:'Drone',  label:'🛸 Drone',  lsl:'VEHICLE_TYPE_AIRPLANE'},
+  {id:'Moto',   label:'🏍 Moto',   lsl:'VEHICLE_TYPE_MOTORCYCLE'},
+  {id:'Air+Sea',label:'✈⛵ Seaplane', lsl:'MULTI'},
+  {id:'Car+Sea',label:'🚗⛵ Amphib',  lsl:'MULTI'},
+  {id:'Space+Air',label:'🚀✈ Spaceplane',lsl:'MULTI'},
+  {id:'Sub+Sea',label:'🤿⛵ Surfsub',  lsl:'MULTI'},
+];
 
-  legend:'<span class="ltag"><span class="ldot" style="background:#22d3ee"></span><span style="color:#22d3ee">@VMN()</span></span><span class="ltag"><span class="ldot" style="background:#fbbf24"></span><span style="color:#fbbf24">@ATT()</span></span><span class="ltag"><span class="ldot" style="background:#34d399"></span><span style="color:#34d399">@VEL()</span></span><span class="ltag"><span class="ldot" style="background:#f472b6"></span><span style="color:#f472b6">@ALT()</span></span><span class="ltag"><span class="ldot" style="background:#fb923c"></span><span style="color:#fb923c">@CTRL()</span></span><span class="ltag"><span class="ldot" style="background:#a78bfa"></span><span style="color:#a78bfa">@MODE()</span></span>',
+const VMN_PARAMS = [
+  {key:'pit',  label:'Pitch',   min:-90, max:90,  unit:'°',   def:0},
+  {key:'rol',  label:'Roll',    min:-180,max:180, unit:'°',   def:0},
+  {key:'yaw',  label:'Yaw',     min:0,  max:359,  unit:'°',   def:0},
+  {key:'fwd',  label:'Speed',   min:0,  max:300,  unit:'m/s', def:0},
+  {key:'vert', label:'Vert',    min:-30,max:30,   unit:'m/s', def:0},
+  {key:'alt',  label:'Alt',     min:-100,max:5000,unit:'m',   def:0},
+  {key:'throt',label:'Throttle',min:0,  max:1,    unit:'',    def:0, step:0.05},
+];
 
-  toJSON(st) { return JSON.stringify({protocol:'VMN',version:'1.0',...st},null,2); },
+const VRN_RESONATORS = [
+  {sym:'H', name:'Head',      color:'#fb923c'},
+  {sym:'Ch',name:'Chest',     color:'#f59e0b'},
+  {sym:'Na',name:'Nasal',     color:'#84cc16'},
+  {sym:'Zy',name:'Zygomatic', color:'#22d3ee'},
+  {sym:'Ma',name:'Masque',    color:'#818cf8'},
+  {sym:'F', name:'Facial',    color:'#f472b6'},
+  {sym:'Or',name:'Oral',      color:'#34d399'},
+];
+const VRN_PLACEMENT = ['F','A','M','P','Lw','Hi'];
+const VRN_PHONATION = ['Fl','Hd','Mx','Ch','Fry','Wh'];
+const VRN_BREATH    = ['Sp1','Sp2','Sp3','Sp4','Sp5','Dia'];
 
-  examples:[
-    {title:'Seaplane Landing (Morph)', desc:'Air→Sea at 65% — touching down on water. Morphing mode.', str:'@VMN(Multi:Air+Sea) @PROGRESS(0.65)\n@MODE(Transition:AirToSea)\n@ATT(Pit=-8,Rol=0,Yaw=090) @VEL(Fwd=45,Vert=-3)'},
-    {title:'Space Re-entry (Morph)', desc:'Spacecraft entering atmosphere at 20% transition.', str:'@VMN(Multi:Space+Air) @PROGRESS(0.20)\n@MODE(Reentry)\n@ATT(Pit=40,Yaw=270) @VEL(Fwd=7800,Vert=-120)'},
-    {title:'Plane on Approach', desc:'Fixed-wing descending, throttle low.', str:'@VMN(Air) @ATT(Pit=-3,Rol=0,Yaw=090) @VEL(Fwd=65,Vert=-2) @ALT(m=300) @CTRL(Throt=0.35) @MODE(Approach)'},
-    {title:'Hovering Helicopter', desc:'Heli holding position at 50m, no forward velocity.', str:'@VMN(Heli) @ATT(Pit=0,Rol=0,Yaw=180) @VEL(Fwd=0,Vert=0) @ALT(m=50) @CTRL(Throt=0.65) @MODE(Hover)'},
-    {title:'Sailing Yacht', desc:'Sea vessel on a reach, 6 knots, heeled 8° to port.', str:'@VMN(Sea) @ATT(Rol=-8,Yaw=145) @VEL(Fwd=6) @CTRL(Throt=0.3) @MODE(Cruise)'},
-    {title:'Diving Submarine', desc:'Sub at 25m descending, westward heading.', str:'@VMN(Sub) @ATT(Pit=-8,Yaw=270) @VEL(Fwd=5,Vert=-1) @ALT(m=-25) @CTRL(Throt=0.5) @MODE(Cruise)'},
-    {title:'Pilot + Aircraft (HMN+VMN)', desc:'Seaplane scene — pilot braced, aircraft touching down.', str:'@VMN(Multi:Air+Sea) @PROGRESS(0.5)\n@ATT(Pit=-6,Yaw=090) @VEL(Fwd=50,Vert=-2)\n@MOV(Sit) @ACT(Trap:2,Bic:1)\n@FNN(Corr:2,Orb.Oc.O:2)'},
-  ]
-};
+// Protocol colors
+const PROTO_COLOR = {MNN:'var(--c-mnn)',FNN:'var(--c-fnn)',VMN:'var(--c-vmn)',VRN:'var(--c-vrn)'};
+const PROTO_HEX   = {MNN:'#34d399',FNN:'#f472b6',VMN:'#22d3ee',VRN:'#fb923c'};
+const PROTO_RGB   = {MNN:'52,211,153',FNN:'244,114,182',VMN:'34,211,238',VRN:'251,146,60'};
 
-// ── VRN — Voice Resonance Notation ──────────────────────────────────
-const VRN = {
-  id:'VRN', label:'Voice', color:'#fb923c', rgb:'251,146,60',
-  subtitle:'Resonators · Placement · Breath',
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let blocks = []; // [{id, proto, state, collapsed}]
+let nextId = 1;
 
-  resonators:[
-    {sym:'H',  name:'Head',        color:'#fb923c'},
-    {sym:'Ch', name:'Chest',       color:'#f59e0b'},
-    {sym:'Na', name:'Nasal',       color:'#84cc16'},
-    {sym:'Zy', name:'Zygomatic',   color:'#22d3ee'},
-    {sym:'Ma', name:'Masque',      color:'#818cf8'},
-    {sym:'F',  name:'Facial',      color:'#f472b6'},
-    {sym:'Or', name:'Oral',        color:'#34d399'},
-  ],
+function newMNNState() {
+  const st = {pattern:null,muscles:{},joints:{},sides:{},nerve:'',vecH:'',vecA:0,vecS:''};
+  MNN_JOINTS.forEach(j => {
+    st.joints[j.sym] = {}; st.sides[j.sym] = j.paired ? 'L' : '';
+    j.axes.forEach(a => st.joints[j.sym][a.a] = a.def);
+  });
+  return st;
+}
+function newFNNState() { return {macro:null,muscles:{},side:'Bi'}; }
+function newVMNState() { return {cls:null,pit:0,rol:0,yaw:0,fwd:0,vert:0,alt:0,throt:0,mode:'',progress:0.5}; }
+function newVRNState() { return {resonators:{},placement:null,phonation:null,breath:null}; }
 
-  placement:[
-    {sym:'F',  name:'Forward'},
-    {sym:'A',  name:'Anterior'},
-    {sym:'M',  name:'Mid'},
-    {sym:'P',  name:'Posterior'},
-    {sym:'Lw', name:'Low'},
-    {sym:'Hi', name:'High'},
-  ],
+// ═══════════════════════════════════════════════════════════
+// STRING BUILDERS
+// ═══════════════════════════════════════════════════════════
 
-  phonation:[
-    {sym:'Fl', name:'Full Voice'},
-    {sym:'Hd', name:'Head Voice'},
-    {sym:'Mx', name:'Mixed'},
-    {sym:'Ch', name:'Chest Voice'},
-    {sym:'Fry',name:'Vocal Fry'},
-    {sym:'Wh', name:'Whisper'},
-  ],
-
-  breath:[
-    {sym:'Sp1',name:'Sp1 — Minimal'},
-    {sym:'Sp2',name:'Sp2 — Speech'},
-    {sym:'Sp3',name:'Sp3 — Supported'},
-    {sym:'Sp4',name:'Sp4 — Singer'},
-    {sym:'Sp5',name:'Sp5 — Maximum'},
-    {sym:'Dia',name:'Diaphragmatic'},
-    {sym:'Cos',name:'Costal'},
-  ],
-
-  initState() {
-    return {resonators:{},placement:null,phonation:null,breath:null,pitch:''};
-  },
-
-  buildString(st) {
-    const p = [];
-    const am = Object.entries(st.resonators).filter(([,v])=>v>0);
-    if (am.length) p.push(`@RES(${am.map(([s,l])=>s+':'+l).join(',')})`);
-    if (st.placement) p.push(`@PLC(${st.placement})`);
-    if (st.phonation) p.push(`@VOC(${st.phonation})`);
-    if (st.breath)    p.push(`@BR(${st.breath})`);
-    if (st.pitch)     p.push(`@PITCH(${st.pitch})`);
-    return p.join(' ');
-  },
-
-  colorize(str) {
-    if (!str) return '<span class="t-empty">Select resonators, placement, and phonation…</span>';
-    return str
-      .replace(/(@RES\([^)]+\))/g,'<span class="t-act">$1</span>')
-      .replace(/(@PLC\([^)]+\))/g,'<span class="t-jnt">$1</span>')
-      .replace(/(@VOC\([^)]+\))/g,'<span class="t-move">$1</span>')
-      .replace(/(@BR\([^)]+\))/g,'<span class="t-nerve">$1</span>')
-      .replace(/(@PITCH\([^)]+\))/g,'<span class="t-vec">$1</span>');
-  },
-
-  legend:'<span class="ltag"><span class="ldot" style="background:#fb923c"></span><span style="color:#fb923c">@RES()</span></span><span class="ltag"><span class="ldot" style="background:#fbbf24"></span><span style="color:#fbbf24">@PLC()</span></span><span class="ltag"><span class="ldot" style="background:#818cf8"></span><span style="color:#818cf8">@VOC()</span></span><span class="ltag"><span class="ldot" style="background:#f472b6"></span><span style="color:#f472b6">@BR()</span></span>',
-
-  toJSON(st) { return JSON.stringify({protocol:'VRN',version:'1.0',...st},null,2); },
-
-  examples:[
-    {title:'Bright Soprano', desc:'Head + zygomatic resonance, forward placement, head voice, Sp4.', str:'@RES(H:3,Zy:3,F:2) @PLC(F) @VOC(Hd) @BR(Sp4)'},
-    {title:'Chest-dominant Speech', desc:'Chest resonance forward, full voice, natural breath.', str:'@RES(Ch:3,Or:2) @PLC(A) @VOC(Fl) @BR(Sp2)'},
-    {title:'Nasal Resonance', desc:'Nasal + masque, mid placement. Useful for projecting in ensemble.', str:'@RES(Na:3,Ma:2,Zy:1) @PLC(M) @VOC(Mx) @BR(Sp3)'},
-    {title:'Mixed Voice (Belt)', desc:'Balanced head+chest, anterior placement, supported breath.', str:'@RES(Ch:2,H:2,Ma:1) @PLC(A) @VOC(Mx) @BR(Sp4)'},
-    {title:'Whisper / Breathiness', desc:'Minimal resonance, posterior, breathy phonation.', str:'@RES(Or:1) @PLC(P) @VOC(Wh) @BR(Sp1)'},
-    {title:'Full Opera Tenor', desc:'Maximum supported resonance, all chambers engaged.', str:'@RES(H:3,Ch:3,Zy:3,Ma:3,Na:2) @PLC(F) @VOC(Fl) @BR(Sp5)'},
-  ]
-};
-
-// ═══════════════════════════════════════════════════════════════════
-// STUDIO CORE
-// ═══════════════════════════════════════════════════════════════════
-const PROTOS = {MNN, FNN, VMN:VMN, VRN};
-let ACTIVE = 'MNN';
-let ST = MNN.initState();
-let mnnJointInited = false;
-
-// ── Protocol switch ──────────────────────────────────────────────────
-function switchProtocol(id) {
-  ACTIVE = id;
-  ST = PROTOS[id].initState();
-  const cfg = PROTOS[id];
-
-  // Update CSS color
-  document.documentElement.style.setProperty('--proto-color', cfg.color);
-  document.documentElement.style.setProperty('--proto-rgb', cfg.rgb);
-
-  // Update tabs
-  Object.keys(PROTOS).forEach(k => document.getElementById('ptab-'+k).classList.toggle('active', k===id));
-
-  // Update badge
-  document.getElementById('proto-badge').textContent = id;
-
-  // Update legend
-  document.getElementById('legend-bar').innerHTML = cfg.legend;
-
-  // Update output label
-  document.getElementById('out-label').textContent = id + ' Notation String';
-
-  // Update copy button label
-  document.getElementById('copy-btn').textContent = '⎘ Copy ' + id + ' String';
-
-  // LSL panel
-  document.getElementById('lsl-panel').style.display = id==='VMN' ? '' : 'none';
-
-  // Render left panel inputs
-  renderLeft();
-
-  // Render secondary controls (joints for MNN, params for VMN)
-  renderSecondary();
-
-  // Render examples
-  renderExamples();
-
-  // Update output
-  updateOutput();
+function buildMNN(st) {
+  const p = [];
+  if (st.pattern) p.push(`@MOV(${st.pattern})`);
+  const am = Object.entries(st.muscles).filter(([,v])=>v>0);
+  if (am.length) p.push(`@ACT(${am.map(([s,l])=>s+':'+l).join(', ')})`);
+  if (st.nerve) { p.push(`>> ${st.nerve}`); }
+  else if (am.length) {
+    const nerves = [...new Set(am.map(([s])=>{const m=MNN_MUSCLES.find(x=>x.sym===s);return m?m.nerve:null;}).filter(Boolean))];
+    if (nerves.length) p.push(`>> ${nerves.join('/')}`);
+  }
+  const jpts = [];
+  MNN_JOINTS.forEach(j => {
+    const axs = j.axes.filter(a=>st.joints[j.sym][a.a]!==0);
+    if (!axs.length) return;
+    const side = j.paired?(st.sides[j.sym]||'L')+'.':'';
+    jpts.push(`${side}${j.sym}:${axs.map(a=>a.a+'='+st.joints[j.sym][a.a]).join(',')}`);
+  });
+  if (jpts.length) p.push(`@JNT(${jpts.join(' ')})`);
+  if (st.vecH||st.vecS) {
+    const vp=[]; if(st.vecH)vp.push('Ht='+st.vecH); vp.push('Ang='+st.vecA+'°'); if(st.vecS)vp.push('Src='+st.vecS);
+    p.push(`@VEC(${vp.join(',')})`);
+  }
+  return p.join(' ');
 }
 
-// ── Left panel rendering ─────────────────────────────────────────────
-function renderLeft() {
-  const el = document.getElementById('left-content');
-  if (ACTIVE === 'MNN') renderMNNLeft(el);
-  else if (ACTIVE === 'FNN') renderFNNLeft(el);
-  else if (ACTIVE === 'VMN') renderVMNLeft(el);
-  else if (ACTIVE === 'VRN') renderVRNLeft(el);
+function buildFNN(st) {
+  const p = [];
+  if (st.macro && st.macro !== 'Neutral') {
+    const m = FNN_MACROS.find(x=>x.id===st.macro);
+    if (m && m.fnn) {
+      p.push(`@EXPR(${st.macro})`);
+      p.push(`@FNN(${m.fnn})`);
+      if (m.nerve) p.push(`>> ${m.nerve}`);
+    }
+  }
+  const am = Object.entries(st.muscles).filter(([,v])=>v>0);
+  if (am.length) {
+    const pref = st.side !== 'Bi' ? st.side+':' : '';
+    p.push(`@FNN(${am.map(([s,l])=>`${pref}${s}:${l}`).join(', ')})`);
+  }
+  return p.join(' ');
 }
 
-function renderMNNLeft(el) {
-  // Pattern section — exercise
-  let html = `<div class="sg"><div class="sl"><span class="d" style="background:#818cf8"></span>Exercise Patterns</div><div class="pgrid">`;
-  MNN.patterns.forEach(p => {
-    html += `<div class="pbtn" data-val="${p}" onclick="mnnPattern(this)">${p}</div>`;
-  });
-  html += `</div></div>`;
+function buildVMN(st) {
+  if (!st.cls) return '';
+  const isMulti = st.cls.includes('+');
+  const p = [];
+  if (isMulti) {
+    p.push(`@VMN(Multi:${st.cls})`);
+    p.push(`@PROGRESS(${(st.progress||0.5).toFixed(2)})`);
+    const pts = st.cls.split('+');
+    p.push(`@MODE(Transition:${pts[0]}To${pts[1]})`);
+  } else {
+    p.push(`@VMN(${st.cls})`);
+  }
+  if (st.pit||st.rol||st.yaw) p.push(`@ATT(Pit=${st.pit},Rol=${st.rol},Yaw=${st.yaw})`);
+  if (st.fwd||st.vert) p.push(`@VEL(Fwd=${st.fwd}${st.vert?',Vert='+st.vert:''})`);
+  if (st.alt) p.push(`@ALT(m=${st.alt})`);
+  if (st.throt) p.push(`@CTRL(Throt=${st.throt})`);
+  if (!isMulti && st.mode) p.push(`@MODE(${st.mode})`);
+  return p.join(' ');
+}
 
-  // VW avatar patterns
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:#22d3ee"></span>Avatar / Virtual World</div><div class="pgrid">`;
-  MNN.vwPatterns.forEach(p => {
-    html += `<div class="pbtn" data-val="${p}" onclick="mnnPattern(this)">${p}</div>`;
+function buildVMN_LSL(st) {
+  if (!st.cls) return '// Select a vehicle type';
+  const isMulti = st.cls.includes('+');
+  if (isMulti) {
+    const pts = st.cls.split('+'); const pr = (st.progress||0.5).toFixed(2);
+    return `// Multi:${st.cls} @PROGRESS(${pr})\nfloat p = ${pr};\nllSetVehicleFloatParam(VEHICLE_LINEAR_DEFLECTION_EFFICIENCY, 0.5*(1.0-p));\nllSetVehicleFloatParam(VEHICLE_BUOYANCY, p * 1.0);\nllSetVehicleFloatParam(VEHICLE_LINEAR_FRICTION_TIMESCALE, 4.0+(6.0*p));`;
+  }
+  const vc = VMN_TYPES.find(c=>c.id===st.cls);
+  const lines = [`// @VMN(${st.cls}) — UMN Studio`, `llSetVehicleType(${vc.lsl});`];
+  if (st.pit||st.rol||st.yaw) lines.push(`llSetVehicleRotationParam(VEHICLE_REFERENCE_FRAME,\n    llEuler2Rot(<${st.pit}.0,${st.rol}.0,${st.yaw}.0>*DEG_TO_RAD));`);
+  if (st.fwd||st.vert) lines.push(`llSetVehicleVectorParam(VEHICLE_LINEAR_MOTOR_DIRECTION,<${st.fwd},0,${st.vert}>);`);
+  if (st.cls==='Car') lines.push('llSetVehicleFlags(VEHICLE_FLAG_NO_DEFLECTION_UP);\nllSetVehicleFlags(VEHICLE_FLAG_LIMIT_ROLL_ONLY);');
+  if (st.cls==='Sub') lines.push('llSetVehicleFloatParam(VEHICLE_BUOYANCY, 0.4);');
+  if (st.cls==='Space') lines.push('llSetVehicleFloatParam(VEHICLE_BUOYANCY, 1.0);\nllSetVehicleFloatParam(VEHICLE_LINEAR_FRICTION_TIMESCALE, 1000.0);');
+  return lines.join('\n');
+}
+
+function buildVRN(st) {
+  const p = [];
+  const am = Object.entries(st.resonators).filter(([,v])=>v>0);
+  if (am.length) p.push(`@RES(${am.map(([s,l])=>s+':'+l).join(',')})`);
+  if (st.placement) p.push(`@PLC(${st.placement})`);
+  if (st.phonation) p.push(`@VOC(${st.phonation})`);
+  if (st.breath)    p.push(`@BR(${st.breath})`);
+  return p.join(' ');
+}
+
+function buildBlock(b) {
+  if (b.proto==='MNN') return buildMNN(b.state);
+  if (b.proto==='FNN') return buildFNN(b.state);
+  if (b.proto==='VMN') return buildVMN(b.state);
+  if (b.proto==='VRN') return buildVRN(b.state);
+  return '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// COLORIZER
+// ═══════════════════════════════════════════════════════════
+function colorize(str) {
+  if (!str) return '';
+  return str
+    .replace(/(@MOV\([^)]+\))/g,'<span class="t-mov">$1</span>')
+    .replace(/(@ACT\([^)]+\))/g,'<span class="t-mnn">$1</span>')
+    .replace(/(@JNT\([^)]+\))/g,'<span class="t-jnt">$1</span>')
+    .replace(/(@VEC\([^)]+\))/g,'<span class="t-vec">$1</span>')
+    .replace(/(@EXPR\([^)]+\))/g,'<span class="t-mov">$1</span>')
+    .replace(/(@FNN\([^)]+\))/g,'<span class="t-fnn">$1</span>')
+    .replace(/(@VMN\([^)]+\))/g,'<span class="t-vmn">$1</span>')
+    .replace(/(@ATT\([^)]+\))/g,'<span class="t-jnt">$1</span>')
+    .replace(/(@VEL\([^)]+\))/g,'<span class="t-mnn">$1</span>')
+    .replace(/(@ALT\([^)]+\))/g,'<span class="t-vrn">$1</span>')
+    .replace(/(@CTRL\([^)]+\))/g,'<span class="t-vec">$1</span>')
+    .replace(/(@MODE\([^)]+\))/g,'<span class="t-mode">$1</span>')
+    .replace(/(@PROGRESS\([^)]+\))/g,'<span class="t-prog">$1</span>')
+    .replace(/(@RES\([^)]+\))/g,'<span class="t-vrn">$1</span>')
+    .replace(/(@PLC\([^)]+\))/g,'<span class="t-jnt">$1</span>')
+    .replace(/(@VOC\([^)]+\))/g,'<span class="t-mov">$1</span>')
+    .replace(/(@BR\([^)]+\))/g,'<span class="t-vrn">$1</span>')
+    .replace(/(>> [\w/+]+)/g,'<span class="t-nerve">$1</span>');
+}
+
+// ═══════════════════════════════════════════════════════════
+// SCENE OUTPUT
+// ═══════════════════════════════════════════════════════════
+function updateScene() {
+  const parts = blocks.map(b => buildBlock(b)).filter(s=>s.trim());
+  const str = parts.join('\n');
+  const outEl = document.getElementById('scene-out');
+  if (!str) {
+    outEl.innerHTML = '<span class="t-empty">Add a block above to begin composing…</span>';
+    outEl.classList.remove('has-content');
+  } else {
+    outEl.innerHTML = colorize(str);
+    outEl.classList.add('has-content');
+  }
+  // Block count
+  document.getElementById('block-count').textContent = blocks.length + (blocks.length===1?' block':' blocks');
+  // LSL button visibility
+  const hasVMN = blocks.some(b=>b.proto==='VMN');
+  document.getElementById('lsl-toggle-btn').style.display = hasVMN ? '' : 'none';
+  // LSL content
+  if (hasVMN) {
+    const vmnBlock = blocks.find(b=>b.proto==='VMN');
+    document.getElementById('lsl-box').textContent = buildVMN_LSL(vmnBlock.state);
+  }
+  // Empty state
+  document.getElementById('empty-state').style.display = blocks.length ? 'none' : '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// BLOCK RENDERING
+// ═══════════════════════════════════════════════════════════
+function addBlock(proto) {
+  const id = nextId++;
+  let state;
+  if (proto==='MNN') state = newMNNState();
+  else if (proto==='FNN') state = newFNNState();
+  else if (proto==='VMN') state = newVMNState();
+  else if (proto==='VRN') state = newVRNState();
+  blocks.push({id, proto, state, collapsed:false});
+  renderBlocks();
+  updateScene();
+  // Scroll to new block
+  setTimeout(()=>{
+    const el = document.getElementById('block-'+id);
+    if (el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },50);
+}
+
+function removeBlock(id) {
+  blocks = blocks.filter(b=>b.id!==id);
+  document.getElementById('block-'+id)?.remove();
+  updateScene();
+}
+
+function toggleBlock(id) {
+  const b = blocks.find(x=>x.id===id);
+  if (!b) return;
+  b.collapsed = !b.collapsed;
+  const el = document.getElementById('block-'+id);
+  if (el) el.classList.toggle('collapsed', b.collapsed);
+}
+
+function renderBlocks() {
+  const area = document.getElementById('blocks-area');
+  // Keep empty state element
+  const empEl = document.getElementById('empty-state');
+  area.innerHTML = '';
+  area.appendChild(empEl);
+
+  blocks.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'block' + (b.collapsed?' collapsed':'');
+    el.id = 'block-'+b.id;
+    const frag = buildBlock(b);
+    const fragDisplay = frag ? frag.substring(0,40)+(frag.length>40?'…':'') : '—';
+    el.innerHTML = `
+      <div class="block-head" onclick="toggleBlock(${b.id})">
+        <span class="block-dot" style="background:${PROTO_HEX[b.proto]}"></span>
+        <span class="block-proto" style="color:${PROTO_HEX[b.proto]}">${b.proto}</span>
+        <span class="block-name">${blockName(b)}</span>
+        <span class="block-fragment">${fragDisplay}</span>
+        <span class="block-toggle"></span>
+        <button class="block-remove" onclick="event.stopPropagation();removeBlock(${b.id})">✕</button>
+      </div>
+      <div class="block-body" id="block-body-${b.id}"></div>
+    `;
+    area.appendChild(el);
+    renderBlockBody(b);
   });
-  html += `</div></div>`;
+}
+
+function blockName(b) {
+  if (b.proto==='MNN') return b.state.pattern ? b.state.pattern : 'Body';
+  if (b.proto==='FNN') return b.state.macro ? b.state.macro : 'Face';
+  if (b.proto==='VMN') return b.state.cls ? b.state.cls : 'Vehicle';
+  if (b.proto==='VRN') return 'Voice';
+  return b.proto;
+}
+
+function updateBlockHead(b) {
+  const el = document.getElementById('block-'+b.id);
+  if (!el) return;
+  const frag = buildBlock(b);
+  const fragDisplay = frag ? frag.substring(0,40)+(frag.length>40?'…':'') : '—';
+  const nameEl = el.querySelector('.block-name');
+  const fragEl = el.querySelector('.block-fragment');
+  if (nameEl) nameEl.textContent = blockName(b);
+  if (fragEl) fragEl.textContent = fragDisplay;
+}
+
+function onBlockChange(id) {
+  const b = blocks.find(x=>x.id===id);
+  if (!b) return;
+  updateBlockHead(b);
+  updateScene();
+}
+
+// ═══════════════════════════════════════════════════════════
+// BLOCK BODY RENDERERS
+// ═══════════════════════════════════════════════════════════
+function renderBlockBody(b) {
+  const el = document.getElementById('block-body-'+b.id);
+  if (!el) return;
+  if (b.proto==='MNN') el.innerHTML = renderMNNBody(b);
+  else if (b.proto==='FNN') el.innerHTML = renderFNNBody(b);
+  else if (b.proto==='VMN') el.innerHTML = renderVMNBody(b);
+  else if (b.proto==='VRN') el.innerHTML = renderVRNBody(b);
+}
+
+// ── MNN ─────────────────────────────────────────────────────
+function renderMNNBody(b) {
+  const st = b.state; const id = b.id;
+  let h = '';
+
+  // Pattern rows
+  MNN_PATTERNS.forEach(group => {
+    h += `<div class="section-divider">${group.id}</div>`;
+    h += `<div class="type-row">`;
+    group.items.forEach(p => {
+      const active = st.pattern===p;
+      h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-mnn);color:var(--c-mnn);background:rgba(52,211,153,.1)':''}" onclick="mnnPattern(${id},'${p}')">${p}</div>`;
+    });
+    h += `</div>`;
+  });
 
   // Muscles
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:${MNN.color}"></span>Muscles <span style="font-size:.62rem;font-weight:400;color:var(--gray);">(click name + level)</span></div><div id="mnn-muscle-list">`;
+  h += `<div class="section-divider">Muscles</div>`;
+  h += `<div class="muscle-grid">`;
   let lastG = '';
-  MNN.muscles.forEach(m => {
-    if (m.g !== lastG) { html += `<div class="mgl">${m.g}</div>`; lastG = m.g; }
-    html += `<div class="mrow"><div class="mname" id="mn-${m.sym}" onclick="mnnToggleMuscle('${m.sym}')">${m.sym}</div><div class="lvlbtns"><div class="lvl" id="ml-${m.sym}-1" onclick="mnnSetLevel('${m.sym}',1)">:1</div><div class="lvl" id="ml-${m.sym}-2" onclick="mnnSetLevel('${m.sym}',2)">:2</div><div class="lvl" id="ml-${m.sym}-3" onclick="mnnSetLevel('${m.sym}',3)">:3</div></div></div>`;
+  MNN_MUSCLES.forEach(m => {
+    if (m.g !== lastG) { h += `<div class="muscle-group">${m.g}</div>`; lastG = m.g; }
+    const lvl = st.muscles[m.sym]||0;
+    h += `<div class="muscle-chip${lvl>0?' active':''}" onclick="mnnCycleMusc(${id},'${m.sym}')">
+      <span>${m.sym}</span>${lvl>0?`<span class="muscle-lvl">:${lvl}</span>`:''}
+    </div>`;
   });
-  html += `</div></div>`;
+  h += `</div>`;
 
-  // Nerve / comp
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:#f472b6"></span>Nerve Override</div>
-    <input class="ti" id="mnn-nerve" placeholder="e.g. MedPec/Axil" oninput="ST.nerve=this.value;updateOutput()">
-    </div>`;
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:#f87171"></span>Compensation</div>
-    <input class="ti" id="mnn-comp-a" placeholder="Compensator (e.g. Dlt.A)" oninput="ST.comp[0]=this.value;updateOutput()">
-    <input class="ti" id="mnn-comp-b" placeholder="Target (e.g. Pec.S)" oninput="ST.comp[1]=this.value;updateOutput()">
-    </div>`;
-  el.innerHTML = html;
+  // Key joints (compact)
+  h += `<div class="section-divider">Key Joints</div>`;
+  h += `<div class="param-grid">`;
+  MNN_JOINTS.slice(0,4).forEach(j => {
+    j.axes.forEach(a => {
+      const val = st.joints[j.sym][a.a];
+      const side = j.paired ? (st.sides[j.sym]||'L')+'.' : '';
+      h += `<div class="param-row">
+        <span class="param-label" style="color:var(--c-mnn);width:78px">${side}${j.sym}·${a.a}</span>
+        <input type="range" class="param-slider" min="${a.min}" max="${a.max}" value="${val}"
+          style="--thumb-c:var(--c-mnn)"
+          oninput="mnnJoint(${id},'${j.sym}','${a.a}',+this.value);this.nextElementSibling.textContent=this.value+'°'"
+          onmousedown="mnnEnsureSide(${id},'${j.sym}')">
+        <span class="param-val" style="color:var(--c-mnn)">${val}°</span>
+      </div>`;
+    });
+  });
+  h += `</div>`;
+
+  return h;
 }
 
-function renderFNNLeft(el) {
-  let html = `<div class="sg"><div class="sl"><span class="d" style="background:#818cf8"></span>Expression Macros</div><div class="macro-grid">`;
-  FNN.macros.forEach(m => {
-    html += `<div class="macro-btn" id="macro-${m.id}" onclick="fnnMacro('${m.id}')" title="${m.desc}">${m.label}</div>`;
-  });
-  html += `</div></div>`;
+function mnnPattern(id, p) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.pattern = b.state.pattern===p ? null : p;
+  renderBlockBody(b); onBlockChange(id);
+}
 
-  // Laterality
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:${FNN.color}"></span>Laterality</div><div style="display:flex;gap:5px">
-    <button class="sbtn active" id="fside-Bi" onclick="fnnSide('Bi')">Bi</button>
-    <button class="sbtn" id="fside-L" onclick="fnnSide('L')">Left</button>
-    <button class="sbtn" id="fside-R" onclick="fnnSide('R')">Right</button>
-  </div></div>`;
+function mnnCycleMusc(id, sym) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  const cur = b.state.muscles[sym]||0;
+  if (cur>=3) delete b.state.muscles[sym]; else b.state.muscles[sym]=(cur||0)+1;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function mnnJoint(id, sym, axis, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.joints[sym][axis] = val;
+  onBlockChange(id);
+}
+
+function mnnEnsureSide(id, sym) {
+  // no-op; side defaults to 'L', can be changed via full builder
+}
+
+// ── FNN ─────────────────────────────────────────────────────
+function renderFNNBody(b) {
+  const st = b.state; const id = b.id;
+  let h = '';
+
+  // Expression macros
+  h += `<div class="section-divider">Expression Macros</div>`;
+  h += `<div class="macro-grid">`;
+  FNN_MACROS.forEach(m => {
+    const active = st.macro===m.id;
+    h += `<div class="macro-chip${active?' active':''}" onclick="fnnMacro(${id},'${m.id}')">${m.label}</div>`;
+  });
+  h += `</div>`;
+
+  // Side
+  h += `<div class="param-row" style="margin-bottom:8px">
+    <span class="param-label" style="color:var(--c-fnn)">Side</span>
+    ${['Bi','L','R'].map(s=>`<div class="type-chip${st.side===s?' active':''}${st.side===s?'" style="border-color:var(--c-fnn);color:var(--c-fnn);background:rgba(244,114,182,.1)':''}" onclick="fnnSide(${id},'${s}')">${s}</div>`).join('')}
+  </div>`;
 
   // Muscles
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:${FNN.color}"></span>Facial Muscles</div>`;
+  h += `<div class="section-divider">Facial Muscles (click to cycle :1→:2→:3→off)</div>`;
+  h += `<div class="muscle-grid">`;
   let lastG = '';
-  FNN.muscles.forEach(m => {
-    if (m.g !== lastG) { html += `<div class="mgl">${m.g}</div>`; lastG = m.g; }
-    html += `<div class="mrow"><div class="mname" id="fm-${m.sym}" onclick="fnnToggle('${m.sym}')" title="${m.nerve}">${m.sym}</div><div class="lvlbtns"><div class="lvl" id="fl-${m.sym}-1" onclick="fnnLevel('${m.sym}',1)">:1</div><div class="lvl" id="fl-${m.sym}-2" onclick="fnnLevel('${m.sym}',2)">:2</div><div class="lvl" id="fl-${m.sym}-3" onclick="fnnLevel('${m.sym}',3)">:3</div></div></div>`;
+  FNN_MUSCLES.forEach(m => {
+    if (m.g !== lastG) { h += `<div class="muscle-group">${m.g}</div>`; lastG = m.g; }
+    const lvl = st.muscles[m.sym]||0;
+    h += `<div class="muscle-chip${lvl>0?' active':''}" style="${lvl>0?'border-color:var(--c-fnn);color:var(--c-fnn);background:rgba(244,114,182,.1)':''}" onclick="fnnCycleMusc(${id},'${m.sym}')">
+      <span>${m.sym}</span>${lvl>0?`<span class="muscle-lvl">:${lvl}</span>`:''}
+    </div>`;
   });
-  html += `</div>`;
-  el.innerHTML = html;
+  h += `</div>`;
+  return h;
 }
 
-function renderVMNLeft(el) {
-  const isMulti = ST.cls && ST.cls.includes('+');
-  // Vehicle class grid — safe IDs (no + in DOM ids)
-  let html = `<div class="sg"><div class="sl"><span class="d" style="background:${VMN.color}"></span>Vehicle Class</div><div class="pgrid">`;
-  VMN.classes.forEach(c => {
-    const safeId = c.id.replace(/\+/g, '');
-    const isActive = c.id === ST.cls;
-    html += `<div class="pbtn${isActive?' active':''}" id="vcls-${safeId}" onclick="vmnClass('${c.id}')" title="${c.desc}">${c.label}</div>`;
+function fnnMacro(id, macroId) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.macro = b.state.macro===macroId ? null : macroId;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function fnnSide(id, side) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.side = side;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function fnnCycleMusc(id, sym) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  const cur = b.state.muscles[sym]||0;
+  if (cur>=3) delete b.state.muscles[sym]; else b.state.muscles[sym]=(cur||0)+1;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+// ── VMN ─────────────────────────────────────────────────────
+function renderVMNBody(b) {
+  const st = b.state; const id = b.id;
+  const isMulti = st.cls && st.cls.includes('+');
+  let h = '';
+
+  // Type selector — single scrollable row of chips
+  h += `<div class="section-divider">Vehicle Type</div>`;
+  h += `<div class="type-row">`;
+  VMN_TYPES.forEach(t => {
+    const active = st.cls===t.id;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-vmn);color:var(--c-vmn);background:rgba(34,211,238,.1)':''}" onclick="vmnType(${id},'${t.id}')" title="${t.lsl==='MULTI'?'Morphing vehicle':t.lsl}">${t.label}</div>`;
   });
-  html += `</div></div>`;
+  h += `</div>`;
 
   if (isMulti) {
-    // Morph progress slider
-    const parts = ST.cls.split('+');
-    const pct = Math.round((ST.progress || 0.5) * 100);
-    html += `<div class="sg"><div class="sl"><span class="d" style="background:#a78bfa"></span>Morph — ${parts[0]} → ${parts[1]}</div>
-      <div class="arow" style="padding-left:0;gap:8px">
-        <span style="font-size:.63rem;color:var(--gray);width:34px">${parts[0]}</span>
-        <input type="range" class="aslider" min="0" max="1" step="0.05" value="${ST.progress || 0.5}"
-          oninput="ST.progress=+this.value;document.getElementById('vmn-pv').textContent=Math.round(this.value*100)+'%';updateOutput()">
-        <span class="aval" id="vmn-pv" style="width:36px">${pct}%</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--gray);padding:4px 0 0">
-        <span>Fully ${parts[0]}</span><span>Fully ${parts[1]}</span>
-      </div>
+    const pts = st.cls.split('+');
+    const pct = Math.round((st.progress||0.5)*100);
+    h += `<div class="section-divider">Morph — ${pts[0]} → ${pts[1]}</div>
+    <div class="param-row">
+      <span class="param-label" style="color:var(--c-vmn)">${pts[0]}</span>
+      <input type="range" class="param-slider" min="0" max="1" step="0.05" value="${st.progress||0.5}"
+        oninput="vmnParam(${id},'progress',+this.value);this.nextElementSibling.textContent=Math.round(this.value*100)+'%'">
+      <span class="param-val" style="color:var(--c-vmn)">${pct}%</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--gray);padding:2px 0 8px">
+      <span>Fully ${pts[0]}</span><span>Fully ${pts[1]}</span>
     </div>`;
   } else {
-    // Mode selector (single vehicle only)
-    html += `<div class="sg"><div class="sl"><span class="d" style="background:#a78bfa"></span>Mode</div>
-      <select class="si" id="vmn-mode" onchange="ST.mode=this.value;updateOutput()">
-        <option value="">\u2014 none \u2014</option>
-        <option value="Cruise">Cruise</option><option value="Hover">Hover</option>
-        <option value="Approach">Approach</option><option value="Taxi">Taxi</option>
-        <option value="Takeoff">Takeoff</option><option value="Land">Land</option>
-        <option value="Anchor">Anchor</option><option value="Dock">Dock</option>
-        <option value="Orbit">Orbit</option><option value="Reentry">Reentry</option>
-      </select></div>`;
+    // Mode (single vehicle)
+    h += `<div class="param-row" style="margin-bottom:6px">
+      <span class="param-label" style="color:var(--c-vmn)">Mode</span>
+      <select class="param-select" onchange="vmnParam(${id},'mode',this.value)">
+        <option value="">— none —</option>
+        ${['Cruise','Hover','Approach','Taxi','Takeoff','Land','Anchor','Orbit','Reentry'].map(m=>`<option value="${m}"${st.mode===m?' selected':''}>${m}</option>`).join('')}
+      </select>
+    </div>`;
   }
-  el.innerHTML = html;
-}
 
-function renderVRNLeft(el) {
-  let html = `<div class="sg"><div class="sl"><span class="d" style="background:${VRN.color}"></span>Resonators</div>`;
-  VRN.resonators.forEach(r => {
-    html += `<div class="mrow"><div class="mname" id="vr-${r.sym}" onclick="vrnToggle('${r.sym}')" style="color:${r.color}">${r.sym} — ${r.name}</div><div class="lvlbtns"><div class="lvl" id="vrl-${r.sym}-1" onclick="vrnLevel('${r.sym}',1)">:1</div><div class="lvl" id="vrl-${r.sym}-2" onclick="vrnLevel('${r.sym}',2)">:2</div><div class="lvl" id="vrl-${r.sym}-3" onclick="vrnLevel('${r.sym}',3)">:3</div></div></div>`;
-  });
-  html += `</div>`;
-
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:#fbbf24"></span>Placement</div><div class="pgrid">`;
-  VRN.placement.forEach(p => { html += `<div class="pbtn" id="vp-${p.sym}" onclick="vrnPlacement('${p.sym}')">${p.sym} — ${p.name}</div>`; });
-  html += `</div></div>`;
-
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:#818cf8"></span>Phonation</div><div class="pgrid">`;
-  VRN.phonation.forEach(p => { html += `<div class="pbtn" id="vo-${p.sym}" onclick="vrnPhonation('${p.sym}')">${p.sym} — ${p.name}</div>`; });
-  html += `</div></div>`;
-
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:#f472b6"></span>Breath Support</div><div class="pgrid">`;
-  VRN.breath.forEach(b => { html += `<div class="pbtn" id="vb-${b.sym}" onclick="vrnBreath('${b.sym}')">${b.sym}</div>`; });
-  html += `</div></div>`;
-
-  html += `<div class="sg"><div class="sl"><span class="d" style="background:var(--gray)"></span>Pitch (optional)</div>
-    <input class="ti" id="vrn-pitch" placeholder="e.g. A4, Bb3, 440Hz" oninput="ST.pitch=this.value;updateOutput()"></div>`;
-
-  html += `<div class="sg" style="opacity:.6;font-size:.72rem;color:var(--gray);line-height:1.6">Full VRN spec and advanced builder at <a href="https://aiunites.github.io/voicestry-site/vrn-method.html" style="color:${VRN.color}">VoiceStry →</a></div>`;
-  el.innerHTML = html;
-}
-
-// ── Secondary controls (joints / VMN params) ─────────────────────────
-function renderSecondary() {
-  const el = document.getElementById('secondary-controls');
-  if (ACTIVE === 'MNN') renderMNNJoints(el);
-  else if (ACTIVE === 'VMN') renderVMNParams(el);
-  else el.innerHTML = '';
-}
-
-function renderMNNJoints(el) {
-  let html = `<div style="margin-top:20px"><div class="olabel">Joint Positions <span style="color:#fbbf24;font-size:.7rem">@JNT()</span></div>`;
-  MNN.joints.forEach(j => {
-    const side = ST.sides[j.sym] || (j.paired?'L':'');
-    html += `<div class="jrow"><div class="jhdr"><span class="jsym">${j.sym}</span><span class="jname">${j.name}</span>`;
-    if (j.paired) html += `<div class="sides"><button class="sbtn ${side==='L'?'active':''}" id="js-${j.sym}-L" onclick="mnnSide('${j.sym}','L')">L</button><button class="sbtn ${side==='R'?'active':''}" id="js-${j.sym}-R" onclick="mnnSide('${j.sym}','R')">R</button><button class="sbtn ${side==='Bi'?'active':''}" id="js-${j.sym}-Bi" onclick="mnnSide('${j.sym}','Bi')">Bi</button></div>`;
-    html += `</div>`;
-    j.axes.forEach(a => {
-      html += `<div class="arow"><span class="aname">${a.a}</span><input type="range" class="aslider" id="ja-${j.sym}-${a.a}" min="${a.min}" max="${a.max}" value="${ST.joints[j.sym][a.a]}" oninput="mnnAxis('${j.sym}','${a.a}',+this.value)"><span class="aval" id="jv-${j.sym}-${a.a}">${ST.joints[j.sym][a.a]}°</span></div>`;
-    });
-    html += `</div>`;
-  });
-  // Vector
-  html += `<div style="margin-top:14px"><div class="olabel">Resistance Vector <span style="color:#fb923c;font-size:.7rem">@VEC()</span></div>
-    <div class="jrow">
-      <div class="arow"><span class="aname" style="width:50px">Height</span>
-        <select class="si" style="flex:1;margin:0" id="vec-h" onchange="ST.vecH=this.value;updateOutput()">
-          <option value="">— none —</option><option value="Floor">Floor</option><option value="Low">Low</option><option value="Mid">Mid</option><option value="High">High</option><option value="Over">Overhead</option>
-        </select>
-      </div>
-      <div class="arow"><span class="aname" style="width:50px">Angle</span>
-        <input type="range" class="aslider" id="vec-a" min="-180" max="180" value="0" oninput="ST.vecA=+this.value;document.getElementById('vec-av').textContent=this.value+'°';updateOutput()">
-        <span class="aval" id="vec-av">0°</span>
-      </div>
-      <div class="arow"><span class="aname" style="width:50px">Source</span>
-        <select class="si" style="flex:1;margin:0" id="vec-s" onchange="ST.vecS=this.value;updateOutput()">
-          <option value="">— none —</option><option value="Cable">Cable</option><option value="Band">Band</option><option value="Gravity">Gravity</option><option value="Machine">Machine</option>
-        </select>
-      </div>
-    </div>
-  </div></div>`;
-  el.innerHTML = html;
-}
-
-function renderVMNParams(el) {
-  const sliders = [
-    {key:'pit',  label:'Pitch',    min:-90, max:90,  unit:'°'},
-    {key:'rol',  label:'Roll',     min:-180,max:180, unit:'°'},
-    {key:'yaw',  label:'Yaw',      min:0,   max:359, unit:'°'},
-    {key:'fwd',  label:'Fwd Speed',min:0,   max:300, unit:'m/s'},
-    {key:'vert', label:'Vert Speed',min:-30, max:30,  unit:'m/s'},
-    {key:'alt',  label:'Altitude', min:-50, max:5000,unit:'m'},
-    {key:'throt',label:'Throttle', min:0,   max:1,   unit:'',step:0.05},
-  ];
-  let html = `<div style="margin-top:16px"><div class="olabel">Vehicle Parameters</div><div class="jrow">`;
-  sliders.forEach(s => {
-    const step = s.step || 1;
-    html += `<div class="arow">
-      <span class="aname" style="width:80px;font-size:.68rem">${s.label}</span>
-      <input type="range" class="aslider" id="vp-${s.key}" min="${s.min}" max="${s.max}" step="${step}" value="${ST[s.key]||0}"
-        oninput="ST['${s.key}']=+this.value;document.getElementById('vv-${s.key}').textContent=this.value+'${s.unit}';updateOutput()">
-      <span class="aval" id="vv-${s.key}">${(ST[s.key]||0)}${s.unit}</span>
+  // Sliders
+  h += `<div class="section-divider">Parameters</div>`;
+  h += `<div class="param-grid">`;
+  VMN_PARAMS.forEach(p => {
+    const step = p.step||1;
+    const val = st[p.key]||0;
+    h += `<div class="param-row">
+      <span class="param-label" style="color:var(--c-vmn)">${p.label}</span>
+      <input type="range" class="param-slider" min="${p.min}" max="${p.max}" step="${step}" value="${val}"
+        oninput="vmnParam(${id},'${p.key}',+this.value);this.nextElementSibling.textContent=this.value+'${p.unit}'">
+      <span class="param-val" style="color:var(--c-vmn)">${val}${p.unit}</span>
     </div>`;
   });
-  html += `</div></div>`;
-  el.innerHTML = html;
+  h += `</div>`;
+  return h;
 }
 
-// ── Examples rendering ───────────────────────────────────────────────
-function renderExamples() {
-  const el = document.getElementById('examples-content');
-  const examples = PROTOS[ACTIVE].examples;
-  let html = '';
-  examples.forEach((e,i) => {
-    html += `<div class="ecard" onclick="loadExample(${i})">
-      <div class="etitle">${e.title}</div>
-      <div class="edesc">${e.desc}</div>
-      <div class="estr">${e.str.replace(/\n/g,'<br>')}</div>
+function vmnType(id, typeId) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.cls = b.state.cls===typeId ? null : typeId;
+  b.state.progress = 0.5;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function vmnParam(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state[key] = val;
+  onBlockChange(id);
+}
+
+// ── VRN ─────────────────────────────────────────────────────
+function renderVRNBody(b) {
+  const st = b.state; const id = b.id;
+  let h = '';
+
+  // Resonators
+  h += `<div class="section-divider">Resonators (click to cycle :1→:2→:3→off)</div>`;
+  h += `<div class="res-grid">`;
+  VRN_RESONATORS.forEach(r => {
+    const lvl = st.resonators[r.sym]||0;
+    h += `<div class="res-chip${lvl>0?' active':''}" style="color:${r.color};${lvl>0?'border-color:'+r.color+';background:rgba(0,0,0,.2)':''}" onclick="vrnCycleRes(${id},'${r.sym}')">
+      ${r.sym}${lvl>0?` :${lvl}`:''}
     </div>`;
   });
-  html += `<div style="padding:14px;border-top:1px solid var(--border);margin-top:auto;font-size:.7rem;color:var(--gray);line-height:1.7">
-    <strong style="color:var(--text2)">${PROTOS[ACTIVE].id} — ${PROTOS[ACTIVE].subtitle}</strong><br>
-    © 2026 AIUNITES LLC &middot; UMN v1.0 &middot; <a href="movement.html" style="color:var(--indigo2)">HMN Hub →</a>
+  h += `</div>`;
+
+  // Placement
+  h += `<div class="param-row" style="margin-bottom:6px">
+    <span class="param-label" style="color:var(--c-vrn)">Placement</span>
+    ${VRN_PLACEMENT.map(p=>`<div class="type-chip${st.placement===p?' active':''}" style="${st.placement===p?'border-color:var(--c-vrn);color:var(--c-vrn);background:rgba(251,146,60,.1)':''}" onclick="vrnSet(${id},'placement','${p}')">${p}</div>`).join('')}
   </div>`;
-  el.innerHTML = html;
+
+  // Phonation
+  h += `<div class="param-row" style="margin-bottom:6px">
+    <span class="param-label" style="color:var(--c-vrn)">Phonation</span>
+    ${VRN_PHONATION.map(p=>`<div class="type-chip${st.phonation===p?' active':''}" style="${st.phonation===p?'border-color:var(--c-vrn);color:var(--c-vrn);background:rgba(251,146,60,.1)':''}" onclick="vrnSet(${id},'phonation','${p}')">${p}</div>`).join('')}
+  </div>`;
+
+  // Breath
+  h += `<div class="param-row">
+    <span class="param-label" style="color:var(--c-vrn)">Breath</span>
+    ${VRN_BREATH.map(b2=>`<div class="type-chip${st.breath===b2?' active':''}" style="${st.breath===b2?'border-color:var(--c-vrn);color:var(--c-vrn);background:rgba(251,146,60,.1)':''}" onclick="vrnSet(${id},'breath','${b2}')">${b2}</div>`).join('')}
+  </div>`;
+
+  return h;
 }
 
-// ── Output update ────────────────────────────────────────────────────
-function updateOutput() {
-  const cfg = PROTOS[ACTIVE];
-  const str = cfg.buildString(ST);
-  const box = document.getElementById('out-box');
-  box.innerHTML = cfg.colorize(str);
-  box.classList.toggle('has-content', !!str);
-
-  if (ACTIVE === 'VMN') {
-    document.getElementById('lsl-box').textContent = cfg.toLSL(ST);
-  }
+function vrnCycleRes(id, sym) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  const cur = b.state.resonators[sym]||0;
+  if (cur>=3) delete b.state.resonators[sym]; else b.state.resonators[sym]=(cur||0)+1;
+  renderBlockBody(b); onBlockChange(id);
 }
 
-// ── MNN helpers ──────────────────────────────────────────────────────
-function mnnPattern(btn) {
-  const v = btn.dataset.val;
-  ST.pattern = ST.pattern===v ? null : v;
-  document.querySelectorAll('[data-val]').forEach(b=>b.classList.toggle('active',b.dataset.val===ST.pattern));
-  updateOutput();
-}
-function mnnToggleMuscle(sym) {
-  if (ST.muscles[sym]) { delete ST.muscles[sym]; } else { ST.muscles[sym]=1; }
-  refreshMNN(sym);
-  updateOutput();
-}
-function mnnSetLevel(sym,lvl) {
-  ST.muscles[sym]=lvl;
-  refreshMNN(sym);
-  updateOutput();
-}
-function refreshMNN(sym) {
-  const lvl = ST.muscles[sym]||0;
-  const mn = document.getElementById('mn-'+sym);
-  if (mn) mn.classList.toggle('active',lvl>0);
-  [1,2,3].forEach(l => { const b=document.getElementById('ml-'+sym+'-'+l); if(b) b.classList.toggle('active',l<=lvl&&lvl>0); });
-}
-function mnnSide(sym,side) {
-  ST.sides[sym]=side;
-  ['L','R','Bi'].forEach(s=>{const b=document.getElementById('js-'+sym+'-'+s);if(b)b.classList.toggle('active',s===side);});
-  updateOutput();
-}
-function mnnAxis(sym,axis,val) {
-  ST.joints[sym][axis]=val;
-  const v=document.getElementById('jv-'+sym+'-'+axis);
-  if(v) v.textContent=val+'°';
-  updateOutput();
+function vrnSet(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state[key] = b.state[key]===val ? null : val;
+  renderBlockBody(b); onBlockChange(id);
 }
 
-// ── FNN helpers ──────────────────────────────────────────────────────
-function fnnMacro(id) {
-  ST.macro = ST.macro===id ? null : id;
-  FNN.macros.forEach(m=>{const b=document.getElementById('macro-'+m.id);if(b)b.classList.toggle('active',m.id===ST.macro);});
-  updateOutput();
-}
-function fnnSide(side) {
-  ST.side=side;
-  ['Bi','L','R'].forEach(s=>{const b=document.getElementById('fside-'+s);if(b)b.classList.toggle('active',s===side);});
-  updateOutput();
-}
-function fnnToggle(sym) {
-  if (ST.muscles[sym]) { delete ST.muscles[sym]; } else { ST.muscles[sym]=1; }
-  refreshFNN(sym); updateOutput();
-}
-function fnnLevel(sym,lvl) {
-  ST.muscles[sym]=lvl; refreshFNN(sym); updateOutput();
-}
-function refreshFNN(sym) {
-  const lvl=ST.muscles[sym]||0;
-  const mn=document.getElementById('fm-'+sym); if(mn) mn.classList.toggle('active',lvl>0);
-  [1,2,3].forEach(l=>{const b=document.getElementById('fl-'+sym+'-'+l);if(b)b.classList.toggle('active',l<=lvl&&lvl>0);});
+// ═══════════════════════════════════════════════════════════
+// EXAMPLES
+// ═══════════════════════════════════════════════════════════
+const EXAMPLES = [
+  {title:'Pilot Banking Left', tags:['VMN','MNN','FNN'], desc:'Aircraft in 25° bank, pilot compensating, concentration.',
+   str:'@VMN(Air) @ATT(Pit=3,Rol=-25,Yaw=270) @VEL(Fwd=88) @MODE(Cruise)\n@MOV(Sit) @ACT(Trap:1)\n@FNN(Corr:1, Orb.Oc.O:2)',
+   load(){ clearAll(false); addBlock('VMN'); addBlock('MNN'); addBlock('FNN');
+     const vm=blocks[0]; vm.state.cls='Air'; vm.state.pit=3; vm.state.rol=-25; vm.state.yaw=270; vm.state.fwd=88; vm.state.mode='Cruise';
+     const mb=blocks[1]; mb.state.pattern='Sit'; mb.state.muscles={'Trap':1};
+     const fb=blocks[2]; fb.state.muscles={'Corr':1,'Orb.Oc.O':2};
+     renderBlocks(); updateScene(); }},
+  {title:'Avatar Greeting', tags:['MNN','FNN'], desc:'Waving hello, Duchenne smile, right arm raised.',
+   str:'@MOV(Wave) @ACT(Dlt.A:2, Dlt.L:1, Tri:1) >> Axil/Rad\n@FNN(Zyg.Mj:3, Orb.Oc.O:2) >> CNVII/Zyg',
+   load(){ clearAll(false); addBlock('MNN'); addBlock('FNN');
+     blocks[0].state.pattern='Wave'; blocks[0].state.muscles={'Dlt.A':2,'Dlt.L':1,'Tri':1};
+     blocks[1].state.macro='Smile.D';
+     renderBlocks(); updateScene(); }},
+  {title:'Seaplane Water Landing', tags:['VMN'], desc:'Air→Sea morphing at 70%, descending to water.',
+   str:'@VMN(Multi:Air+Sea) @PROGRESS(0.70)\n@MODE(Transition:AirToSea)\n@ATT(Pit=-5,Yaw=090) @VEL(Fwd=38,Vert=-1.5)',
+   load(){ clearAll(false); addBlock('VMN');
+     const vm=blocks[0]; vm.state.cls='Air+Sea'; vm.state.progress=0.70;
+     vm.state.pit=-5; vm.state.yaw=90; vm.state.fwd=38; vm.state.vert=-1.5;
+     renderBlocks(); updateScene(); }},
+  {title:'Opera Singer', tags:['MNN','FNN','VRN'], desc:'Standing tall, full resonance, open expression.',
+   str:'@MOV(Idle) @ACT(Dia:3, TrA:2)\n@FNN(Zyg.Mj:2, Orb.Or:2)\n@RES(H:3,Ch:3,Zy:3,Ma:3) @PLC(F) @VOC(Fl) @BR(Sp5)',
+   load(){ clearAll(false); addBlock('MNN'); addBlock('FNN'); addBlock('VRN');
+     blocks[0].state.pattern='Idle'; blocks[0].state.muscles={'Dia':3,'TrA':2};
+     blocks[1].state.muscles={'Zyg.Mj':2,'Orb.Or':2};
+     blocks[2].state.resonators={'H':3,'Ch':3,'Zy':3,'Ma':3}; blocks[2].state.placement='F'; blocks[2].state.phonation='Fl'; blocks[2].state.breath='Sp5';
+     renderBlocks(); updateScene(); }},
+  {title:'Avatar Walking + Smile', tags:['MNN','FNN'], desc:'Natural gait with friendly expression.',
+   str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2) >> InfGlu/Fem\n@FNN(Zyg.Mj:2, Orb.Oc.O:1) >> CNVII/Zyg',
+   load(){ clearAll(false); addBlock('MNN'); addBlock('FNN');
+     blocks[0].state.pattern='Walk'; blocks[0].state.muscles={'Glu.Mx':2,'Quad.RF':2};
+     blocks[1].state.muscles={'Zyg.Mj':2,'Orb.Oc.O':1};
+     renderBlocks(); updateScene(); }},
+  {title:'Hovering Helicopter', tags:['VMN'], desc:'Heli stationary at 80m, collective holding altitude.',
+   str:'@VMN(Heli) @ATT(Pit=0,Rol=0,Yaw=000) @VEL(Fwd=0,Vert=0) @ALT(m=80) @CTRL(Throt=0.68) @MODE(Hover)',
+   load(){ clearAll(false); addBlock('VMN');
+     const vm=blocks[0]; vm.state.cls='Heli'; vm.state.alt=80; vm.state.throt=0.7; vm.state.mode='Hover';
+     renderBlocks(); updateScene(); }},
+  {title:'Conversation Scene', tags:['MNN','FNN','VRN'], desc:'Standing, speaking, attentive face, voice engaged.',
+   str:'@MOV(Idle) @ACT(TrA:1)\n@FNN(Orb.Or:1, Zyg.Mj:1)\n@RES(Ch:2, Or:1) @PLC(A) @VOC(Fl) @BR(Sp2)',
+   load(){ clearAll(false); addBlock('MNN'); addBlock('FNN'); addBlock('VRN');
+     blocks[0].state.pattern='Idle'; blocks[0].state.muscles={'TrA':1};
+     blocks[1].state.muscles={'Orb.Or':1,'Zyg.Mj':1};
+     blocks[2].state.resonators={'Ch':2,'Or':1}; blocks[2].state.placement='A'; blocks[2].state.phonation='Fl'; blocks[2].state.breath='Sp2';
+     renderBlocks(); updateScene(); }},
+  {title:'Submarine Dive', tags:['VMN'], desc:'Sub at 40m, westward heading, slow descent.',
+   str:'@VMN(Sub) @ATT(Pit=-6,Yaw=270) @VEL(Fwd=4,Vert=-0.5) @ALT(m=-40) @CTRL(Throt=0.4) @MODE(Cruise)',
+   load(){ clearAll(false); addBlock('VMN');
+     const vm=blocks[0]; vm.state.cls='Sub'; vm.state.pit=-6; vm.state.yaw=270; vm.state.fwd=4; vm.state.vert=-0.5; vm.state.alt=-40; vm.state.throt=0.4; vm.state.mode='Cruise';
+     renderBlocks(); updateScene(); }},
+];
+
+function renderExamples() {
+  const el = document.getElementById('examples-list');
+  const tagColor = {MNN:'var(--c-mnn)',FNN:'var(--c-fnn)',VMN:'var(--c-vmn)',VRN:'var(--c-vrn)'};
+  el.innerHTML = EXAMPLES.map((e,i) => `
+    <div class="ex-card" onclick="loadExample(${i})">
+      <div class="ex-title">${e.title}</div>
+      <div style="margin-bottom:5px">${e.tags.map(t=>`<span class="ex-tag" style="color:${tagColor[t]};border-color:${tagColor[t]};opacity:.8">${t}</span>`).join(' ')}</div>
+      <div class="ex-desc">${e.desc}</div>
+      <div class="ex-str">${e.str.replace(/\n/g,'<br>')}</div>
+    </div>
+  `).join('') + `<div style="padding:12px;text-align:center;font-size:.68rem;color:var(--gray)">
+    © 2026 AIUNITES LLC · UMN v1.0<br>
+    <a href="https://aiunites.github.io/inthisworld-site/umm.html" style="color:var(--indigo2)">Virtual World Reference →</a>
+  </div>`;
 }
 
-// ── VMN helpers ──────────────────────────────────────────────────────
-function vmnClass(id) {
-  ST.cls = ST.cls===id ? null : id;
-  ST.progress = 0.5;
-  VMN.classes.forEach(c=>{const bid='vcls-'+c.id.replace(/\+/g,'');const b=document.getElementById(bid);if(b)b.classList.toggle('active',c.id===ST.cls);});
-  renderLeft(); // re-render to show/hide morph slider
-  renderSecondary();
-  updateOutput();
+function loadExample(i) {
+  EXAMPLES[i].load();
 }
 
-// ── VRN helpers ──────────────────────────────────────────────────────
-function vrnToggle(sym) {
-  if (ST.resonators[sym]) { delete ST.resonators[sym]; } else { ST.resonators[sym]=2; }
-  refreshVRN(sym); updateOutput();
-}
-function vrnLevel(sym,lvl) {
-  ST.resonators[sym]=lvl; refreshVRN(sym); updateOutput();
-}
-function refreshVRN(sym) {
-  const lvl=ST.resonators[sym]||0;
-  const mn=document.getElementById('vr-'+sym); if(mn) mn.classList.toggle('active',lvl>0);
-  [1,2,3].forEach(l=>{const b=document.getElementById('vrl-'+sym+'-'+l);if(b)b.classList.toggle('active',l<=lvl&&lvl>0);});
-}
-function vrnPlacement(sym) {
-  ST.placement = ST.placement===sym ? null : sym;
-  VRN.placement.forEach(p=>{const b=document.getElementById('vp-'+p.sym);if(b)b.classList.toggle('active',p.sym===ST.placement);});
-  updateOutput();
-}
-function vrnPhonation(sym) {
-  ST.phonation = ST.phonation===sym ? null : sym;
-  VRN.phonation.forEach(p=>{const b=document.getElementById('vo-'+p.sym);if(b)b.classList.toggle('active',p.sym===ST.phonation);});
-  updateOutput();
-}
-function vrnBreath(sym) {
-  ST.breath = ST.breath===sym ? null : sym;
-  VRN.breath.forEach(b=>{const el=document.getElementById('vb-'+b.sym);if(el)el.classList.toggle('active',b.sym===ST.breath);});
-  updateOutput();
+// ═══════════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════════
+function getSceneString() {
+  return blocks.map(b=>buildBlock(b)).filter(s=>s.trim()).join('\n');
 }
 
-// ── Examples loader ──────────────────────────────────────────────────
-function loadExample(idx) {
-  const ex = PROTOS[ACTIVE].examples[idx];
-  if (!ex) return;
-  clearAll(false);
-
-  if (ACTIVE === 'MNN' && ex.load) {
-    ST = MNN.initState();
-    ex.load(ST, MNN);
-    renderSecondary();
-    // Sync UI
-    if (ST.pattern) document.querySelectorAll('[data-val]').forEach(b=>b.classList.toggle('active',b.dataset.val===ST.pattern));
-    Object.entries(ST.muscles).forEach(([sym,lvl])=>refreshMNN(sym));
-  } else if (ACTIVE === 'VMN' && ex.str) {
-    // Parse VMN string — handle both single and multi-class
-    const multi = ex.str.match(/@VMN\(Multi:([^)]+)\)/);
-    const single = ex.str.match(/@VMN\((\w+)\)/);
-    if (multi) {
-      ST.cls = multi[1];
-      const pr = ex.str.match(/@PROGRESS\(([^)]+)\)/);
-      if (pr) ST.progress = parseFloat(pr[1]);
-    } else if (single) {
-      ST.cls = single[1];
-      const mode = ex.str.match(/@MODE\(([^)]+)\)/);
-      if (mode) ST.mode = mode[1];
-    }
-    // Parse numeric params
-    const att = ex.str.match(/@ATT\(([^)]+)\)/);
-    if (att) { att[1].split(',').forEach(kv=>{const [k,v]=kv.split('=');if(k&&v){const ks=k.toLowerCase().trim();if(ks==='pit')ST.pit=+v;if(ks==='rol')ST.rol=+v;if(ks==='yaw')ST.yaw=+v;}}); }
-    const vel = ex.str.match(/@VEL\(([^)]+)\)/);
-    if (vel) { vel[1].split(',').forEach(kv=>{const [k,v]=kv.split('=');if(k&&v){const ks=k.toLowerCase().trim();if(ks==='fwd')ST.fwd=+v;if(ks==='vert')ST.vert=+v;}}); }
-    const alt = ex.str.match(/@ALT\(m=([^)]+)\)/);
-    if (alt) ST.alt = parseFloat(alt[1]);
-    const ctrl = ex.str.match(/@CTRL\(Throt=([^,)]+)/);
-    if (ctrl) ST.throt = parseFloat(ctrl[1]);
-    renderLeft(); renderSecondary();
-  }
-  updateOutput();
+function selectSceneString() {
+  const el = document.getElementById('scene-out');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
 }
 
-// ── Copy / clear ─────────────────────────────────────────────────────
-function copyString() {
-  const str = PROTOS[ACTIVE].buildString(ST);
-  if (!str) {
-    if (ACTIVE === 'VMN' && !ST.cls) toast('Select a vehicle class first ↑');
-    else if (ACTIVE === 'MNN') toast('Select a pattern or muscle first');
-    else if (ACTIVE === 'FNN') toast('Select a macro or facial muscle first');
-    else if (ACTIVE === 'VRN') toast('Select a resonator first');
-    else toast('Nothing to copy yet');
-    return;
-  }
+function copyScene() {
+  const str = getSceneString();
+  if (!str) { toast('Add blocks first'); return; }
   navigator.clipboard.writeText(str);
-  toast('⎘ Copied!');
+  toast('⎘ Scene string copied!');
 }
+
 function copyJSON() {
-  const j = PROTOS[ACTIVE].toJSON(ST);
-  navigator.clipboard.writeText(j);
+  const data = {protocol:'UMN',version:'1.0',blocks:blocks.map(b=>({proto:b.proto,state:b.state}))};
+  navigator.clipboard.writeText(JSON.stringify(data,null,2));
   toast('JSON copied!');
 }
+
 function copyLSL() {
   const lsl = document.getElementById('lsl-box').textContent;
   navigator.clipboard.writeText(lsl);
   toast('LSL copied!');
 }
-function clearAll(doUpdate=true) {
-  ST = PROTOS[ACTIVE].initState();
-  renderLeft();
-  renderSecondary();
-  if (doUpdate) updateOutput();
+
+let lslVisible = false;
+function toggleLSL() {
+  lslVisible = !lslVisible;
+  document.getElementById('lsl-panel').style.display = lslVisible ? '' : 'none';
+  document.getElementById('lsl-toggle-btn').style.fontWeight = lslVisible ? '700' : '600';
 }
+
+function clearAll(doRender=true) {
+  blocks = []; nextId = 1;
+  if (doRender) { renderBlocks(); updateScene(); }
+  lslVisible = false;
+  document.getElementById('lsl-panel').style.display = 'none';
+}
+
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2000);
+  setTimeout(()=>t.classList.remove('show'), 2200);
 }
 
-// ── Init ─────────────────────────────────────────────────────────────
-switchProtocol('MNN');
+// Fix slider thumb colors via CSS custom property fallback
+document.addEventListener('input', e => {
+  if (e.target.classList.contains('param-slider')) {
+    const color = e.target.style.getPropertyValue('--thumb-c') || 'var(--c-mnn)';
+    e.target.style.setProperty('--thumb-c', color);
+  }
+});
+
+// ── Init ────────────────────────────────────────────────────
+renderExamples();
+updateScene();
 </script>
 </body>
 </html>
