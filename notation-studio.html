@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://aiunites.com/notation-studio.html">
-<title>AIUNITES Notation Studio — Universal Notation Builder</title>
-<meta name="description" content="Build MNN, FNN, VMN, and VRN notation strings interactively. One universal builder for all AIUNITES notation protocols — body, face, vehicle, and voice.">
+<title>UMN Studio — Universal Movement Notation | AIUNITES</title>
+<meta name="description" content="Build MNN, FNN, VMN, VRN notation strings interactively. UMN: Universal Movement Notation — one studio for every kind of movement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
@@ -177,7 +177,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 
 <div class="page">
 <div class="topbar">
-  <div class="topbar-logo">◆ AIUNITES <span class="sub">Notation Studio</span></div>
+  <div class="topbar-logo">◆ AIUNITES <span class="sub">UMN Studio &middot; Universal Movement Notation</span></div>
 
   <div class="proto-tabs">
     <button class="proto-tab active" id="ptab-MNN" onclick="switchProtocol('MNN')">
@@ -199,9 +199,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
   </div>
 
   <div class="topbar-links">
-    <a href="movement.html">HMN Hub</a>
-    <a href="builder.html">Classic Builder</a>
-    <a href="hmn-spec.html">Spec</a>
+    <a href="movement.html">UMN Hub</a>
+    <a href="builder.html">HMN Builder</a>
+    <a href="hmn-spec.html">Specs</a>
   </div>
 </div>
 
@@ -957,7 +957,10 @@ function refreshFNN(sym) {
 // ── VMN helpers ──────────────────────────────────────────────────────
 function vmnClass(id) {
   ST.cls = ST.cls===id ? null : id;
-  VMN.classes.forEach(c=>{const b=document.getElementById('vcls-'+c.id);if(b)b.classList.toggle('active',c.id===ST.cls);});
+  ST.progress = 0.5;
+  VMN.classes.forEach(c=>{const bid='vcls-'+c.id.replace(/\+/g,'');const b=document.getElementById(bid);if(b)b.classList.toggle('active',c.id===ST.cls);});
+  renderLeft(); // re-render to show/hide morph slider
+  renderSecondary();
   updateOutput();
 }
 
