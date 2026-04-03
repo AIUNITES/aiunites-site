@@ -311,6 +311,7 @@ const MNN = {
   ],
 
   patterns:['Push.H','Push.V','Pull.H','Pull.V','Squat','Hinge','Lunge','Iso','Rotate','Carry'],
+  vwPatterns:['Idle','Walk','Run','Fly','Sit','Sit.Floor','Swim','Dance','Wave','Bow','Crouch','Reach'],
 
   initState() {
     const st = {pattern:null,muscles:{},joints:{},sides:{},nerve:'',comp:['',''],nerveStatus:''};
@@ -382,6 +383,20 @@ const MNN = {
     {title:'Plank (Core Bracing)',desc:'Anti-extension isometric. TrA + obliques.',
      str:'@MOV(Iso) @ACT(TrA:3, Obl.E:2, Ers:2) >> Intercost/DorsRami',
      load(st,cfg){st.pattern='Iso';st.muscles={'TrA':3,'Obl.E':2,'Ers':2};}},
+    {title:'Avatar Idle Stance',desc:'Neutral standing. Core lightly engaged, postural muscles active.',
+     str:'@MOV(Idle) @ACT(TrA:1, Ers:1) >> Intercost/DorsRami',
+     load(st,cfg){st.pattern='Idle';st.muscles={'TrA':1,'Ers':1};}},
+    {title:'Avatar Walking',desc:'Natural forward gait. Glutes + quads alternating, calf push-off.',
+     str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2, Gas:1) >> InfGlu/Fem/Tib',
+     load(st,cfg){st.pattern='Walk';st.muscles={'Glu.Mx':2,'Quad.RF':2,'Gas':1};}},
+    {title:'Greeting Wave',desc:'Right arm raised, waving. Anterior + lateral delt, tricep stabilizing.',
+     str:'@MOV(Wave) @ACT(Dlt.A:2, Dlt.L:1, Tri:1) >> Axil/Rad
+@JNT(R.Sh:Flex=100,Abd=60)',
+     load(st,cfg){st.pattern='Wave';st.muscles={'Dlt.A':2,'Dlt.L':1,'Tri':1};st.joints.Sh={Flex:100,Abd:60,IR:0,ER:0};st.sides.Sh='R';}},
+    {title:'Avatar + Expression',desc:'Walking with open smile — compound MNN + FNN scene string.',
+     str:'@MOV(Walk) @ACT(Glu.Mx:2, Quad.RF:2) >> InfGlu/Fem
+@FNN(Zyg.Mj:2, Orb.Oc.O:1) >> CNVII/Zyg',
+     load(st,cfg){st.pattern='Walk';st.muscles={'Glu.Mx':2,'Quad.RF':2};}},
   ]
 };
 
@@ -732,9 +747,16 @@ function renderLeft() {
 }
 
 function renderMNNLeft(el) {
-  // Pattern section
-  let html = `<div class="sg"><div class="sl"><span class="d" style="background:#818cf8"></span>Movement Pattern</div><div class="pgrid">`;
+  // Pattern section — exercise
+  let html = `<div class="sg"><div class="sl"><span class="d" style="background:#818cf8"></span>Exercise Patterns</div><div class="pgrid">`;
   MNN.patterns.forEach(p => {
+    html += `<div class="pbtn" data-val="${p}" onclick="mnnPattern(this)">${p}</div>`;
+  });
+  html += `</div></div>`;
+
+  // VW avatar patterns
+  html += `<div class="sg"><div class="sl"><span class="d" style="background:#22d3ee"></span>Avatar / Virtual World</div><div class="pgrid">`;
+  MNN.vwPatterns.forEach(p => {
     html += `<div class="pbtn" data-val="${p}" onclick="mnnPattern(this)">${p}</div>`;
   });
   html += `</div></div>`;
