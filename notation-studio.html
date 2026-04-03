@@ -40,17 +40,18 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .topbar-logo .sub{color:var(--gray);font-weight:400;font-size:.75rem;margin-left:6px;}
 
 /* Protocol tabs */
-.proto-tabs{display:flex;align-items:stretch;flex:1;padding:0 8px;}
-.proto-tab{display:flex;align-items:center;gap:7px;padding:0 18px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:.82rem;font-weight:600;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;letter-spacing:.3px;}
+.proto-tabs{display:flex;align-items:stretch;padding:0 4px;}
+.proto-tab{display:flex;align-items:center;gap:7px;padding:0 20px;cursor:pointer;border:none;background:transparent;color:var(--text2);font-family:inherit;font-size:.8rem;font-weight:600;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;letter-spacing:.2px;flex-shrink:0;}
 .proto-tab:hover{color:var(--text);}
 .proto-tab.active{color:var(--proto-color);border-bottom-color:var(--proto-color);}
 .proto-tab .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;opacity:.5;}
 .proto-tab.active .dot{opacity:1;}
-.proto-tab .tag{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--gray);background:var(--bg3);padding:2px 5px;border-radius:3px;border:1px solid var(--border);}
-.proto-tab.active .tag{color:var(--proto-color);border-color:var(--proto-color);background:rgba(var(--proto-rgb),.1);}
+.proto-tab .pid{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;}
+.proto-tab .plabel{font-size:.72rem;font-weight:400;color:var(--gray);}
+.proto-tab.active .plabel{color:var(--proto-color);opacity:.8;}
 
-.topbar-links{display:flex;align-items:center;gap:8px;margin-left:auto;border-left:1px solid var(--border);padding-left:16px;font-size:.78rem;}
-.topbar-links a{color:var(--text2);text-decoration:none;padding:4px 8px;border-radius:5px;transition:all .15s;white-space:nowrap;}
+.topbar-links{display:flex;align-items:center;gap:4px;margin-left:auto;border-left:1px solid var(--border);padding-left:12px;}
+.topbar-links a{color:var(--text2);text-decoration:none;padding:5px 8px;border-radius:5px;font-size:.72rem;transition:all .15s;white-space:nowrap;}
 .topbar-links a:hover{background:var(--bg3);color:var(--text);}
 
 /* Builder shell */
@@ -177,31 +178,30 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 
 <div class="page">
 <div class="topbar">
-  <div class="topbar-logo">◆ AIUNITES <span class="sub">UMN Studio &middot; Universal Movement Notation</span></div>
+  <div class="topbar-logo">◆ AIUNITES <span class="sub" style="display:none" id="logo-sub">UMN Studio</span></div>
 
   <div class="proto-tabs">
     <button class="proto-tab active" id="ptab-MNN" onclick="switchProtocol('MNN')">
-      <span class="dot" style="background:#34d399" id="dot-MNN"></span>
-      MNN &nbsp;<span class="tag">@ACT()</span>&nbsp; Body
+      <span class="dot" style="background:#34d399"></span>
+      <span class="pid">MNN</span><span class="plabel">Body</span>
     </button>
     <button class="proto-tab" id="ptab-FNN" onclick="switchProtocol('FNN')">
-      <span class="dot" style="background:#f472b6" id="dot-FNN"></span>
-      FNN &nbsp;<span class="tag">@FNN()</span>&nbsp; Face
+      <span class="dot" style="background:#f472b6"></span>
+      <span class="pid">FNN</span><span class="plabel">Face</span>
     </button>
     <button class="proto-tab" id="ptab-VMN" onclick="switchProtocol('VMN')">
-      <span class="dot" style="background:#22d3ee" id="dot-VMN"></span>
-      VMN &nbsp;<span class="tag">@VMN()</span>&nbsp; Vehicle
+      <span class="dot" style="background:#22d3ee"></span>
+      <span class="pid">VMN</span><span class="plabel">Vehicle</span>
     </button>
     <button class="proto-tab" id="ptab-VRN" onclick="switchProtocol('VRN')">
-      <span class="dot" style="background:#fb923c" id="dot-VRN"></span>
-      VRN &nbsp;<span class="tag">@RES()</span>&nbsp; Voice
+      <span class="dot" style="background:#fb923c"></span>
+      <span class="pid">VRN</span><span class="plabel">Voice</span>
     </button>
   </div>
 
   <div class="topbar-links">
-    <a href="movement.html">UMN Hub</a>
-    <a href="builder.html">HMN Builder</a>
-    <a href="hmn-spec.html">Specs</a>
+    <a href="movement.html" title="UMN Hub">Hub</a>
+    <a href="hmn-spec.html" title="Specs">Specs</a>
   </div>
 </div>
 
@@ -931,7 +931,7 @@ function renderExamples() {
   });
   html += `<div style="padding:14px;border-top:1px solid var(--border);margin-top:auto;font-size:.7rem;color:var(--gray);line-height:1.7">
     <strong style="color:var(--text2)">${PROTOS[ACTIVE].id} — ${PROTOS[ACTIVE].subtitle}</strong><br>
-    © 2026 AIUNITES LLC &middot; <a href="movement.html" style="color:var(--indigo2)">HMN Hub →</a>
+    © 2026 AIUNITES LLC &middot; UMN v1.0 &middot; <a href="movement.html" style="color:var(--indigo2)">HMN Hub →</a>
   </div>`;
   el.innerHTML = html;
 }
@@ -1061,9 +1061,28 @@ function loadExample(idx) {
     if (ST.pattern) document.querySelectorAll('[data-val]').forEach(b=>b.classList.toggle('active',b.dataset.val===ST.pattern));
     Object.entries(ST.muscles).forEach(([sym,lvl])=>refreshMNN(sym));
   } else if (ACTIVE === 'VMN' && ex.str) {
-    // Parse VMN string from example
-    const cls = ex.str.match(/@VMN\((\w+)\)/);
-    if (cls) { ST.cls=cls[1]; document.querySelectorAll('[id^=vcls-]').forEach(b=>b.classList.toggle('active',b.id==='vcls-'+cls[1])); }
+    // Parse VMN string — handle both single and multi-class
+    const multi = ex.str.match(/@VMN\(Multi:([^)]+)\)/);
+    const single = ex.str.match(/@VMN\((\w+)\)/);
+    if (multi) {
+      ST.cls = multi[1];
+      const pr = ex.str.match(/@PROGRESS\(([^)]+)\)/);
+      if (pr) ST.progress = parseFloat(pr[1]);
+    } else if (single) {
+      ST.cls = single[1];
+      const mode = ex.str.match(/@MODE\(([^)]+)\)/);
+      if (mode) ST.mode = mode[1];
+    }
+    // Parse numeric params
+    const att = ex.str.match(/@ATT\(([^)]+)\)/);
+    if (att) { att[1].split(',').forEach(kv=>{const [k,v]=kv.split('=');if(k&&v){const ks=k.toLowerCase().trim();if(ks==='pit')ST.pit=+v;if(ks==='rol')ST.rol=+v;if(ks==='yaw')ST.yaw=+v;}}); }
+    const vel = ex.str.match(/@VEL\(([^)]+)\)/);
+    if (vel) { vel[1].split(',').forEach(kv=>{const [k,v]=kv.split('=');if(k&&v){const ks=k.toLowerCase().trim();if(ks==='fwd')ST.fwd=+v;if(ks==='vert')ST.vert=+v;}}); }
+    const alt = ex.str.match(/@ALT\(m=([^)]+)\)/);
+    if (alt) ST.alt = parseFloat(alt[1]);
+    const ctrl = ex.str.match(/@CTRL\(Throt=([^,)]+)/);
+    if (ctrl) ST.throt = parseFloat(ctrl[1]);
+    renderLeft(); renderSecondary();
   }
   updateOutput();
 }
