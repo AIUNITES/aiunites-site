@@ -67,7 +67,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .scene-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--gray);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
 .scene-label-text{display:flex;align-items:center;gap:8px;}
 .block-count{font-size:.6rem;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:8px;border:1px solid var(--border);}
-.scene-out{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;min-height:56px;word-break:break-all;transition:border-color .3s;cursor:text;user-select:all;}
+.scene-out{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;min-height:56px;word-break:break-all;transition:border-color .3s;}
 .scene-out.has-content{border-color:rgba(99,102,241,.4);}
 .scene-out .t-empty{color:var(--gray);font-style:italic;font-size:.78rem;}
 /* Token colors */
@@ -240,9 +240,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
           Scene String
           <span class="block-count" id="block-count">0 blocks</span>
         </span>
-        <span style="font-size:.63rem;color:var(--gray)">click to select all</span>
       </div>
-      <div class="scene-out" id="scene-out" onclick="selectSceneString()">
+      <div class="scene-out" id="scene-out">
         <span class="t-empty">Add a block above to begin composing…</span>
       </div>
       <div class="scene-actions">
@@ -1378,15 +1377,6 @@ function loadExample(i) {
 // ═══════════════════════════════════════════════════════════
 function getSceneString() {
   return blocks.map(b=>buildBlock(b)).filter(s=>s.trim()).join('\n');
-}
-
-function selectSceneString() {
-  const el = document.getElementById('scene-out');
-  const range = document.createRange();
-  range.selectNodeContents(el);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
 }
 
 function copyScene() {
