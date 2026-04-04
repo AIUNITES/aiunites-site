@@ -247,6 +247,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <div class="scene-actions">
         <button class="sact pri" onclick="copyScene()" id="copy-scene-btn">⎘ Copy Scene String</button>
         <button class="sact sec" onclick="copyJSON()">{ } JSON</button>
+        <button class="sact sec" onclick="previewInAvatar()" id="preview-btn" title="Open MNN block in avatar viewer">▶ Preview</button>
         <button class="sact lsl-btn" id="lsl-toggle-btn" onclick="toggleLSL()">⌁ LSL</button>
         <button class="sact del" onclick="clearAll()">✕ Clear</button>
       </div>
@@ -1377,6 +1378,38 @@ function loadExample(i) {
 // ═══════════════════════════════════════════════════════════
 function getSceneString() {
   return blocks.map(b=>buildBlock(b)).filter(s=>s.trim()).join('\n');
+}
+
+// VW pattern → avatar animation sequence key
+const VW_ANIM_MAP = {
+  'Walk':'walk','Run':'run','Fly':'fly','Sit':'sit','Sit.Floor':'sit',
+  'Swim':'swim','Dance':'dance','Wave':'wave_vw','Bow':'bow',
+  'Breathe':'breathe','Idle':'breathe',
+};
+
+function previewInAvatar() {
+  // Find the first MNN block
+  const mnnBlock = blocks.find(b=>b.proto==='MNN');
+  if (!mnnBlock) { toast('Add an MNN Body block first'); return; }
+
+  const base = 'https://aiunites.github.io/inthisworld-site/mnn-avatar.html';
+  // Use localhost if running locally
+  const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const baseUrl = isLocal
+    ? location.origin + '/inthisworld-site/mnn-avatar.html'
+    : base;
+
+  // Check if it's a VW named pattern we can animate directly
+  const pat = mnnBlock.state.pattern;
+  if (pat && VW_ANIM_MAP[pat]) {
+    window.open(baseUrl + '?anim=' + VW_ANIM_MAP[pat], '_blank');
+    return;
+  }
+
+  // Otherwise encode the MNN string as a URL param
+  const str = buildMNN(mnnBlock.state);
+  if (!str) { toast('Build a pose first — select muscles or pattern'); return; }
+  window.open(baseUrl + '?mnn=' + encodeURIComponent(str), '_blank');
 }
 
 function copyScene() {
