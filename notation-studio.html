@@ -83,6 +83,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .t-prog{color:var(--c-vmn);}
 .t-ben{color:var(--c-ben);}
 .t-ens{color:var(--c-ens);}
+.t-agent{color:#94a3b8;}
 .scene-actions{display:flex;gap:6px;margin-top:10px;}
 .sact{padding:7px 14px;border-radius:6px;font-size:.76rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;border:none;}
 .sact.pri{background:var(--indigo);color:#fff;flex:1;}
@@ -213,6 +214,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </button>
     <button class="add-btn ens" onclick="addBlock('ENS')" title="Add environment state notation">
       <span class="plus">+</span><span class="proto" style="color:var(--c-ens)">ENS</span> Environment
+    </button>
+    <button class="add-btn" onclick="addBlock('AGENT')" title="Add agent identifier for NPC/avatar/pet" style="color:var(--text2)">
+      <span class="plus">+</span><span class="proto" style="color:#94a3b8">AGENT</span> NPC/Avatar
     </button>
   </div>
 
@@ -377,9 +381,9 @@ const VRN_PHONATION = ['Fl','Hd','Mx','Ch','Fry','Wh'];
 const VRN_BREATH    = ['Sp1','Sp2','Sp3','Sp4','Sp5','Dia'];
 
 // Protocol colors
-const PROTO_COLOR = {MNN:'var(--c-mnn)',FNN:'var(--c-fnn)',VMN:'var(--c-vmn)',VRN:'var(--c-vrn)',BEN:'var(--c-ben)',ENS:'var(--c-ens)'};
-const PROTO_HEX   = {MNN:'#34d399',FNN:'#f472b6',VMN:'#22d3ee',VRN:'#fb923c',BEN:'#a78bfa',ENS:'#4ade80'};
-const PROTO_RGB   = {MNN:'52,211,153',FNN:'244,114,182',VMN:'34,211,238',VRN:'251,146,60',BEN:'167,139,250',ENS:'74,222,128'};
+const PROTO_COLOR = {MNN:'var(--c-mnn)',FNN:'var(--c-fnn)',VMN:'var(--c-vmn)',VRN:'var(--c-vrn)',BEN:'var(--c-ben)',ENS:'var(--c-ens)',AGENT:'#e2e8f0'};
+const PROTO_HEX   = {MNN:'#34d399',FNN:'#f472b6',VMN:'#22d3ee',VRN:'#fb923c',BEN:'#a78bfa',ENS:'#4ade80',AGENT:'#94a3b8'};
+const PROTO_RGB   = {MNN:'52,211,153',FNN:'244,114,182',VMN:'34,211,238',VRN:'251,146,60',BEN:'167,139,250',ENS:'74,222,128',AGENT:'148,163,184'};
 
 // ═══════════════════════════════════════════════════════════
 // STATE
@@ -400,6 +404,7 @@ function newVMNState() { return {cls:null,pit:0,rol:0,yaw:0,fwd:0,vert:0,alt:0,t
 function newVRNState() { return {resonators:{},placement:null,phonation:null,breath:null}; }
 function newBENState() { return {struct:'Struct',objects:[],zone:null}; }
 function newENSState() { return {time:'',sky:null,weather:{},wind:null,season:null,grav:null,preset:null}; }
+function newAGENTState() { return {id:'',type:'Avatar',species:'',role:'',beh:null,behTarget:'',behRadius:5}; }
 
 // ═══════════════════════════════════════════════════════════
 // STRING BUILDERS
@@ -533,6 +538,114 @@ function buildENS(st) {
   return p.join(' ');
 }
 
+function buildAGENT(st) {
+  if (!st.id && !st.type) return '';
+  const parts = [`@AGENT(id=${st.id||'Agent1'},type=${st.type}`];
+  if (st.species) parts[0] += `,species=${st.species}`;
+  if (st.role) parts[0] += `,role=${st.role}`;
+  parts[0] += ')';
+  if (st.beh) {
+    let beh = `@BEH(${st.beh}`;
+    if (st.behTarget) beh += `:${st.behTarget}`;
+    if (st.beh==='Wander'||st.beh==='Patrol') beh += `,Radius=${st.behRadius}m`;
+    beh += ')';
+    parts.push(beh);
+  }
+  return parts.join(' ');
+}
+
+const AGENT_TYPES = ['Avatar','NPC','Pet','Companion','Guard','Merchant','Creature'];
+const AGENT_SPECIES = ['Cat','Dog','Bird','Horse','Dragon','Fox','Wolf','Rabbit','Custom'];
+const AGENT_ROLES = ['Companion','Guard','Merchant','Guide','Enemy','Neutral','Friendly'];
+const AGENT_BEHS = ['Idle','Follow','Wander','Patrol','Sit','Flee','Attack','Greet','Dance','Sleep'];
+
+function renderAGENTBody(b) {
+  const st = b.state; const id = b.id;
+  const isPet = st.type==='Pet' || st.type==='Creature';
+  let h = '';
+
+  // Type
+  h += `<div class="section-divider">Agent Type</div>`;
+  h += `<div class="type-row">`;
+  AGENT_TYPES.forEach(t => {
+    const active = st.type===t;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:#94a3b8;color:#e2e8f0;background:rgba(148,163,184,.12)':''}" onclick="agentSet(${id},'type','${t}')">${t}</div>`;
+  });
+  h += `</div>`;
+
+  // ID
+  h += `<div class="param-row" style="margin-bottom:6px;margin-top:8px">
+    <span class="param-label" style="color:#94a3b8;width:50px">ID</span>
+    <input class="param-select" placeholder="e.g. Cat1, Aria, Guard3" value="${st.id||''}" oninput="agentField(${id},'id',this.value)" style="flex:1">
+  </div>`;
+
+  // Species (for pets/creatures)
+  if (isPet) {
+    h += `<div class="section-divider">Species</div>`;
+    h += `<div class="type-row">`;
+    AGENT_SPECIES.forEach(s => {
+      const active = st.species===s;
+      h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:#94a3b8;color:#e2e8f0;background:rgba(148,163,184,.12)':''}" onclick="agentSet(${id},'species','${s}')">${s}</div>`;
+    });
+    h += `</div>`;
+  } else {
+    h += `<div class="section-divider">Role</div>`;
+    h += `<div class="type-row">`;
+    AGENT_ROLES.forEach(r => {
+      const active = st.role===r;
+      h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:#94a3b8;color:#e2e8f0;background:rgba(148,163,184,.12)':''}" onclick="agentSet(${id},'role','${r}')">${r}</div>`;
+    });
+    h += `</div>`;
+  }
+
+  // Behavior
+  h += `<div class="section-divider">Behavior State @BEH()</div>`;
+  h += `<div class="type-row">`;
+  AGENT_BEHS.forEach(beh => {
+    const active = st.beh===beh;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:#94a3b8;color:#e2e8f0;background:rgba(148,163,184,.12)':''}" onclick="agentSet(${id},'beh','${beh}')">${beh}</div>`;
+  });
+  h += `</div>`;
+
+  if (st.beh==='Follow'||st.beh==='Attack') {
+    h += `<div class="param-row" style="margin-top:6px;margin-bottom:4px">
+      <span class="param-label" style="color:#94a3b8">Target</span>
+      <input class="param-select" placeholder="e.g. Player1, NPC2" value="${st.behTarget||''}" oninput="agentField(${id},'behTarget',this.value)" style="flex:1">
+    </div>`;
+  }
+  if (st.beh==='Wander'||st.beh==='Patrol') {
+    h += `<div class="param-row" style="margin-top:6px">
+      <span class="param-label" style="color:#94a3b8">Radius</span>
+      <input type="range" class="param-slider" min="1" max="30" value="${st.behRadius||5}"
+        oninput="agentField(${id},'behRadius',+this.value);this.nextElementSibling.textContent=this.value+'m'">
+      <span class="param-val" style="color:#94a3b8">${st.behRadius||5}m</span>
+    </div>`;
+  }
+
+  // Usage note
+  h += `<div style="margin-top:10px;font-size:.67rem;color:var(--gray);line-height:1.6;padding:8px 10px;background:var(--bg3);border-radius:6px">`;
+  if (isPet) {
+    h += `For animals: add an MNN block below using quadruped patterns — @MOV(Walk), @GAIT(Quad:Trot) for locomotion. Animal joints use the same MNN symbols.`;
+  } else {
+    h += `Add MNN, FNN, VRN blocks below this AGENT block to describe what this character is doing. The AGENT tag identifies who; the other blocks say what.`;
+  }
+  h += `</div>`;
+
+  return h;
+}
+
+function agentSet(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state[key] = b.state[key]===val ? '' : val;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function agentField(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state[key] = val;
+  onBlockChange(id);
+}
+
 function buildVRN(st) {
   const p = [];
   const am = Object.entries(st.resonators).filter(([,v])=>v>0);
@@ -550,6 +663,7 @@ function buildBlock(b) {
   if (b.proto==='VRN') return buildVRN(b.state);
   if (b.proto==='BEN') return buildBEN(b.state);
   if (b.proto==='ENS') return buildENS(b.state);
+  if (b.proto==='AGENT') return buildAGENT(b.state);
   return '';
 }
 
@@ -559,6 +673,9 @@ function buildBlock(b) {
 function colorize(str) {
   if (!str) return '';
   return str
+    .replace(/(@AGENT\([^)]+\))/g,'<span class="t-agent">$1</span>')
+    .replace(/(@BEH\([^)]+\))/g,'<span class="t-agent">$1</span>')
+    .replace(/(@GAIT\([^)]+\))/g,'<span class="t-mnn">$1</span>')
     .replace(/(@BEN\([^)]+\))/g,'<span class="t-mode">$1</span>')
     .replace(/(@OBJ\([^)]+\))/g,'<span class="t-ben">$1</span>')
     .replace(/(@ZONE\([^)]+\))/g,'<span class="t-ben">$1</span>')
@@ -629,6 +746,7 @@ function addBlock(proto) {
   else if (proto==='VRN') state = newVRNState();
   else if (proto==='BEN') state = newBENState();
   else if (proto==='ENS') state = newENSState();
+  else if (proto==='AGENT') state = newAGENTState();
   blocks.push({id, proto, state, collapsed:false});
   renderBlocks();
   updateScene();
@@ -689,6 +807,7 @@ function blockName(b) {
   if (b.proto==='VRN') return 'Voice';
   if (b.proto==='BEN') return b.state.struct || 'Building';
   if (b.proto==='ENS') return b.state.preset || b.state.sky || 'Environment';
+  if (b.proto==='AGENT') return b.state.id || (b.state.type==='Pet'?b.state.species:'NPC');
   return b.proto;
 }
 
@@ -722,6 +841,7 @@ function renderBlockBody(b) {
   else if (b.proto==='VRN') el.innerHTML = renderVRNBody(b);
   else if (b.proto==='BEN') el.innerHTML = renderBENBody(b);
   else if (b.proto==='ENS') el.innerHTML = renderENSBody(b);
+  else if (b.proto==='AGENT') el.innerHTML = renderAGENTBody(b);
 }
 
 // ── MNN ─────────────────────────────────────────────────────
@@ -1179,6 +1299,38 @@ const EXAMPLES = [
    str:'@VMN(Sub) @ATT(Pit=-6,Yaw=270) @VEL(Fwd=4,Vert=-0.5) @ALT(m=-40) @CTRL(Throt=0.4) @MODE(Cruise)',
    load(){ clearAll(false); addBlock('VMN');
      const vm=blocks[0]; vm.state.cls='Sub'; vm.state.pit=-6; vm.state.yaw=270; vm.state.fwd=4; vm.state.vert=-0.5; vm.state.alt=-40; vm.state.throt=0.4; vm.state.mode='Cruise';
+     renderBlocks(); updateScene(); }},
+  {title:'Pet Cat Following Player', tags:['AGENT','MNN','FNN'], desc:'NPC cat companion following the player at 1.5m, trotting, alert face.',
+   str:'@AGENT(id=Mittens,type=Pet,species=Cat) @BEH(Follow:Player1,Radius=1.5m)\n@MOV(Walk) @ACT(Ers:1)\n@FNN(Orb.Oc.O:2)',
+   load(){ clearAll(false); addBlock('AGENT'); addBlock('MNN'); addBlock('FNN');
+     blocks[0].state.type='Pet'; blocks[0].state.id='Mittens'; blocks[0].state.species='Cat'; blocks[0].state.beh='Follow'; blocks[0].state.behTarget='Player1'; blocks[0].state.behRadius=1.5;
+     blocks[1].state.pattern='Walk'; blocks[1].state.muscles={'Ers':1};
+     blocks[2].state.muscles={'Orb.Oc.O':2};
+     renderBlocks(); updateScene(); }},
+  {title:'NPC Companion — Idle Chat', tags:['AGENT','MNN','FNN','VRN'], desc:'Humanoid companion NPC standing idle, smiling, speaking.',
+   str:'@AGENT(id=Aria,type=NPC,role=Companion) @BEH(Idle)\n@MOV(Idle) @ACT(TrA:1)\n@FNN(Zyg.Mj:2, Orb.Oc.O:1)\n@RES(Ch:2) @VOC(Fl) @BR(Sp2)',
+   load(){ clearAll(false); addBlock('AGENT'); addBlock('MNN'); addBlock('FNN'); addBlock('VRN');
+     blocks[0].state.type='NPC'; blocks[0].state.id='Aria'; blocks[0].state.role='Companion'; blocks[0].state.beh='Idle';
+     blocks[1].state.pattern='Idle'; blocks[1].state.muscles={'TrA':1};
+     blocks[2].state.muscles={'Zyg.Mj':2,'Orb.Oc.O':1};
+     blocks[3].state.resonators={'Ch':2}; blocks[3].state.phonation='Fl'; blocks[3].state.breath='Sp2';
+     renderBlocks(); updateScene(); }},
+  {title:'Guard NPC — Patrol Route', tags:['AGENT','MNN','FNN'], desc:'Guard NPC patrolling a 10m radius, neutral expression, alert posture.',
+   str:'@AGENT(id=Guard1,type=NPC,role=Guard) @BEH(Patrol,Radius=10m)\n@MOV(Walk) @ACT(Trp.U:1, Ers:1)\n@FNN(Corr:1)',
+   load(){ clearAll(false); addBlock('AGENT'); addBlock('MNN'); addBlock('FNN');
+     blocks[0].state.type='NPC'; blocks[0].state.id='Guard1'; blocks[0].state.role='Guard'; blocks[0].state.beh='Patrol'; blocks[0].state.behRadius=10;
+     blocks[1].state.pattern='Walk'; blocks[1].state.muscles={'Trp.U':1,'Ers':1};
+     blocks[2].state.muscles={'Corr':1};
+     renderBlocks(); updateScene(); }},
+  {title:'Multi-Agent Scene', tags:['AGENT','MNN','FNN','ENS'], desc:'Two avatars + a pet in a sunny park. Each agent identified.',
+   str:'@ENS(Preset:MidSummerNoon)\n@AGENT(id=Player1,type=Avatar) @MOV(Walk) @FNN(Zyg.Mj:2)\n@AGENT(id=Aria,type=NPC,role=Companion) @BEH(Follow:Player1) @MOV(Walk) @FNN(Smile.S)\n@AGENT(id=Rex,type=Pet,species=Dog) @BEH(Follow:Player1,Radius=2m) @MOV(Walk)',
+   load(){ clearAll(false); addBlock('ENS'); addBlock('AGENT'); addBlock('MNN'); addBlock('FNN'); addBlock('AGENT'); addBlock('AGENT');
+     blocks[0].state.preset='MidSummerNoon';
+     blocks[1].state.type='Avatar'; blocks[1].state.id='Player1';
+     blocks[2].state.pattern='Walk';
+     blocks[3].state.muscles={'Zyg.Mj':2};
+     blocks[4].state.type='NPC'; blocks[4].state.id='Aria'; blocks[4].state.role='Companion'; blocks[4].state.beh='Follow'; blocks[4].state.behTarget='Player1';
+     blocks[5].state.type='Pet'; blocks[5].state.id='Rex'; blocks[5].state.species='Dog'; blocks[5].state.beh='Follow'; blocks[5].state.behTarget='Player1'; blocks[5].state.behRadius=2;
      renderBlocks(); updateScene(); }},
   {title:'Locked Room at Night', tags:['BEN','ENS'], desc:'Sealed cabin, warm light, stormy night environment.',
    str:'@ENS(Time:23:10,Sky:Storm) @WEATHER(Rain=0.9,Wind=18)\n@BEN(Struct:Cabin) @OBJ(Door.Hatch:Locked=true) @OBJ(Light.Nav:On=true,Dim=0.6)',
