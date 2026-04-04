@@ -20,6 +20,8 @@
   --c-fnn:#f472b6; --rgb-fnn:244,114,182;
   --c-vmn:#22d3ee; --rgb-vmn:34,211,238;
   --c-vrn:#fb923c; --rgb-vrn:251,146,60;
+  --c-ben:#a78bfa; --rgb-ben:167,139,250;
+  --c-ens:#4ade80; --rgb-ens:74,222,128;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
@@ -47,7 +49,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .add-btn.fnn:hover,.add-btn.fnn.any{color:var(--c-fnn);}
 .add-btn.vmn:hover,.add-btn.vmn.any{color:var(--c-vmn);}
 .add-btn.vrn:hover,.add-btn.vrn.any{color:var(--c-vrn);}
-.add-btn.soon{opacity:.4;cursor:default;}
+.add-btn.ben:hover,.add-btn.ben.any{color:var(--c-ben);}
+.add-btn.ens:hover,.add-btn.ens.any{color:var(--c-ens);}
 
 .topbar-links{display:flex;align-items:center;gap:4px;border-left:1px solid var(--border);padding-left:12px;flex-shrink:0;}
 .topbar-links a{color:var(--text2);text-decoration:none;padding:4px 8px;border-radius:5px;font-size:.72rem;transition:all .15s;}
@@ -78,6 +81,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .t-vec{color:#fb923c;}
 .t-mode{color:#a78bfa;}
 .t-prog{color:var(--c-vmn);}
+.t-ben{color:var(--c-ben);}
+.t-ens{color:var(--c-ens);}
 .scene-actions{display:flex;gap:6px;margin-top:10px;}
 .sact{padding:7px 14px;border-radius:6px;font-size:.76rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;border:none;}
 .sact.pri{background:var(--indigo);color:#fff;flex:1;}
@@ -203,11 +208,11 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     <button class="add-btn vrn" onclick="addBlock('VRN')" title="Add voice resonance notation">
       <span class="plus">+</span><span class="proto" style="color:var(--c-vrn)">VRN</span> Voice
     </button>
-    <button class="add-btn soon" title="Building notation — coming soon" style="cursor:default">
-      <span class="plus" style="opacity:.3">+</span><span class="proto" style="color:var(--gray)">BEN</span> Building
+    <button class="add-btn ben" onclick="addBlock('BEN')" title="Add building/environment notation">
+      <span class="plus">+</span><span class="proto" style="color:var(--c-ben)">BEN</span> Building
     </button>
-    <button class="add-btn soon" title="Environment notation — coming soon" style="cursor:default">
-      <span class="plus" style="opacity:.3">+</span><span class="proto" style="color:var(--gray)">ENS</span> Environment
+    <button class="add-btn ens" onclick="addBlock('ENS')" title="Add environment state notation">
+      <span class="plus">+</span><span class="proto" style="color:var(--c-ens)">ENS</span> Environment
     </button>
   </div>
 
@@ -372,9 +377,9 @@ const VRN_PHONATION = ['Fl','Hd','Mx','Ch','Fry','Wh'];
 const VRN_BREATH    = ['Sp1','Sp2','Sp3','Sp4','Sp5','Dia'];
 
 // Protocol colors
-const PROTO_COLOR = {MNN:'var(--c-mnn)',FNN:'var(--c-fnn)',VMN:'var(--c-vmn)',VRN:'var(--c-vrn)'};
-const PROTO_HEX   = {MNN:'#34d399',FNN:'#f472b6',VMN:'#22d3ee',VRN:'#fb923c'};
-const PROTO_RGB   = {MNN:'52,211,153',FNN:'244,114,182',VMN:'34,211,238',VRN:'251,146,60'};
+const PROTO_COLOR = {MNN:'var(--c-mnn)',FNN:'var(--c-fnn)',VMN:'var(--c-vmn)',VRN:'var(--c-vrn)',BEN:'var(--c-ben)',ENS:'var(--c-ens)'};
+const PROTO_HEX   = {MNN:'#34d399',FNN:'#f472b6',VMN:'#22d3ee',VRN:'#fb923c',BEN:'#a78bfa',ENS:'#4ade80'};
+const PROTO_RGB   = {MNN:'52,211,153',FNN:'244,114,182',VMN:'34,211,238',VRN:'251,146,60',BEN:'167,139,250',ENS:'74,222,128'};
 
 // ═══════════════════════════════════════════════════════════
 // STATE
@@ -393,6 +398,8 @@ function newMNNState() {
 function newFNNState() { return {macro:null,muscles:{},side:'Bi'}; }
 function newVMNState() { return {cls:null,pit:0,rol:0,yaw:0,fwd:0,vert:0,alt:0,throt:0,mode:'',progress:0.5}; }
 function newVRNState() { return {resonators:{},placement:null,phonation:null,breath:null}; }
+function newBENState() { return {struct:'Struct',objects:[],zone:null}; }
+function newENSState() { return {time:'',sky:null,weather:{},wind:null,season:null,grav:null,preset:null}; }
 
 // ═══════════════════════════════════════════════════════════
 // STRING BUILDERS
@@ -478,6 +485,54 @@ function buildVMN_LSL(st) {
   return lines.join('\n');
 }
 
+// BEN object helpers
+const BEN_STRUCTS = ['Struct','House','Apt','Office','Shop','Cabin','Bridge','Tunnel','Room','Corridor','Platform','Outdoor'];
+const BEN_PRESETS = [
+  {id:'LivingEvening',label:'Living Room Evening',objs:'@OBJ(Light.Ceil:On=true,Dim=0.4,Temp=2700K) @OBJ(Door.Front:Locked=true)'},
+  {id:'EscapeRoom',  label:'Escape Room (locked)',objs:'@OBJ(Door.Exit:Locked=true) @OBJ(Light.Red:On=true) @OBJ(Safe:Locked=true)'},
+  {id:'OpenShop',    label:'Open Shop',objs:'@OBJ(Door.Front:Locked=false,Open=1.0) @OBJ(Light.Ceil:On=true,Dim=0.9,Temp=5000K)'},
+  {id:'StoredCabin', label:'Sealed Cabin',objs:'@OBJ(Door.Hatch:Locked=true) @OBJ(Light.Nav:On=true,Dim=0.6,Color=0,0,1)'},
+  {id:'OfficeDay',   label:'Office Day',objs:'@OBJ(Light.Ceil:On=true,Dim=0.85,Temp=4500K) @OBJ(Door.Main:Locked=false)'},
+];
+
+// ENS helpers
+const ENS_SKY_PRESETS = ['Clear','PartCloud','Overcast','Storm','Night','Dawn','Dusk','Fog','Haze'];
+const ENS_SEASONS     = ['Spring','Summer','Autumn','Winter'];
+const ENS_PRESETS     = [
+  {id:'MidSummerNoon',   label:'Midsummer Noon'},
+  {id:'AutumnAfternoon', label:'Autumn Afternoon'},
+  {id:'WinterNight',     label:'Winter Night'},
+  {id:'TropicalStorm',   label:'Tropical Storm'},
+  {id:'SeaFog',          label:'Sea Fog'},
+  {id:'DesertSunrise',   label:'Desert Sunrise'},
+  {id:'ArcticBlizzard',  label:'Arctic Blizzard'},
+  {id:'MoonlessNight',   label:'Moonless Night'},
+  {id:'ZeroG',           label:'Zero Gravity'},
+];
+
+function buildBEN(st) {
+  if (!st.struct && !st.objects.length && !st.presetObjs) return '';
+  const p = [`@BEN(${st.struct||'Struct'})`];
+  if (st.presetObjs) p.push(st.presetObjs);
+  st.objects.forEach(o => p.push(o));
+  if (st.zone) p.push(`@ZONE(${st.zone})`);
+  return p.join(' ');
+}
+
+function buildENS(st) {
+  if (!st.preset && !st.sky && !st.time && !Object.keys(st.weather).length) return '';
+  if (st.preset) return `@ENS(Preset:${st.preset})`;
+  const p = [];
+  if (st.time) p.push(`@TIME(${st.time})`);
+  if (st.sky)  p.push(`@SKY(${st.sky})`);
+  const wkeys = Object.entries(st.weather).filter(([,v])=>v);
+  if (wkeys.length) p.push(`@WEATHER(${wkeys.map(([k,v])=>k+'='+v).join(',')})`);
+  if (st.wind)   p.push(`@WIND(${st.wind})`);
+  if (st.season) p.push(`@SEASON(${st.season})`);
+  if (st.grav!=null) p.push(`@PHYS(Grav=${st.grav})`);
+  return p.join(' ');
+}
+
 function buildVRN(st) {
   const p = [];
   const am = Object.entries(st.resonators).filter(([,v])=>v>0);
@@ -493,6 +548,8 @@ function buildBlock(b) {
   if (b.proto==='FNN') return buildFNN(b.state);
   if (b.proto==='VMN') return buildVMN(b.state);
   if (b.proto==='VRN') return buildVRN(b.state);
+  if (b.proto==='BEN') return buildBEN(b.state);
+  if (b.proto==='ENS') return buildENS(b.state);
   return '';
 }
 
@@ -502,6 +559,16 @@ function buildBlock(b) {
 function colorize(str) {
   if (!str) return '';
   return str
+    .replace(/(@BEN\([^)]+\))/g,'<span class="t-mode">$1</span>')
+    .replace(/(@OBJ\([^)]+\))/g,'<span class="t-ben">$1</span>')
+    .replace(/(@ZONE\([^)]+\))/g,'<span class="t-ben">$1</span>')
+    .replace(/(@ENS\([^)]+\))/g,'<span class="t-ens">$1</span>')
+    .replace(/(@TIME\([^)]+\))/g,'<span class="t-ens">$1</span>')
+    .replace(/(@SKY\([^)]+\))/g,'<span class="t-ens">$1</span>')
+    .replace(/(@WEATHER\([^)]+\))/g,'<span class="t-vrn">$1</span>')
+    .replace(/(@WIND\([^)]+\))/g,'<span class="t-vrn">$1</span>')
+    .replace(/(@SEASON\([^)]+\))/g,'<span class="t-jnt">$1</span>')
+    .replace(/(@PHYS\([^)]+\))/g,'<span class="t-vec">$1</span>')
     .replace(/(@MOV\([^)]+\))/g,'<span class="t-mov">$1</span>')
     .replace(/(@ACT\([^)]+\))/g,'<span class="t-mnn">$1</span>')
     .replace(/(@JNT\([^)]+\))/g,'<span class="t-jnt">$1</span>')
@@ -560,6 +627,8 @@ function addBlock(proto) {
   else if (proto==='FNN') state = newFNNState();
   else if (proto==='VMN') state = newVMNState();
   else if (proto==='VRN') state = newVRNState();
+  else if (proto==='BEN') state = newBENState();
+  else if (proto==='ENS') state = newENSState();
   blocks.push({id, proto, state, collapsed:false});
   renderBlocks();
   updateScene();
@@ -618,6 +687,8 @@ function blockName(b) {
   if (b.proto==='FNN') return b.state.macro ? b.state.macro : 'Face';
   if (b.proto==='VMN') return b.state.cls ? b.state.cls : 'Vehicle';
   if (b.proto==='VRN') return 'Voice';
+  if (b.proto==='BEN') return b.state.struct || 'Building';
+  if (b.proto==='ENS') return b.state.preset || b.state.sky || 'Environment';
   return b.proto;
 }
 
@@ -649,6 +720,8 @@ function renderBlockBody(b) {
   else if (b.proto==='FNN') el.innerHTML = renderFNNBody(b);
   else if (b.proto==='VMN') el.innerHTML = renderVMNBody(b);
   else if (b.proto==='VRN') el.innerHTML = renderVRNBody(b);
+  else if (b.proto==='BEN') el.innerHTML = renderBENBody(b);
+  else if (b.proto==='ENS') el.innerHTML = renderENSBody(b);
 }
 
 // ── MNN ─────────────────────────────────────────────────────
@@ -892,6 +965,162 @@ function vrnCycleRes(id, sym) {
   renderBlockBody(b); onBlockChange(id);
 }
 
+// ── BEN ─────────────────────────────────────────────────────
+function renderBENBody(b) {
+  const st = b.state; const id = b.id;
+  let h = '';
+
+  // Structure type
+  h += `<div class="section-divider">Structure</div>`;
+  h += `<div class="type-row">`;
+  BEN_STRUCTS.forEach(s => {
+    const active = st.struct===s;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-ben);color:var(--c-ben);background:rgba(167,139,250,.1)':''}" onclick="benStruct(${id},'${s}')">${s}</div>`;
+  });
+  h += `</div>`;
+
+  // Quick presets
+  h += `<div class="section-divider">Quick Presets</div>`;
+  h += `<div class="type-row">`;
+  BEN_PRESETS.forEach(p => {
+    const active = st.presetId===p.id;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-ben);color:var(--c-ben);background:rgba(167,139,250,.1)':''}" onclick="benPreset(${id},'${p.id}','${p.objs.replace(/'/g,'\\')}')"
+      title="${p.objs}">${p.label}</div>`;
+  });
+  h += `</div>`;
+
+  // Object lines
+  h += `<div class="section-divider">Objects <span style="color:var(--gray);font-weight:400;font-size:.6rem">(one @OBJ() per line)</span></div>`;
+  h += `<textarea id="ben-objs-${id}" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.72rem;font-family:'JetBrains Mono',monospace;padding:8px 10px;outline:none;resize:vertical;min-height:70px;line-height:1.7" placeholder="@OBJ(Door.Front:Locked=true)&#10;@OBJ(Light.Ceil:On=true,Dim=0.8)" oninput="benObjs(${id},this.value)">${(st.objects||[]).join('\n')}</textarea>`;
+
+  // Zone
+  h += `<div class="section-divider">Trigger Zone (optional)</div>`;
+  h += `<input class="param-select" id="ben-zone-${id}" placeholder="Entry:Sensor=true,SensRange=3m" style="width:100%;margin:0" value="${st.zone||''}" oninput="benZone(${id},this.value)">`;
+
+  return h;
+}
+
+function benStruct(id, s) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.struct = b.state.struct===s ? 'Struct' : s;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function benPreset(id, presetId, objs) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  if (b.state.presetId===presetId) {
+    b.state.presetId = null; b.state.presetObjs = null;
+  } else {
+    b.state.presetId = presetId; b.state.presetObjs = objs;
+  }
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function benObjs(id, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.objects = val.split('\n').map(s=>s.trim()).filter(Boolean);
+  onBlockChange(id);
+}
+
+function benZone(id, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.zone = val.trim() || null;
+  onBlockChange(id);
+}
+
+// ── ENS ─────────────────────────────────────────────────────
+function renderENSBody(b) {
+  const st = b.state; const id = b.id;
+  let h = '';
+
+  // Presets
+  h += `<div class="section-divider">Scene Presets</div>`;
+  h += `<div class="type-row">`;
+  ENS_PRESETS.forEach(p => {
+    const active = st.preset===p.id;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-ens);color:var(--c-ens);background:rgba(74,222,128,.08)':''}" onclick="ensPreset(${id},'${p.id}')">${p.label}</div>`;
+  });
+  h += `</div>`;
+
+  h += `<div style="font-size:.62rem;color:var(--gray);margin-bottom:8px">— or build manually —</div>`;
+
+  // Sky
+  h += `<div class="section-divider">Sky</div>`;
+  h += `<div class="type-row">`;
+  ENS_SKY_PRESETS.forEach(s => {
+    const active = st.sky===s && !st.preset;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-ens);color:var(--c-ens);background:rgba(74,222,128,.08)':''}" onclick="ensSet(${id},'sky','${s}')">${s}</div>`;
+  });
+  h += `</div>`;
+
+  // Time
+  h += `<div class="param-row" style="margin-bottom:6px">
+    <span class="param-label" style="color:var(--c-ens)">Time</span>
+    <input class="param-select" placeholder="e.g. 15:30" value="${st.time||''}" oninput="ensField(${id},'time',this.value)" style="flex:1">
+  </div>`;
+
+  // Season
+  h += `<div class="section-divider">Season</div>`;
+  h += `<div class="type-row">`;
+  ENS_SEASONS.forEach(s => {
+    const active = st.season===s && !st.preset;
+    h += `<div class="type-chip${active?' active':''}" style="${active?'border-color:var(--c-ens);color:var(--c-ens);background:rgba(74,222,128,.08)':''}" onclick="ensSet(${id},'season','${s}')">${s}</div>`;
+  });
+  h += `</div>`;
+
+  // Weather
+  h += `<div class="section-divider">Weather</div>`;
+  const wfields = [{k:'Rain',u:'0–1'},{k:'Snow',u:'0–1'},{k:'Fog',u:'0–1'},{k:'Wind',u:'m/s'},{k:'Vis',u:'m'},{k:'Temp',u:'°C'}];
+  h += `<div class="param-grid">`;
+  wfields.forEach(f => {
+    h += `<div class="param-row">
+      <span class="param-label" style="color:var(--c-ens)">${f.k}</span>
+      <input class="param-select" placeholder="${f.u}" value="${st.weather[f.k]||''}" oninput="ensWeather(${id},'${f.k}',this.value)" style="flex:1">
+    </div>`;
+  });
+  h += `</div>`;
+
+  // Physics override
+  h += `<div class="section-divider">Physics Override</div>`;
+  h += `<div class="param-row">
+    <span class="param-label" style="color:var(--c-ens)">Gravity</span>
+    <input type="range" class="param-slider" min="0" max="30" step="0.1" value="${st.grav!=null?st.grav:9.8}"
+      oninput="ensField(${id},'grav',+this.value);this.nextElementSibling.textContent=this.value+'m/s²'">
+    <span class="param-val" style="color:var(--c-ens)">${st.grav!=null?st.grav:9.8}m/s²</span>
+  </div>`;
+
+  return h;
+}
+
+function ensPreset(id, presetId) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.preset = b.state.preset===presetId ? null : presetId;
+  // Clear manual fields when preset selected
+  if (b.state.preset) { b.state.sky=null; b.state.time=''; b.state.season=null; b.state.weather={}; b.state.grav=null; }
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function ensSet(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.preset = null;
+  b.state[key] = b.state[key]===val ? null : val;
+  renderBlockBody(b); onBlockChange(id);
+}
+
+function ensField(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.preset = null;
+  b.state[key] = val;
+  onBlockChange(id);
+}
+
+function ensWeather(id, key, val) {
+  const b = blocks.find(x=>x.id===id); if(!b) return;
+  b.state.preset = null;
+  if (val) b.state.weather[key] = val; else delete b.state.weather[key];
+  onBlockChange(id);
+}
+
 function vrnSet(id, key, val) {
   const b = blocks.find(x=>x.id===id); if(!b) return;
   b.state[key] = b.state[key]===val ? null : val;
@@ -950,6 +1179,25 @@ const EXAMPLES = [
    str:'@VMN(Sub) @ATT(Pit=-6,Yaw=270) @VEL(Fwd=4,Vert=-0.5) @ALT(m=-40) @CTRL(Throt=0.4) @MODE(Cruise)',
    load(){ clearAll(false); addBlock('VMN');
      const vm=blocks[0]; vm.state.cls='Sub'; vm.state.pit=-6; vm.state.yaw=270; vm.state.fwd=4; vm.state.vert=-0.5; vm.state.alt=-40; vm.state.throt=0.4; vm.state.mode='Cruise';
+     renderBlocks(); updateScene(); }},
+  {title:'Locked Room at Night', tags:['BEN','ENS'], desc:'Sealed cabin, warm light, stormy night environment.',
+   str:'@ENS(Time:23:10,Sky:Storm) @WEATHER(Rain=0.9,Wind=18)\n@BEN(Struct:Cabin) @OBJ(Door.Hatch:Locked=true) @OBJ(Light.Nav:On=true,Dim=0.6)',
+   load(){ clearAll(false); addBlock('ENS'); addBlock('BEN');
+     blocks[0].state.time='23:10'; blocks[0].state.sky='Storm'; blocks[0].state.weather={Rain:'0.9',Wind:'18'};
+     blocks[1].state.struct='Cabin'; blocks[1].state.presetId='StoredCabin'; blocks[1].state.presetObjs='@OBJ(Door.Hatch:Locked=true) @OBJ(Light.Nav:On=true,Dim=0.6,Color=0,0,1)';
+     renderBlocks(); updateScene(); }},
+  {title:'Stormy Typhoon Scene', tags:['VMN','BEN','ENS'], desc:'Ship in typhoon, sealed wheelhouse, full storm environment.',
+   str:'@ENS(Preset:TropicalStorm)\n@VMN(Sea) @ATT(Rol=-20,Yaw=045) @VEL(Fwd=5)\n@BEN(Struct:Bridge) @OBJ(Door.Wing:Locked=true) @OBJ(Light.Red:On=true,Dim=0.4)',
+   load(){ clearAll(false); addBlock('ENS'); addBlock('VMN'); addBlock('BEN');
+     blocks[0].state.preset='TropicalStorm';
+     blocks[1].state.cls='Sea'; blocks[1].state.rol=-20; blocks[1].state.yaw=45; blocks[1].state.fwd=5;
+     blocks[2].state.struct='Bridge'; blocks[2].state.objects=['@OBJ(Door.Wing:Locked=true)','@OBJ(Light.Red:On=true,Dim=0.4)'];
+     renderBlocks(); updateScene(); }},
+  {title:'Lunar Landing', tags:['VMN','ENS'], desc:'Spacecraft landed on moon, zero-G physics, vacuum environment.',
+   str:'@ENS(Preset:ZeroG)\n@VMN(Space) @ATT(Pit=0,Rol=0,Yaw=000) @VEL(Fwd=0) @MODE(Land)',
+   load(){ clearAll(false); addBlock('ENS'); addBlock('VMN');
+     blocks[0].state.preset='ZeroG';
+     blocks[1].state.cls='Space'; blocks[1].state.mode='Land';
      renderBlocks(); updateScene(); }},
 ];
 
