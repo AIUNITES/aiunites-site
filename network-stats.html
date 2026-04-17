@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIUNITES Network Stats</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <!-- Admin gate: redirect non-admins to homepage -->
+  <script>
+    (function() {
+      // Check any of the known site localStorage keys for an admin session
+      var keys = ['aiunites_currentUser','videobate_currentUser','aibyjob_currentUser','redomy_currentUser','aizines_currentUser'];
+      var isAdmin = false;
+      for (var i = 0; i < keys.length; i++) {
+        try {
+          var u = JSON.parse(localStorage.getItem(keys[i]));
+          if (u && u.isAdmin) { isAdmin = true; break; }
+        } catch(e) {}
+      }
+      // Also allow direct access via ?admin=1 bookmark
+      if (location.search.indexOf('admin=1') !== -1) {
+        sessionStorage.setItem('stats_admin_ok','1');
+        isAdmin = true;
+      }
+      if (sessionStorage.getItem('stats_admin_ok') === '1') isAdmin = true;
+      if (!isAdmin) { location.replace('index.html'); }
+    })();
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4573596965267859" crossorigin="anonymous"></script>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://aiunites.com/network-stats.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --border: rgba(99,102,241,.15);
+      --primary: #6366f1;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --text: #f1f1f3;
+      --gray: #6b7280;
+      --gray-light: #9ca3af;
+      --font: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Webring */
+    .aiunites-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1100; background: linear-gradient(90deg,#0a0a0f,#1a1a2e); border-bottom: 1px solid rgba(99,102,241,.3); padding: 8px 0; font-size: 12px; }
+    .aiunites-bar-content { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+    .aiunites-bar-content::-webkit-scrollbar { display: none; }
+    .aiunites-bar a { color: rgba(255,255,255,.7); white-space: nowrap; transition: color .2s; }
+    .aiunites-bar a:hover, .aiunites-bar .cur { color: #fff !important; text-decoration: none; }
+    .aiunites-bar-brand { color: #6366f1 !important; font-weight: 600; }
+
+    .wrapper { max-width: 1300px; margin: 0 auto; padding: 80px 20px 60px; }
+
+    .page-header { margin-bottom: 2rem; }
+    .page-header h1 { font-size: clamp(1.6rem,3vw,2.2rem); font-weight: 800; margin-bottom: .4rem; }
+    .page-header p { color: var(--gray-light); font-size: .95rem; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .badge-green { background: rgba(34,197,94,.15); color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+    .badge-amber { background: rgba(245,158,11,.15); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+    .badge-gray  { background: rgba(107,114,128,.15); color: #9ca3af; border: 1px solid rgba(107,114,128,.3); }
+
+    /* Action bar */
+    .action-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .action-bar input { flex: 1; min-width: 200px; padding: .55rem 1rem; border-radius: 8px; background: var(--bg2); border: 1px solid var(--border); color: var(--text); font-family: var(--font); font-size: .875rem; outline: none; }
+    .action-bar input:focus { border-color: var(--primary); }
+    .action-bar select { padding: .55rem .9rem; border-radius: 8px; background: var(--bg2); border: 1px solid var(--border); color: var(--text); font-family: var(--font); font-size: .875rem; cursor: pointer; outline: none; }
+    .btn { padding: .55rem 1.2rem; border-radius: 8px; font-size: .875rem; font-weight: 600; font-family: var(--font); cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text); transition: all .2s; white-space: nowrap; }
+    .btn:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn-primary:hover { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+
+    /* Summary cards */
+    .summary-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .summary-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; }
+    .summary-card .label { font-size: .75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .4rem; }
+    .summary-card .value { font-size: 1.8rem; font-weight: 800; font-family: var(--mono); color: var(--text); }
+    .summary-card .sub { font-size: .75rem; color: var(--gray-light); margin-top: .2rem; }
+
+    /* Table */
+    .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .table-wrap table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    .table-wrap th { padding: .75rem 1rem; text-align: left; font-size: .72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--border); background: var(--bg3); cursor: pointer; white-space: nowrap; user-select: none; }
+    .table-wrap th:hover { color: var(--text); }
+    .table-wrap th .sort-icon { margin-left: 4px; opacity: .4; }
+    .table-wrap th.sorted .sort-icon { opacity: 1; color: var(--primary); }
+    .table-wrap td { padding: .75rem 1rem; border-bottom: 1px solid rgba(99,102,241,.07); vertical-align: middle; }
+    .table-wrap tr:last-child td { border-bottom: none; }
+    .table-wrap tr:hover td { background: rgba(99,102,241,.04); }
+
+    .site-name { font-weight: 600; color: var(--text); display: flex; align-items: center; gap: .5rem; }
+    .site-name .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .site-url { font-size: .75rem; color: var(--gray); font-family: var(--mono); }
+    .num { font-family: var(--mono); font-size: .875rem; }
+    .num-big { font-weight: 700; }
+
+    .gsc-link { font-size: .75rem; color: var(--primary); opacity: .7; transition: opacity .2s; }
+    .gsc-link:hover { opacity: 1; text-decoration: none; }
+
+    .no-data { color: var(--gray); font-size: .8rem; }
+
+    /* Footer */
+    .page-footer { margin-top: 3rem; text-align: center; color: var(--gray); font-size: .8rem; }
+    .page-footer a { color: var(--primary); }
+
+    @media (max-width: 768px) {
+      .table-wrap { overflow-x: auto; }
+      .action-bar { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Webring -->
+<div class="aiunites-bar"><div class="aiunites-bar-content">
+  <a href="index.html" class="aiunites-bar-brand">◆ AIUNITES</a>
+  <span style="color:rgba(255,255,255,.2)">|</span>
+  <a href="https://aiunites.github.io/aizines-app/">AIZines</a>
+  <a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a>
+  <a href="https://aiunites.github.io/redomy-demo/">Redomy</a>
+  <a href="https://aiunites.github.io/videobate-site/">VideoBate</a>
+  <a href="https://aiunites.github.io/voicestry-site/">VoiceStry</a>
+  <a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a>
+  <a href="https://aiunites.github.io/bizstry-site/">BizStry</a>
+  <a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a>
+  <a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a>
+  <a href="https://aiunites.github.io/gameatica-site/">Gameatica</a>
+  <a href="https://aiunites.github.io/uptownit-site/">UptownIT</a>
+  <a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a>
+  <a href="https://aiunites.github.io/erpise-site/">ERPise</a>
+  <a href="https://aiunites.github.io/erpize-site/">ERPize</a>
+  <a href="https://aiunites.github.io/aitsql-site/">AITSQL</a>
+  <a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a>
+</div></div>
+
+<div class="wrapper">
+
+  <div class="page-header">
+    <h1>◆ AIUNITES Network Stats</h1>
+    <p>All 18 live sites — Google Search Console &amp; AdSense status at a glance</p>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="summary-row" id="summary-row">
+    <div class="summary-card">
+      <div class="label">Total Sites</div>
+      <div class="value">18</div>
+      <div class="sub">Live on GitHub Pages</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">GSC Verified</div>
+      <div class="value" id="gsc-count">—</div>
+      <div class="sub">Properties tracked</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">AdSense Active</div>
+      <div class="value" id="adsense-count">—</div>
+      <div class="sub">Sites registered</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Getting Ready</div>
+      <div class="value" id="getting-ready-count">—</div>
+      <div class="sub">Pending approval</div>
+    </div>
+  </div>
+
+  <!-- Action bar -->
+  <div class="action-bar">
+    <input type="text" id="search-input" placeholder="Filter sites..." oninput="filterTable()">
+    <select id="sort-select" onchange="sortTable(this.value)">
+      <option value="name">Sort: Site name</option>
+      <option value="type">Sort: Site type</option>
+      <option value="adsense">Sort: AdSense status</option>
+    </select>
+    <a href="https://lookerstudio.google.com/reporting/bb4e6805-5a2f-4d47-a5cc-283d1e5283cc" target="_blank" class="btn btn-primary">📊 Looker Studio Dashboard →</a>
+    <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="btn">AdSense Sites</a>
+    <a href="https://search.google.com/search-console" target="_blank" class="btn">GSC Console</a>
+  </div>
+
+  <!-- Main table -->
+  <div class="table-wrap">
+    <table id="sites-table">
+      <thead>
+        <tr>
+          <th onclick="sortByCol('name')">Site <span class="sort-icon">↕</span></th>
+          <th onclick="sortByCol('domain')">Domain <span class="sort-icon">↕</span></th>
+          <th onclick="sortByCol('type')">Type <span class="sort-icon">↕</span></th>
+          <th onclick="sortByCol('adsense')">AdSense <span class="sort-icon">↕</span></th>
+          <th>GSC Property</th>
+          <th>Sitemap</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="sites-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="page-footer">
+    <p>AIUNITES Network — 18 GitHub Pages sites | Publisher ID: ca-pub-4573596965267859</p>
+    <p style="margin-top:.4rem"><a href="index.html">← Home</a> · <a href="network.html">Network</a> · <a href="https://cloudsion.com/turnkey-ai-web-publishing.html" target="_blank">Cloudsion Stats</a></p>
+  </div>
+
+</div>
+
+<script>
+const SITES = [
+  { name: 'AIUNITES',          domain: 'aiunites.com',          type: 'Portfolio',  adsense: 'Getting ready',  gsc: 'https://aiunites.com/',                url: 'https://aiunites.com/' },
+  { name: 'AIByJob',           domain: 'aibyjob.com',           type: 'Full App',   adsense: 'Requires review', gsc: 'sc-domain:aibyjob.com',                url: 'https://aibyjob.com/' },
+  { name: 'AITSQL',            domain: 'aitsql.com',            type: 'Landing',    adsense: 'Requires review', gsc: 'https://aitsql.com/',                  url: 'https://aitsql.com/' },
+  { name: 'AI YHWH',           domain: 'aiyhwh.com',            type: 'Content',    adsense: 'Requires review', gsc: 'sc-domain:aiyhwh.com',                 url: 'https://aiyhwh.com/' },
+  { name: 'AIZines',           domain: 'aizines.com',           type: 'Full App',   adsense: 'Requires review', gsc: 'sc-domain:aizines.com',                url: 'https://aizines.com/' },
+  { name: 'BizStry',           domain: 'bizstry.com',           type: 'Landing',    adsense: 'Requires review', gsc: 'https://bizstry.com/',                 url: 'https://bizstry.com/' },
+  { name: 'BodSpas',           domain: 'bodspas.com',           type: 'Full App',   adsense: 'Requires review', gsc: 'sc-domain:bodspas.com',                url: 'https://bodspas.com/' },
+  { name: 'Cloudsion',         domain: 'cloudsion.com',         type: 'Landing',    adsense: 'Requires review', gsc: 'sc-domain:cloudsion.com',              url: 'https://cloudsion.com/' },
+  { name: 'COSMOS the OPERA',  domain: 'cosmostheopera.com',    type: 'Content',    adsense: 'Requires review', gsc: 'sc-domain:cosmostheopera.com',         url: 'https://cosmostheopera.com/' },
+  { name: 'ERPise',            domain: 'erpise.com',            type: 'Landing',    adsense: 'Requires review', gsc: 'sc-domain:erpise.com',                 url: 'https://erpise.com/' },
+  { name: 'ERPize',            domain: 'erpize.com',            type: 'Landing',    adsense: 'Requires review', gsc: 'sc-domain:erpize.com',                 url: 'https://erpize.com/' },
+  { name: 'FurnishThings',     domain: 'furnishthings.com',     type: 'Landing',    adsense: 'Requires review', gsc: 'sc-domain:furnishthings.com',          url: 'https://furnishthings.com/' },
+  { name: 'Gameatica',         domain: 'gameatica.com',         type: 'Landing',    adsense: 'Getting ready',  gsc: 'https://gameatica.com/',                url: 'https://gameatica.com/' },
+  { name: 'InThisWorld',       domain: 'inthisworld.com',       type: 'Landing',    adsense: 'Requires review', gsc: 'sc-domain:inthisworld.com',            url: 'https://inthisworld.com/' },
+  { name: 'Redomy',            domain: 'redomy.com',            type: 'Full App',   adsense: 'Requires review', gsc: 'sc-domain:redomy.com',                 url: 'https://redomy.com/' },
+  { name: 'UptownIT',          domain: 'uptownit.com',          type: 'Landing',    adsense: 'Requires review', gsc: 'sc-domain:uptownit.com',               url: 'https://uptownit.com/' },
+  { name: 'VideoBate',         domain: 'videobate.com',         type: 'Full App',   adsense: 'Getting ready',  gsc: 'https://videobate.com/',                url: 'https://videobate.com/' },
+  { name: 'VoiceStry',         domain: 'voicestry.com',         type: 'Full App',   adsense: 'Getting ready',  gsc: 'https://voicestry.com/',                url: 'https://voicestry.com/' },
+];
+
+const TYPE_COLORS = {
+  'Full App': '#6366f1',
+  'Portfolio': '#8b5cf6',
+  'Landing': '#06b6d4',
+  'Content': '#22c55e',
+};
+
+function adsenseBadge(status) {
+  if (status === 'Getting ready') return '<span class="badge badge-green">Getting ready</span>';
+  if (status === 'Requires review') return '<span class="badge badge-amber">Requires review</span>';
+  return '<span class="badge badge-gray">' + status + '</span>';
+}
+
+function gscUrl(gsc) {
+  if (gsc.startsWith('sc-domain:')) {
+    return 'https://search.google.com/search-console?resource_id=' + encodeURIComponent(gsc);
+  }
+  return 'https://search.google.com/search-console?resource_id=' + encodeURIComponent(gsc);
+}
+
+let currentSites = [...SITES];
+let sortCol = 'name';
+let sortAsc = true;
+
+function renderTable() {
+  const tbody = document.getElementById('sites-tbody');
+  const query = document.getElementById('search-input').value.toLowerCase();
+  const filtered = currentSites.filter(s =>
+    s.name.toLowerCase().includes(query) ||
+    s.domain.toLowerCase().includes(query) ||
+    s.type.toLowerCase().includes(query)
+  );
+
+  tbody.innerHTML = filtered.map(s => `
+    <tr>
+      <td>
+        <div class="site-name">
+          <span class="dot" style="background:${TYPE_COLORS[s.type] || '#6366f1'}"></span>
+          <strong>${s.name}</strong>
+        </div>
+      </td>
+      <td>
+        <a href="${s.url}" target="_blank" class="site-url">${s.domain}</a>
+      </td>
+      <td><span class="badge badge-gray" style="border-color:${TYPE_COLORS[s.type]}33;color:${TYPE_COLORS[s.type]};background:${TYPE_COLORS[s.type]}18">${s.type}</span></td>
+      <td>${adsenseBadge(s.adsense)}</td>
+      <td><code style="font-size:.72rem;color:var(--gray-light)">${s.gsc}</code></td>
+      <td><a href="${s.url}sitemap.xml" target="_blank" class="gsc-link">sitemap.xml ↗</a></td>
+      <td style="white-space:nowrap">
+        <a href="${gscUrl(s.gsc)}" target="_blank" class="btn" style="padding:.3rem .7rem;font-size:.72rem">GSC</a>
+        <a href="${s.url}" target="_blank" class="btn" style="padding:.3rem .7rem;font-size:.72rem;margin-left:4px">Visit ↗</a>
+      </td>
+    </tr>
+  `).join('');
+
+  // Update summary
+  const gscCount = SITES.length;
+  const adsenseCount = SITES.length;
+  const gettingReady = SITES.filter(s => s.adsense === 'Getting ready').length;
+  document.getElementById('gsc-count').textContent = gscCount;
+  document.getElementById('adsense-count').textContent = adsenseCount;
+  document.getElementById('getting-ready-count').textContent = gettingReady;
+}
+
+function filterTable() { renderTable(); }
+
+function sortByCol(col) {
+  if (sortCol === col) { sortAsc = !sortAsc; }
+  else { sortCol = col; sortAsc = true; }
+  currentSites.sort((a, b) => {
+    const av = a[col] || ''; const bv = b[col] || '';
+    return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  // Update sort icon
+  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  renderTable();
+}
+
+function sortTable(val) { sortByCol(val); }
+
+renderTable();
+</script>
+
+</body>
+</html>
