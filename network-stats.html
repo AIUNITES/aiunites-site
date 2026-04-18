@@ -765,7 +765,18 @@ updateOverviewBars();
 renderTable();
 // Try to load live stats on page load
 fetchLiveStats();
+// Load SEO audit report
+loadSeoReport();
 </script>
 
+  <!-- ====== SEO AUDIT ====== -->
+  <div class="section-title" style="margin-top:2rem">&#128269; SEO Audit <span>&#8212; weekly scan of all 18 sites &middot; click a row to expand issues</span></div>
+  <div class="section" style="padding:1rem 1.2rem">
+    <div id="seo-panel" style="min-height:60px;display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:.85rem">
+      Loading SEO report...
+    </div>
+  </div>
+
+</div><!-- end #main-content -->
 </body>
 </html>
