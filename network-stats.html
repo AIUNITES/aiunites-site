@@ -575,7 +575,99 @@ function clearAllData() {
 }
 
 // =========================================================
-// LIVE DATA FETCH from gsc-stats.json
+// SEO AUDIT PANEL
+// =========================================================
+async function loadSeoReport() {
+  try {
+    const resp = await fetch('data/seo-report.json?_=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+    if (!json.sites) return;
+    renderSeoPanel(json);
+  } catch(e) {
+    const el = document.getElementById('seo-panel');
+    if (el) el.innerHTML = '<p style="color:var(--gray);font-size:.8rem">SEO report not yet generated. Click Publish Now to run the audit.</p>';
+  }
+}
+
+function renderSeoPanel(json) {
+  const panel = document.getElementById('seo-panel');
+  if (!panel) return;
+
+  const SEV_LABEL = { 3:'CRITICAL', 2:'HIGH', 1:'MEDIUM', 0:'LOW' };
+  const SEV_COLOR = { 3:'var(--red)', 2:'var(--amber)', 1:'#60a5fa', 0:'var(--gray)' };
+
+  // Sort sites by score descending
+  const sorted = Object.entries(json.sites)
+    .map(([domain, s]) => ({ domain, ...s }))
+    .sort((a, b) => b.totalScore - a.totalScore);
+
+  let html = `<div style="font-size:.75rem;color:var(--gray);margin-bottom:1rem">
+    Last audit: <span style="color:var(--gray-light)">${json.generatedFmt || 'unknown'}</span>
+    &nbsp;&middot;&nbsp; Total issues: <span style="color:var(--amber)">${json.totalIssues}</span>
+    &nbsp;&middot;&nbsp; Runs weekly via auto-publish
+  </div>`;
+
+  html += '<table id="seo-table" style="width:100%;border-collapse:collapse;font-size:.82rem">';
+  html += '<thead><tr style="color:var(--gray);border-bottom:1px solid rgba(255,255,255,.08);text-align:left">';
+  ['Site','Score','Pages','Indexed','Impr','Pos','Critical','High','Issues'].forEach(h => {
+    html += `<th style="padding:.4rem .5rem;font-weight:500;white-space:nowrap">${h}</th>`;
+  });
+  html += '</tr></thead><tbody id="seo-tbody">';
+
+  sorted.forEach(s => {
+    const allIssues = (s.pages || []).flatMap(p => p.issues || []);
+    const crit  = allIssues.filter(i => i.sev === 3).length;
+    const high  = allIssues.filter(i => i.sev === 2).length;
+    const total = allIssues.length;
+    const scoreColor = s.totalScore > 10 ? 'var(--red)' : s.totalScore > 4 ? 'var(--amber)' : 'var(--green)';
+    const pos   = s.avgPosition > 0 ? s.avgPosition.toFixed(1) : '-';
+
+    html += `<tr style="border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer" onclick="toggleSeoSite('${s.domain}')">`;
+    html += `<td style="padding:.45rem .5rem;color:var(--text-bright);font-family:var(--mono);font-size:.78rem">${s.name}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:${scoreColor};font-weight:700">${s.totalScore}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--gray-light)">${s.pageCount}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--green)">${s.indexed}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--gray-light)">${s.impressions || '-'}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--gray-light)">${pos}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--red)">${crit || '-'}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--amber)">${high || '-'}</td>`;
+    html += `<td style="padding:.45rem .5rem;color:var(--gray)">${total}</td>`;
+    html += '</tr>';
+
+    // Expandable detail rows per page
+    if ((s.pages || []).length > 0) {
+      const pageRows = (s.pages || [])
+        .filter(p => (p.issues || []).length > 0)
+        .sort((a, b) => b.score - a.score)
+        .map(p => {
+          const issueHtml = (p.issues || [])
+            .sort((a, b) => b.sev - a.sev)
+            .map(i => `<span style="display:inline-block;margin:.15rem .2rem;padding:.1rem .4rem;border-radius:3px;background:${SEV_COLOR[i.sev]}22;color:${SEV_COLOR[i.sev]};font-size:.72rem">[${SEV_LABEL[i.sev]}] ${i.msg}</span>`)
+            .join('');
+          return `<tr style="background:rgba(0,0,0,.25)">
+            <td colspan="9" style="padding:.4rem .8rem .4rem 1.5rem">
+              <span style="color:var(--gray);font-family:var(--mono);font-size:.74rem">${p.file}</span>
+              <a href="${p.url}" target="_blank" style="color:var(--primary);font-size:.68rem;margin-left:.4rem">[live]</a><br>
+              ${issueHtml}
+            </td></tr>`;
+        }).join('');
+      html += `<tr id="seo-detail-${s.domain.replace(/\./g,'_')}" style="display:none">`;
+      html += `<td colspan="9" style="padding:0"><table style="width:100%;border-collapse:collapse">${pageRows}</table></td></tr>`;
+    }
+  });
+
+  html += '</tbody></table>';
+  panel.innerHTML = html;
+}
+
+function toggleSeoSite(domain) {
+  const id  = 'seo-detail-' + domain.replace(/\./g, '_');
+  const row = document.getElementById(id);
+  if (row) row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+
+// =========================================================
 // =========================================================
 let _liveData = null;
 
