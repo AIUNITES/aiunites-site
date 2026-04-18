@@ -5,17 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIUNITES Network Stats</title>
   <meta name="robots" content="noindex, nofollow">
-  <!-- Admin gate: redirect non-admins to homepage -->
+  <!-- Admin gate: password or ?admin=1 or logged-in admin -->
   <script>
     (function() {
-      var keys = ['aiunites_currentUser','videobate_currentUser','aibyjob_currentUser','redomy_currentUser','aizines_currentUser'];
+      var PASS_KEY = 'aiunites_stats_auth';
       var isAdmin = false;
-      for (var i = 0; i < keys.length; i++) {
-        try { var u = JSON.parse(localStorage.getItem(keys[i])); if (u && u.isAdmin) { isAdmin = true; break; } } catch(e) {}
+
+      // Check stored password
+      if (localStorage.getItem(PASS_KEY) === '1') isAdmin = true;
+
+      // Check ?admin=1 shortcut
+      if (location.search.indexOf('admin=1') !== -1) {
+        localStorage.setItem(PASS_KEY, '1');
+        isAdmin = true;
       }
-      if (location.search.indexOf('admin=1') !== -1) { sessionStorage.setItem('stats_admin_ok','1'); isAdmin = true; }
-      if (sessionStorage.getItem('stats_admin_ok') === '1') isAdmin = true;
-      if (!isAdmin) { location.replace('index.html'); }
+
+      // Check logged-in admin across any site
+      if (!isAdmin) {
+        var keys = ['aiunites_currentUser','videobate_currentUser','aibyjob_currentUser','redomy_currentUser','aizines_currentUser'];
+        for (var i = 0; i < keys.length; i++) {
+          try { var u = JSON.parse(localStorage.getItem(keys[i])); if (u && u.isAdmin) { isAdmin = true; break; } } catch(e) {}
+        }
+      }
+
+      // Prompt for password if not authenticated
+      if (!isAdmin) {
+        var pwd = prompt('AIUNITES Network Stats — Enter admin password:');
+        if (pwd === 'aiunites2026') {
+          localStorage.setItem(PASS_KEY, '1');
+          isAdmin = true;
+        } else {
+          location.replace('index.html');
+        }
+      }
     })();
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
