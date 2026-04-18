@@ -214,8 +214,14 @@
     <a href="https://lookerstudio.google.com/reporting/bb4e6805-5a2f-4d47-a5cc-283d1e5283cc" target="_blank" class="btn btn-primary">📊 Looker Studio →</a>
     <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="btn">AdSense</a>
     <a href="https://search.google.com/search-console" target="_blank" class="btn">GSC</a>
+    <button class="btn btn-primary" id="refresh-btn" onclick="fetchLiveStats()">🔄 Refresh Live Data</button>
     <button class="btn" onclick="exportNotes()">⬇ Export Notes</button>
     <button class="btn" onclick="clearAllData()" style="color:var(--red);border-color:rgba(239,68,68,.3)">🗑 Reset Data</button>
+  </div>
+  <div style="font-size:.75rem;color:var(--gray);margin-bottom:1rem">
+    📡 Live data: <span id="live-updated" style="color:var(--gray-light)">Loading...</span>
+    &nbsp;·&nbsp; Range: <span id="live-daterange" style="color:var(--gray-light)">28 days</span>
+    &nbsp;·&nbsp; <span style="color:var(--amber)">Add service account to each GSC property to enable auto-fetch</span>
   </div>
 
   <!-- ====== INDEXING TRACKER ====== -->
@@ -547,12 +553,104 @@ function clearAllData() {
 }
 
 // =========================================================
+// LIVE DATA FETCH from gsc-stats.json
+// =========================================================
+let _liveData = null;
+
+async function fetchLiveStats() {
+  const btn = document.getElementById('refresh-btn');
+  if (btn) { btn.textContent = '⏳ Fetching...'; btn.disabled = true; }
+  try {
+    const resp = await fetch('data/gsc-stats.json?_=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+    _liveData = json;
+    applyLiveData(json);
+    const el = document.getElementById('live-updated');
+    if (el) el.textContent = json.updatedFmt || 'unknown';
+    const dr = document.getElementById('live-daterange');
+    if (dr) dr.textContent = json.dateRange || '';
+  } catch(e) {
+    console.warn('GSC stats fetch failed:', e.message);
+  } finally {
+    if (btn) { btn.textContent = '🔄 Refresh Live Data'; btn.disabled = false; }
+  }
+}
+
+function applyLiveData(json) {
+  if (!json || !json.sites) return;
+  // Auto-populate indexed counts from live data if user hasn't manually entered notes
+  const stored = loadData();
+  let changed = false;
+  SITES.forEach(s => {
+    const live = json.sites[s.domain];
+    if (!live) return;
+    const existing = stored[s.domain];
+    // Only auto-fill indexed count if no manual notes exist (don't overwrite user work)
+    if (!existing || !existing.notes) {
+      if (!stored[s.domain]) stored[s.domain] = { indexed:0, notIndexed:0, lastChecked:'', notes:'' };
+      stored[s.domain].indexed = live.indexed || 0;
+      stored[s.domain].lastChecked = live.lastFetched || '';
+      changed = true;
+    }
+  });
+  if (changed) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
+  }
+  // Re-render with fresh data
+  renderIndexingGrid();
+  updateSummaryCards();
+  updateOverviewBars();
+  // Inject live analytics into table
+  renderTableWithLive(json.sites);
+}
+
+function renderTableWithLive(liveSites) {
+  // Add live columns to existing table if data available
+  const hasCols = document.getElementById('th-clicks');
+  if (!hasCols) {
+    const thead = document.querySelector('#sites-table thead tr');
+    if (thead) {
+      ['Clicks (28d)','Impress.','Avg Pos','Top Query'].forEach((lbl,i) => {
+        const th = document.createElement('th');
+        th.id = i===0 ? 'th-clicks' : '';
+        th.textContent = lbl;
+        th.style.cssText = 'white-space:nowrap';
+        thead.appendChild(th);
+      });
+    }
+  }
+  // Update each row
+  const rows = document.querySelectorAll('#sites-tbody tr');
+  rows.forEach(row => {
+    const domainEl = row.querySelector('a[style*="mono"]');
+    if (!domainEl) return;
+    const domain = domainEl.textContent.trim();
+    const live = liveSites && liveSites[domain];
+    // Remove old live cells
+    row.querySelectorAll('.live-cell').forEach(c => c.remove());
+    const vals = live
+      ? [live.clicks, live.impressions, live.avgPosition || '—', live.topQuery ? (live.topQuery.length>20?live.topQuery.substring(0,20)+'…':live.topQuery) : '—']
+      : ['—','—','—','—'];
+    vals.forEach(v => {
+      const td = document.createElement('td');
+      td.className = 'live-cell';
+      td.style.cssText = 'font-family:var(--mono);font-size:.78rem;color:var(--gray-light)';
+      td.textContent = v;
+      row.appendChild(td);
+    });
+  });
+}
+
+// =========================================================
 // INIT
 // =========================================================
 renderIndexingGrid();
 updateSummaryCards();
 updateOverviewBars();
 renderTable();
+// Try to load live stats on page load
+fetchLiveStats();
 </script>
 
 </body>
