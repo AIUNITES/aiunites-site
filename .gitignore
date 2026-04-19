@@ -12,6 +12,9 @@ Thumbs.db
 # Logs
 *.log
 
+# Credentials - never commit
+js/local-users.js
+
 # Internal docs - do not publish
 UATEST_PLAN.md
 PROGRESS_LOG.md

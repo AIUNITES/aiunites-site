@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIUNITES Network Stats</title>
   <meta name="robots" content="noindex, nofollow">
-  <!-- Admin gate: password or ?admin=1 or logged-in admin -->
+  <!-- Admin gate: shared AIUNITES auth or ?admin=1 shortcut -->
   <script>
     (function() {
       var PASS_KEY = 'aiunites_stats_auth';
+      var USER_KEY = 'aiunites_currentUser';
       var isAdmin = false;
 
-      // Check stored password
+      // Check stored password (legacy)
       if (localStorage.getItem(PASS_KEY) === '1') isAdmin = true;
 
       // Check ?admin=1 shortcut
@@ -20,23 +21,15 @@
         isAdmin = true;
       }
 
-      // Check logged-in admin across any site
-      if (!isAdmin) {
-        var keys = ['aiunites_currentUser','videobate_currentUser','aibyjob_currentUser','redomy_currentUser','aizines_currentUser'];
-        for (var i = 0; i < keys.length; i++) {
-          try { var u = JSON.parse(localStorage.getItem(keys[i])); if (u && u.isAdmin) { isAdmin = true; break; } } catch(e) {}
-        }
+      // Check logged-in admin via shared AIUNITES auth
+      var authKeys = ['aiunites_currentUser','videobate_currentUser','aibyjob_currentUser','redomy_currentUser','aizines_currentUser'];
+      for (var i = 0; i < authKeys.length; i++) {
+        try { var u = JSON.parse(localStorage.getItem(authKeys[i])); if (u && u.isAdmin) { isAdmin = true; break; } } catch(e) {}
       }
 
-      // Prompt for password if not authenticated
+      // Not authenticated: redirect to login
       if (!isAdmin) {
-        var pwd = prompt('AIUNITES Network Stats — Enter admin password:');
-        if (pwd === 'aiunites2026') {
-          localStorage.setItem(PASS_KEY, '1');
-          isAdmin = true;
-        } else {
-          location.replace('index.html');
-        }
+        location.replace('index.html?admin=login&next=network-stats.html');
       }
     })();
   </script>
