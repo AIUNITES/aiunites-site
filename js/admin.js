@@ -19,6 +19,7 @@
     if (typeof LOCAL_USERS !== 'undefined' && LOCAL_USERS.admin) {
       return LOCAL_USERS.admin;
     }
+    // Fallback — works even without local-users.js
     return { username: 'admin', password: 'aiunites2026', displayName: 'Tom' };
   }
 
