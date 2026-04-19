@@ -102,8 +102,9 @@
     bar.id = 'au-admin-toolbar';
 
     var links = [
-      { href: '/network-stats.html', icon: '📊', label: 'Network Stats' },
-      { href: '/network-stats.html#seo', icon: '🔍', label: 'SEO Audit' },
+      { href: '/network-overview.html', icon: '&#128202;', label: 'Overview' },
+      { href: '/network-stats.html', icon: '&#128225;', label: 'GSC + SEO' },
+      { href: '/network-stats.html#seo', icon: '&#128269;', label: 'SEO Audit' },
       { href: 'https://lookerstudio.google.com/reporting/bb4e6805-5a2f-4d47-a5cc-283d1e5283cc', icon: '📈', label: 'Looker Studio', ext: true },
       { href: 'https://search.google.com/search-console', icon: '🌐', label: 'GSC', ext: true },
       { href: 'https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list', icon: '💰', label: 'AdSense', ext: true }
@@ -163,8 +164,12 @@
       if (login(userInput.value.trim(), passInput.value)) {
         overlay.remove();
         showToolbar();
-        // If on network-stats page, reload to bypass gate
-        if (window.location.pathname.indexOf('network-stats') !== -1) {
+        // Redirect to `next` param if present
+        var nextMatch = window.location.search.match(/[?&]next=([^&]+)/);
+        if (nextMatch) {
+          window.location.href = decodeURIComponent(nextMatch[1]);
+        } else if (window.location.pathname.indexOf('network-stats') !== -1 ||
+                   window.location.pathname.indexOf('network-overview') !== -1) {
           location.reload();
         }
       } else {
@@ -209,10 +214,39 @@
 
   // -- Init --
   function init() {
+    // Expose global for footer link
+    window.__auAdminNav = function() {
+      if (isAdmin()) { showToolbar(); }
+      else { showLoginModal(); }
+    };
+
     if (isAdmin()) {
       showToolbar();
     } else {
       setupTrigger();
+      injectFooterLink();
+    }
+  }
+
+  // -- Inject subtle Admin link into footer --
+  function injectFooterLink() {
+    // Wait for DOM then find footer-legal or footer-bottom
+    function tryInject() {
+      var legal = document.querySelector('.footer-legal, .footer-bottom, footer');
+      if (!legal) return;
+      var link = document.createElement('a');
+      link.href = '#';
+      link.textContent = '\u25C6 Admin';
+      link.style.cssText = 'color:rgba(255,255,255,0.2);font-size:0.72rem;text-decoration:none;margin-left:16px;transition:color 0.2s;';
+      link.addEventListener('mouseenter', function() { link.style.color = 'rgba(99,102,241,0.7)'; });
+      link.addEventListener('mouseleave', function() { link.style.color = 'rgba(255,255,255,0.2)'; });
+      link.addEventListener('click', function(e) { e.preventDefault(); showLoginModal(); });
+      legal.appendChild(link);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', tryInject);
+    } else {
+      tryInject();
     }
   }
 

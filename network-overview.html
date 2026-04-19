@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Admin gate -->
+  <script>
+    (function(){
+      var ok = false;
+      if (localStorage.getItem('aiunites_stats_auth') === '1') ok = true;
+      if (location.search.indexOf('admin=1') !== -1) { localStorage.setItem('aiunites_stats_auth','1'); ok = true; }
+      var keys = ['aiunites_currentUser','videobate_currentUser','aibyjob_currentUser','redomy_currentUser'];
+      for (var i=0;i<keys.length;i++){ try{var u=JSON.parse(localStorage.getItem(keys[i]));if(u&&u.isAdmin){ok=true;break;}}catch(e){} }
+      if (!ok) location.replace('index.html?admin=login&next=network-overview.html');
+    })();
+  </script>
+  <title>AIUNITES Network Overview</title>
+  <style>
+    :root {
+      --bg:#0d0d14;--bg2:#13131e;--bg3:#1a1a2a;--border:rgba(99,102,241,0.25);
+      --indigo:#6366f1;--indigo2:#818cf8;--green:#22c55e;--yellow:#eab308;
+      --red:#ef4444;--cyan:#22d3ee;--gray:#6b7280;--text:#e2e8f0;--text2:#94a3b8;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    .shell{display:flex;min-height:100vh;}
+    .sidebar{width:220px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(99,102,241,0.3) transparent;}
+    .sidebar::-webkit-scrollbar{width:4px;}
+    .sidebar::-webkit-scrollbar-thumb{background:rgba(99,102,241,0.3);border-radius:2px;}
+    .sidebar-logo{padding:20px 18px 16px;font-size:1rem;font-weight:700;color:var(--indigo2);border-bottom:1px solid var(--border);letter-spacing:0.5px;}
+    .sidebar-logo span{color:var(--text2);font-weight:400;font-size:0.75rem;display:block;margin-top:2px;}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:11px 18px;cursor:pointer;color:var(--text2);font-size:0.875rem;border-left:3px solid transparent;transition:all 0.15s;user-select:none;}
+    .nav-item:hover{background:var(--bg3);color:var(--text);}
+    .nav-item.active{color:var(--indigo2);border-left-color:var(--indigo);background:rgba(99,102,241,0.08);}
+    .nav-icon{font-size:1rem;width:20px;text-align:center;}
+    .sidebar-section{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray);padding:16px 18px 6px;}
+    .sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border);position:sticky;bottom:0;background:var(--bg2);}
+    .refresh-btn{width:100%;padding:8px;background:rgba(99,102,241,0.15);border:1px solid var(--border);border-radius:6px;color:var(--indigo2);font-size:0.8rem;cursor:pointer;transition:all 0.15s;}
+    .refresh-btn:hover{background:rgba(99,102,241,0.25);}
+    .main{margin-left:220px;flex:1;padding:28px 32px;max-width:1200px;}
+    .page-header{margin-bottom:24px;}
+    .page-title{font-size:1.4rem;font-weight:700;margin-bottom:4px;}
+    .page-sub{color:var(--text2);font-size:0.85rem;}
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;}
+    .card-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .card-title .dot{width:7px;height:7px;border-radius:50%;background:var(--indigo);}
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+    .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+    .stat-label{font-size:0.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+    .stat-value{font-size:1.8rem;font-weight:700;line-height:1;}
+    .stat-value.green{color:var(--green);}.stat-value.yellow{color:var(--yellow);}.stat-value.red{color:var(--red);}.stat-value.indigo{color:var(--indigo2);}
+    .stat-note{font-size:0.72rem;color:var(--text2);margin-top:4px;}
+    .log-viewer{background:#080810;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'Cascadia Code','Consolas',monospace;font-size:0.78rem;line-height:1.6;max-height:480px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;}
+    .log-viewer .l-green{color:#22c55e;}.log-viewer .l-gray{color:#4b5563;}.log-viewer .l-yellow{color:#eab308;}.log-viewer .l-red{color:#ef4444;}.log-viewer .l-cyan{color:#22d3ee;}.log-viewer .l-magenta{color:#e879f9;}.log-viewer .l-white{color:#e2e8f0;}.log-viewer .l-head{color:#6366f1;font-weight:bold;}
+    .fq-item{padding:12px 14px;border-radius:7px;border:1px solid var(--border);margin-bottom:10px;font-size:0.82rem;}
+    .fq-item.pending{border-left:3px solid var(--yellow);}.fq-item.done{border-left:3px solid var(--green);opacity:0.6;}.fq-item.skipped{border-left:3px solid var(--gray);opacity:0.5;}
+    .fq-status{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+    .fq-status.pending{color:var(--yellow);}.fq-status.done{color:var(--green);}.fq-status.skipped{color:var(--gray);}
+    .fq-label{font-weight:600;color:var(--text);margin-bottom:3px;}
+    .fq-file{color:var(--text2);font-size:0.75rem;font-family:monospace;}
+    .fq-found{color:var(--yellow);font-size:0.75rem;font-family:monospace;margin-top:4px;}
+    .net-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+    .net-table th{text-align:left;padding:8px 10px;color:var(--text2);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.8px;border-bottom:1px solid var(--border);}
+    .net-table td{padding:9px 10px;border-bottom:1px solid rgba(99,102,241,0.08);}
+    .net-table tr:last-child td{border-bottom:none;}
+    .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.68rem;font-weight:700;}
+    .badge.live{background:rgba(34,197,94,0.15);color:var(--green);}.badge.pending{background:rgba(234,179,8,0.15);color:var(--yellow);}.badge.error{background:rgba(239,68,68,0.15);color:var(--red);}.badge.scan{background:rgba(34,211,238,0.12);color:var(--cyan);}.badge.info{background:rgba(99,102,241,0.12);color:var(--indigo2);}
+    .page{display:none;}.page.active{display:block;}
+    .loading{color:var(--text2);font-size:0.85rem;padding:20px 0;}
+    .last-updated{font-size:0.72rem;color:var(--gray);margin-top:10px;text-align:right;}
+    .empty{text-align:center;padding:30px;color:var(--text2);font-size:0.85rem;}
+    .filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+    .filter-btn{padding:5px 12px;border-radius:5px;font-size:0.75rem;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all 0.15s;}
+    .filter-btn:hover,.filter-btn.active{background:rgba(99,102,241,0.15);color:var(--indigo2);border-color:var(--indigo);}
+    .seo-score{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;}
+    .seo-score.high{background:rgba(239,68,68,0.15);color:var(--red);}
+    .seo-score.med{background:rgba(234,179,8,0.15);color:var(--yellow);}
+    .seo-score.low{background:rgba(34,197,94,0.15);color:var(--green);}
+    @media(max-width:800px){.stat-row{grid-template-columns:1fr 1fr;}.sidebar{width:56px;}.sidebar-logo span,.nav-item span,.sidebar-section{display:none;}.main{margin-left:56px;padding:16px;}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <nav class="sidebar">
+    <div class="sidebar-logo">&#9670; AIUNITES<span>Network Overview</span></div>
+    <div class="sidebar-section">Reports</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="nav-icon">&#128202;</span><span>Dashboard</span></div>
+    <div class="nav-item" onclick="showPage('seo',this)"><span class="nav-icon">&#128269;</span><span>SEO Audit</span></div>
+    <div class="nav-item" onclick="showPage('gsc',this)"><span class="nav-icon">&#128225;</span><span>GSC Live Data</span></div>
+    <div class="nav-item" onclick="showPage('network',this)"><span class="nav-icon">&#127760;</span><span>Site Status</span></div>
+    <div class="nav-item" onclick="showPage('publishing',this)"><span class="nav-icon">&#128640;</span><span>Publish Stats</span></div>
+    <div class="nav-item" onclick="showPage('gitlog',this)"><span class="nav-icon">&#128220;</span><span>Git Log</span></div>
+    <div class="sidebar-section">Links</div>
+    <div class="nav-item" onclick="window.open('network-stats.html','_blank')"><span class="nav-icon">&#128202;</span><span>Full Stats Page</span></div>
+    <div class="nav-item" onclick="window.open('https://lookerstudio.google.com/reporting/bb4e6805-5a2f-4d47-a5cc-283d1e5283cc','_blank')"><span class="nav-icon">&#128200;</span><span>Looker Studio</span></div>
+    <div class="nav-item" onclick="window.open('https://search.google.com/search-console','_blank')"><span class="nav-icon">&#127758;</span><span>GSC Console</span></div>
+    <div class="nav-item" onclick="window.open('https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list','_blank')"><span class="nav-icon">&#128176;</span><span>AdSense</span></div>
+    <div class="nav-item" onclick="window.open('http://localhost:8000/core-site/','_blank')"><span class="nav-icon">&#128187;</span><span>Core Admin (local)</span></div>
+    <div class="sidebar-footer">
+      <button class="refresh-btn" onclick="refreshAll()">&#8635; Refresh All</button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div id="mode-banner" style="display:none;background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3);border-radius:8px;padding:10px 16px;margin-bottom:20px;font-size:0.82rem;color:#eab308;"></div>
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header">
+        <div class="page-title">AIUNITES Network Overview</div>
+        <div class="page-sub">18-site dashboard — SEO, GSC, and publish stats</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-label">Total Sites</div><div class="stat-value indigo">18</div><div class="stat-note">GitHub Pages</div></div>
+        <div class="stat-card"><div class="stat-label">Total Indexed</div><div class="stat-value green" id="dash-indexed">—</div><div class="stat-note">pages in Google</div></div>
+        <div class="stat-card"><div class="stat-label">SEO Issues</div><div class="stat-value" id="dash-issues">—</div><div class="stat-note" id="dash-issues-note">last audit</div></div>
+        <div class="stat-card"><div class="stat-label">Last Publish</div><div class="stat-value indigo" id="dash-last-pub" style="font-size:1rem;padding-top:6px;">—</div><div class="stat-note" id="dash-last-pub-date"></div></div>
+        <div class="stat-card"><div class="stat-label">Total Pushes</div><div class="stat-value indigo" id="dash-pushes">—</div><div class="stat-note">all time</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Top SEO Priorities</div>
+        <div id="dash-seo-top"><div class="loading">Loading SEO data...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--cyan)"></span>GSC Snapshot <span style="margin-left:auto;font-size:0.7rem;color:var(--text2);" id="dash-gsc-date"></span></div>
+        <div id="dash-gsc-snap"><div class="loading">Loading GSC data...</div></div>
+      </div>
+      <div class="last-updated" id="dash-updated"></div>
+    </div>
+
+    <!-- SEO AUDIT -->
+    <div id="page-seo" class="page">
+      <div class="page-header">
+        <div class="page-title">SEO Audit</div>
+        <div class="page-sub">Weekly scan of all 18 sites — data/seo-report.json</div>
+      </div>
+      <div class="stat-row" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Issues</div><div class="stat-value" id="seo-total">—</div></div>
+        <div class="stat-card"><div class="stat-label">Sites Audited</div><div class="stat-value indigo" id="seo-sites">—</div></div>
+        <div class="stat-card"><div class="stat-label">Last Audit</div><div class="stat-value indigo" id="seo-date" style="font-size:.9rem;padding-top:6px;">—</div></div>
+        <div class="stat-card"><div class="stat-label">Critical Issues</div><div class="stat-value red" id="seo-critical">—</div></div>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterSeo('all',this)">All Sites</button>
+        <button class="filter-btn" onclick="filterSeo('issues',this)">Has Issues</button>
+        <button class="filter-btn" onclick="filterSeo('noindex',this)">0 Indexed</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="net-table" id="seo-table">
+          <thead><tr><th>Site</th><th>Score</th><th>Pages</th><th>Indexed</th><th>Impressions</th><th>Critical</th><th>High</th><th>Issues</th></tr></thead>
+          <tbody id="seo-tbody"><tr><td colspan="8" style="padding:20px;color:var(--text2);">Loading...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="last-updated" id="seo-updated"></div>
+    </div>
+
+    <!-- GSC DATA -->
+    <div id="page-gsc" class="page">
+      <div class="page-header">
+        <div class="page-title">GSC Live Data</div>
+        <div class="page-sub">Search Console metrics — data/gsc-stats.json (fetched daily)</div>
+      </div>
+      <div class="stat-row" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><div class="stat-label">Total Clicks</div><div class="stat-value indigo" id="gsc-clicks">—</div></div>
+        <div class="stat-card"><div class="stat-label">Total Impressions</div><div class="stat-value indigo" id="gsc-impr">—</div></div>
+        <div class="stat-card"><div class="stat-label">Sites with Traffic</div><div class="stat-value green" id="gsc-sites">—</div></div>
+        <div class="stat-card"><div class="stat-label">Date Range</div><div class="stat-value indigo" id="gsc-range" style="font-size:.75rem;padding-top:8px;">—</div></div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="net-table" id="gsc-table">
+          <thead><tr><th>Site</th><th>Indexed</th><th>Clicks</th><th>Impressions</th><th>Avg Position</th><th>Top Query</th></tr></thead>
+          <tbody id="gsc-tbody"><tr><td colspan="6" style="padding:20px;color:var(--text2);">Loading...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="last-updated" id="gsc-updated"></div>
+    </div>
+
+    <!-- SITE STATUS -->
+    <div id="page-network" class="page">
+      <div class="page-header">
+        <div class="page-title">Site Status</div>
+        <div class="page-sub">Live HEAD check against all GitHub Pages domains</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Live Status <span style="margin-left:auto;font-size:0.7rem;color:var(--text2);cursor:pointer;" onclick="checkNetwork()">&#8635; Re-check all</span></div>
+        <div id="net-table-wrap"><div class="loading">Click Re-check all to ping all 18 sites...</div></div>
+      </div>
+    </div>
+
+    <!-- PUBLISH STATS -->
+    <div id="page-publishing" class="page">
+      <div class="page-header">
+        <div class="page-title">Publish Stats</div>
+        <div class="page-sub">Auto-publish engine metrics — cloudsion-site/data/publish-stats.json</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-label">Repos Managed</div><div class="stat-value indigo" id="ps-repos">—</div></div>
+        <div class="stat-card"><div class="stat-label">Month Pushes</div><div class="stat-value indigo" id="ps-month">—</div></div>
+        <div class="stat-card"><div class="stat-label">Total Pushes</div><div class="stat-value indigo" id="ps-total">—</div></div>
+        <div class="stat-card"><div class="stat-label">Security</div><div class="stat-value green" id="ps-sec">—</div></div>
+        <div class="stat-card"><div class="stat-label">Code Quality</div><div class="stat-value" id="ps-cq">—</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Network Map</div>
+        <div id="ps-network" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;"><div class="loading">Loading...</div></div>
+      </div>
+      <div class="last-updated" id="ps-updated"></div>
+    </div>
+
+    <!-- GIT LOG -->
+    <div id="page-gitlog" class="page">
+      <div class="page-header">
+        <div class="page-title">Git Log</div>
+        <div class="page-sub">Recent commits across all repos — cloudsion-site/data/git-log.json</div>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterGL('all',this)">All Repos</button>
+        <button class="filter-btn" onclick="filterGL('pushed',this)">Pushed Only</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div id="gl-list" style="max-height:600px;overflow-y:auto;padding:8px 0;"><div class="loading" style="padding:20px;">Loading...</div></div>
+      </div>
+      <div class="last-updated" id="gl-updated"></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const SITES = [
+  {name:'AIUNITES',domain:'aiunites.com',repo:'aiunites-site'},
+  {name:'AIByJob',domain:'aibyjob.com',repo:'aibyjob-demo'},
+  {name:'AITSQL',domain:'aitsql.com',repo:'aitsql-site'},
+  {name:'AI YHWH',domain:'aiyhwh.com',repo:'aiyhwh-site'},
+  {name:'AIZines',domain:'aizines.com',repo:'aizines-app'},
+  {name:'BizStry',domain:'bizstry.com',repo:'bizstry-site'},
+  {name:'BodSpas',domain:'bodspas.com',repo:'bodspas-site'},
+  {name:'Cloudsion',domain:'cloudsion.com',repo:'cloudsion-site'},
+  {name:'COSMOS the OPERA',domain:'cosmostheopera.com',repo:'cosmostheopera-site'},
+  {name:'ERPise',domain:'erpise.com',repo:'erpise-site'},
+  {name:'ERPize',domain:'erpize.com',repo:'erpize-site'},
+  {name:'FurnishThings',domain:'furnishthings.com',repo:'furnishthings-site'},
+  {name:'Gameatica',domain:'gameatica.com',repo:'gameatica-site'},
+  {name:'InThisWorld',domain:'inthisworld.com',repo:'inthisworld-site'},
+  {name:'Redomy',domain:'redomy.com',repo:'redomy-demo'},
+  {name:'UptownIT',domain:'uptownit.com',repo:'uptownit-site'},
+  {name:'VideoBate',domain:'videobate.com',repo:'videobate-site'},
+  {name:'VoiceStry',domain:'voicestry.com',repo:'voicestry-site'}
+];
+
+// Data URLs — available on GitHub Pages
+const DATA = {
+  seo:   'data/seo-report.json',
+  gsc:   'data/gsc-stats.json',
+  stats: 'https://aiunites.github.io/cloudsion-site/data/publish-stats.json',
+  git:   'https://aiunites.github.io/cloudsion-site/data/git-log.json'
+};
+
+let seoData = null, gscData = null, statsData = null, gitData = null, glFilter = 'all';
+
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+async function fetchJSON(url) {
+  try {
+    const r = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now());
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e) { return null; }
+}
+
+function ts() { return new Date().toLocaleTimeString(); }
+
+function scoreClass(s) {
+  if (s >= 100) return 'high';
+  if (s >= 30)  return 'med';
+  return 'low';
+}
+
+// ── SEO ──────────────────────────────────────────────────────────────────
+async function loadSEO() {
+  seoData = await fetchJSON(DATA.seo);
+  if (!seoData) {
+    document.getElementById('seo-tbody').innerHTML = '<tr><td colspan="8" style="padding:20px;color:var(--yellow);">seo-report.json not found</td></tr>';
+    return;
+  }
+  const sites = seoData.sites;
+  document.getElementById('seo-total').textContent = seoData.totalIssues || '—';
+  document.getElementById('seo-total').className = 'stat-value ' + (seoData.totalIssues > 0 ? 'yellow' : 'green');
+  document.getElementById('seo-sites').textContent = Object.keys(sites).length;
+  document.getElementById('seo-date').textContent  = (seoData.generatedFmt || '').substring(0,12);
+
+  // Count criticals
+  let critTotal = 0;
+  Object.values(sites).forEach(s => {
+    s.pages.forEach(p => p.issues.forEach(i => { if (i.sev === 3) critTotal++; }));
+  });
+  document.getElementById('seo-critical').textContent = critTotal;
+
+  renderSeoTable('all');
+  document.getElementById('seo-updated').textContent = 'Last loaded: ' + ts();
+}
+
+function renderSeoTable(filter) {
+  if (!seoData) return;
+  const sorted = Object.entries(seoData.sites).sort((a,b) => b[1].totalScore - a[1].totalScore);
+  const rows = sorted.filter(([domain, s]) => {
+    if (filter === 'issues')  return s.totalScore > 0;
+    if (filter === 'noindex') return !s.indexed || s.indexed === 0;
+    return true;
+  });
+
+  document.getElementById('seo-tbody').innerHTML = rows.map(([domain, s]) => {
+    let crit = 0, high = 0;
+    s.pages.forEach(p => p.issues.forEach(i => { if (i.sev === 3) crit++; else if (i.sev === 2) high++; }));
+    const issueTotal = s.pages.reduce((acc, p) => acc + p.issues.length, 0);
+    const sc = s.totalScore;
+    const cls = scoreClass(sc);
+    return `<tr>
+      <td style="font-weight:600;">${s.name || domain}</td>
+      <td><span class="seo-score ${cls}">${sc}</span></td>
+      <td>${s.pageCount}</td>
+      <td style="color:${s.indexed > 0 ? 'var(--green)' : 'var(--red)'};">${s.indexed}</td>
+      <td>${s.impressions || '-'}</td>
+      <td style="color:${crit > 0 ? 'var(--red)' : 'var(--text2)'};">${crit}</td>
+      <td style="color:${high > 0 ? 'var(--yellow)' : 'var(--text2)'};">${high}</td>
+      <td>${issueTotal}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterSeo(f, btn) {
+  document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSeoTable(f);
+}
+
+// ── GSC ──────────────────────────────────────────────────────────────────
+async function loadGSC() {
+  gscData = await fetchJSON(DATA.gsc);
+  if (!gscData) {
+    document.getElementById('gsc-tbody').innerHTML = '<tr><td colspan="6" style="padding:20px;color:var(--yellow);">gsc-stats.json not found</td></tr>';
+    return;
+  }
+
+  const sites = gscData.sites || {};
+  let totalClicks = 0, totalImpr = 0, sitesWithTraffic = 0;
+  Object.values(sites).forEach(s => {
+    totalClicks += (s.clicks || 0);
+    totalImpr   += (s.impressions || 0);
+    if ((s.clicks || 0) > 0 || (s.impressions || 0) > 0) sitesWithTraffic++;
+  });
+
+  document.getElementById('gsc-clicks').textContent = totalClicks;
+  document.getElementById('gsc-impr').textContent   = totalImpr;
+  document.getElementById('gsc-sites').textContent  = sitesWithTraffic;
+  document.getElementById('gsc-range').textContent  = (gscData.dateRange || '').replace('/', ' to ');
+  document.getElementById('dash-gsc-date').textContent = 'Fetched ' + (gscData.fetchedFmt || gscData.generated || '');
+
+  document.getElementById('gsc-tbody').innerHTML = SITES.map(site => {
+    const s = sites[site.domain] || {};
+    const pos = s.avgPosition ? parseFloat(s.avgPosition).toFixed(1) : '-';
+    return `<tr>
+      <td style="font-weight:600;">${site.name}</td>
+      <td style="color:${(s.indexed||0) > 0 ? 'var(--green)' : 'var(--red)'};">${s.indexed || 0}</td>
+      <td>${s.clicks || 0}</td>
+      <td>${s.impressions || 0}</td>
+      <td>${pos}</td>
+      <td style="color:var(--text2);font-size:0.78rem;">${s.topQuery || '-'}</td>
+    </tr>`;
+  }).join('');
+
+  // GSC snapshot on dashboard
+  const topSites = Object.entries(sites).filter(([,s]) => s.impressions > 0).sort((a,b) => b[1].impressions - a[1].impressions).slice(0, 5);
+  const snapHtml = topSites.length
+    ? topSites.map(([domain, s]) => `<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(99,102,241,0.06);">
+        <span style="font-weight:600;width:160px;font-size:0.82rem;">${domain}</span>
+        <span style="color:var(--green);font-size:0.78rem;">${s.impressions} impr</span>
+        <span style="color:var(--text2);font-size:0.78rem;">${s.clicks} clicks</span>
+        <span style="color:var(--indigo2);font-size:0.75rem;">${s.topQuery || ''}</span>
+      </div>`).join('')
+    : '<div style="color:var(--text2);padding:12px;">No impressions yet — check back after Google indexes the fixed pages.</div>';
+  document.getElementById('dash-gsc-snap').innerHTML = snapHtml;
+
+  document.getElementById('gsc-updated').textContent = 'Last loaded: ' + ts();
+}
+
+// ── Publish Stats ──────────────────────────────────────────────────────────
+async function loadPublishStats() {
+  statsData = await fetchJSON(DATA.stats);
+  if (!statsData) {
+    ['ps-repos','ps-month','ps-total','ps-sec','ps-cq'].forEach(id => document.getElementById(id).textContent = '—');
+    document.getElementById('ps-network').innerHTML = '<div class="empty">publish-stats.json not found</div>';
+    return;
+  }
+  document.getElementById('ps-repos').textContent = statsData.reposManaged || '—';
+  document.getElementById('ps-month').textContent = statsData.monthPushes  || '—';
+  document.getElementById('ps-total').textContent = statsData.totalPushes  || '—';
+  const secEl = document.getElementById('ps-sec');
+  secEl.textContent = statsData.secStatus || '—';
+  secEl.className = 'stat-value ' + (statsData.secStatus === 'Clean' ? 'green' : 'yellow');
+  const cqEl = document.getElementById('ps-cq');
+  cqEl.textContent = statsData.cqIssues ?? '—';
+  cqEl.className = 'stat-value ' + ((statsData.cqIssues || 0) === 0 ? 'green' : 'yellow');
+
+  // Dashboard last publish
+  const [ld, lt] = (statsData.lastRun || '— —').split(' ');
+  document.getElementById('dash-last-pub').textContent  = lt || '—';
+  document.getElementById('dash-last-pub-date').textContent = ld || '';
+  document.getElementById('dash-pushes').textContent = statsData.totalPushes || '—';
+
+  if (statsData.repos) {
+    document.getElementById('ps-network').innerHTML = statsData.repos.map(r =>
+      `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;">
+        <div style="font-size:.78rem;font-weight:600;color:var(--indigo2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.domain}</div>
+        <div style="font-size:.65rem;color:var(--gray);margin-top:2px;">${r.repo}</div>
+        <span class="badge live" style="font-size:.6rem;margin-top:6px;display:inline-block;">&#10003; Live</span>
+      </div>`
+    ).join('');
+  }
+  document.getElementById('ps-updated').textContent = 'Last loaded: ' + ts();
+}
+
+// ── Git Log ────────────────────────────────────────────────────────────────
+async function loadGitLog() {
+  gitData = await fetchJSON(DATA.git);
+  if (!gitData) {
+    document.getElementById('gl-list').innerHTML = '<div class="empty" style="padding:20px;">git-log.json not found</div>';
+    return;
+  }
+  renderGL(glFilter);
+  document.getElementById('gl-updated').textContent = 'Last loaded: ' + ts();
+}
+
+function renderGL(filter) {
+  glFilter = filter;
+  const entries = filter === 'pushed' ? gitData.filter(e => e.pushed) : gitData;
+  if (!entries.length) { document.getElementById('gl-list').innerHTML = '<div class="empty" style="padding:20px;">No entries.</div>'; return; }
+  document.getElementById('gl-list').innerHTML = entries.map(e => `
+    <div style="display:flex;gap:0;border-bottom:1px solid rgba(99,102,241,0.08);padding:10px 20px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:90px;"><div style="font-size:0.7rem;color:var(--gray);font-family:monospace;">${e.date||''}</div><div style="font-size:0.65rem;color:var(--gray);">${e.time||''}</div></div>
+      <div style="flex-shrink:0;width:38px;margin-right:12px;"><span class="badge ${e.pushed?'live':'info'}" style="font-size:0.6rem;padding:1px 6px;">${e.pushed?'&#8593; push':'scan'}</span></div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:2px;">${e.repo}</div>
+        <div style="font-size:0.75rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${(e.message||'').replace(/</g,'&lt;')}</div>
+        ${e.hash ? `<div style="font-size:0.65rem;color:var(--gray);font-family:monospace;margin-top:2px;">${e.hash}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function filterGL(f, btn) {
+  document.querySelectorAll('.filter-bar .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (gitData) renderGL(f);
+}
+
+// ── Site Status ────────────────────────────────────────────────────────────
+async function checkNetwork() {
+  const wrap = document.getElementById('net-table-wrap');
+  wrap.innerHTML = '<div class="loading">Checking 18 sites...</div>';
+  const results = await Promise.all(SITES.map(async site => {
+    const url = 'https://' + site.domain + '/';
+    const start = Date.now();
+    try { const r = await fetch(url, {method:'HEAD',mode:'no-cors'}); return {name:site.name, url, ms:Date.now()-start, ok:true}; }
+    catch(e) { return {name:site.name, url, ms:null, ok:false}; }
+  }));
+  wrap.innerHTML = `<table class="net-table"><thead><tr><th>Site</th><th>URL</th><th>Status</th><th>Response</th></tr></thead><tbody>
+    ${results.map(r => `<tr><td style="font-weight:600;">${r.name}</td><td><a href="${r.url}" target="_blank" style="color:var(--indigo2);font-size:0.75rem;">${r.url}</a></td><td><span class="badge ${r.ok?'live':'error'}">${r.ok?'&#10003; Live':'&#10007; Error'}</span></td><td style="color:var(--text2)">${r.ms?r.ms+'ms':'—'}</td></tr>`).join('')}
+  </tbody></table><div class="last-updated" style="margin-top:10px;">Checked at ${ts()}</div>`;
+}
+
+// ── Dashboard top SEO ──────────────────────────────────────────────────────
+function loadDashSEO() {
+  if (!seoData) return;
+  const top5 = Object.entries(seoData.sites).sort((a,b) => b[1].totalScore - a[1].totalScore).slice(0, 5);
+  document.getElementById('dash-indexed').textContent = Object.values(seoData.sites).reduce((acc,s) => acc + (s.indexed||0), 0);
+  document.getElementById('dash-issues').textContent = seoData.totalIssues || 0;
+  document.getElementById('dash-issues').className = 'stat-value ' + (seoData.totalIssues > 0 ? 'yellow' : 'green');
+  document.getElementById('dash-issues-note').textContent = (seoData.generatedFmt||'').substring(0,12);
+
+  document.getElementById('dash-seo-top').innerHTML = top5.map(([domain, s]) => {
+    let crit = 0, high = 0;
+    s.pages.forEach(p => p.issues.forEach(i => { if (i.sev===3) crit++; else if (i.sev===2) high++; }));
+    const cls = scoreClass(s.totalScore);
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(99,102,241,0.06);">
+      <span style="font-weight:600;width:170px;font-size:0.85rem;">${s.name}</span>
+      <span class="seo-score ${cls}">${s.totalScore}</span>
+      <span style="font-size:0.75rem;color:var(--red);margin-left:8px;">${crit > 0 ? crit + ' crit' : ''}</span>
+      <span style="font-size:0.75rem;color:var(--yellow);margin-left:4px;">${high > 0 ? high + ' high' : ''}</span>
+      <span style="margin-left:auto;font-size:0.75rem;color:var(--text2);">${s.pageCount} pages</span>
+    </div>`;
+  }).join('');
+}
+
+function detectMode() {
+  const b = document.getElementById('mode-banner');
+  if (location.hostname === 'aiunites.com') {
+    b.style.display = 'none'; // production — no banner
+  } else if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    b.style.display = 'block';
+    b.style.background = 'rgba(34,197,94,0.08)';
+    b.style.borderColor = 'rgba(34,197,94,0.2)';
+    b.style.color = '#22c55e';
+    b.innerHTML = '&#10003; Dev server — reading live data.';
+    setTimeout(() => b.style.display = 'none', 3000);
+  }
+}
+
+async function refreshAll() {
+  await Promise.all([loadSEO(), loadGSC(), loadPublishStats(), loadGitLog()]);
+  loadDashSEO();
+  document.getElementById('dash-updated').textContent = 'Last loaded: ' + ts();
+}
+
+detectMode();
+refreshAll();
+</script>
+</body>
+</html>
