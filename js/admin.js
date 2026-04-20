@@ -102,10 +102,18 @@
     var bar = document.createElement('div');
     bar.id = 'au-admin-toolbar';
 
+    // Build base path that works both on aiunites.com and localhost:8000/aiunites-site/
+    var basePath = (function() {
+      var p = window.location.pathname;
+      // On localhost the path includes the repo folder, e.g. /aiunites-site/index.html
+      // We want the folder containing the current page
+      return p.substring(0, p.lastIndexOf('/') + 1);
+    })();
+
     var links = [
-      { href: '/network-overview.html', icon: '&#128202;', label: 'Overview' },
-      { href: '/network-stats.html', icon: '&#128225;', label: 'GSC + SEO' },
-      { href: '/network-stats.html#seo', icon: '&#128269;', label: 'SEO Audit' },
+      { href: basePath + 'network-overview.html', icon: '&#128202;', label: 'Overview' },
+      { href: basePath + 'network-stats.html', icon: '&#128225;', label: 'GSC + SEO' },
+      { href: basePath + 'network-stats.html#seo', icon: '&#128269;', label: 'SEO Audit' },
       { href: 'https://lookerstudio.google.com/reporting/bb4e6805-5a2f-4d47-a5cc-283d1e5283cc', icon: '📈', label: 'Looker Studio', ext: true },
       { href: 'https://search.google.com/search-console', icon: '🌐', label: 'GSC', ext: true },
       { href: 'https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list', icon: '💰', label: 'AdSense', ext: true }
