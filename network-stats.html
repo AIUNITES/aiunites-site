@@ -770,6 +770,125 @@ loadSeoReport();
     </div>
   </div>
 
+  <!-- ====== PAGE RANK ====== -->
+  <div class="section-title" style="margin-top:2rem" id="page-rank">&#127942; Page Rank <span>&#8212; per-page GSC position &middot; run check-page-rank.ps1 to generate &middot; click row to expand</span></div>
+  <div id="rank-meta" style="font-size:.75rem;color:var(--gray);margin-bottom:1rem">Loading page rank data...</div>
+  <div class="summary-row" id="rank-summary" style="margin-bottom:1.5rem"></div>
+  <div id="rank-panel" style="min-height:60px"></div>
+
 </div><!-- end #main-content -->
+
+<script>
+// =========================================================
+// PAGE RANK PANEL
+// =========================================================
+async function loadPageRank() {
+  const meta  = document.getElementById('rank-meta');
+  const panel = document.getElementById('rank-panel');
+  const sumEl = document.getElementById('rank-summary');
+
+  // Try local data/page-rank.json first, then cloudsion CDN
+  const urls = [
+    'data/page-rank.json?_=' + Date.now(),
+    'https://aiunites.github.io/cloudsion-site/data/page-rank.json?_=' + Date.now()
+  ];
+
+  let json = null;
+  for (const url of urls) {
+    try {
+      const resp = await fetch(url);
+      if (resp.ok) { json = await resp.json(); break; }
+    } catch(e) {}
+  }
+
+  if (!json) {
+    meta.textContent = 'No page-rank.json found. Queue check-page-rank.ps1 in script-runner.ps1 and publish.';
+    panel.innerHTML = '<p style="color:var(--gray);font-size:.85rem;padding:.5rem 0">After first run the report will appear here automatically.</p>';
+    return;
+  }
+
+  // Summary cards
+  meta.innerHTML = 'Last run: <span style="color:var(--gray-light)">' + (json.updatedFmt||'unknown') + '</span>' +
+    ' &nbsp;&middot;&nbsp; Range: <span style="color:var(--gray-light)">' + (json.dateRange||'') + '</span>' +
+    ' &nbsp;&middot;&nbsp; Total pages with impressions: <span style="color:var(--amber)">' + (json.totalPages||0) + '</span>';
+
+  sumEl.innerHTML = [
+    { label:'Pages in Top 3',  val: (json.pages||[]).filter(p=>p.position<=3).length,  color:'var(--green)',   sub:'Position 1–3' },
+    { label:'Pages in Top 10', val: json.rankedTop10||0,  color:'#60a5fa',   sub:'Page 1 of results' },
+    { label:'Pages in Top 50', val: json.rankedTop50||0,  color:'var(--amber)', sub:'Pages 1–5' },
+    { label:'Pages Ranked',    val: json.totalPages||0,   color:'var(--gray-light)', sub:'Any impression' },
+  ].map(c => `<div class="summary-card"><div class="label">${c.label}</div><div class="value" style="color:${c.color}">${c.val}</div><div class="sub">${c.sub}</div></div>`).join('');
+
+  // Site summary table
+  const sites = json.sites || {};
+  const siteRows = Object.entries(sites)
+    .sort((a,b) => (b[1].ranked||0) - (a[1].ranked||0))
+    .map(([domain, s]) => {
+      const best = s.topPos > 0 ? s.topPos : '—';
+      const shortUrl = (s.topPage||'').replace(/https?:\/\/[^/]+/,'') || '/';
+      const posColor = s.topPos > 0 && s.topPos <= 3 ? 'var(--green)' : s.topPos <= 10 ? '#60a5fa' : s.topPos <= 50 ? 'var(--amber)' : 'var(--gray)';
+      return `<tr onclick="toggleRankSite('${domain.replace(/\./g,'_')}')" style="cursor:pointer;border-bottom:1px solid rgba(255,255,255,.05)">
+        <td style="padding:.45rem .6rem;font-weight:600">${s.name}</td>
+        <td style="padding:.45rem .6rem;font-family:var(--mono);font-size:.75rem;color:var(--gray-light)">${domain}</td>
+        <td style="padding:.45rem .6rem">${s.pageCount||0}</td>
+        <td style="padding:.45rem .6rem;color:#60a5fa">${s.ranked||0}</td>
+        <td style="padding:.45rem .6rem;color:var(--text)">${s.visible||0}</td>
+        <td style="padding:.45rem .6rem;color:var(--red)">${s.buried||0}</td>
+        <td style="padding:.45rem .6rem;color:${posColor};font-weight:700">${best}</td>
+        <td style="padding:.45rem .6rem;font-size:.72rem;color:var(--gray);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${shortUrl}">${shortUrl}</td>
+      </tr>`;
+    }).join('');
+
+  // Per-page rows grouped by site
+  const pagesBySite = {};
+  (json.pages||[]).forEach(p => {
+    if (!pagesBySite[p.domain]) pagesBySite[p.domain] = [];
+    pagesBySite[p.domain].push(p);
+  });
+
+  const detailRows = Object.entries(sites).map(([domain, s]) => {
+    const pages = pagesBySite[domain] || [];
+    if (!pages.length) return `<tr id="rank-detail-${domain.replace(/\./g,'_')}" style="display:none"><td colspan="8" style="padding:.6rem 1.5rem;color:var(--gray);font-size:.8rem">No pages with impressions in this period.</td></tr>`;
+    const pageHtml = pages.map(p => {
+      const shortP = p.url.replace(/https?:\/\/[^/]+/,'') || '/';
+      const posColor = p.position<=3?'var(--green)':p.position<=10?'#60a5fa':p.position<=20?'var(--amber)':'var(--red)';
+      const flag = p.position<=3?' ✦':p.position<=10?' +':'';
+      return `<div style="display:grid;grid-template-columns:1fr 70px 70px 70px 60px;gap:.3rem;padding:.3rem .5rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.75rem;align-items:center">
+        <span style="font-family:var(--mono);color:var(--gray-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${p.url}">${shortP}</span>
+        <span style="color:${posColor};font-weight:700;text-align:right">#${p.position}${flag}</span>
+        <span style="color:var(--gray-light);text-align:right">${p.clicks} clk</span>
+        <span style="color:var(--gray-light);text-align:right">${p.impressions} impr</span>
+        <span style="color:var(--gray);text-align:right">${p.ctr}%</span>
+      </div>`;
+    }).join('');
+    return `<tr id="rank-detail-${domain.replace(/\./g,'_')}" style="display:none">
+      <td colspan="8" style="padding:0;background:rgba(0,0,0,.25)">${pageHtml}</td>
+    </tr>`;
+  }).join('');
+
+  panel.innerHTML = `<div class="table-wrap">
+    <table style="width:100%;border-collapse:collapse;font-size:.875rem">
+      <thead><tr style="background:var(--bg3)">
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Site</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Domain</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Pages</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Top 10</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Top 50</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;color:var(--red)">Buried</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Best Pos</th>
+        <th style="padding:.65rem .6rem;text-align:left;font-size:.7rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em">Best Page</th>
+      </tr></thead>
+      <tbody>${siteRows}${detailRows}</tbody>
+    </table>
+  </div>`;
+}
+
+function toggleRankSite(id) {
+  const row = document.getElementById('rank-detail-' + id);
+  if (row) row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+
+loadPageRank();
+</script>
 </body>
 </html>
