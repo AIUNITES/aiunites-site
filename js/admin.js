@@ -321,6 +321,91 @@
     });
   }
 
+  function fetchVisibility(cb) {
+    var urls = [
+      'data/visibility.json?_=' + Date.now(),
+      'https://aiunites.github.io/cloudsion-site/data/visibility.json?_=' + Date.now()
+    ];
+    function tryNext(i) {
+      if (i >= urls.length) { cb(null); return; }
+      fetch(urls[i])
+        .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function(d) { cb(d); })
+        .catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
+  }
+
+  function renderWidgetsTab(vis, bodyEl) {
+    if (!vis || !vis.widgets) {
+      bodyEl.innerHTML = '<div class="au-todo-empty">No visibility.json found. Run update-visibility.ps1 then Publish Now.</div>';
+      return;
+    }
+
+    var html = '<div style="padding:10px 14px 4px;border-bottom:1px solid rgba(255,255,255,.06)">' +
+      '<div style="font-size:9px;font-family:monospace;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.25);margin-bottom:2px">Widget visibility control</div>' +
+      '<div style="font-size:10px;color:rgba(255,255,255,.35)">Admin always sees all widgets. Toggle public to show on web pages.</div>' +
+      '<div style="font-size:9px;font-family:monospace;color:rgba(255,255,255,.2);margin-top:3px">Updated: ' + (vis.updatedFmt || vis.updated || 'never') + '</div>' +
+    '</div>';
+
+    var widgets = vis.widgets;
+    Object.keys(widgets).forEach(function(id) {
+      var w = widgets[id];
+      var isPublic = w.public === true;
+      var metThresh = w.meetsThreshold === true;
+
+      var statusBadge = isPublic
+        ? '<span style="background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);color:#6ee7b7;border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;font-family:monospace">PUBLIC</span>'
+        : '<span style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 7px;font-size:9px;font-weight:700;font-family:monospace">ADMIN ONLY</span>';
+
+      var threshBadge = metThresh
+        ? '<span style="color:#6ee7b7;font-size:9px;font-family:monospace">Threshold met</span>'
+        : '<span style="color:rgba(255,255,255,.25);font-size:9px;font-family:monospace">' + (w.thresholdStatus || 'Not met') + '</span>';
+
+      // Build promote/demote command for clipboard
+      var boolVal = isPublic ? '$false' : '$true';
+      var cmd = '& "C:\\Users\\tombh\\Documents\\GitHub\\scripts\\update-visibility.ps1" -Widget "' + id + '" -Public ' + boolVal;
+      var btnLabel = isPublic ? 'Set admin only' : 'Promote to public';
+      var btnColor = isPublic ? 'rgba(239,68,68,.2)' : 'rgba(16,185,129,.2)';
+      var btnBorder = isPublic ? 'rgba(239,68,68,.4)' : 'rgba(16,185,129,.4)';
+      var btnText   = isPublic ? '#fca5a5' : '#6ee7b7';
+
+      html += '<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04)">' +
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">' +
+          statusBadge +
+          '<span style="font-size:11px;font-weight:600;color:#e0e7ff">' + (w.label || id) + '</span>' +
+        '</div>' +
+        '<div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:4px">' + (w.desc || '') + '</div>' +
+        '<div style="margin-bottom:6px">' + threshBadge + '</div>' +
+        '<button onclick="auCopyCmd(this, ' + JSON.stringify(cmd) + ')" style="' +
+          'background:' + btnColor + ';border:1px solid ' + btnBorder + ';color:' + btnText + ';' +
+          'border-radius:4px;padding:4px 10px;font-size:9px;font-family:monospace;cursor:pointer;' +
+          'transition:opacity .15s">' + btnLabel + '</button>' +
+        '<span class="au-cmd-status" style="font-size:9px;font-family:monospace;color:rgba(255,255,255,.3);margin-left:8px"></span>' +
+      '</div>';
+    });
+
+    html += '<div style="padding:8px 14px">' +
+      '<div style="font-size:9px;font-family:monospace;color:rgba(255,255,255,.2);line-height:1.6">' +
+        'Click a button to copy the PowerShell command, then paste in terminal and run Publish Now.' +
+      '</div>' +
+    '</div>';
+
+    bodyEl.innerHTML = html;
+  }
+
+  window.auCopyCmd = function(btn, cmd) {
+    navigator.clipboard.writeText(cmd).then(function() {
+      var status = btn.nextElementSibling;
+      if (status) { status.textContent = 'Copied! Paste in PowerShell then Publish Now'; }
+      btn.style.opacity = '.5';
+      setTimeout(function() {
+        if (status) { status.textContent = ''; }
+        btn.style.opacity = '1';
+      }, 4000);
+    });
+  };
+
   function renderPipelineTab(data, bodyEl) {
     var total    = data ? (data.totalActions || 0)  : 0;
     var autoN    = data ? (data.autoFixable  || 0)  : 0;
@@ -467,9 +552,10 @@
     var tabs = document.createElement('div');
     tabs.className = 'au-todo-tabs';
     tabs.innerHTML =
-      '<div class="au-tab active" id="au-tab-actions">&#128203; Action List</div>' +
-      '<div class="au-tab" id="au-tab-brief">&#128196; Session Brief</div>' +
-      '<div class="au-tab" id="au-tab-pipeline">&#128202; Pipeline</div>';
+      '<div class="au-tab active" id="au-tab-actions">&#128203; Actions</div>' +
+      '<div class="au-tab" id="au-tab-brief">&#128196; Brief</div>' +
+      '<div class="au-tab" id="au-tab-pipeline">&#128202; Pipeline</div>' +
+      '<div class="au-tab" id="au-tab-widgets">&#128274; Widgets</div>';
     panel.appendChild(tabs);
 
     // Bodies
@@ -493,6 +579,13 @@
     bodyPipeline.innerHTML = '<div class="au-todo-empty">Loading...</div>';
     panel.appendChild(bodyPipeline);
 
+    var bodyWidgets = document.createElement('div');
+    bodyWidgets.className = 'au-todo-body';
+    bodyWidgets.id = 'au-body-widgets';
+    bodyWidgets.style.display = 'none';
+    bodyWidgets.innerHTML = '<div class="au-todo-empty">Loading widget visibility...</div>';
+    panel.appendChild(bodyWidgets);
+
     document.body.appendChild(panel);
 
     // Tab switching
@@ -514,9 +607,21 @@
       document.getElementById('au-tab-pipeline').classList.add('active');
       document.getElementById('au-tab-actions').classList.remove('active');
       document.getElementById('au-tab-brief').classList.remove('active');
+      document.getElementById('au-tab-widgets').classList.remove('active');
       document.getElementById('au-body-pipeline').style.display = 'block';
       document.getElementById('au-body-actions').style.display = 'none';
       document.getElementById('au-body-brief').style.display = 'none';
+      document.getElementById('au-body-widgets').style.display = 'none';
+    });
+    document.getElementById('au-tab-widgets').addEventListener('click', function() {
+      document.getElementById('au-tab-widgets').classList.add('active');
+      document.getElementById('au-tab-actions').classList.remove('active');
+      document.getElementById('au-tab-brief').classList.remove('active');
+      document.getElementById('au-tab-pipeline').classList.remove('active');
+      document.getElementById('au-body-widgets').style.display = 'block';
+      document.getElementById('au-body-actions').style.display = 'none';
+      document.getElementById('au-body-brief').style.display = 'none';
+      document.getElementById('au-body-pipeline').style.display = 'none';
     });
 
     document.getElementById('au-todo-close').addEventListener('click', function() {
@@ -544,9 +649,14 @@
       renderBriefTab(md, bodyBrief);
     });
 
-    // Render pipeline (uses action-list data once loaded)
+    // Render pipeline
     fetchActionList(function(data) {
       renderPipelineTab(data, bodyPipeline);
+    });
+
+    // Load widget visibility
+    fetchVisibility(function(vis) {
+      renderWidgetsTab(vis, bodyWidgets);
     });
 
     setTimeout(function() { panel.classList.add('open'); }, 20);
