@@ -765,11 +765,12 @@
       if (isAdmin()) showToolbar();
       else showLoginModal();
     };
+    // Always inject footer link (visible to everyone, logged in or not)
+    injectFooterLink();
     if (isAdmin()) {
       showToolbar();
     } else {
       setupTrigger();
-      injectFooterLink();
     }
   }
 
