@@ -321,6 +321,132 @@
     });
   }
 
+  function renderPipelineTab(data, bodyEl) {
+    var total    = data ? (data.totalActions || 0)  : 0;
+    var autoN    = data ? (data.autoFixable  || 0)  : 0;
+    var claudeN  = data ? (data.needsClaude  || 0)  : 0;
+    var W = 560; // bar width
+    var autoW  = total > 0 ? Math.round((autoN  / total) * W) : 0;
+    var claudeW = total > 0 ? Math.round((claudeN / total) * W) : 0;
+    var otherW  = W - autoW - claudeW;
+
+    // Category counts
+    var cats = { SEO:0, CodeQuality:0, AdSense:0, RankOpportunity:0, Security:0, Other:0 };
+    if (data && data.actions) {
+      data.actions.forEach(function(a) {
+        var c = a.Category || 'Other';
+        if (cats.hasOwnProperty(c)) cats[c]++; else cats.Other++;
+      });
+    }
+    var catMax = Math.max.apply(null, Object.keys(cats).map(function(k){ return cats[k]; })) || 1;
+    var catColors = { SEO:'#818cf8', CodeQuality:'#9ca3af', AdSense:'#f87171', RankOpportunity:'#fcd34d', Security:'#ef4444', Other:'#6b7280' };
+    var catLabels = { SEO:'SEO', CodeQuality:'Code', AdSense:'AdSense', RankOpportunity:'Rank+', Security:'Security', Other:'Other' };
+
+    var catBars = '';
+    var cx = 20;
+    var catKeys = ['SEO','CodeQuality','AdSense','RankOpportunity','Security'];
+    catKeys.forEach(function(k) {
+      var bw = Math.round((cats[k] / catMax) * 100);
+      catBars +=
+        '<rect x="' + cx + '" y="' + (115 - Math.round((cats[k]/catMax)*40)) + '" width="14" height="' + Math.round((cats[k]/catMax)*40) + '" rx="2" fill="' + catColors[k] + '" opacity=".75"/>'+
+        '<text x="' + (cx+7) + '" y="120" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="8" font-family="monospace">' + catLabels[k] + '</text>'+
+        '<text x="' + (cx+7) + '" y="108" text-anchor="middle" fill="' + catColors[k] + '" font-size="8" font-family="monospace">' + cats[k] + '</text>';
+      cx += 24;
+    });
+
+    var chart =
+      '<svg viewBox="0 0 600 135" width="100%" style="display:block;margin-bottom:0">' +
+        '<text x="20" y="16" fill="rgba(255,255,255,.5)" font-size="10" font-family="sans-serif" font-weight="600" letter-spacing=".06em">ISSUE BREAKDOWN</text>' +
+        '<rect x="20" y="24" width="' + W + '" height="22" rx="4" fill="rgba(255,255,255,.06)"/>' +
+        '<rect x="20" y="24" width="' + autoW + '" height="22" rx="4" fill="#16a34a" opacity=".8"/>' +
+        '<rect x="' + (20+autoW) + '" y="24" width="' + claudeW + '" height="22" rx="0" fill="#b91c1c" opacity=".7"/>' +
+        (otherW > 0 ? '<rect x="' + (20+autoW+claudeW) + '" y="24" width="' + otherW + '" height="22" rx="4" fill="rgba(255,255,255,.08)"/>' : '') +
+        '<text x="' + (20+autoW/2) + '" y="40" text-anchor="middle" fill="#fff" font-size="9" font-family="sans-serif" font-weight="600">' + autoN + ' auto</text>' +
+        (claudeW > 30 ? '<text x="' + (20+autoW+claudeW/2) + '" y="40" text-anchor="middle" fill="#fca5a5" font-size="9" font-family="sans-serif" font-weight="600">' + claudeN + ' Claude</text>' : '') +
+        '<text x="20" y="72" fill="rgba(255,255,255,.3)" font-size="8" font-family="sans-serif" letter-spacing=".05em">BY CATEGORY</text>' +
+        catBars +
+      '</svg>';
+
+    // Sequence diagram
+    function box(x, y, w, label, sub, fill, textFill) {
+      var tf = textFill || '#e0e7ff';
+      var sf = sub ? (textFill ? 'rgba(255,255,255,.55)' : 'rgba(255,255,255,.45)') : '';
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + (sub ? 38 : 28) + '" rx="5" fill="' + (fill||'rgba(255,255,255,.07)') + '" stroke="rgba(255,255,255,.12)" stroke-width="0.5"/>'+
+             '<text x="' + (x+w/2) + '" y="' + (y+(sub?13:15)) + '" text-anchor="middle" fill="' + tf + '" font-size="9" font-family="sans-serif" font-weight="600">' + label + '</text>'+
+             (sub ? '<text x="' + (x+w/2) + '" y="' + (y+26) + '" text-anchor="middle" fill="' + sf + '" font-size="8" font-family="sans-serif">' + sub + '</text>' : '');
+    }
+    function arr(x1,y1,x2,y2) {
+      return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="rgba(255,255,255,.2)" stroke-width="1" marker-end="url(#aw)"/>';
+    }
+    function lane(y, label, color) {
+      return '<rect x="4" y="' + y + '" width="592" height="54" rx="5" fill="' + color + '" opacity=".04"/>'+
+             '<text x="10" y="' + (y+9) + '" fill="rgba(255,255,255,.2)" font-size="7" font-family="sans-serif" letter-spacing=".08em">' + label + '</text>';
+    }
+
+    var seq =
+      '<svg viewBox="0 0 600 310" width="100%" style="display:block">' +
+        '<defs><marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5" stroke-linecap="round"/></marker></defs>' +
+        '<text x="300" y="14" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="10" font-family="sans-serif" font-weight="600" letter-spacing=".06em">AUTONOMOUS PIPELINE</text>' +
+
+        // Lanes
+        lane(22,  'EVERY 10 MIN', '#6366f1') +
+        lane(84,  'DAILY',        '#06b6d4') +
+        lane(146, 'WEEKLY',       '#10b981') +
+        lane(216, 'ON DEMAND',    '#f59e0b') +
+
+        // Every 10 min row
+        box(8,  30, 88, 'auto-publish', '.ps1',   'rgba(99,102,241,.25)', '#a5b4fc') +
+        arr(96,  49, 108, 49) +
+        box(108, 30, 72, 'git push', 'all repos', 'rgba(99,102,241,.15)') +
+        arr(180, 49, 192, 49) +
+        box(192, 30, 72, 'code scan', 'AdSense+sec', 'rgba(99,102,241,.15)') +
+        arr(264, 49, 276, 49) +
+        box(276, 30, 72, 'fix-queue', 'updated',  'rgba(99,102,241,.15)') +
+        arr(348, 49, 360, 49) +
+        box(360, 30, 80, 'IndexNow', 'submit URLs', 'rgba(99,102,241,.15)') +
+        arr(440, 49, 452, 49) +
+        box(452, 30, 80, 'backup', 'scripts repo', 'rgba(99,102,241,.15)') +
+
+        // Daily row
+        box(8,  92, 110, 'fetch-gsc-stats', '.ps1', 'rgba(6,182,212,.25)', '#67e8f9') +
+        arr(118, 111, 130, 111) +
+        box(130, 92, 90, 'gsc-stats', '.json -> CDN', 'rgba(6,182,212,.15)') +
+        arr(220, 111, 232, 111) +
+        box(232, 92, 100, 'admin panel', 'GSC + SEO tab', 'rgba(6,182,212,.15)') +
+
+        // Weekly row
+        box(8,  154, 78, 'seo-audit', '.ps1',       'rgba(16,185,129,.25)', '#6ee7b7') +
+        arr(86,  173, 98, 173) +
+        box(98,  154, 72, 'seo-fix', 'auto-patch',  'rgba(16,185,129,.15)') +
+        arr(170, 173, 182, 173) +
+        box(182, 154, 84, 'check-page-rank', '.ps1', 'rgba(16,185,129,.15)') +
+        arr(266, 173, 278, 173) +
+        box(278, 154, 88, 'prioritize-fixes', '.ps1', 'rgba(16,185,129,.15)') +
+        arr(366, 173, 378, 173) +
+        box(378, 154, 84, 'auto-improve', '.ps1',    'rgba(16,185,129,.15)') +
+        arr(462, 173, 474, 173) +
+        box(474, 154, 84, 'session-brief', '.md CDN', 'rgba(16,185,129,.15)') +
+
+        // On demand row
+        box(8,  224, 90, 'script-runner', '.ps1',    'rgba(245,158,11,.2)',  '#fcd34d') +
+        arr(98,  243, 110, 243) +
+        box(110, 224, 80, 'one-off fixes', 'queued',  'rgba(245,158,11,.1)') +
+        box(280, 224, 90, 'Claude session', 'you + MCP', 'rgba(245,158,11,.2)', '#fcd34d') +
+        arr(370, 243, 382, 243) +
+        box(382, 224, 90, 'content fixes', 'top items', 'rgba(245,158,11,.1)') +
+        arr(472, 243, 484, 243) +
+        box(484, 224, 86, 'Publish Now', 'push live', 'rgba(245,158,11,.15)') +
+
+        // Output boxes
+        '<rect x="4" y="282" width="592" height="22" rx="4" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width="0.5"/>'+
+        '<text x="300" y="297" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="9" font-family="sans-serif">All output published to GitHub Pages via aiunites.github.io CDN + custom domains</text>'+
+      '</svg>';
+
+    bodyEl.innerHTML =
+      '<div style="padding:8px 12px 0">' + chart + '</div>' +
+      '<div style="padding:0 12px 12px">' + seq + '</div>';
+  }
+
   function toggleTodoPanel() {
     var panel = document.getElementById('au-todo-panel');
     if (panel) { panel.classList.toggle('open'); return; }
@@ -360,6 +486,13 @@
     bodyBrief.innerHTML = '<div class="au-todo-empty">Loading session brief...</div>';
     panel.appendChild(bodyBrief);
 
+    var bodyPipeline = document.createElement('div');
+    bodyPipeline.className = 'au-todo-body';
+    bodyPipeline.id = 'au-body-pipeline';
+    bodyPipeline.style.display = 'none';
+    bodyPipeline.innerHTML = '<div class="au-todo-empty">Loading...</div>';
+    panel.appendChild(bodyPipeline);
+
     document.body.appendChild(panel);
 
     // Tab switching
@@ -372,8 +505,18 @@
     document.getElementById('au-tab-brief').addEventListener('click', function() {
       document.getElementById('au-tab-brief').classList.add('active');
       document.getElementById('au-tab-actions').classList.remove('active');
+      document.getElementById('au-tab-pipeline').classList.remove('active');
       document.getElementById('au-body-brief').style.display = 'block';
       document.getElementById('au-body-actions').style.display = 'none';
+      document.getElementById('au-body-pipeline').style.display = 'none';
+    });
+    document.getElementById('au-tab-pipeline').addEventListener('click', function() {
+      document.getElementById('au-tab-pipeline').classList.add('active');
+      document.getElementById('au-tab-actions').classList.remove('active');
+      document.getElementById('au-tab-brief').classList.remove('active');
+      document.getElementById('au-body-pipeline').style.display = 'block';
+      document.getElementById('au-body-actions').style.display = 'none';
+      document.getElementById('au-body-brief').style.display = 'none';
     });
 
     document.getElementById('au-todo-close').addEventListener('click', function() {
@@ -399,6 +542,11 @@
         return;
       }
       renderBriefTab(md, bodyBrief);
+    });
+
+    // Render pipeline (uses action-list data once loaded)
+    fetchActionList(function(data) {
+      renderPipelineTab(data, bodyPipeline);
     });
 
     setTimeout(function() { panel.classList.add('open'); }, 20);

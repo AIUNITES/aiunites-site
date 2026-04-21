@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Automation Pipeline - AIUNITES Publishing Network</title>
+  <meta name="description" content="Real-time view of the AIUNITES autonomous publishing pipeline. See how AI fixes SEO issues, manages 22 sites, and keeps content optimised automatically.">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #04060f;
+      --bg2:      #080c1a;
+      --bg3:      #0d1126;
+      --border:   rgba(99,102,241,.18);
+      --green:    #00e5a0;
+      --amber:    #f59e0b;
+      --red:      #f87171;
+      --blue:     #60a5fa;
+      --purple:   #a5b4fc;
+      --dim:      rgba(255,255,255,.35);
+      --dimmer:   rgba(255,255,255,.18);
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Syne', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: #e0e7ff;
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ---- HEADER ---- */
+    .ap-header {
+      border-bottom: 1px solid var(--border);
+      padding: 28px 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .ap-header-left h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #fff;
+    }
+    .ap-header-left p {
+      font-size: .78rem;
+      color: var(--dim);
+      margin-top: 3px;
+      font-family: var(--font-mono);
+    }
+    .ap-live-dot {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--green);
+    }
+    .ap-live-dot::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,229,160,.4)} 50%{opacity:.7;box-shadow:0 0 0 5px rgba(0,229,160,0)} }
+
+    /* ---- STATS ROW ---- */
+    .ap-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+    @media(max-width:700px) { .ap-stats { grid-template-columns: repeat(2,1fr); } }
+    .ap-stat {
+      padding: 22px 24px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .ap-stat:last-child { border-right: none; }
+    .ap-stat-n {
+      font-family: var(--font-mono);
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      display: block;
+    }
+    .ap-stat-label {
+      font-size: .68rem;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      margin-top: 6px;
+      display: block;
+    }
+    .ap-stat-sub {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ---- AUTOMATION BAR ---- */
+    .ap-bar-section {
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ap-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--dim);
+      margin-bottom: 8px;
+    }
+    .ap-bar-track {
+      height: 28px;
+      background: rgba(255,255,255,.05);
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+    }
+    .ap-bar-auto {
+      height: 100%;
+      background: linear-gradient(90deg, #00c47a, #00e5a0);
+      border-radius: 5px 0 0 5px;
+      transition: width 1.2s cubic-bezier(.22,.68,0,1.2);
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+    }
+    .ap-bar-auto span {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      font-weight: 700;
+      color: #032a1e;
+      white-space: nowrap;
+    }
+    .ap-bar-claude {
+      height: 100%;
+      background: rgba(249,115,22,.5);
+      position: absolute;
+      top: 0;
+      transition: all 1.2s cubic-bezier(.22,.68,0,1.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ap-bar-claude span {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.8);
+      white-space: nowrap;
+    }
+    .ap-bar-legend {
+      display: flex;
+      gap: 20px;
+      margin-top: 9px;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--dim);
+    }
+    .ap-bar-legend span { display: flex; align-items: center; gap: 5px; }
+    .ap-bar-legend i {
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* ---- CATEGORY CHART ---- */
+    .ap-cats {
+      padding: 0 40px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ap-cats-title {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--dimmer);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+    }
+    .ap-cat-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 7px;
+    }
+    .ap-cat-name {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--dim);
+      width: 80px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .ap-cat-bar-wrap {
+      flex: 1;
+      height: 12px;
+      background: rgba(255,255,255,.04);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .ap-cat-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+    .ap-cat-count {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--dim);
+      width: 36px;
+      text-align: right;
+    }
+
+    /* ---- PIPELINE ---- */
+    .ap-pipeline {
+      padding: 28px 40px;
+    }
+    .ap-pipeline-title {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--dimmer);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 20px;
+    }
+    .ap-lane {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .ap-lane-label {
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      color: var(--dimmer);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      width: 80px;
+      flex-shrink: 0;
+      text-align: right;
+      padding-right: 12px;
+    }
+    .ap-lane-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      flex-wrap: wrap;
+      row-gap: 6px;
+    }
+    .ap-step {
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid;
+      line-height: 1.2;
+    }
+    .ap-step small {
+      display: block;
+      font-weight: 400;
+      font-size: .58rem;
+      margin-top: 1px;
+      opacity: .65;
+    }
+    .ap-arrow {
+      color: var(--dimmer);
+      font-size: .8rem;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+    .lane-purple .ap-step { background: rgba(99,102,241,.12); border-color: rgba(99,102,241,.3); color: #a5b4fc; }
+    .lane-cyan   .ap-step { background: rgba(6,182,212,.1);   border-color: rgba(6,182,212,.3);  color: #67e8f9; }
+    .lane-green  .ap-step { background: rgba(16,185,129,.1);  border-color: rgba(16,185,129,.3); color: #6ee7b7; }
+    .lane-amber  .ap-step { background: rgba(245,158,11,.1);  border-color: rgba(245,158,11,.25);color: #fcd34d; }
+
+    /* ---- FOOTER ---- */
+    .ap-footer {
+      border-top: 1px solid var(--border);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--dimmer);
+    }
+    .ap-footer a { color: var(--purple); text-decoration: none; }
+    .ap-footer a:hover { color: #fff; }
+
+    .ap-loading { padding: 40px; text-align: center; font-family: var(--font-mono); font-size: .8rem; color: var(--dimmer); }
+    .ap-error   { padding: 20px 40px; font-family: var(--font-mono); font-size: .75rem; color: var(--amber); }
+  </style>
+</head>
+<body>
+
+<div id="ap-root">
+  <div class="ap-loading">Loading live pipeline data...</div>
+</div>
+
+<script>
+(function() {
+  var CDN_URLS = [
+    'https://aiunites.com/data/action-list.json?_=' + Date.now(),
+    'https://aiunites.github.io/cloudsion-site/data/action-list.json?_=' + Date.now()
+  ];
+
+  var CAT_CONFIG = [
+    { key: 'SEO',              label: 'SEO',       color: '#818cf8' },
+    { key: 'CodeQuality',      label: 'Code',      color: '#9ca3af' },
+    { key: 'AdSense',          label: 'AdSense',   color: '#f87171' },
+    { key: 'RankOpportunity',  label: 'Rank+',     color: '#fcd34d' },
+    { key: 'Security',         label: 'Security',  color: '#ef4444' }
+  ];
+
+  var PIPELINE = [
+    {
+      freq: 'Every 10 min', cls: 'lane-purple',
+      steps: [
+        { label: 'auto-publish', sub: '.ps1' },
+        { label: 'git push',     sub: 'all repos' },
+        { label: 'code scan',    sub: 'AdSense+sec' },
+        { label: 'fix-queue',    sub: 'updated' },
+        { label: 'IndexNow',     sub: 'submit URLs' }
+      ]
+    },
+    {
+      freq: 'Daily', cls: 'lane-cyan',
+      steps: [
+        { label: 'fetch-gsc-stats', sub: '.ps1' },
+        { label: 'gsc-stats.json',  sub: 'CDN' }
+      ]
+    },
+    {
+      freq: 'Weekly', cls: 'lane-green',
+      steps: [
+        { label: 'seo-audit',        sub: '.ps1' },
+        { label: 'seo-fix',          sub: 'auto-patch' },
+        { label: 'check-page-rank',  sub: '.ps1' },
+        { label: 'prioritize-fixes', sub: '.ps1' },
+        { label: 'auto-improve',     sub: '.ps1' },
+        { label: 'session-brief',    sub: '.md CDN' }
+      ]
+    },
+    {
+      freq: 'On demand', cls: 'lane-amber',
+      steps: [
+        { label: 'Claude session', sub: 'top items only' },
+        { label: 'Publish Now',    sub: 'push live' }
+      ]
+    }
+  ];
+
+  function pct(n, d) { return d > 0 ? Math.round(n / d * 100) : 0; }
+
+  function render(data) {
+    var total   = data ? (data.totalActions || 0) : 0;
+    var autoN   = data ? (data.autoFixable  || 0) : 0;
+    var claudeN = data ? (data.needsClaude  || 0) : 0;
+    var autoP   = pct(autoN, total);
+    var genFmt  = data ? (data.generatedFmt || '') : '';
+
+    // Category counts
+    var cats = {};
+    CAT_CONFIG.forEach(function(c) { cats[c.key] = 0; });
+    if (data && data.actions) {
+      data.actions.forEach(function(a) {
+        if (cats.hasOwnProperty(a.Category)) cats[a.Category]++;
+      });
+    }
+    var catMax = Math.max.apply(null, CAT_CONFIG.map(function(c){ return cats[c.key]; })) || 1;
+
+    // Stats
+    var statsHtml = [
+      { n: autoP + '%',    label: 'Automated',    sub: autoN + ' of ' + total + ' fixes', color: '#00e5a0' },
+      { n: autoN,          label: 'Auto-fixed',   sub: 'no human needed',                  color: '#6ee7b7' },
+      { n: claudeN,        label: 'Needs review', sub: 'top items this cycle',              color: '#fcd34d' },
+      { n: '22',           label: 'Sites managed',sub: 'across network',                   color: '#a5b4fc' }
+    ].map(function(s) {
+      return '<div class="ap-stat">' +
+        '<span class="ap-stat-n" style="color:' + s.color + '">' + s.n + '</span>' +
+        '<span class="ap-stat-label">' + s.label + '</span>' +
+        '<span class="ap-stat-sub" style="color:' + (s.color === '#fcd34d' ? '#fcd34d' : 'rgba(255,255,255,.28)') + '">' + s.sub + '</span>' +
+      '</div>';
+    }).join('');
+
+    // Automation bar
+    var autoWPct  = autoP;
+    var claudeWPct = pct(claudeN, total);
+    var barHtml =
+      '<div class="ap-bar-section">' +
+        '<div class="ap-bar-label"><span>Automation coverage</span><span style="color:#e0e7ff;font-weight:700">' + autoP + '% runs without you</span></div>' +
+        '<div class="ap-bar-track">' +
+          '<div class="ap-bar-auto" style="width:' + autoWPct + '%"><span>' + autoN + ' auto-fixed</span></div>' +
+          '<div class="ap-bar-claude" style="left:' + autoWPct + '%;width:' + claudeWPct + '%"><span>' + claudeN + ' review</span></div>' +
+        '</div>' +
+        '<div class="ap-bar-legend">' +
+          '<span><i style="background:#00e5a0"></i>Auto-fixed each cycle</span>' +
+          '<span><i style="background:rgba(249,115,22,.5)"></i>Needs Claude</span>' +
+          '<span><i style="background:rgba(255,255,255,.12)"></i>Other</span>' +
+        '</div>' +
+      '</div>';
+
+    // Category bars
+    var catHtml = '<div class="ap-cats"><div class="ap-cats-title">Issue category breakdown</div>' +
+      CAT_CONFIG.map(function(c) {
+        var w = Math.round((cats[c.key] / catMax) * 100);
+        return '<div class="ap-cat-row">' +
+          '<span class="ap-cat-name">' + c.label + '</span>' +
+          '<div class="ap-cat-bar-wrap"><div class="ap-cat-bar-fill" style="width:0%;background:' + c.color + '" data-w="' + w + '"></div></div>' +
+          '<span class="ap-cat-count">' + cats[c.key] + '</span>' +
+        '</div>';
+      }).join('') + '</div>';
+
+    // Pipeline lanes
+    var pipeHtml = '<div class="ap-pipeline"><div class="ap-pipeline-title">Autonomous pipeline</div>' +
+      PIPELINE.map(function(lane) {
+        var stepsHtml = lane.steps.map(function(s, i) {
+          return (i > 0 ? '<span class="ap-arrow">&#8594;</span>' : '') +
+            '<div class="ap-step">' + s.label + '<small>' + s.sub + '</small></div>';
+        }).join('');
+        return '<div class="ap-lane ' + lane.cls + '">' +
+          '<span class="ap-lane-label">' + lane.freq + '</span>' +
+          '<div class="ap-lane-steps">' + stepsHtml + '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+
+    var footHtml =
+      '<div class="ap-footer">' +
+        '<span>Updated: ' + (genFmt || 'weekly') + ' &nbsp;|&nbsp; Source: aiunites.com/data/action-list.json</span>' +
+        '<a href="https://cloudsion.com/turnkey-ai-web-publishing.html" target="_blank">See full case study &rarr;</a>' +
+      '</div>';
+
+    document.getElementById('ap-root').innerHTML =
+      '<header class="ap-header">' +
+        '<div class="ap-header-left">' +
+          '<h1>AIUNITES Publishing Network &mdash; Live Automation</h1>' +
+          '<p>22 sites &middot; Tulsa, OK &middot; Powered by AIUNITES autonomous pipeline</p>' +
+        '</div>' +
+        '<div class="ap-live-dot">LIVE DATA</div>' +
+      '</header>' +
+      '<div class="ap-stats">' + statsHtml + '</div>' +
+      barHtml +
+      catHtml +
+      pipeHtml +
+      footHtml;
+
+    // Animate category bars after paint
+    setTimeout(function() {
+      document.querySelectorAll('.ap-cat-bar-fill').forEach(function(el) {
+        el.style.transition = 'width 1s ease';
+        el.style.width = el.getAttribute('data-w') + '%';
+      });
+    }, 80);
+  }
+
+  function renderError() {
+    document.getElementById('ap-root').innerHTML =
+      '<header class="ap-header">' +
+        '<div class="ap-header-left"><h1>AIUNITES Publishing Network</h1><p>22 sites managed autonomously</p></div>' +
+      '</header>' +
+      '<div class="ap-error">Live data unavailable &mdash; run prioritize-fixes.ps1 then Publish Now to generate action-list.json</div>' +
+      '<div class="ap-bar-section" style="padding-top:0">' +
+        '<div class="ap-bar-label"><span>Automation coverage</span><span style="color:#6ee7b7">~58% estimated</span></div>' +
+        '<div class="ap-bar-track"><div class="ap-bar-auto" style="width:58%"><span>auto-fixed</span></div></div>' +
+        '<div class="ap-bar-legend"><span><i style="background:#00e5a0"></i>Auto-fixed</span><span><i style="background:rgba(249,115,22,.5)"></i>Review</span></div>' +
+      '</div>';
+  }
+
+  // Fetch with fallback
+  var idx = 0;
+  function tryFetch() {
+    if (idx >= CDN_URLS.length) { renderError(); return; }
+    fetch(CDN_URLS[idx++])
+      .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function(d) { render(d); })
+      .catch(tryFetch);
+  }
+  tryFetch();
+})();
+</script>
+</body>
+</html>
