@@ -794,7 +794,13 @@
         btn.addEventListener('click', function(e) { e.preventDefault(); showLoginModal(); });
       }
 
-      navLinks.appendChild(btn);
+      // Insert before nav-cta (Contact Us) if it exists, otherwise append
+      var navCta = navLinks.querySelector('.nav-cta, [href="#contact"]');
+      if (navCta) {
+        navLinks.insertBefore(btn, navCta);
+      } else {
+        navLinks.appendChild(btn);
+      }
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', tryInject);
