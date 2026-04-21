@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIUNITES Admin Dashboard</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#04060f;--bg2:#080c1a;--bg3:#0d1126;
+      --purple:#6366f1;--purple-dim:rgba(99,102,241,.15);
+      --green:#00e5a0;--amber:#f59e0b;--red:#f87171;--blue:#60a5fa;
+      --dim:rgba(255,255,255,.35);--dimmer:rgba(255,255,255,.15);
+      --border:rgba(99,102,241,.18);--border2:rgba(255,255,255,.08);
+      --sidebar:220px;
+      --font-mono:'JetBrains Mono',monospace;
+      --font-sans:'Syne',sans-serif;
+    }
+    html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-sans)}
+
+    /* ---- LOGIN OVERLAY ---- */
+    #au-login-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center}
+    .login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+    .login-box h1{font-size:1.4rem;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+    .login-box p{color:var(--dim);font-size:.85rem;margin-bottom:28px}
+    .login-box label{display:block;font-size:.75rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:5px}
+    .login-box input{width:100%;background:rgba(0,0,0,.4);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:#fff;font-size:.95rem;margin-bottom:16px;outline:none;transition:border .15s;font-family:var(--font-sans)}
+    .login-box input:focus{border-color:var(--purple)}
+    .login-box .login-btn{width:100%;background:var(--purple);border:none;border-radius:8px;padding:12px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:var(--font-sans)}
+    .login-box .login-btn:hover{opacity:.88}
+    .login-err{color:var(--red);font-size:.8rem;margin-top:8px;display:none}
+
+    /* ---- LAYOUT ---- */
+    .au-layout{display:flex;height:100vh;overflow:hidden}
+    .au-sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+    .au-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+    .au-topbar{height:50px;border-bottom:1px solid var(--border2);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
+    .au-content{flex:1;overflow-y:auto;padding:28px 32px}
+
+    /* ---- SIDEBAR ---- */
+    .sb-brand{padding:20px 16px 16px;border-bottom:1px solid var(--border2)}
+    .sb-brand-name{font-size:1rem;font-weight:700;color:#a5b4fc;display:flex;align-items:center;gap:8px}
+    .sb-brand-sub{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);margin-top:3px}
+    .sb-nav{padding:12px 8px;flex:1}
+    .sb-nav-link{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.85rem;color:rgba(255,255,255,.6);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font-sans)}
+    .sb-nav-link:hover{background:rgba(255,255,255,.05);color:#fff}
+    .sb-nav-link.active{background:var(--purple-dim);color:#a5b4fc;font-weight:600}
+    .sb-nav-link .icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+    .sb-divider{height:1px;background:var(--border2);margin:8px 12px}
+    .sb-footer{padding:14px 16px;border-top:1px solid var(--border2)}
+    .sb-user{font-size:.78rem;color:var(--dim);margin-bottom:8px;font-family:var(--font-mono)}
+    .sb-logout{width:100%;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:6px;color:#fca5a5;padding:7px;font-size:.78rem;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+    .sb-logout:hover{background:rgba(239,68,68,.22)}
+    .sb-external{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+    .sb-ext-link{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:6px;font-size:.75rem;color:rgba(255,255,255,.4);text-decoration:none;transition:all .15s;font-family:var(--font-mono)}
+    .sb-ext-link:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.7)}
+
+    /* ---- TOPBAR ---- */
+    .tb-title{font-size:1rem;font-weight:700;flex:1;color:#e0e7ff}
+    .tb-badge{font-family:var(--font-mono);font-size:.68rem;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7}
+    .tb-meta{font-size:.75rem;font-family:var(--font-mono);color:var(--dimmer)}
+
+    /* ---- SECTION VISIBILITY ---- */
+    .au-section{display:none}
+    .au-section.active{display:block;animation:fadein .2s ease}
+    @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    /* ---- DASHBOARD STATS ---- */
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+    .stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:18px 16px}
+    .stat-n{font-family:var(--font-mono);font-size:1.8rem;font-weight:700;display:block;line-height:1}
+    .stat-l{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);display:block;margin-top:5px}
+    .stat-sub{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);display:block;margin-top:2px}
+
+    /* ---- SECTION HEADERS ---- */
+    .sec-head{margin-bottom:24px}
+    .sec-head h2{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px}
+    .sec-head p{color:var(--dim);font-size:.85rem}
+
+    /* ---- PIPELINE CHART ---- */
+    #pipeline-widget{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:200px}
+
+    /* ---- ACTIONS TABLE ---- */
+    .action-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .af-btn{padding:5px 12px;border-radius:6px;font-size:.72rem;font-family:var(--font-mono);border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--dim);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.05em}
+    .af-btn.active{border-color:var(--purple);background:var(--purple-dim);color:#a5b4fc}
+    .action-rows{display:flex;flex-direction:column;gap:3px}
+    .action-row{display:grid;grid-template-columns:36px 1fr 1fr auto;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:7px;transition:background .1s}
+    .action-row:hover{background:rgba(255,255,255,.04)}
+    .ar-rank{font-family:var(--font-mono);font-size:.65rem;color:var(--dimmer);text-align:center}
+    .ar-issue{font-size:.8rem;color:#e0e7ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ar-where{font-size:.7rem;font-family:var(--font-mono);color:var(--dimmer);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ar-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+    .badge-seo{background:rgba(99,102,241,.2);color:#a5b4fc}
+    .badge-adsense{background:rgba(239,68,68,.15);color:#fca5a5}
+    .badge-rank{background:rgba(245,158,11,.15);color:#fcd34d}
+    .badge-cq{background:rgba(107,114,128,.2);color:#9ca3af}
+    .badge-sec{background:rgba(239,68,68,.25);color:#f87171}
+    .badge-auto{background:rgba(34,197,94,.12);color:#86efac}
+
+    /* ---- BRIEF ---- */
+    .brief-body{max-width:760px}
+    .brief-body h1{font-size:1.2rem;color:#fff;margin-bottom:12px}
+    .brief-body h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:#a5b4fc;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border2)}
+    .brief-body h3{font-size:.9rem;color:#e0e7ff;margin:12px 0 4px;font-weight:600}
+    .brief-body p{font-size:.85rem;color:var(--dim);line-height:1.7;margin-bottom:6px}
+    .brief-body hr{border:none;border-top:1px solid var(--border2);margin:16px 0}
+    .brief-body ul{padding-left:18px;margin-bottom:8px}
+    .brief-body li{font-size:.85rem;color:var(--dim);line-height:1.7}
+    .brief-body strong{color:#e0e7ff}
+    .brief-body table{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:10px}
+    .brief-body td{padding:4px 8px;border-bottom:1px solid var(--border2);color:var(--dim)}
+
+    /* ---- WIDGETS ---- */
+    .widget-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .widget-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;transition:border-color .2s}
+    .widget-card.public{border-color:rgba(0,229,160,.25)}
+    .wc-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .wc-status{font-size:.65rem;font-weight:700;font-family:var(--font-mono);padding:2px 8px;border-radius:4px}
+    .wc-status.pub{background:rgba(0,229,160,.15);border:1px solid rgba(0,229,160,.3);color:#6ee7b7}
+    .wc-status.priv{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5}
+    .wc-label{font-size:.95rem;font-weight:600;color:#e0e7ff}
+    .wc-desc{font-size:.78rem;color:var(--dim);margin-bottom:10px;line-height:1.5}
+    .wc-thresh{font-size:.7rem;font-family:var(--font-mono);color:var(--dimmer);margin-bottom:12px;line-height:1.6}
+    .wc-thresh.met{color:#6ee7b7}
+    .wc-btn{padding:6px 14px;border-radius:6px;font-size:.75rem;font-family:var(--font-mono);cursor:pointer;transition:all .15s;border:1px solid}
+    .wc-promote{background:rgba(0,229,160,.12);border-color:rgba(0,229,160,.3);color:#6ee7b7}
+    .wc-demote{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5}
+    .wc-pages{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);margin-top:8px}
+    .wc-cmd-note{font-size:.68rem;font-family:var(--font-mono);color:#6ee7b7;margin-top:6px;display:none}
+
+    /* ---- NETWORK LINKS ---- */
+    .net-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+    .net-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px;text-decoration:none;display:block;transition:all .2s}
+    .net-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+    .net-icon{font-size:1.4rem;margin-bottom:8px}
+    .net-name{font-size:.88rem;font-weight:600;color:#e0e7ff;margin-bottom:3px}
+    .net-desc{font-size:.72rem;color:var(--dim)}
+
+    /* ---- LOADING ---- */
+    .au-loading{padding:32px;text-align:center;color:var(--dimmer);font-family:var(--font-mono);font-size:.8rem}
+    .au-empty{padding:24px;text-align:center;color:var(--dimmer);font-size:.82rem}
+
+    /* ---- RESPONSIVE ---- */
+    @media(max-width:768px){
+      .au-sidebar{position:fixed;top:0;left:0;height:100%;z-index:200;transform:translateX(-100%);transition:transform .25s}
+      .au-sidebar.open{transform:none}
+      .au-main{margin-left:0}
+      .au-content{padding:16px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div id="au-login-gate">
+  <div class="login-box">
+    <h1>&#9670; AIUNITES Admin</h1>
+    <p>Network dashboard &mdash; sign in to access</p>
+    <label>Username</label>
+    <input type="text" id="lg-user" placeholder="admin" autocomplete="username">
+    <label>Password</label>
+    <input type="password" id="lg-pass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password">
+    <button class="login-btn" id="lg-btn">Sign In</button>
+    <div class="login-err" id="lg-err">Incorrect username or password</div>
+  </div>
+</div>
+
+<!-- ADMIN LAYOUT (hidden until logged in) -->
+<div class="au-layout" id="au-layout" style="display:none">
+
+  <!-- SIDEBAR -->
+  <aside class="au-sidebar" id="au-sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-name">&#9670; AIUNITES</div>
+      <div class="sb-brand-sub">Network Admin Dashboard</div>
+    </div>
+
+    <nav class="sb-nav">
+      <button class="sb-nav-link active" data-sec="dashboard"><span class="icon">&#128202;</span> Dashboard</button>
+      <button class="sb-nav-link" data-sec="pipeline"><span class="icon">&#128203;</span> Pipeline</button>
+      <button class="sb-nav-link" data-sec="actions"><span class="icon">&#9878;</span> Action List</button>
+      <button class="sb-nav-link" data-sec="brief"><span class="icon">&#128196;</span> Session Brief</button>
+      <button class="sb-nav-link" data-sec="widgets"><span class="icon">&#128274;</span> Widgets</button>
+      <div class="sb-divider"></div>
+      <button class="sb-nav-link" data-sec="network"><span class="icon">&#127760;</span> External Links</button>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-external">
+        <a href="https://search.google.com/search-console" target="_blank" class="sb-ext-link">&#128200; Search Console</a>
+        <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="sb-ext-link">&#128176; AdSense</a>
+        <a href="https://lookerstudio.google.com" target="_blank" class="sb-ext-link">&#128202; Looker Studio</a>
+        <a href="network-stats.html" class="sb-ext-link">&#128269; Network Stats</a>
+        <a href="index.html" class="sb-ext-link">&#8592; Back to site</a>
+      </div>
+      <div class="sb-user" id="sb-user-name">Admin</div>
+      <button class="sb-logout" id="sb-logout">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="au-main">
+    <div class="au-topbar">
+      <span class="tb-title" id="tb-title">Dashboard</span>
+      <span class="tb-badge" id="tb-badge">Live</span>
+      <span class="tb-meta" id="tb-meta"></span>
+    </div>
+
+    <div class="au-content">
+
+      <!-- DASHBOARD -->
+      <section class="au-section active" id="sec-dashboard">
+        <div class="sec-head">
+          <h2>Network overview</h2>
+          <p>Live stats from the AIUNITES publishing pipeline</p>
+        </div>
+        <div class="stat-grid" id="dash-stats">
+          <div class="au-loading">Loading stats&hellip;</div>
+        </div>
+        <div id="dash-pipeline-mini" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:80px">
+          <div class="au-loading">Loading pipeline chart&hellip;</div>
+        </div>
+      </section>
+
+      <!-- PIPELINE -->
+      <section class="au-section" id="sec-pipeline">
+        <div class="sec-head">
+          <h2>Automation pipeline</h2>
+          <p>Issue breakdown, category analysis, and pipeline stages</p>
+        </div>
+        <div id="pipeline-widget"><div class="au-loading">Loading&hellip;</div></div>
+      </section>
+
+      <!-- ACTIONS -->
+      <section class="au-section" id="sec-actions">
+        <div class="sec-head">
+          <h2>Action list</h2>
+          <p>All issues ranked by impact &times; traffic</p>
+        </div>
+        <div class="action-filters" id="action-filters">
+          <button class="af-btn active" data-filter="all">All</button>
+          <button class="af-btn" data-filter="claude">Needs Claude</button>
+          <button class="af-btn" data-filter="auto">Auto-fixable</button>
+          <button class="af-btn" data-filter="SEO">SEO</button>
+          <button class="af-btn" data-filter="RankOpportunity">Rank+</button>
+          <button class="af-btn" data-filter="AdSense">AdSense</button>
+        </div>
+        <div class="action-rows" id="action-rows"><div class="au-loading">Loading&hellip;</div></div>
+      </section>
+
+      <!-- BRIEF -->
+      <section class="au-section" id="sec-brief">
+        <div class="sec-head">
+          <h2>Session brief</h2>
+          <p>What to work on this week &mdash; generated by prioritize-fixes.ps1</p>
+        </div>
+        <div class="brief-body" id="brief-body"><div class="au-loading">Loading&hellip;</div></div>
+      </section>
+
+      <!-- WIDGETS -->
+      <section class="au-section" id="sec-widgets">
+        <div class="sec-head">
+          <h2>Widget visibility</h2>
+          <p>Admin always sees all widgets. Promote to public when stats are ready to share.</p>
+        </div>
+        <div class="widget-cards" id="widget-cards"><div class="au-loading">Loading&hellip;</div></div>
+      </section>
+
+      <!-- NETWORK / EXTERNAL LINKS -->
+      <section class="au-section" id="sec-network">
+        <div class="sec-head">
+          <h2>External links</h2>
+          <p>Quick access to tools and reports</p>
+        </div>
+        <div class="net-grid">
+          <a href="https://search.google.com/search-console" target="_blank" class="net-card">
+            <div class="net-icon">&#127760;</div>
+            <div class="net-name">Google Search Console</div>
+            <div class="net-desc">Impressions, rankings, coverage</div>
+          </a>
+          <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="net-card">
+            <div class="net-icon">&#128176;</div>
+            <div class="net-name">Google AdSense</div>
+            <div class="net-desc">Earnings, policy, site approval</div>
+          </a>
+          <a href="https://lookerstudio.google.com" target="_blank" class="net-card">
+            <div class="net-icon">&#128202;</div>
+            <div class="net-name">Looker Studio</div>
+            <div class="net-desc">Custom dashboards and reports</div>
+          </a>
+          <a href="https://analytics.google.com" target="_blank" class="net-card">
+            <div class="net-icon">&#128200;</div>
+            <div class="net-name">Google Analytics 4</div>
+            <div class="net-desc">GA4 traffic and events</div>
+          </a>
+          <a href="https://github.com/AIUNITES" target="_blank" class="net-card">
+            <div class="net-icon">&#128025;</div>
+            <div class="net-name">GitHub &mdash; AIUNITES</div>
+            <div class="net-desc">All 22 repos and Pages status</div>
+          </a>
+          <a href="https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://aiunites.com&strategy=mobile" target="_blank" class="net-card">
+            <div class="net-icon">&#9889;</div>
+            <div class="net-name">PageSpeed Insights</div>
+            <div class="net-desc">Lighthouse scores live</div>
+          </a>
+          <a href="network-stats.html" class="net-card">
+            <div class="net-icon">&#128269;</div>
+            <div class="net-name">Network Stats</div>
+            <div class="net-desc">SEO audit and page rank report</div>
+          </a>
+          <a href="network-overview.html" class="net-card">
+            <div class="net-icon">&#127775;</div>
+            <div class="net-name">Network Overview</div>
+            <div class="net-desc">GSC and publish activity</div>
+          </a>
+          <a href="automation-live.html" class="net-card">
+            <div class="net-icon">&#128506;</div>
+            <div class="net-name">Automation Live</div>
+            <div class="net-desc">Public pipeline dashboard</div>
+          </a>
+        </div>
+      </section>
+
+    </div><!-- /au-content -->
+  </div><!-- /au-main -->
+</div><!-- /au-layout -->
+
+<script>
+(function() {
+  var STORAGE_KEY = 'aiunites_currentUser';
+  var DATA = {
+    actionList: null,
+    visibility: null,
+    brief: null,
+    pubStats: null
+  };
+
+  var CDN = {
+    actionList: ['data/action-list.json', 'https://aiunites.github.io/cloudsion-site/data/action-list.json'],
+    visibility: ['data/visibility.json', 'https://aiunites.github.io/cloudsion-site/data/visibility.json'],
+    brief:      ['data/session-brief.md', 'https://aiunites.github.io/cloudsion-site/data/session-brief.md'],
+    pubStats:   ['data/publish-stats.json', 'https://aiunites.github.io/cloudsion-site/data/publish-stats.json']
+  };
+
+  // ---- CREDENTIALS ----
+  function getCreds() {
+    if (typeof LOCAL_USERS !== 'undefined' && LOCAL_USERS.admin) return LOCAL_USERS.admin;
+    return { username: 'admin', password: 'aiunites2026', displayName: 'Tom' };
+  }
+
+  function isAdmin() {
+    try { var u = JSON.parse(localStorage.getItem(STORAGE_KEY)); return u && u.isAdmin === true; }
+    catch(e) { return false; }
+  }
+
+  function getCurrentUser() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) { return null; }
+  }
+
+  // ---- LOGIN ----
+  document.getElementById('lg-btn').addEventListener('click', doLogin);
+  document.getElementById('lg-pass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  function doLogin() {
+    var creds = getCreds();
+    var u = document.getElementById('lg-user').value.trim();
+    var p = document.getElementById('lg-pass').value;
+    if (u === creds.username && p === creds.password) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        username: creds.username,
+        displayName: creds.displayName || 'Admin',
+        isAdmin: true,
+        loginTime: Date.now()
+      }));
+      showAdmin();
+    } else {
+      document.getElementById('lg-err').style.display = 'block';
+      document.getElementById('lg-pass').value = '';
+    }
+  }
+
+  document.getElementById('sb-logout').addEventListener('click', function() {
+    if (confirm('Sign out of AIUNITES Admin?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  });
+
+  // ---- FETCH HELPERS ----
+  function fetchJson(keys, cb) {
+    var urls = CDN[keys];
+    var i = 0;
+    function next() {
+      if (i >= urls.length) { cb(null); return; }
+      fetch(urls[i++] + '?_=' + Date.now())
+        .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function(d) { cb(d); })
+        .catch(next);
+    }
+    next();
+  }
+
+  function fetchText(keys, cb) {
+    var urls = CDN[keys];
+    var i = 0;
+    function next() {
+      if (i >= urls.length) { cb(null); return; }
+      fetch(urls[i++] + '?_=' + Date.now())
+        .then(function(r) { if (!r.ok) throw 0; return r.text(); })
+        .then(function(t) { cb(t); })
+        .catch(next);
+    }
+    next();
+  }
+
+  // ---- SHOW ADMIN ----
+  function showAdmin() {
+    document.getElementById('au-login-gate').style.display = 'none';
+    document.getElementById('au-layout').style.display = 'flex';
+    var user = getCurrentUser();
+    document.getElementById('sb-user-name').textContent = (user && user.displayName) || 'Admin';
+    initNav();
+    loadAllData();
+  }
+
+  // ---- NAV ----
+  var SEC_TITLES = {
+    dashboard: 'Dashboard', pipeline: 'Automation pipeline',
+    actions: 'Action list', brief: 'Session brief',
+    widgets: 'Widget visibility', network: 'External links'
+  };
+
+  function initNav() {
+    document.querySelectorAll('.sb-nav-link').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var sec = this.dataset.sec;
+        document.querySelectorAll('.sb-nav-link').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.au-section').forEach(function(s) { s.classList.remove('active'); });
+        document.getElementById('sec-' + sec).classList.add('active');
+        document.getElementById('tb-title').textContent = SEC_TITLES[sec] || sec;
+      });
+    });
+
+    // Action filter buttons
+    document.getElementById('action-filters').addEventListener('click', function(e) {
+      var btn = e.target.closest('.af-btn');
+      if (!btn) return;
+      document.querySelectorAll('.af-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      renderActionRows(btn.dataset.filter);
+    });
+  }
+
+  // ---- LOAD ALL DATA ----
+  function loadAllData() {
+    fetchJson('pubStats', function(d) {
+      DATA.pubStats = d;
+      renderDashStats();
+    });
+    fetchJson('actionList', function(d) {
+      DATA.actionList = d;
+      renderDashPipelineMini(d);
+      renderActionRows('all');
+      document.getElementById('tb-meta').textContent = d ? (d.generatedFmt || '') : '';
+    });
+    fetchJson('visibility', function(d) {
+      DATA.visibility = d;
+      renderWidgets(d);
+    });
+    fetchText('brief', function(t) {
+      DATA.brief = t;
+      renderBrief(t);
+    });
+  }
+
+  // ---- DASHBOARD STATS ----
+  function renderDashStats() {
+    var ps = DATA.pubStats;
+    var al = DATA.actionList;
+    var stats = [
+      { n: ps ? ps.reposManaged : '22',   l: 'Repos managed',   sub: '',                   c: '#a5b4fc' },
+      { n: ps ? ps.totalPushes  : '--',   l: 'Total pushes',    sub: 'all time',            c: '#6ee7b7' },
+      { n: ps ? ps.monthPushes  : '--',   l: 'This month',      sub: 'pushes',              c: '#60a5fa' },
+      { n: al ? (al.autoFixable || 0) : '--', l: 'Auto-fixed',  sub: 'this cycle',         c: '#6ee7b7' },
+      { n: al ? (al.needsClaude || 0) : '--', l: 'Needs Claude', sub: 'top items',         c: '#fcd34d' },
+      { n: al ? Math.round((al.autoFixable || 0) / Math.max(al.totalActions || 1, 1) * 100) + '%' : '--', l: 'Automated', sub: 'no human needed', c: '#00e5a0' }
+    ];
+    document.getElementById('dash-stats').innerHTML = stats.map(function(s) {
+      return '<div class="stat-card"><span class="stat-n" style="color:' + s.c + '">' + s.n + '</span><span class="stat-l">' + s.l + '</span>' + (s.sub ? '<span class="stat-sub">' + s.sub + '</span>' : '') + '</div>';
+    }).join('');
+  }
+
+  // ---- MINI PIPELINE ---- (dashboard preview, links to pipeline tab)
+  function renderDashPipelineMini(data) {
+    var el = document.getElementById('dash-pipeline-mini');
+    if (!data) { el.innerHTML = '<div class="au-empty">No data - run prioritize-fixes.ps1 then Publish Now</div>'; return; }
+    renderPipelineInto(data, el);
+  }
+
+  // ---- FULL PIPELINE ----
+  function renderPipelineInto(data, el) {
+    var total  = data.totalActions || 0;
+    var autoN  = data.autoFixable  || 0;
+    var cldN   = data.needsClaude  || 0;
+    var autoP  = total > 0 ? Math.round(autoN / total * 100) : 0;
+    var cldP   = total > 0 ? Math.round(cldN  / total * 100) : 0;
+
+    var cats = { SEO:0, CodeQuality:0, AdSense:0, RankOpportunity:0, Security:0 };
+    (data.actions || []).forEach(function(a) { if (cats.hasOwnProperty(a.Category)) cats[a.Category]++; });
+    var catMax = Math.max.apply(null, Object.values(cats)) || 1;
+    var catConf = [
+      { k:'SEO',            l:'SEO',      c:'#818cf8' },
+      { k:'CodeQuality',    l:'Code',     c:'#9ca3af' },
+      { k:'AdSense',        l:'AdSense',  c:'#f87171' },
+      { k:'RankOpportunity',l:'Rank+',    c:'#fcd34d' },
+      { k:'Security',       l:'Security', c:'#ef4444' }
+    ];
+
+    var statsH = [
+      { n: autoP + '%',  l: 'Automated',    c: '#00e5a0' },
+      { n: autoN,        l: 'Auto-fixed',   c: '#6ee7b7' },
+      { n: cldN,         l: 'Needs Claude', c: '#fcd34d' },
+      { n: total,        l: 'Total issues', c: '#a5b4fc' }
+    ].map(function(s) {
+      return '<div style="flex:1;min-width:100px;border-right:1px solid rgba(255,255,255,.06);padding:16px 12px;text-align:center">' +
+        '<div style="font-family:var(--font-mono);font-size:1.6rem;font-weight:700;color:' + s.c + '">' + s.n + '</div>' +
+        '<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-top:4px">' + s.l + '</div>' +
+      '</div>';
+    }).join('');
+
+    var catBarsH = catConf.map(function(c) {
+      var w = Math.round((cats[c.k] / catMax) * 100);
+      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
+        '<span style="font-family:var(--font-mono);font-size:.65rem;color:var(--dim);width:56px;text-align:right">' + c.l + '</span>' +
+        '<div style="flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden">' +
+          '<div style="height:100%;width:' + w + '%;background:' + c.c + ';border-radius:3px"></div>' +
+        '</div>' +
+        '<span style="font-family:var(--font-mono);font-size:.65rem;color:var(--dim);width:32px;text-align:right">' + cats[c.k] + '</span>' +
+      '</div>';
+    }).join('');
+
+    var LANES = [
+      { freq:'Every 10 min', c:'rgba(99,102,241,.8)',  steps:['auto-publish','git push','code scan','fix-queue','IndexNow','backup'] },
+      { freq:'Daily',        c:'rgba(6,182,212,.8)',   steps:['fetch-gsc-stats','gsc-stats CDN','site-health','uptime.json'] },
+      { freq:'Weekly',       c:'rgba(16,185,129,.8)',  steps:['seo-audit','seo-fix','check-page-rank','prioritize-fixes','auto-improve','pagespeed','trend-tracker','update-visibility'] },
+      { freq:'On demand',    c:'rgba(245,158,11,.8)',  steps:['Claude session','top items','Publish Now'] }
+    ];
+    var lanesH = LANES.map(function(lane) {
+      var stepsH = lane.steps.map(function(s, i) {
+        return (i > 0 ? '<span style="color:rgba(255,255,255,.2);margin:0 4px">&#8594;</span>' : '') +
+          '<span style="display:inline-block;padding:4px 8px;border:1px solid ' + lane.c.replace('.8', '.3') + ';border-radius:4px;font-size:.68rem;font-family:var(--font-mono);color:' + lane.c.replace('.8','1') + ';background:' + lane.c.replace('.8','.08') + ';white-space:nowrap">' + s + '</span>';
+      }).join('');
+      return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">' +
+        '<span style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.05em;width:70px;flex-shrink:0;text-align:right;padding-top:6px">' + lane.freq + '</span>' +
+        '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;row-gap:4px">' + stepsH + '</div>' +
+      '</div>';
+    }).join('');
+
+    el.innerHTML =
+      '<div style="display:flex;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.06)">' + statsH + '</div>' +
+      '<div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)">' +
+        '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.65rem;color:var(--dim);margin-bottom:7px"><span>Automation coverage</span><span style="color:#fff;font-weight:700">' + autoP + '% runs without you</span></div>' +
+        '<div style="height:22px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;display:flex">' +
+          '<div style="width:' + autoP + '%;background:linear-gradient(90deg,#00c47a,#00e5a0);display:flex;align-items:center;padding-left:8px"><span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:#032a1e;white-space:nowrap">' + autoN + ' auto</span></div>' +
+          (cldP > 3 ? '<div style="width:' + cldP + '%;background:rgba(249,115,22,.45);display:flex;align-items:center;justify-content:center"><span style="font-family:var(--font-mono);font-size:.62rem;color:rgba(255,255,255,.75);white-space:nowrap">' + cldN + ' review</span></div>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.06)">' +
+        '<div style="padding:14px 20px;border-right:1px solid rgba(255,255,255,.06)">' +
+          '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:10px">By category</div>' +
+          catBarsH +
+        '</div>' +
+        '<div style="padding:14px 20px">' +
+          '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:10px">Pipeline stages</div>' +
+          lanesH +
+        '</div>' +
+      '</div>' +
+      '<div style="padding:8px 20px;font-family:var(--font-mono);font-size:.62rem;color:var(--dimmer);display:flex;justify-content:space-between">' +
+        '<span>Updated: ' + (data.generatedFmt || 'weekly') + '</span>' +
+        '<a href="automation-live.html" style="color:var(--purple);text-decoration:none">Full view &#8599;</a>' +
+      '</div>';
+  }
+
+  // ---- ACTION ROWS ----
+  function badgeClass(cat) {
+    var m = {SEO:'badge-seo',AdSense:'badge-adsense',RankOpportunity:'badge-rank',CodeQuality:'badge-cq',Security:'badge-sec'};
+    return m[cat] || 'badge-cq';
+  }
+  function badgeLabel(cat) {
+    return cat === 'RankOpportunity' ? 'Rank+' : (cat || 'Other');
+  }
+
+  function renderActionRows(filter) {
+    var el = document.getElementById('action-rows');
+    var data = DATA.actionList;
+    if (!data || !data.actions) { el.innerHTML = '<div class="au-empty">No data - run prioritize-fixes.ps1</div>'; return; }
+    var items = data.actions;
+    if (filter === 'claude') items = items.filter(function(a) { return !a.AutoFixable; });
+    else if (filter === 'auto') items = items.filter(function(a) { return a.AutoFixable; });
+    else if (filter !== 'all') items = items.filter(function(a) { return a.Category === filter; });
+    items = items.slice(0, 60);
+    el.innerHTML = items.map(function(a) {
+      var fname = (a.File || '').replace(/^.*[\\/]/, '').substring(0, 35);
+      var where = (a.Domain || '') + (fname ? ' / ' + fname : '');
+      var iss = (a.Issue || a.Fix || '').substring(0, 90);
+      var badge = a.AutoFixable ? 'badge-auto' : badgeClass(a.Category);
+      var label = a.AutoFixable ? 'Auto' : badgeLabel(a.Category);
+      return '<div class="action-row">' +
+        '<span class="ar-rank">#' + a.Rank + '</span>' +
+        '<div><div class="ar-issue">' + iss + '</div><div class="ar-where">' + where + '</div></div>' +
+        '<div class="ar-where">' + (a.Impressions > 0 ? a.Impressions + ' impr' : '') + '</div>' +
+        '<span class="ar-badge ' + badge + '">' + label + '</span>' +
+      '</div>';
+    }).join('') || '<div class="au-empty">No items match this filter</div>';
+  }
+
+  // ---- SESSION BRIEF ----
+  function renderBrief(md) {
+    var el = document.getElementById('brief-body');
+    if (!md) { el.innerHTML = '<div class="au-empty">No session-brief.md yet. Run prioritize-fixes.ps1 then Publish Now.</div>'; return; }
+    var lines = md.split('\n');
+    var html = '';
+    var inUl = false;
+    lines.forEach(function(line) {
+      var t = line.trim();
+      if (!t) { if (inUl) { html += '</ul>'; inUl = false; } return; }
+      if (/^# /.test(t))   { if (inUl) { html += '</ul>'; inUl = false; } html += '<h1>' + t.slice(2) + '</h1>'; }
+      else if (/^## /.test(t))  { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + t.slice(3) + '</h2>'; }
+      else if (/^### /.test(t)) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + t.slice(4) + '</h3>'; }
+      else if (/^---/.test(t))  { if (inUl) { html += '</ul>'; inUl = false; } html += '<hr>'; }
+      else if (/^[-*] /.test(t)) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + t.slice(2).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</li>'; }
+      else if (/^\|/.test(t) && !/^\| ?[-:| ]+\|/.test(t)) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += '<table><tr>' + t.split('|').slice(1,-1).map(function(c) { return '<td>' + c.trim() + '</td>'; }).join('') + '</tr></table>';
+      } else {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        html += '<p>' + t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</p>';
+      }
+    });
+    if (inUl) html += '</ul>';
+    el.innerHTML = html;
+  }
+
+  // ---- WIDGETS ----
+  function renderWidgets(vis) {
+    var el = document.getElementById('widget-cards');
+    if (!vis || !vis.widgets) { el.innerHTML = '<div class="au-empty">No visibility.json. Run update-visibility.ps1 then Publish Now.</div>'; return; }
+    var html = '';
+    Object.keys(vis.widgets).forEach(function(id) {
+      var w = vis.widgets[id];
+      var pub = w.public === true;
+      var met = w.meetsThreshold === true;
+      var boolVal = pub ? '$false' : '$true';
+      var cmd = '& "C:\\Users\\tombh\\Documents\\GitHub\\scripts\\update-visibility.ps1" -Widget "' + id + '" -Public ' + boolVal;
+      html += '<div class="widget-card' + (pub ? ' public' : '') + '">' +
+        '<div class="wc-head">' +
+          '<span class="wc-status ' + (pub ? 'pub' : 'priv') + '">' + (pub ? 'PUBLIC' : 'ADMIN ONLY') + '</span>' +
+          '<span class="wc-label">' + (w.label || id) + '</span>' +
+        '</div>' +
+        '<div class="wc-desc">' + (w.desc || '') + '</div>' +
+        '<div class="wc-thresh' + (met ? ' met' : '') + '">' + (met ? '&#10003; Threshold met' : (w.thresholdStatus || 'Thresholds not met')) + '</div>' +
+        '<button class="wc-btn ' + (pub ? 'wc-demote' : 'wc-promote') + '" onclick="auCopyWidget(this,' + JSON.stringify(cmd) + ')">' +
+          (pub ? 'Set admin only' : 'Promote to public') +
+        '</button>' +
+        '<div class="wc-cmd-note" id="wn-' + id + '">Copied! Paste in PowerShell, then Publish Now.</div>' +
+        '<div class="wc-pages">Pages: ' + (w.pages || '-') + '</div>' +
+      '</div>';
+    });
+    el.innerHTML = html;
+  }
+
+  window.auCopyWidget = function(btn, cmd) {
+    navigator.clipboard.writeText(cmd).then(function() {
+      var note = btn.nextElementSibling;
+      if (note) { note.style.display = 'block'; }
+      btn.style.opacity = '.4';
+      setTimeout(function() {
+        if (note) note.style.display = 'none';
+        btn.style.opacity = '1';
+      }, 4000);
+    });
+  };
+
+  // ---- INIT ----
+  if (isAdmin()) {
+    showAdmin();
+  } else {
+    document.getElementById('au-login-gate').style.display = 'flex';
+    setTimeout(function() { document.getElementById('lg-user').focus(); }, 100);
+  }
+
+  // Pipeline section lazy-load
+  document.querySelectorAll('.sb-nav-link').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (this.dataset.sec === 'pipeline' && DATA.actionList) {
+        var el = document.getElementById('pipeline-widget');
+        if (el.innerHTML.indexOf('au-loading') !== -1) {
+          renderPipelineInto(DATA.actionList, el);
+        }
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

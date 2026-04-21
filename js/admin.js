@@ -163,6 +163,7 @@
       '<div class="au-links">' + linksHtml + '</div>' +
       '<span class="au-spacer"></span>' +
       '<span class="au-link" id="au-todo-btn" style="cursor:pointer;border-left:1px solid rgba(255,255,255,.1)" title="Work queue">&#128203; To Do<span id="au-todo-badge-count" style="display:none"></span></span>' +
+      '<a href="admin.html" class="au-link" style="border-left:1px solid rgba(255,255,255,.1)" title="Full admin dashboard">&#128202; Admin</a>' +
       '<span class="au-logout" id="au-logout-btn">&#10006; Logout</span>';
 
     document.body.appendChild(bar);
