@@ -745,13 +745,56 @@
       var legal = document.querySelector('.footer-legal, .footer-bottom, footer');
       if (!legal) return;
       var link = document.createElement('a');
-      link.href = '#';
-      link.textContent = '\u25C6 Admin';
-      link.style.cssText = 'color:rgba(255,255,255,0.2);font-size:0.72rem;text-decoration:none;margin-left:16px;transition:color 0.2s;';
-      link.addEventListener('mouseenter', function() { link.style.color = 'rgba(99,102,241,0.7)'; });
-      link.addEventListener('mouseleave', function() { link.style.color = 'rgba(255,255,255,0.2)'; });
-      link.addEventListener('click', function(e) { e.preventDefault(); showLoginModal(); });
+      if (isAdmin()) {
+        link.href = 'admin.html';
+        link.textContent = '\u25C6 Admin';
+      } else {
+        link.href = '#';
+        link.textContent = '\u25C6 Admin';
+        link.addEventListener('click', function(e) { e.preventDefault(); showLoginModal(); });
+      }
+      link.style.cssText = 'color:rgba(255,255,255,0.25);font-size:0.72rem;text-decoration:none;margin-left:16px;transition:color 0.2s;';
+      link.addEventListener('mouseenter', function() { link.style.color = 'rgba(99,102,241,0.8)'; });
+      link.addEventListener('mouseleave', function() { link.style.color = 'rgba(255,255,255,0.25)'; });
       legal.appendChild(link);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', tryInject);
+    } else {
+      tryInject();
+    }
+  }
+
+  function injectNavButton() {
+    function tryInject() {
+      // Don't inject on admin.html - it has its own layout
+      if (window.location.pathname.indexOf('admin.html') !== -1) return;
+      if (document.getElementById('au-nav-btn')) return;
+
+      var navLinks = document.getElementById('nav-links') ||
+                     document.querySelector('.nav-links, .nav-menu, nav ul');
+      if (!navLinks) return;
+
+      var btn = document.createElement('a');
+      btn.id = 'au-nav-btn';
+
+      if (isAdmin()) {
+        var u = getCurrentUser();
+        btn.href = 'admin.html';
+        btn.innerHTML = '&#128100; ' + ((u && u.displayName) || 'Admin');
+        btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);color:#a5b4fc;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s;white-space:nowrap;';
+        btn.addEventListener('mouseenter', function() { btn.style.background = 'rgba(99,102,241,.3)'; });
+        btn.addEventListener('mouseleave', function() { btn.style.background = 'rgba(99,102,241,.15)'; });
+      } else {
+        btn.href = '#';
+        btn.textContent = 'Log In';
+        btn.style.cssText = 'display:inline-flex;align-items:center;background:#6366f1;color:#fff;text-decoration:none;padding:9px 20px;border-radius:8px;font-size:.9rem;font-weight:700;transition:opacity .2s;white-space:nowrap;';
+        btn.addEventListener('mouseenter', function() { btn.style.opacity = '.85'; });
+        btn.addEventListener('mouseleave', function() { btn.style.opacity = '1'; });
+        btn.addEventListener('click', function(e) { e.preventDefault(); showLoginModal(); });
+      }
+
+      navLinks.appendChild(btn);
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', tryInject);
@@ -765,8 +808,9 @@
       if (isAdmin()) showToolbar();
       else showLoginModal();
     };
-    // Always inject footer link (visible to everyone, logged in or not)
+    // Always inject footer link and nav button (visible to everyone)
     injectFooterLink();
+    injectNavButton();
     if (isAdmin()) {
       showToolbar();
     } else {

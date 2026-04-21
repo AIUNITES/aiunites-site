@@ -20,18 +20,6 @@
     }
     html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-sans)}
 
-    /* ---- LOGIN OVERLAY ---- */
-    #au-login-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center}
-    .login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-    .login-box h1{font-size:1.4rem;margin-bottom:6px;display:flex;align-items:center;gap:10px}
-    .login-box p{color:var(--dim);font-size:.85rem;margin-bottom:28px}
-    .login-box label{display:block;font-size:.75rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:5px}
-    .login-box input{width:100%;background:rgba(0,0,0,.4);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;color:#fff;font-size:.95rem;margin-bottom:16px;outline:none;transition:border .15s;font-family:var(--font-sans)}
-    .login-box input:focus{border-color:var(--purple)}
-    .login-box .login-btn{width:100%;background:var(--purple);border:none;border-radius:8px;padding:12px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:var(--font-sans)}
-    .login-box .login-btn:hover{opacity:.88}
-    .login-err{color:var(--red);font-size:.8rem;margin-top:8px;display:none}
-
     /* ---- LAYOUT ---- */
     .au-layout{display:flex;height:100vh;overflow:hidden}
     .au-sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
@@ -154,17 +142,28 @@
 </head>
 <body>
 
-<!-- LOGIN GATE -->
-<div id="au-login-gate">
-  <div class="login-box">
-    <h1>&#9670; AIUNITES Admin</h1>
-    <p>Network dashboard &mdash; sign in to access</p>
-    <label>Username</label>
-    <input type="text" id="lg-user" placeholder="admin" autocomplete="username">
-    <label>Password</label>
-    <input type="password" id="lg-pass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password">
-    <button class="login-btn" id="lg-btn" style="width:100%;background:#6366f1;border:none;border-radius:8px;padding:14px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:4px">Sign In &rarr;</button>
-    <div class="login-err" id="lg-err">Incorrect username or password</div>
+<!-- LOGIN PAGE (shown when not authenticated) -->
+<div id="au-login-page" style="display:none;min-height:100vh;background:var(--bg);align-items:center;justify-content:center;flex-direction:column">
+  <div style="text-align:center;margin-bottom:32px">
+    <div style="font-size:2.5rem;font-weight:800;color:#a5b4fc;letter-spacing:-.02em">&#9670; AIUNITES</div>
+    <div style="font-size:.85rem;color:var(--dimmer);margin-top:6px;font-family:var(--font-mono)">Network Admin Dashboard</div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px 44px;width:380px;box-shadow:0 24px 60px rgba(0,0,0,.6)">
+    <h2 style="font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:6px">Sign in</h2>
+    <p style="color:var(--dim);font-size:.85rem;margin-bottom:28px">Admin credentials required to access this dashboard</p>
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:.72rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:5px">Username</label>
+      <input type="text" id="lg-user" placeholder="admin" autocomplete="username" style="width:100%;background:rgba(0,0,0,.5);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none;font-family:var(--font-sans);box-sizing:border-box;transition:border .15s">
+    </div>
+    <div style="margin-bottom:24px">
+      <label style="display:block;font-size:.72rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:5px">Password</label>
+      <input type="password" id="lg-pass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" style="width:100%;background:rgba(0,0,0,.5);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none;font-family:var(--font-sans);box-sizing:border-box;transition:border .15s">
+    </div>
+    <button id="lg-btn" style="width:100%;background:#6366f1;border:none;border-radius:8px;padding:13px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:opacity .15s">Sign In &rarr;</button>
+    <div id="lg-err" style="color:#f87171;font-size:.8rem;margin-top:10px;display:none;text-align:center">Incorrect username or password</div>
+  </div>
+  <div style="margin-top:20px">
+    <a href="index.html" style="color:var(--dimmer);font-size:.78rem;text-decoration:none;font-family:var(--font-mono)">&larr; Back to aiunites.com</a>
   </div>
 </div>
 
@@ -420,7 +419,8 @@
 
   // ---- SHOW ADMIN ----
   function showAdmin() {
-    document.getElementById('au-login-gate').style.display = 'none';
+    var lp = document.getElementById('au-login-page');
+    if (lp) lp.style.display = 'none';
     document.getElementById('au-layout').style.display = 'flex';
     var user = getCurrentUser();
     document.getElementById('sb-user-name').textContent = (user && user.displayName) || 'Admin';
@@ -691,8 +691,13 @@
   if (isAdmin()) {
     showAdmin();
   } else {
-    document.getElementById('au-login-gate').style.display = 'flex';
-    setTimeout(function() { document.getElementById('lg-user').focus(); }, 100);
+    // Show full-page login
+    var lp = document.getElementById('au-login-page');
+    if (lp) lp.style.display = 'flex';
+    setTimeout(function() {
+      var u = document.getElementById('lg-user');
+      if (u) u.focus();
+    }, 100);
   }
 
   // Pipeline section lazy-load
