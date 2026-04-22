@@ -32,6 +32,19 @@
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) { return null; }
   }
 
+  function loginAsDemo() {
+    var user = { username: 'guest', displayName: 'Guest', isAdmin: false, isDemo: true, loginTime: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    return true;
+  }
+
+  function isDemo() {
+    try {
+      var u = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      return u && u.isDemo === true;
+    } catch(e) { return false; }
+  }
+
   function login(username, password) {
     var creds = getAdminCreds();
     if (username === creds.username && password === creds.password) {
@@ -676,6 +689,7 @@
       '<div id="au-login-box">' +
         '<h2>&#9670; AIUNITES Admin</h2>' +
         '<p>Sign in to access network reports and tools</p>' +
+        '<button class="au-demo-btn" id="au-demo-login" style="width:100%;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.35);color:#c4b5fd;border-radius:6px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:16px;font-family:inherit;">&#128065; Try Demo &#8212; No Account Needed</button>' +
         '<label>Username</label>' +
         '<input type="text" id="au-username" placeholder="admin" autocomplete="username">' +
         '<label>Password</label>' +
@@ -710,6 +724,11 @@
 
     passInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') document.getElementById('au-login-submit').click();
+    });
+    document.getElementById('au-demo-login').addEventListener('click', function() {
+      loginAsDemo();
+      overlay.remove();
+      location.reload();
     });
     document.getElementById('au-cancel').addEventListener('click', function() { overlay.remove(); });
     overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
@@ -785,6 +804,14 @@
         btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);color:#a5b4fc;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s;white-space:nowrap;';
         btn.addEventListener('mouseenter', function() { btn.style.background = 'rgba(99,102,241,.3)'; });
         btn.addEventListener('mouseleave', function() { btn.style.background = 'rgba(99,102,241,.15)'; });
+      } else if (isDemo()) {
+        btn.href = '#';
+        btn.innerHTML = '&#128100; Guest';
+        btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:#a5b4fc;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s;white-space:nowrap;cursor:pointer;';
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (confirm('Exit guest mode?')) { logout(); location.reload(); }
+        });
       } else {
         btn.href = '#';
         btn.textContent = 'Log In';
