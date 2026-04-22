@@ -860,6 +860,71 @@
     });
   }
 
+  // ── Example profiles ─────────────────────────────────────────────────
+  var EXAMPLES = [
+    {
+      name: 'Alex — Developer',
+      data: {
+        aiunites_ai_profile: '1.0',
+        identity: { name: 'Alex Rivera', role: 'Freelance Full-Stack Developer', domain: 'Web apps & SaaS products', location: 'Austin, Texas', expertise_level: 'senior' },
+        preferences: { response_length: 'concise', tone: 'direct', code_style: 'TypeScript preferred, functional style, no classes', avoid: ['boilerplate explanations', 'unnecessary abstractions'], prefer: ['code first then explanation', 'minimal dependencies'] },
+        projects: [
+          { name: 'ClientPortal SaaS', description: 'B2B client dashboard with billing and file sharing', stack: ['React', 'Node.js', 'PostgreSQL', 'Stripe'], status: 'active' },
+          { name: 'OpenSource CLI Tool', description: 'Dev productivity CLI for monorepo management', stack: ['Node.js', 'Commander.js'], status: 'active' }
+        ],
+        terminology: { 'portal': 'my SaaS product ClientPortal', 'the client': 'the B2B customer using ClientPortal', 'mono': 'my personal monorepo on GitHub' },
+        constraints: { never_use: ['jQuery', 'class components', 'var keyword'], always_use: ['async/await over .then()', 'named exports', 'TypeScript strict mode'] },
+        session: { focus: 'Adding CSV export to the reporting module', context: 'Reports page is at /dashboard/reports, uses react-table v8, data comes from /api/reports endpoint' }
+      }
+    },
+    {
+      name: 'Maya — Content Creator',
+      data: {
+        aiunites_ai_profile: '1.0',
+        identity: { name: 'Maya Chen', role: 'Content Strategist & Newsletter Writer', domain: 'B2B marketing, SaaS content, SEO', location: 'Remote (NYC)', expertise_level: 'senior' },
+        preferences: { response_length: 'detailed', tone: 'professional', avoid: ['passive voice', 'filler phrases like "in conclusion"', 'overly formal language'], prefer: ['punchy headlines', 'short paragraphs', 'data-backed claims'] },
+        projects: [
+          { name: 'GrowthLoop Newsletter', description: 'Weekly B2B marketing newsletter, 12k subscribers', stack: ['Beehiiv', 'Notion', 'Canva'], status: 'active' },
+          { name: 'SaaS Client Content', description: 'Monthly blog retainer for 3 SaaS clients', stack: ['WordPress', 'Surfer SEO', 'Ahrefs'], status: 'active' }
+        ],
+        terminology: { 'the newsletter': 'GrowthLoop, my weekly B2B marketing newsletter', 'ICP': 'ideal customer profile', 'TOFU': 'top-of-funnel content targeting awareness stage' },
+        constraints: { never_use: ['clickbait titles', 'keyword stuffing', 'first-person "I" in client content'], always_use: ['one main CTA per email', 'active voice', 'Oxford comma'] },
+        session: { focus: 'Writing the weekly GrowthLoop edition on AI in marketing', context: 'Topic: how CMOs are actually using AI tools day-to-day. Angle: practical not hype. Target length: 600 words.' }
+      }
+    },
+    {
+      name: 'Jordan — Consultant',
+      data: {
+        aiunites_ai_profile: '1.0',
+        identity: { name: 'Jordan Walsh', role: 'Independent Business Consultant', domain: 'Operations, process improvement, small business strategy', location: 'Chicago, Illinois', expertise_level: 'expert' },
+        preferences: { response_length: 'comprehensive', tone: 'formal', avoid: ['jargon without definition', 'vague recommendations'], prefer: ['structured frameworks', 'numbered action steps', 'risk/benefit breakdowns'] },
+        projects: [
+          { name: 'Retail Client Ops Audit', description: 'Operational audit for 8-location retail chain, Q2 deliverable', stack: ['Excel', 'Power BI', 'Notion'], status: 'active' },
+          { name: 'Consulting Website', description: 'Personal site to attract inbound leads', stack: ['WordPress', 'Elementor'], status: 'active' }
+        ],
+        terminology: { 'the client': 'current retail audit client (confidential)', 'the deck': 'the final PowerPoint deliverable for the ops audit', 'swim lane': 'process responsibility mapping across departments' },
+        constraints: { never_use: ['speculation presented as fact', 'recommendations without supporting rationale'], always_use: ['executive summary at the top', 'MECE structure for lists', 'specific metrics over vague claims'] },
+        session: { focus: 'Drafting the inventory management section of the ops audit deck', context: 'Client has 8 stores, centralized buying, no real-time inventory visibility. Main pain: stockouts during peak season.' }
+      }
+    }
+  ];
+
+  function loadExample(idx) {
+    var ex = EXAMPLES[idx];
+    if (!ex) return;
+    document.getElementById('profile-name').value = ex.name;
+    activeProfileId = null;
+    restoreFormData(ex.data);
+    refreshProfileList();
+    rebuild();
+    // Open step 1 so they see the filled form
+    document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('open'); });
+    var s1 = document.getElementById('step-1');
+    if (s1) s1.classList.add('open');
+    toast('Example loaded — customize and save!');
+    window.scrollTo({ top: document.getElementById('builder-form') ? document.getElementById('builder-form').getBoundingClientRect().top + window.scrollY - 100 : 0, behavior: 'smooth' });
+  }
+
   // ── Copy / Download ───────────────────────────────────────────────
   function copyProfile() {
     var profile = buildProfileData();
