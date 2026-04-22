@@ -728,7 +728,9 @@
     document.getElementById('au-demo-login').addEventListener('click', function() {
       loginAsDemo();
       overlay.remove();
-      location.reload();
+      // Redirect to the profile builder — the main user-facing feature
+      var base = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+      window.location.href = base + 'my-ai-profile-builder.html';
     });
     document.getElementById('au-cancel').addEventListener('click', function() { overlay.remove(); });
     overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
@@ -806,12 +808,26 @@
         btn.addEventListener('mouseleave', function() { btn.style.background = 'rgba(99,102,241,.15)'; });
       } else if (isDemo()) {
         btn.href = '#';
-        btn.innerHTML = '&#128100; Guest';
-        btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:#a5b4fc;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s;white-space:nowrap;cursor:pointer;';
+        btn.innerHTML = '&#128100; Guest &#9662;';
+        btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:#a5b4fc;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s;white-space:nowrap;cursor:pointer;position:relative;';
+        // Build dropdown
+        var drop = document.createElement('div');
+        drop.style.cssText = 'display:none;position:absolute;top:calc(100% + 6px);right:0;background:#1e1b4b;border:1px solid rgba(99,102,241,.4);border-radius:8px;padding:6px;min-width:160px;z-index:99999;box-shadow:0 8px 24px rgba(0,0,0,.4);';
+        drop.innerHTML = '<a href="my-ai-profile-builder.html" style="display:block;padding:8px 12px;color:#e0e7ff;text-decoration:none;border-radius:5px;font-size:.82rem;font-weight:600;transition:background .15s;" onmouseover="this.style.background=\'rgba(99,102,241,.2)\'" onmouseout="this.style.background=\'\'">&#128736; My AI Builder</a><div style="border-top:1px solid rgba(255,255,255,.08);margin:5px 0"></div><a href="#" id="au-guest-logout" style="display:block;padding:8px 12px;color:#fca5a5;text-decoration:none;border-radius:5px;font-size:.82rem;font-weight:600;transition:background .15s;" onmouseover="this.style.background=\'rgba(239,68,68,.15)\'" onmouseout="this.style.background=\'\'">&#10006; Exit Guest Mode</a>';
+        btn.appendChild(drop);
         btn.addEventListener('click', function(e) {
           e.preventDefault();
-          if (confirm('Exit guest mode?')) { logout(); location.reload(); }
+          drop.style.display = drop.style.display === 'none' ? 'block' : 'none';
         });
+        document.addEventListener('click', function(e) {
+          if (!btn.contains(e.target)) drop.style.display = 'none';
+        });
+        setTimeout(function() {
+          var logoutLink = document.getElementById('au-guest-logout');
+          if (logoutLink) logoutLink.addEventListener('click', function(e) {
+            e.preventDefault(); logout(); location.reload();
+          });
+        }, 100);
       } else {
         btn.href = '#';
         btn.textContent = 'Log In';
