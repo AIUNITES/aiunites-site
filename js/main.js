@@ -1,6 +1,21 @@
 // AIUNITES - Main JavaScript
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Movement dropdown
+  const movementBtn = document.getElementById('nav-movement-btn');
+  const movementDrop = document.getElementById('nav-movement-drop');
+  if (movementBtn && movementDrop) {
+    movementBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = movementDrop.classList.toggle('open');
+      movementBtn.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', () => {
+      movementDrop.classList.remove('open');
+      movementBtn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   // More dropdown
   const moreBtn = document.getElementById('nav-more-btn');
   const moreDrop = document.getElementById('nav-more-drop');
