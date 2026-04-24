@@ -541,6 +541,11 @@ html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-
           <div class="stat-card"><span class="stat-n blue" id="fb-sites">—</span><span class="stat-l">Sites with Feedback</span></div>
           <div class="stat-card"><span class="stat-n" id="fb-recent">—</span><span class="stat-l">Last 48h</span><span class="stat-sub" id="fb-recent-note">submissions</span></div>
         </div>
+        <div class="card" id="fb-analysis" style="display:none">
+          <div class="card-title"><span class="card-dot" style="background:var(--cyan)"></span>Feedback Analysis Log <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">analytics/feedback-analysis.md</span></div>
+          <div class="log-viewer" style="max-height:500px;white-space:pre-wrap"></div>
+        </div>
+
         <div class="card">
           <div class="card-title"><span class="card-dot"></span>Submissions by Site</div>
           <div id="fb-by-site"></div>
@@ -1372,6 +1377,27 @@ async function loadFeedback() {
       el.textContent=recentLines.length; el.className='stat-n '+(recentLines.length>0?'green':'');
     }
   }
+  // Load analysis log
+  var analysisRaw=await fetchLocal('/analytics/feedback-analysis.md');
+  if (analysisRaw) {
+    var analysisEl=document.getElementById('fb-analysis');
+    if (analysisEl) {
+      analysisEl.style.display='block';
+      analysisEl.querySelector('.log-viewer').innerHTML=analysisRaw.split('\n').map(function(l){
+        var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        if (/^## /.test(e)) return '<span style="color:#a5b4fc;font-weight:700">'+e+'</span>';
+        if (/^### /.test(e)) return '<span style="color:var(--cyan);font-weight:600">'+e+'</span>';
+        if (/^\| .+\|/.test(e)) return '<span style="color:#e0e7ff">'+e+'</span>';
+        if (/\*\*All spam/.test(e)||/\*\*All bot/.test(e)) return '<span style="color:var(--red)">'+e+'</span>';
+        if (/\*\*Most credible/.test(e)||/\*\*Mixed/.test(e)) return '<span style="color:var(--amber)">'+e+'</span>';
+        if (/^- \[/.test(e)) return '<span style="color:var(--amber)">'+e+'</span>';
+        if (/^\d+\./.test(e)) return '<span style="color:var(--green)">'+e+'</span>';
+        if (/^#/.test(e)) return '<span style="color:var(--dimmer)">'+e+'</span>';
+        return '<span style="color:var(--dim)">'+e+'</span>';
+      }).join('\n');
+    }
+  }
+
   var csvRaw=await fetchLocal('/analytics/feedback-detail-latest.csv');
   if (csvRaw) {
     var rows=csvRaw.trim().split('\n').slice(1).reverse();
