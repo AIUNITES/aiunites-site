@@ -548,8 +548,10 @@
     var LANES = [
       { freq:'Every 10 min', c:'rgba(99,102,241,.8)',  steps:['auto-publish','git push','code scan','fix-queue','IndexNow','backup'] },
       { freq:'Daily',        c:'rgba(6,182,212,.8)',   steps:['fetch-gsc-stats','gsc-stats CDN','site-health','uptime.json'] },
-      { freq:'Weekly',       c:'rgba(16,185,129,.8)',  steps:['seo-audit','seo-fix','check-page-rank','prioritize-fixes','auto-improve','pagespeed','trend-tracker','update-visibility','SEO Digest (Cowork)'] },
-      { freq:'Monthly',       c:'rgba(168,85,247,.8)',  steps:['Security Audit (Cowork)'] },
+      { freq:'Weekly',       c:'rgba(16,185,129,.8)',  steps:['seo-audit','seo-fix','check-page-rank','prioritize-fixes','auto-improve','pagespeed','trend-tracker','update-visibility'] },
+      { freq:'Daily (Cowork)',   c:'rgba(6,182,212,.8)',   steps:['Daily Summary','Daily Legal Check','Daily Fix Queue','Feedback Audit'] },
+      { freq:'Weekly (Cowork)',  c:'rgba(16,185,129,.8)',  steps:['SEO Digest','Webring Audit','Trademark Monitor'] },
+      { freq:'Monthly (Cowork)',  c:'rgba(168,85,247,.8)',  steps:['Security Audit','Client Report'] },
       { freq:'On demand',    c:'rgba(245,158,11,.8)',  steps:['Claude session','top items','Publish Now'] }
     ];
     var lanesH = LANES.map(function(lane) {
@@ -560,6 +562,33 @@
       return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">' +
         '<span style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.05em;width:70px;flex-shrink:0;text-align:right;padding-top:6px">' + lane.freq + '</span>' +
         '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;row-gap:4px">' + stepsH + '</div>' +
+      '</div>';
+    }).join('');
+
+    var COWORK_TASKS = [
+      { name:'Daily Summary',       schedule:'Daily · 8:00 AM',          status:'scheduled', file:'',                               desc:'Daily briefing summarising recent AIUNITES sessions, file changes, pending items, and suggested focus areas' },
+      { name:'Daily Legal Check',   schedule:'Daily · 7:00 AM',          status:'scheduled', file:'',                               desc:'Daily scan of feedback CSV for cease & desist, legal threats, abuse, and spam injection signals' },
+      { name:'Daily Fix Queue',     schedule:'Daily · 9:00 AM',          status:'scheduled', file:'',                               desc:'Reads scripts/fix-queue.md, applies PENDING fixes (AdSense language, flagged text), marks items DONE or SKIPPED' },
+      { name:'Feedback Audit',      schedule:'Daily · 7:30 AM',          status:'scheduled', file:'',                               desc:'Daily audit of AIUNITES feedback submissions — legal alert scan and submission summary' },
+      { name:'SEO Digest',          schedule:'Weekly · Mon 7:00 AM',    status:'scheduled', file:'AIUNITES_SEO_DIGEST_TASK.md',       desc:'Cross-references seo-report.json + gsc-stats.json, rewrites titles/meta for high-impression/zero-click sites, writes seo-digest.md' },
+      { name:'Webring Audit',       schedule:'Weekly · Mon 9:00 AM',    status:'scheduled', file:'WEBRING_AUDIT_TASK.md',            desc:'Weekly audit of the AIUNITES webring across all 17 sites, checking for missing/extra/misordered links' },
+      { name:'Trademark Monitor',   schedule:'Weekly · Mon 8:00 AM',    status:'scheduled', file:'',                               desc:'Weekly search for third-party uses of AIUNITES trademarks, tradenames, and owned domains, logging findings to trademark-monitor folder' },
+      { name:'Security Audit',      schedule:'Monthly · 1st of month',  status:'scheduled', file:'AIUNITES_SECURITY_AUDIT_TASK.md',  desc:'Monthly security audit of AIUNITES auth sites — checks password storage, async auth, CloudDB leaks, export safety, password-utils usage' },
+      { name:'Client Report',       schedule:'Monthly · end of month',  status:'demo only', file:'AIUNITES_CLIENT_REPORT_TASK.md',   desc:'Generates branded HTML monthly report per client domain — demo built, not live (liability review pending)' }
+    ];
+    var coworkTasksH = COWORK_TASKS.map(function(t) {
+      var statusColor = t.status === 'scheduled' ? '#6ee7b7' : '#fcd34d';
+      var statusBg    = t.status === 'scheduled' ? 'rgba(0,229,160,.1)' : 'rgba(245,158,11,.1)';
+      return '<div style="display:grid;grid-template-columns:1fr auto;align-items:start;gap:12px;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px">' +
+        '<div>' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">' +
+            '<span style="font-family:var(--font-mono);font-size:.72rem;font-weight:600;color:#e0e7ff">' + t.name + '</span>' +
+            '<span style="font-family:var(--font-mono);font-size:.58rem;padding:1px 6px;border-radius:3px;background:' + statusBg + ';color:' + statusColor + ';text-transform:uppercase;letter-spacing:.05em">' + t.status + '</span>' +
+          '</div>' +
+          '<div style="font-family:var(--font-mono);font-size:.62rem;color:rgba(168,85,247,.9);margin-bottom:4px">' + t.schedule + '</div>' +
+          '<div style="font-size:.72rem;color:var(--dim);line-height:1.5">' + t.desc + '</div>' +
+        '</div>' +
+        '<div style="font-family:var(--font-mono);font-size:.58rem;color:var(--dimmer);white-space:nowrap;text-align:right">' + t.file + '</div>' +
       '</div>';
     }).join('');
 
@@ -585,6 +614,12 @@
       '<div style="padding:8px 20px;font-family:var(--font-mono);font-size:.62rem;color:var(--dimmer);display:flex;justify-content:space-between">' +
         '<span>Updated: ' + (data.generatedFmt || 'weekly') + '</span>' +
         '<a href="automation-live.html" style="color:var(--purple);text-decoration:none">Full view &#8599;</a>' +
+      '</div>' +
+      '<div style="padding:16px 20px;border-top:1px solid rgba(255,255,255,.06);">' +
+        '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:12px">&#129302; Cowork Scheduled Tasks</div>' +
+        '<div style="display:grid;gap:8px">' +
+          coworkTasksH +
+        '</div>' +
       '</div>';
   }
 
