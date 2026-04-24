@@ -1,148 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIUNITES Admin Dashboard</title>
-  <meta name="robots" content="noindex, nofollow">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#04060f;--bg2:#080c1a;--bg3:#0d1126;
-      --purple:#6366f1;--purple-dim:rgba(99,102,241,.15);
-      --green:#00e5a0;--amber:#f59e0b;--red:#f87171;--blue:#60a5fa;
-      --dim:rgba(255,255,255,.35);--dimmer:rgba(255,255,255,.15);
-      --border:rgba(99,102,241,.18);--border2:rgba(255,255,255,.08);
-      --sidebar:220px;
-      --font-mono:'JetBrains Mono',monospace;
-      --font-sans:'Syne',sans-serif;
-    }
-    html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-sans)}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AIUNITES Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04060f;--bg2:#080c1a;--bg3:#0d1126;
+  --purple:#6366f1;--purple-dim:rgba(99,102,241,.15);
+  --green:#00e5a0;--amber:#f59e0b;--red:#f87171;--blue:#60a5fa;
+  --cyan:#22d3ee;--yellow:#eab308;
+  --dim:rgba(255,255,255,.35);--dimmer:rgba(255,255,255,.15);
+  --border:rgba(99,102,241,.18);--border2:rgba(255,255,255,.08);
+  --sidebar:230px;
+  --font-mono:'JetBrains Mono',monospace;
+  --font-sans:'Syne',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-sans)}
 
-    /* ---- LAYOUT ---- */
-    .au-layout{display:flex;height:100vh;overflow:hidden}
-    .au-sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
-    .au-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-    .au-topbar{height:50px;border-bottom:1px solid var(--border2);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
-    .au-content{flex:1;overflow-y:auto;padding:28px 32px}
+/* ── LAYOUT ── */
+.au-layout{display:flex;height:100vh;overflow:hidden}
+.au-sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.au-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.au-topbar{height:50px;border-bottom:1px solid var(--border2);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
+.au-content{flex:1;overflow-y:auto;padding:28px 32px}
 
-    /* ---- SIDEBAR ---- */
-    .sb-brand{padding:20px 16px 16px;border-bottom:1px solid var(--border2)}
-    .sb-brand-name{font-size:1rem;font-weight:700;color:#a5b4fc;display:flex;align-items:center;gap:8px}
-    .sb-brand-sub{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);margin-top:3px}
-    .sb-nav{padding:12px 8px;flex:1}
-    .sb-nav-link{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.85rem;color:rgba(255,255,255,.6);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font-sans)}
-    .sb-nav-link:hover{background:rgba(255,255,255,.05);color:#fff}
-    .sb-nav-link.active{background:var(--purple-dim);color:#a5b4fc;font-weight:600}
-    .sb-nav-link .icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
-    .sb-divider{height:1px;background:var(--border2);margin:8px 12px}
-    .sb-footer{padding:14px 16px;border-top:1px solid var(--border2)}
-    .sb-user{font-size:.78rem;color:var(--dim);margin-bottom:8px;font-family:var(--font-mono)}
-    .sb-logout{width:100%;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:6px;color:#fca5a5;padding:7px;font-size:.78rem;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
-    .sb-logout:hover{background:rgba(239,68,68,.22)}
-    .sb-external{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
-    .sb-ext-link{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:6px;font-size:.75rem;color:rgba(255,255,255,.4);text-decoration:none;transition:all .15s;font-family:var(--font-mono)}
-    .sb-ext-link:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.7)}
+/* ── SIDEBAR ── */
+.sb-brand{padding:20px 16px 16px;border-bottom:1px solid var(--border2)}
+.sb-brand-name{font-size:1rem;font-weight:700;color:#a5b4fc;display:flex;align-items:center;gap:8px}
+.sb-brand-sub{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);margin-top:3px}
+.sb-nav{padding:10px 8px;flex:1}
+.sb-group{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.25);padding:14px 12px 5px;font-family:var(--font-mono)}
+.sb-nav-link{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:7px;font-size:.82rem;color:rgba(255,255,255,.55);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--font-sans)}
+.sb-nav-link:hover{background:rgba(255,255,255,.05);color:#fff}
+.sb-nav-link.active{background:var(--purple-dim);color:#a5b4fc;font-weight:600}
+.sb-nav-link .icon{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.sb-local-badge{font-size:.52rem;font-family:var(--font-mono);color:rgba(255,255,255,.2);background:rgba(255,255,255,.06);border-radius:3px;padding:1px 4px;margin-left:auto}
+.sb-divider{height:1px;background:var(--border2);margin:6px 12px}
+.sb-footer{padding:14px 16px;border-top:1px solid var(--border2)}
+.sb-user{font-size:.78rem;color:var(--dim);margin-bottom:8px;font-family:var(--font-mono)}
+.sb-logout{width:100%;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);border-radius:6px;color:#fca5a5;padding:7px;font-size:.78rem;cursor:pointer;font-family:var(--font-sans);transition:background .15s}
+.sb-logout:hover{background:rgba(239,68,68,.22)}
+.sb-ext-link{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:5px;font-size:.72rem;color:rgba(255,255,255,.35);text-decoration:none;transition:all .15s;font-family:var(--font-mono)}
+.sb-ext-link:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.65)}
 
-    /* ---- TOPBAR ---- */
-    .tb-title{font-size:1rem;font-weight:700;flex:1;color:#e0e7ff}
-    .tb-badge{font-family:var(--font-mono);font-size:.68rem;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7}
-    .tb-meta{font-size:.75rem;font-family:var(--font-mono);color:var(--dimmer)}
+/* ── TOPBAR ── */
+.tb-title{font-size:1rem;font-weight:700;flex:1;color:#e0e7ff}
+.tb-badge{font-family:var(--font-mono);font-size:.68rem;padding:3px 8px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7}
+.tb-badge.local{background:rgba(99,102,241,.15);color:#a5b4fc}
+.tb-meta{font-size:.75rem;font-family:var(--font-mono);color:var(--dimmer)}
 
-    /* ---- SECTION VISIBILITY ---- */
-    .au-section{display:none}
-    .au-section.active{display:block;animation:fadein .2s ease}
-    @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ── SECTIONS ── */
+.au-section{display:none}
+.au-section.active{display:block;animation:fadein .2s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
-    /* ---- DASHBOARD STATS ---- */
-    .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:28px}
-    .stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:18px 16px}
-    .stat-n{font-family:var(--font-mono);font-size:1.8rem;font-weight:700;display:block;line-height:1}
-    .stat-l{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);display:block;margin-top:5px}
-    .stat-sub{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);display:block;margin-top:2px}
+/* ── LOGIN PAGE ── */
+#au-login-page{display:none;min-height:100vh;background:var(--bg);align-items:center;justify-content:center;flex-direction:column}
 
-    /* ---- SECTION HEADERS ---- */
-    .sec-head{margin-bottom:24px}
-    .sec-head h2{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px}
-    .sec-head p{color:var(--dim);font-size:.85rem}
+/* ── SECTION HEADER ── */
+.sec-head{margin-bottom:24px}
+.sec-head h2{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px}
+.sec-head p{color:var(--dim);font-size:.85rem}
 
-    /* ---- PIPELINE CHART ---- */
-    #pipeline-widget{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:200px}
+/* ── STAT GRIDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:18px 16px}
+.stat-n{font-family:var(--font-mono);font-size:1.8rem;font-weight:700;display:block;line-height:1}
+.stat-l{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);display:block;margin-top:5px}
+.stat-sub{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);display:block;margin-top:2px}
+.stat-n.green{color:var(--green)}
+.stat-n.yellow{color:var(--amber)}
+.stat-n.red{color:var(--red)}
+.stat-n.blue{color:#a5b4fc}
 
-    /* ---- ACTIONS TABLE ---- */
-    .action-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-    .af-btn{padding:5px 12px;border-radius:6px;font-size:.72rem;font-family:var(--font-mono);border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--dim);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.05em}
-    .af-btn.active{border-color:var(--purple);background:var(--purple-dim);color:#a5b4fc}
-    .action-rows{display:flex;flex-direction:column;gap:3px}
-    .action-row{display:grid;grid-template-columns:36px 1fr 1fr auto;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:7px;transition:background .1s}
-    .action-row:hover{background:rgba(255,255,255,.04)}
-    .ar-rank{font-family:var(--font-mono);font-size:.65rem;color:var(--dimmer);text-align:center}
-    .ar-issue{font-size:.8rem;color:#e0e7ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .ar-where{font-size:.7rem;font-family:var(--font-mono);color:var(--dimmer);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .ar-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
-    .badge-seo{background:rgba(99,102,241,.2);color:#a5b4fc}
-    .badge-adsense{background:rgba(239,68,68,.15);color:#fca5a5}
-    .badge-rank{background:rgba(245,158,11,.15);color:#fcd34d}
-    .badge-cq{background:rgba(107,114,128,.2);color:#9ca3af}
-    .badge-sec{background:rgba(239,68,68,.25);color:#f87171}
-    .badge-auto{background:rgba(34,197,94,.12);color:#86efac}
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:18px}
+.card-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-dot{width:7px;height:7px;border-radius:50%;background:var(--purple);flex-shrink:0}
 
-    /* ---- BRIEF ---- */
-    .brief-body{max-width:760px}
-    .brief-body h1{font-size:1.2rem;color:#fff;margin-bottom:12px}
-    .brief-body h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:#a5b4fc;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border2)}
-    .brief-body h3{font-size:.9rem;color:#e0e7ff;margin:12px 0 4px;font-weight:600}
-    .brief-body p{font-size:.85rem;color:var(--dim);line-height:1.7;margin-bottom:6px}
-    .brief-body hr{border:none;border-top:1px solid var(--border2);margin:16px 0}
-    .brief-body ul{padding-left:18px;margin-bottom:8px}
-    .brief-body li{font-size:.85rem;color:var(--dim);line-height:1.7}
-    .brief-body strong{color:#e0e7ff}
-    .brief-body table{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:10px}
-    .brief-body td{padding:4px 8px;border-bottom:1px solid var(--border2);color:var(--dim)}
+/* ── LOG VIEWER ── */
+.log-viewer{background:#03040d;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:var(--font-mono);font-size:.76rem;line-height:1.65;max-height:500px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
+.log-viewer .l-green{color:#00e5a0}
+.log-viewer .l-gray{color:#3f4560}
+.log-viewer .l-yellow{color:#f59e0b}
+.log-viewer .l-red{color:#f87171}
+.log-viewer .l-cyan{color:#22d3ee}
+.log-viewer .l-magenta{color:#e879f9}
+.log-viewer .l-white{color:#e0e7ff}
+.log-viewer .l-head{color:#6366f1;font-weight:700}
 
-    /* ---- WIDGETS ---- */
-    .widget-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-    .widget-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;transition:border-color .2s}
-    .widget-card.public{border-color:rgba(0,229,160,.25)}
-    .wc-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-    .wc-status{font-size:.65rem;font-weight:700;font-family:var(--font-mono);padding:2px 8px;border-radius:4px}
-    .wc-status.pub{background:rgba(0,229,160,.15);border:1px solid rgba(0,229,160,.3);color:#6ee7b7}
-    .wc-status.priv{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5}
-    .wc-label{font-size:.95rem;font-weight:600;color:#e0e7ff}
-    .wc-desc{font-size:.78rem;color:var(--dim);margin-bottom:10px;line-height:1.5}
-    .wc-thresh{font-size:.7rem;font-family:var(--font-mono);color:var(--dimmer);margin-bottom:12px;line-height:1.6}
-    .wc-thresh.met{color:#6ee7b7}
-    .wc-btn{padding:6px 14px;border-radius:6px;font-size:.75rem;font-family:var(--font-mono);cursor:pointer;transition:all .15s;border:1px solid}
-    .wc-promote{background:rgba(0,229,160,.12);border-color:rgba(0,229,160,.3);color:#6ee7b7}
-    .wc-demote{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5}
-    .wc-pages{font-size:.68rem;font-family:var(--font-mono);color:var(--dimmer);margin-top:8px}
-    .wc-cmd-note{font-size:.68rem;font-family:var(--font-mono);color:#6ee7b7;margin-top:6px;display:none}
+/* ── LOCAL-ONLY BANNER ── */
+.local-only-notice{display:none;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:.8rem;color:#a5b4fc;font-family:var(--font-mono)}
+.local-only-notice.show{display:block}
 
-    /* ---- NETWORK LINKS ---- */
-    .net-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-    .net-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px;text-decoration:none;display:block;transition:all .2s}
-    .net-card:hover{border-color:var(--purple);transform:translateY(-2px)}
-    .net-icon{font-size:1.4rem;margin-bottom:8px}
-    .net-name{font-size:.88rem;font-weight:600;color:#e0e7ff;margin-bottom:3px}
-    .net-desc{font-size:.72rem;color:var(--dim)}
+/* ── FIX QUEUE ── */
+.fq-item{padding:12px 14px;border-radius:7px;border:1px solid var(--border);margin-bottom:9px;font-size:.82rem}
+.fq-item.pending{border-left:3px solid var(--amber)}
+.fq-item.done{border-left:3px solid var(--green);opacity:.6}
+.fq-item.skipped{border-left:3px solid rgba(255,255,255,.2);opacity:.5}
+.fq-status{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.fq-status.pending{color:var(--amber)}
+.fq-status.done{color:var(--green)}
+.fq-status.skipped{color:rgba(255,255,255,.3)}
+.fq-label{font-weight:600;color:#e0e7ff;margin-bottom:3px}
+.fq-file{color:var(--dim);font-size:.73rem;font-family:var(--font-mono)}
+.fq-found{color:var(--amber);font-size:.73rem;font-family:var(--font-mono);margin-top:4px}
 
-    /* ---- LOADING ---- */
-    .au-loading{padding:32px;text-align:center;color:var(--dimmer);font-family:var(--font-mono);font-size:.8rem}
-    .au-empty{padding:24px;text-align:center;color:var(--dimmer);font-size:.82rem}
+/* ── ACTION LIST ── */
+.action-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.af-btn{padding:5px 12px;border-radius:6px;font-size:.72rem;font-family:var(--font-mono);border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--dim);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.05em}
+.af-btn.active{border-color:var(--purple);background:var(--purple-dim);color:#a5b4fc}
+.action-rows{display:flex;flex-direction:column;gap:3px}
+.action-row{display:grid;grid-template-columns:36px 1fr 1fr auto;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:7px;transition:background .1s}
+.action-row:hover{background:rgba(255,255,255,.04)}
+.ar-rank{font-family:var(--font-mono);font-size:.65rem;color:var(--dimmer);text-align:center}
+.ar-issue{font-size:.8rem;color:#e0e7ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar-where{font-size:.7rem;font-family:var(--font-mono);color:var(--dimmer);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.badge-seo{background:rgba(99,102,241,.2);color:#a5b4fc}
+.badge-adsense{background:rgba(239,68,68,.15);color:#fca5a5}
+.badge-rank{background:rgba(245,158,11,.15);color:#fcd34d}
+.badge-cq{background:rgba(107,114,128,.2);color:#9ca3af}
+.badge-sec{background:rgba(239,68,68,.25);color:#f87171}
+.badge-auto{background:rgba(34,197,94,.12);color:#86efac}
 
-    /* ---- RESPONSIVE ---- */
-    @media(max-width:768px){
-      .au-sidebar{position:fixed;top:0;left:0;height:100%;z-index:200;transform:translateX(-100%);transition:transform .25s}
-      .au-sidebar.open{transform:none}
-      .au-main{margin-left:0}
-      .au-content{padding:16px}
-    }
-  </style>
+/* ── NETWORK TABLE ── */
+.net-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.net-table th{text-align:left;padding:8px 10px;color:var(--dim);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border)}
+.net-table td{padding:9px 10px;border-bottom:1px solid rgba(99,102,241,.06)}
+.net-table tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:700}
+.badge.live{background:rgba(0,229,160,.12);color:var(--green)}
+.badge.error{background:rgba(248,113,113,.12);color:var(--red)}
+.badge.info{background:rgba(99,102,241,.12);color:#a5b4fc}
+
+/* ── WIDGETS ── */
+.widget-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.widget-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;transition:border-color .2s}
+.widget-card.public{border-color:rgba(0,229,160,.25)}
+.wc-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.wc-status{font-size:.65rem;font-weight:700;font-family:var(--font-mono);padding:2px 8px;border-radius:4px}
+.wc-status.pub{background:rgba(0,229,160,.15);border:1px solid rgba(0,229,160,.3);color:#6ee7b7}
+.wc-status.priv{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5}
+.wc-label{font-size:.95rem;font-weight:600;color:#e0e7ff}
+.wc-desc{font-size:.78rem;color:var(--dim);margin-bottom:10px;line-height:1.5}
+.wc-btn{padding:6px 14px;border-radius:6px;font-size:.75rem;font-family:var(--font-mono);cursor:pointer;transition:all .15s;border:1px solid}
+.wc-promote{background:rgba(0,229,160,.12);border-color:rgba(0,229,160,.3);color:#6ee7b7}
+.wc-demote{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5}
+
+/* ── BRIEF ── */
+.brief-body{max-width:760px}
+.brief-body h1{font-size:1.2rem;color:#fff;margin-bottom:12px}
+.brief-body h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:#a5b4fc;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border2)}
+.brief-body h3{font-size:.9rem;color:#e0e7ff;margin:12px 0 4px;font-weight:600}
+.brief-body p{font-size:.85rem;color:var(--dim);line-height:1.7;margin-bottom:6px}
+.brief-body hr{border:none;border-top:1px solid var(--border2);margin:16px 0}
+.brief-body ul{padding-left:18px;margin-bottom:8px}
+.brief-body li{font-size:.85rem;color:var(--dim);line-height:1.7}
+.brief-body strong{color:#e0e7ff}
+.brief-body table{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:10px}
+.brief-body td{padding:4px 8px;border-bottom:1px solid var(--border2);color:var(--dim)}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-btn{padding:5px 12px;border-radius:5px;font-size:.74rem;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all .15s;font-family:var(--font-mono)}
+.filter-btn:hover,.filter-btn.active{background:var(--purple-dim);color:#a5b4fc;border-color:var(--purple)}
+
+/* ── NET LINKS ── */
+.net-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.net-card{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px;text-decoration:none;display:block;transition:all .2s}
+.net-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+.net-icon{font-size:1.4rem;margin-bottom:8px}
+.net-name{font-size:.88rem;font-weight:600;color:#e0e7ff;margin-bottom:3px}
+.net-desc{font-size:.72rem;color:var(--dim)}
+
+/* ── MISC ── */
+.au-loading{padding:32px;text-align:center;color:var(--dimmer);font-family:var(--font-mono);font-size:.8rem}
+.au-empty{padding:24px;text-align:center;color:var(--dimmer);font-size:.82rem}
+.last-updated{font-size:.68rem;color:rgba(255,255,255,.2);margin-top:10px;text-align:right;font-family:var(--font-mono)}
+
+/* ── CQ BREAKDOWN ── */
+.cq-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(99,102,241,.06)}
+.cq-row:last-child{border-bottom:none}
+
+@media(max-width:768px){
+  .au-sidebar{position:fixed;top:0;left:0;height:100%;z-index:200;transform:translateX(-100%);transition:transform .25s}
+  .au-sidebar.open{transform:none}
+  .au-content{padding:16px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
 </head>
 <body>
 
-<!-- LOGIN PAGE (shown when not authenticated) -->
+<!-- ════════════════════════════════════════════════════════ LOGIN -->
 <div id="au-login-page" style="display:none;min-height:100vh;background:var(--bg);align-items:center;justify-content:center;flex-direction:column">
   <div style="text-align:center;margin-bottom:32px">
     <div style="font-size:2.5rem;font-weight:800;color:#a5b4fc;letter-spacing:-.02em">&#9670; AIUNITES</div>
@@ -150,50 +205,71 @@
   </div>
   <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px 44px;width:380px;box-shadow:0 24px 60px rgba(0,0,0,.6)">
     <h2 style="font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:6px">Sign in</h2>
-    <p style="color:var(--dim);font-size:.85rem;margin-bottom:28px">Admin credentials required to access this dashboard</p>
+    <p style="color:var(--dim);font-size:.85rem;margin-bottom:28px">Admin credentials required</p>
     <div style="margin-bottom:16px">
       <label style="display:block;font-size:.72rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:5px">Username</label>
-      <input type="text" id="lg-user" placeholder="admin" autocomplete="username" style="width:100%;background:rgba(0,0,0,.5);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none;font-family:var(--font-sans);box-sizing:border-box;transition:border .15s">
+      <input type="text" id="lg-user" placeholder="admin" autocomplete="username" style="width:100%;background:rgba(0,0,0,.5);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none;font-family:var(--font-sans);box-sizing:border-box">
     </div>
     <div style="margin-bottom:24px">
       <label style="display:block;font-size:.72rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:5px">Password</label>
-      <input type="password" id="lg-pass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" style="width:100%;background:rgba(0,0,0,.5);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none;font-family:var(--font-sans);box-sizing:border-box;transition:border .15s">
+      <input type="password" id="lg-pass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" style="width:100%;background:rgba(0,0,0,.5);border:1px solid var(--border2);border-radius:8px;padding:11px 14px;color:#fff;font-size:.95rem;outline:none;font-family:var(--font-sans);box-sizing:border-box">
     </div>
-    <button id="lg-btn" style="width:100%;background:#6366f1;border:none;border-radius:8px;padding:13px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:opacity .15s">Sign In &rarr;</button>
+    <button id="lg-btn" style="width:100%;background:#6366f1;border:none;border-radius:8px;padding:13px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-sans)">Sign In &rarr;</button>
     <div id="lg-err" style="color:#f87171;font-size:.8rem;margin-top:10px;display:none;text-align:center">Incorrect username or password</div>
   </div>
-  <div style="margin-top:20px">
-    <a href="index.html" style="color:var(--dimmer);font-size:.78rem;text-decoration:none;font-family:var(--font-mono)">&larr; Back to aiunites.com</a>
-  </div>
+  <div style="margin-top:20px"><a href="index.html" style="color:var(--dimmer);font-size:.78rem;text-decoration:none;font-family:var(--font-mono)">&larr; Back to aiunites.com</a></div>
 </div>
 
-<!-- ADMIN LAYOUT (hidden until logged in) -->
+<!-- ════════════════════════════════════════════════════════ ADMIN LAYOUT -->
 <div class="au-layout" id="au-layout" style="display:none">
 
   <!-- SIDEBAR -->
   <aside class="au-sidebar" id="au-sidebar">
     <div class="sb-brand">
       <div class="sb-brand-name">&#9670; AIUNITES</div>
-      <div class="sb-brand-sub">Network Admin Dashboard</div>
+      <div class="sb-brand-sub">Admin Dashboard</div>
     </div>
 
     <nav class="sb-nav">
+
+      <div class="sb-group">Monitor</div>
       <button class="sb-nav-link active" data-sec="dashboard"><span class="icon">&#128202;</span> Dashboard</button>
+      <button class="sb-nav-link" data-sec="publish-log"><span class="icon">&#128203;</span> Publish Log<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="adsense"><span class="icon">&#128269;</span> AdSense Report<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="fix-queue"><span class="icon">&#128296;</span> Fix Queue<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="security"><span class="icon">&#128274;</span> Security<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="code-quality"><span class="icon">&#129529;</span> Code Quality<span class="sb-local-badge">local</span></button>
+
+      <div class="sb-group">Pipeline</div>
       <button class="sb-nav-link" data-sec="pipeline"><span class="icon">&#128203;</span> Pipeline</button>
       <button class="sb-nav-link" data-sec="actions"><span class="icon">&#9878;</span> Action List</button>
       <button class="sb-nav-link" data-sec="brief"><span class="icon">&#128196;</span> Session Brief</button>
-      <button class="sb-nav-link" data-sec="widgets"><span class="icon">&#128274;</span> Widgets</button>
-      <div class="sb-divider"></div>
-      <button class="sb-nav-link" data-sec="network"><span class="icon">&#127760;</span> External Links</button>
+      <button class="sb-nav-link" data-sec="widgets"><span class="icon">&#127793;</span> Widgets</button>
+
+      <div class="sb-group">Network</div>
+      <button class="sb-nav-link" data-sec="network-status"><span class="icon">&#127760;</span> Network Status</button>
+      <button class="sb-nav-link" data-sec="git-log"><span class="icon">&#128220;</span> Git Log<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="publishing"><span class="icon">&#128640;</span> Publishing System</button>
+
+      <div class="sb-group">Legal &amp; IP</div>
+      <button class="sb-nav-link" data-sec="legal-log"><span class="icon">&#9878;</span> Legal Log<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="trademark"><span class="icon">&#8482;</span> Trademark<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="webring-audit"><span class="icon">&#128279;</span> Webring Audit<span class="sb-local-badge">local</span></button>
+
+      <div class="sb-group">History</div>
+      <button class="sb-nav-link" data-sec="feedback"><span class="icon">&#128140;</span> Feedback<span class="sb-local-badge">local</span></button>
+      <button class="sb-nav-link" data-sec="progress"><span class="icon">&#128196;</span> Progress<span class="sb-local-badge">local</span></button>
+
+      <div class="sb-group">Links</div>
+      <button class="sb-nav-link" data-sec="ext-links"><span class="icon">&#127758;</span> External Links</button>
+
     </nav>
 
     <div class="sb-footer">
-      <div class="sb-external">
+      <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:10px">
         <a href="https://search.google.com/search-console" target="_blank" class="sb-ext-link">&#128200; Search Console</a>
         <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="sb-ext-link">&#128176; AdSense</a>
-        <a href="https://lookerstudio.google.com" target="_blank" class="sb-ext-link">&#128202; Looker Studio</a>
         <a href="network-stats.html" class="sb-ext-link">&#128269; Network Stats</a>
-        <a href="index.html" class="sb-ext-link">&#8592; Back to site</a>
       </div>
       <div class="sb-user" id="sb-user-name">Admin</div>
       <button class="sb-logout" id="sb-logout">Sign Out</button>
@@ -210,35 +286,118 @@
 
     <div class="au-content">
 
-      <!-- DASHBOARD -->
+      <!-- ═══ LOCAL BANNER (shown on localhost) ═══ -->
+      <div id="local-banner" class="local-only-notice">
+        &#10003; Running on localhost &mdash; all log sections are reading live from disk.
+      </div>
+      <div id="live-banner" class="local-only-notice" style="background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2);color:#fcd34d;display:none">
+        &#9888; Live site &mdash; sections marked <strong>local</strong> in the sidebar require localhost:8000 to read log files.
+        <a href="http://localhost:8000/aiunites-site/admin.html" style="color:#f59e0b;margin-left:8px">Open locally &rarr;</a>
+      </div>
+
+      <!-- ══════════════════════════════════════════ DASHBOARD -->
       <section class="au-section active" id="sec-dashboard">
-        <div class="sec-head">
-          <h2>Network overview</h2>
-          <p>Live stats from the AIUNITES publishing pipeline</p>
-        </div>
-        <div class="stat-grid" id="dash-stats">
-          <div class="au-loading">Loading stats&hellip;</div>
-        </div>
+        <div class="sec-head"><h2>Network overview</h2><p>Live stats from the AIUNITES publishing pipeline</p></div>
+        <div class="stat-grid" id="dash-stats"><div class="au-loading">Loading stats&hellip;</div></div>
         <div id="dash-pipeline-mini" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:80px">
           <div class="au-loading">Loading pipeline chart&hellip;</div>
         </div>
       </section>
 
-      <!-- PIPELINE -->
-      <section class="au-section" id="sec-pipeline">
-        <div class="sec-head">
-          <h2>Automation pipeline</h2>
-          <p>Issue breakdown, category analysis, and pipeline stages</p>
+      <!-- ══════════════════════════════════════════ PUBLISH LOG -->
+      <section class="au-section" id="sec-publish-log">
+        <div class="sec-head"><h2>Publish Log</h2><p>Full auto-publish history &mdash; scripts/publish-log.txt</p></div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterLog('all',this)">All</button>
+          <button class="filter-btn" onclick="filterLog('pushed',this)">Pushed Only</button>
+          <button class="filter-btn" onclick="filterLog('warnings',this)">Warnings</button>
+          <button class="filter-btn" onclick="filterLog('deploy',this)">Deploy Checks</button>
+          <button class="filter-btn" id="archive-btn" onclick="loadArchive(this)" style="margin-left:auto;border-color:rgba(255,255,255,.15)">&#128190; Archive</button>
         </div>
+        <div id="archive-selector" style="display:none;margin-bottom:12px;font-size:.8rem;color:var(--dim)"></div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="log-viewer" id="publish-log-viewer" style="max-height:600px;border:none;border-radius:12px">Loading&hellip;</div>
+        </div>
+        <div class="last-updated" id="log-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ ADSENSE REPORT -->
+      <section class="au-section" id="sec-adsense">
+        <div class="sec-head"><h2>AdSense Report</h2><p>Pre-launch language scan results &mdash; scripts/adsense-warnings.log</p></div>
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><span class="stat-n yellow" id="as-html-count">—</span><span class="stat-l">HTML Warnings</span></div>
+          <div class="stat-card"><span class="stat-n yellow" id="as-js-count">—</span><span class="stat-l">JS Warnings</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="as-last-scan" style="font-size:1rem;padding-top:4px">—</span><span class="stat-l">Last Scan</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Raw Warning Log</div>
+          <div class="log-viewer" id="adsense-log-viewer" style="max-height:500px">Loading&hellip;</div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ FIX QUEUE -->
+      <section class="au-section" id="sec-fix-queue">
+        <div class="sec-head"><h2>Fix Queue</h2><p>Items flagged by auto-publish scanners &mdash; scripts/fix-queue.md</p></div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterFQ('all',this)">All</button>
+          <button class="filter-btn" onclick="filterFQ('PENDING',this)">Pending</button>
+          <button class="filter-btn" onclick="filterFQ('DONE',this)">Done</button>
+          <button class="filter-btn" onclick="filterFQ('SKIPPED',this)">Skipped</button>
+        </div>
+        <div id="fix-queue-list">Loading&hellip;</div>
+        <div class="last-updated" id="fq-updated"></div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-title"><span class="card-dot" style="background:var(--cyan)"></span>Fix History <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">scripts/fix-reports/fix-log.txt</span></div>
+          <div class="log-viewer" id="fix-history-viewer" style="max-height:240px">Loading&hellip;</div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ SECURITY -->
+      <section class="au-section" id="sec-security">
+        <div class="sec-head"><h2>Security Audit</h2><p>Password scan results from every publish run &mdash; scripts/security-warnings.log</p></div>
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><span class="stat-n" id="sec-warn-count">—</span><span class="stat-l">Password Warnings</span><span class="stat-sub" id="sec-warn-note">loading&hellip;</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="sec-last-scan" style="font-size:1rem;padding-top:4px">—</span><span class="stat-l">Last Scan</span><span class="stat-sub">from publish log</span></div>
+          <div class="stat-card"><span class="stat-n blue">8</span><span class="stat-l">Repos Monitored</span><span class="stat-sub">auth repos only</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--green)"></span>Scan History (from Publish Log)</div>
+          <div class="log-viewer" id="sec-history-viewer" style="max-height:240px">Loading&hellip;</div>
+        </div>
+        <div class="card" id="sec-warnings-card">
+          <div class="card-title"><span class="card-dot" style="background:var(--red)"></span>Warning Log <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">security-warnings.log</span></div>
+          <div id="sec-warnings-content">Loading&hellip;</div>
+        </div>
+        <div class="last-updated" id="sec-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ CODE QUALITY -->
+      <section class="au-section" id="sec-code-quality">
+        <div class="sec-head"><h2>Code Quality</h2><p>Canonical, GA4, og:image, AdSense, copyright, price disclaimers &mdash; scripts/code-quality.log</p></div>
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><span class="stat-n" id="cq-total">—</span><span class="stat-l">Total Issues</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="cq-types" style="font-size:.85rem;padding-top:6px">—</span><span class="stat-l">Issue Types</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="cq-last-scan" style="font-size:.9rem;padding-top:6px">—</span><span class="stat-l">Last Scan</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--amber)"></span>Issues by Type</div>
+          <div id="cq-by-type"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Raw Log</div>
+          <div class="log-viewer" id="cq-log-viewer" style="max-height:400px">Loading&hellip;</div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ PIPELINE -->
+      <section class="au-section" id="sec-pipeline">
+        <div class="sec-head"><h2>Automation pipeline</h2><p>Issue breakdown, categories, and pipeline stages</p></div>
         <div id="pipeline-widget"><div class="au-loading">Loading&hellip;</div></div>
       </section>
 
-      <!-- ACTIONS -->
+      <!-- ══════════════════════════════════════════ ACTIONS -->
       <section class="au-section" id="sec-actions">
-        <div class="sec-head">
-          <h2>Action list</h2>
-          <p>All issues ranked by impact &times; traffic</p>
-        </div>
+        <div class="sec-head"><h2>Action list</h2><p>All issues ranked by impact &times; traffic</p></div>
         <div class="action-filters" id="action-filters">
           <button class="af-btn active" data-filter="all">All</button>
           <button class="af-btn" data-filter="claude">Needs Claude</button>
@@ -250,76 +409,180 @@
         <div class="action-rows" id="action-rows"><div class="au-loading">Loading&hellip;</div></div>
       </section>
 
-      <!-- BRIEF -->
+      <!-- ══════════════════════════════════════════ BRIEF -->
       <section class="au-section" id="sec-brief">
-        <div class="sec-head">
-          <h2>Session brief</h2>
-          <p>What to work on this week &mdash; generated by prioritize-fixes.ps1</p>
-        </div>
+        <div class="sec-head"><h2>Session brief</h2><p>What to work on this week &mdash; generated by prioritize-fixes.ps1</p></div>
         <div class="brief-body" id="brief-body"><div class="au-loading">Loading&hellip;</div></div>
       </section>
 
-      <!-- WIDGETS -->
+      <!-- ══════════════════════════════════════════ WIDGETS -->
       <section class="au-section" id="sec-widgets">
-        <div class="sec-head">
-          <h2>Widget visibility</h2>
-          <p>Admin always sees all widgets. Promote to public when stats are ready to share.</p>
-        </div>
+        <div class="sec-head"><h2>Widget visibility</h2><p>Admin always sees all. Promote to public when stats are ready.</p></div>
         <div class="widget-cards" id="widget-cards"><div class="au-loading">Loading&hellip;</div></div>
       </section>
 
-      <!-- NETWORK / EXTERNAL LINKS -->
-      <section class="au-section" id="sec-network">
-        <div class="sec-head">
-          <h2>External links</h2>
-          <p>Quick access to tools and reports</p>
+      <!-- ══════════════════════════════════════════ NETWORK STATUS -->
+      <section class="au-section" id="sec-network-status">
+        <div class="sec-head"><h2>Network status</h2><p>Live check against GitHub Pages for all repos</p></div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Site Status <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer);cursor:pointer" onclick="checkNetwork()">&#8635; Re-check all</span></div>
+          <div id="network-table-wrap"><div class="au-empty">Click &ldquo;Re-check all&rdquo; to ping all sites.</div></div>
         </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ GIT LOG -->
+      <section class="au-section" id="sec-git-log">
+        <div class="sec-head"><h2>Git log</h2><p>Recent commits across all repos &mdash; scripts/git-log.json</p></div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterGitLog('all',this)">All Repos</button>
+          <button class="filter-btn" onclick="filterGitLog('pushed',this)">Pushed Only</button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div id="git-log-list" style="max-height:600px;overflow-y:auto;padding:8px 0">
+            <div class="au-loading">Loading git log&hellip;</div>
+          </div>
+        </div>
+        <div class="last-updated" id="git-log-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ PUBLISHING SYSTEM -->
+      <section class="au-section" id="sec-publishing">
+        <div class="sec-head"><h2>Publishing system</h2><p>Live stats from the auto-publish engine</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="stat-n blue" id="pub-repos">—</span><span class="stat-l">Repos Managed</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="pub-last" style="font-size:1rem;padding-top:6px">—</span><span class="stat-l">Last Publish</span><span class="stat-sub" id="pub-last-date"></span></div>
+          <div class="stat-card"><span class="stat-n blue" id="pub-month">—</span><span class="stat-l">Pushes This Month</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="pub-total">—</span><span class="stat-l">Total Pushes</span></div>
+        </div>
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><span class="stat-n" id="pub-sec">—</span><span class="stat-l">Security Scan</span></div>
+          <div class="stat-card"><span class="stat-n" id="pub-cq">—</span><span class="stat-l">Code Quality Issues</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="pub-gen" style="font-size:.75rem;padding-top:8px">—</span><span class="stat-l">Stats Generated</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--green)"></span>Recent Publish Activity</div>
+          <div id="pub-feed" style="max-height:320px;overflow-y:auto;font-family:var(--font-mono);font-size:.76rem"><div class="au-loading">Loading&hellip;</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Network Map <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">22 sites</span></div>
+          <div id="pub-network" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px"><div class="au-loading">Loading&hellip;</div></div>
+        </div>
+        <div class="last-updated" id="pub-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ LEGAL LOG -->
+      <section class="au-section" id="sec-legal-log">
+        <div class="sec-head"><h2>Legal log</h2><p>C&amp;D scans, DMCA, complaints &mdash; docs/cd-checks/ + analytics/legal-log.md</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="stat-n" id="ll-total">—</span><span class="stat-l">Log Entries</span></div>
+          <div class="stat-card"><span class="stat-n red" id="ll-open">—</span><span class="stat-l">Open</span></div>
+          <div class="stat-card"><span class="stat-n green" id="ll-resolved">—</span><span class="stat-l">Resolved</span></div>
+          <div class="stat-card"><span class="stat-n green" id="ll-last-scan" style="font-size:.85rem;padding-top:8px">—</span><span class="stat-l">Last C&amp;D Scan</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--green)"></span>Latest C&amp;D Scan <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">docs/cd-checks/</span></div>
+          <div class="log-viewer" id="ll-scan-report" style="max-height:220px">Loading&hellip;</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--red)"></span>Manual Log Entries <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer);cursor:pointer" onclick="addLegalEntry()">+ Add Entry</span></div>
+          <div id="ll-entries">Loading&hellip;</div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ TRADEMARK -->
+      <section class="au-section" id="sec-trademark">
+        <div class="sec-head"><h2>Trademark monitor</h2><p>Weekly brand protection scan &mdash; docs/trademark-monitor/</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="stat-n red" id="tm-high">—</span><span class="stat-l">High Flags</span></div>
+          <div class="stat-card"><span class="stat-n yellow" id="tm-med">—</span><span class="stat-l">Medium</span></div>
+          <div class="stat-card"><span class="stat-n green" id="tm-clear">—</span><span class="stat-l">Clear</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="tm-date" style="font-size:.8rem;padding-top:8px">—</span><span class="stat-l">Last Scan</span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:.78rem;color:var(--dim)">Load report:</span>
+          <div id="tm-report-list" style="display:flex;gap:6px;flex-wrap:wrap"><span style="color:var(--dimmer);font-size:.78rem">Loading&hellip;</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Report <span id="tm-report-date" style="margin-left:6px;font-size:.73rem;color:var(--dim)"></span></div>
+          <div class="log-viewer" id="tm-report-viewer" style="max-height:500px">Select a report above.</div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--cyan)"></span>Monitor Log <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">trademark-log.txt</span></div>
+          <div class="log-viewer" id="tm-log-viewer" style="max-height:180px">Loading&hellip;</div>
+        </div>
+        <div class="last-updated" id="tm-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ WEBRING AUDIT -->
+      <section class="au-section" id="sec-webring-audit">
+        <div class="sec-head"><h2>Webring audit</h2><p>Consistency check across all sites &mdash; docs/webring-audits/</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="stat-n blue" id="wa-total">—</span><span class="stat-l">Files Audited</span></div>
+          <div class="stat-card"><span class="stat-n green" id="wa-pass">—</span><span class="stat-l">Fully Passing</span></div>
+          <div class="stat-card"><span class="stat-n" id="wa-issues">—</span><span class="stat-l">With Issues</span></div>
+          <div class="stat-card"><span class="stat-n" id="wa-missing">—</span><span class="stat-l">Missing Webring</span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:.78rem;color:var(--dim)">Load report:</span>
+          <div id="wa-report-list" style="display:flex;gap:6px;flex-wrap:wrap"><span style="color:var(--dimmer);font-size:.78rem">Loading&hellip;</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Report <span id="wa-report-date" style="margin-left:6px;font-size:.73rem;color:var(--dim)"></span></div>
+          <div class="log-viewer" id="wa-report-viewer" style="max-height:540px">Select a report above.</div>
+        </div>
+        <div class="last-updated" id="wa-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ FEEDBACK -->
+      <section class="au-section" id="sec-feedback">
+        <div class="sec-head"><h2>Feedback</h2><p>Form submissions from all sites &mdash; analytics/feedback-summary-latest.txt</p></div>
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-card"><span class="stat-n blue" id="fb-total">—</span><span class="stat-l">Total Responses</span><span class="stat-sub" id="fb-updated-note"></span></div>
+          <div class="stat-card"><span class="stat-n blue" id="fb-sites">—</span><span class="stat-l">Sites with Feedback</span></div>
+          <div class="stat-card"><span class="stat-n" id="fb-recent">—</span><span class="stat-l">Last 48h</span><span class="stat-sub" id="fb-recent-note">submissions</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Submissions by Site</div>
+          <div id="fb-by-site"></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Recent Detail <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">feedback-detail-latest.csv</span></div>
+          <div style="overflow-x:auto">
+            <table class="net-table" id="fb-detail-table">
+              <thead><tr><th>Date/Time</th><th>Email</th><th>Site</th><th>Message</th></tr></thead>
+              <tbody id="fb-detail-body"><tr><td colspan="4" style="color:var(--dim);padding:20px">Loading&hellip;</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ PROGRESS -->
+      <section class="au-section" id="sec-progress">
+        <div class="sec-head"><h2>Progress</h2><p>Daily development summaries &mdash; docs/daily-summaries/</p></div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:.78rem;color:var(--dim)">Load summary:</span>
+          <div id="prog-report-list" style="display:flex;gap:6px;flex-wrap:wrap"><span style="color:var(--dimmer);font-size:.78rem">Loading&hellip;</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Summary <span id="prog-report-date" style="margin-left:6px;font-size:.73rem;color:var(--dim)"></span></div>
+          <div class="log-viewer" id="prog-report-viewer" style="max-height:560px;white-space:pre-wrap">Select a summary above.</div>
+        </div>
+        <div class="last-updated" id="prog-updated"></div>
+      </section>
+
+      <!-- ══════════════════════════════════════════ EXTERNAL LINKS -->
+      <section class="au-section" id="sec-ext-links">
+        <div class="sec-head"><h2>External links</h2><p>Quick access to tools and reports</p></div>
         <div class="net-grid">
-          <a href="https://search.google.com/search-console" target="_blank" class="net-card">
-            <div class="net-icon">&#127760;</div>
-            <div class="net-name">Google Search Console</div>
-            <div class="net-desc">Impressions, rankings, coverage</div>
-          </a>
-          <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="net-card">
-            <div class="net-icon">&#128176;</div>
-            <div class="net-name">Google AdSense</div>
-            <div class="net-desc">Earnings, policy, site approval</div>
-          </a>
-          <a href="https://lookerstudio.google.com" target="_blank" class="net-card">
-            <div class="net-icon">&#128202;</div>
-            <div class="net-name">Looker Studio</div>
-            <div class="net-desc">Custom dashboards and reports</div>
-          </a>
-          <a href="https://analytics.google.com" target="_blank" class="net-card">
-            <div class="net-icon">&#128200;</div>
-            <div class="net-name">Google Analytics 4</div>
-            <div class="net-desc">GA4 traffic and events</div>
-          </a>
-          <a href="https://github.com/AIUNITES" target="_blank" class="net-card">
-            <div class="net-icon">&#128025;</div>
-            <div class="net-name">GitHub &mdash; AIUNITES</div>
-            <div class="net-desc">All 22 repos and Pages status</div>
-          </a>
-          <a href="https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://aiunites.com&strategy=mobile" target="_blank" class="net-card">
-            <div class="net-icon">&#9889;</div>
-            <div class="net-name">PageSpeed Insights</div>
-            <div class="net-desc">Lighthouse scores live</div>
-          </a>
-          <a href="network-stats.html" class="net-card">
-            <div class="net-icon">&#128269;</div>
-            <div class="net-name">Network Stats</div>
-            <div class="net-desc">SEO audit and page rank report</div>
-          </a>
-          <a href="network-overview.html" class="net-card">
-            <div class="net-icon">&#127775;</div>
-            <div class="net-name">Network Overview</div>
-            <div class="net-desc">GSC and publish activity</div>
-          </a>
-          <a href="automation-live.html" class="net-card">
-            <div class="net-icon">&#128506;</div>
-            <div class="net-name">Automation Live</div>
-            <div class="net-desc">Public pipeline dashboard</div>
-          </a>
+          <a href="https://search.google.com/search-console" target="_blank" class="net-card"><div class="net-icon">&#127760;</div><div class="net-name">Search Console</div><div class="net-desc">Impressions, rankings, coverage</div></a>
+          <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="net-card"><div class="net-icon">&#128176;</div><div class="net-name">Google AdSense</div><div class="net-desc">Earnings, policy, site approval</div></a>
+          <a href="https://lookerstudio.google.com" target="_blank" class="net-card"><div class="net-icon">&#128202;</div><div class="net-name">Looker Studio</div><div class="net-desc">Custom dashboards</div></a>
+          <a href="https://analytics.google.com" target="_blank" class="net-card"><div class="net-icon">&#128200;</div><div class="net-name">Google Analytics 4</div><div class="net-desc">Traffic and events</div></a>
+          <a href="https://github.com/AIUNITES" target="_blank" class="net-card"><div class="net-icon">&#128025;</div><div class="net-name">GitHub &mdash; AIUNITES</div><div class="net-desc">All repos and Pages status</div></a>
+          <a href="network-stats.html" class="net-card"><div class="net-icon">&#128269;</div><div class="net-name">Network Stats</div><div class="net-desc">SEO audit and page rank</div></a>
+          <a href="network-overview.html" class="net-card"><div class="net-icon">&#127775;</div><div class="net-name">Network Overview</div><div class="net-desc">GSC and publish activity</div></a>
+          <a href="automation-live.html" class="net-card"><div class="net-icon">&#128506;</div><div class="net-name">Automation Live</div><div class="net-desc">Public pipeline dashboard</div></a>
+          <a href="ai-publishing-report-demo.html" class="net-card"><div class="net-icon">&#128202;</div><div class="net-name">Client Report Demo</div><div class="net-desc">AI Publishing monthly report</div></a>
         </div>
       </section>
 
@@ -328,427 +591,1010 @@
 </div><!-- /au-layout -->
 
 <script>
-(function() {
-  var STORAGE_KEY = 'aiunites_currentUser';
-  var DATA = {
-    actionList: null,
-    visibility: null,
-    brief: null,
-    pubStats: null
-  };
+// ══════════════════════════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════════════════════════
+var STORAGE_KEY = 'aiunites_currentUser';
+var PW_HASH = '8f526028a324e19cfe5091fea68a6e37f2df3de9c30ba836da3534079637d85f';
+var BASE_PATH = 'C:/Users/tombh/Documents/GitHub';
+var IS_LOCAL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
 
-  var CDN = {
-    actionList: ['data/action-list.json', 'https://aiunites.github.io/cloudsion-site/data/action-list.json'],
-    visibility: ['data/visibility.json', 'https://aiunites.github.io/cloudsion-site/data/visibility.json'],
-    brief:      ['data/session-brief.md', 'https://aiunites.github.io/cloudsion-site/data/session-brief.md'],
-    pubStats:   ['data/publish-stats.json', 'https://aiunites.github.io/cloudsion-site/data/publish-stats.json']
-  };
+var REPOS = [
+  'agenthub-site','aiagents-hub','aibyjob-demo','aitsql-site','aiunites-site',
+  'AIUNITES.github.io','aiyhwh-site','aizines-app','bizstry-site','bodspas-site',
+  'cloudsion-site','cosmostheopera-site','DemoTemplate','erpise-site','erpize-site',
+  'furnishthings-site','gameatica-site','inthisworld-site','redomy-demo','uptownit-site',
+  'videobate-site','voicestry-site','bodwave-site','vrnmethod-site'
+];
 
-  // ---- CREDENTIALS ----
-  function getCreds() {
-    if (typeof LOCAL_USERS !== 'undefined' && LOCAL_USERS.admin) return LOCAL_USERS.admin;
-    return { username: 'admin', password: 'aiunites2026', displayName: 'Tom' };
+var CDN = {
+  actionList: ['data/action-list.json','https://aiunites.github.io/cloudsion-site/data/action-list.json'],
+  visibility: ['data/visibility.json','https://aiunites.github.io/cloudsion-site/data/visibility.json'],
+  brief:      ['data/session-brief.md','https://aiunites.github.io/cloudsion-site/data/session-brief.md'],
+  pubStats:   ['data/publish-stats.json','https://aiunites.github.io/cloudsion-site/data/publish-stats.json']
+};
+
+// State
+var DATA = { actionList:null, visibility:null, brief:null, pubStats:null };
+var publishLogRaw = '', fixQueueRaw = '', currentFQFilter = 'all', currentLogFilter = 'all';
+var gitLogData = [];
+
+// ══════════════════════════════════════════════════════════════════════════
+// PATH RESOLUTION (localhost reads local files, live shows fallback)
+// ══════════════════════════════════════════════════════════════════════════
+function resolvePath(relPath) {
+  if (IS_LOCAL) {
+    // Strip leading slash, resolve relative to GitHub root
+    // admin.html is in aiunites-site/, so we go up one level
+    return '../' + relPath.replace(/^\//, '') + '?t=' + Date.now();
   }
+  return null; // Signal: not available on live site
+}
 
-  function isAdmin() {
-    try { var u = JSON.parse(localStorage.getItem(STORAGE_KEY)); return u && u.isAdmin === true; }
-    catch(e) { return false; }
+async function fetchLocal(relPath) {
+  var url = resolvePath(relPath);
+  if (!url) return null;
+  try {
+    var r = await fetch(url);
+    if (!r.ok) throw 0;
+    return await r.text();
+  } catch(e) { return null; }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// CDN FETCHERS (for data/ JSON — works live and local)
+// ══════════════════════════════════════════════════════════════════════════
+function fetchJson(key, cb) {
+  var urls = CDN[key]; var i = 0;
+  function next() {
+    if (i >= urls.length) { cb(null); return; }
+    fetch(urls[i++] + '?_=' + Date.now())
+      .then(function(r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function(d) { cb(d); }).catch(next);
   }
+  next();
+}
 
-  function getCurrentUser() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) { return null; }
+function fetchText(key, cb) {
+  var urls = CDN[key]; var i = 0;
+  function next() {
+    if (i >= urls.length) { cb(null); return; }
+    fetch(urls[i++] + '?_=' + Date.now())
+      .then(function(r) { if (!r.ok) throw 0; return r.text(); })
+      .then(function(t) { cb(t); }).catch(next);
   }
+  next();
+}
 
-  // ---- LOGIN ----
-  document.getElementById('lg-btn').addEventListener('click', doLogin);
-  document.getElementById('lg-pass').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') doLogin();
-  });
+// ══════════════════════════════════════════════════════════════════════════
+// AUTH — SHA-256
+// ══════════════════════════════════════════════════════════════════════════
+async function sha256(msg) {
+  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+}
 
-  function doLogin() {
-    var creds = getCreds();
-    var u = document.getElementById('lg-user').value.trim();
-    var p = document.getElementById('lg-pass').value;
-    if (u === creds.username && p === creds.password) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        username: creds.username,
-        displayName: creds.displayName || 'Admin',
-        isAdmin: true,
-        loginTime: Date.now()
-      }));
-      showAdmin();
-    } else {
-      document.getElementById('lg-err').style.display = 'block';
-      document.getElementById('lg-pass').value = '';
-    }
-  }
+function isAdmin() {
+  try { var u = JSON.parse(localStorage.getItem(STORAGE_KEY)); return u && u.isAdmin === true; }
+  catch(e) { return false; }
+}
 
-  document.getElementById('sb-logout').addEventListener('click', function() {
-    if (confirm('Sign out of AIUNITES Admin?')) {
-      localStorage.removeItem(STORAGE_KEY);
-      location.reload();
-    }
-  });
+// Login
+document.getElementById('lg-btn').addEventListener('click', doLogin);
+document.getElementById('lg-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
 
-  // ---- FETCH HELPERS ----
-  function fetchJson(keys, cb) {
-    var urls = CDN[keys];
-    var i = 0;
-    function next() {
-      if (i >= urls.length) { cb(null); return; }
-      fetch(urls[i++] + '?_=' + Date.now())
-        .then(function(r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function(d) { cb(d); })
-        .catch(next);
-    }
-    next();
-  }
-
-  function fetchText(keys, cb) {
-    var urls = CDN[keys];
-    var i = 0;
-    function next() {
-      if (i >= urls.length) { cb(null); return; }
-      fetch(urls[i++] + '?_=' + Date.now())
-        .then(function(r) { if (!r.ok) throw 0; return r.text(); })
-        .then(function(t) { cb(t); })
-        .catch(next);
-    }
-    next();
-  }
-
-  // ---- SHOW ADMIN ----
-  function showAdmin() {
-    var lp = document.getElementById('au-login-page');
-    if (lp) lp.style.display = 'none';
-    document.getElementById('au-layout').style.display = 'flex';
-    var user = getCurrentUser();
-    document.getElementById('sb-user-name').textContent = (user && user.displayName) || 'Admin';
-    initNav();
-    loadAllData();
-  }
-
-  // ---- NAV ----
-  var SEC_TITLES = {
-    dashboard: 'Dashboard', pipeline: 'Automation pipeline',
-    actions: 'Action list', brief: 'Session brief',
-    widgets: 'Widget visibility', network: 'External links'
-  };
-
-  function initNav() {
-    document.querySelectorAll('.sb-nav-link').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var sec = this.dataset.sec;
-        document.querySelectorAll('.sb-nav-link').forEach(function(b) { b.classList.remove('active'); });
-        this.classList.add('active');
-        document.querySelectorAll('.au-section').forEach(function(s) { s.classList.remove('active'); });
-        document.getElementById('sec-' + sec).classList.add('active');
-        document.getElementById('tb-title').textContent = SEC_TITLES[sec] || sec;
-      });
-    });
-
-    // Action filter buttons
-    document.getElementById('action-filters').addEventListener('click', function(e) {
-      var btn = e.target.closest('.af-btn');
-      if (!btn) return;
-      document.querySelectorAll('.af-btn').forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      renderActionRows(btn.dataset.filter);
-    });
-  }
-
-  // ---- LOAD ALL DATA ----
-  function loadAllData() {
-    fetchJson('pubStats', function(d) {
-      DATA.pubStats = d;
-      renderDashStats();
-    });
-    fetchJson('actionList', function(d) {
-      DATA.actionList = d;
-      renderDashPipelineMini(d);
-      renderActionRows('all');
-      document.getElementById('tb-meta').textContent = d ? (d.generatedFmt || '') : '';
-    });
-    fetchJson('visibility', function(d) {
-      DATA.visibility = d;
-      renderWidgets(d);
-    });
-    fetchText('brief', function(t) {
-      DATA.brief = t;
-      renderBrief(t);
-    });
-  }
-
-  // ---- DASHBOARD STATS ----
-  function renderDashStats() {
-    var ps = DATA.pubStats;
-    var al = DATA.actionList;
-    var stats = [
-      { n: ps ? ps.reposManaged : '22',   l: 'Repos managed',   sub: '',                   c: '#a5b4fc' },
-      { n: ps ? ps.totalPushes  : '--',   l: 'Total pushes',    sub: 'all time',            c: '#6ee7b7' },
-      { n: ps ? ps.monthPushes  : '--',   l: 'This month',      sub: 'pushes',              c: '#60a5fa' },
-      { n: al ? (al.autoFixable || 0) : '--', l: 'Auto-fixed',  sub: 'this cycle',         c: '#6ee7b7' },
-      { n: al ? (al.needsClaude || 0) : '--', l: 'Needs Claude', sub: 'top items',         c: '#fcd34d' },
-      { n: al ? Math.round((al.autoFixable || 0) / Math.max(al.totalActions || 1, 1) * 100) + '%' : '--', l: 'Automated', sub: 'no human needed', c: '#00e5a0' }
-    ];
-    document.getElementById('dash-stats').innerHTML = stats.map(function(s) {
-      return '<div class="stat-card"><span class="stat-n" style="color:' + s.c + '">' + s.n + '</span><span class="stat-l">' + s.l + '</span>' + (s.sub ? '<span class="stat-sub">' + s.sub + '</span>' : '') + '</div>';
-    }).join('');
-  }
-
-  // ---- MINI PIPELINE ---- (dashboard preview, links to pipeline tab)
-  function renderDashPipelineMini(data) {
-    var el = document.getElementById('dash-pipeline-mini');
-    if (!data) { el.innerHTML = '<div class="au-empty">No data - run prioritize-fixes.ps1 then Publish Now</div>'; return; }
-    renderPipelineInto(data, el);
-  }
-
-  // ---- FULL PIPELINE ----
-  function renderPipelineInto(data, el) {
-    var total  = data.totalActions || 0;
-    var autoN  = data.autoFixable  || 0;
-    var cldN   = data.needsClaude  || 0;
-    var autoP  = total > 0 ? Math.round(autoN / total * 100) : 0;
-    var cldP   = total > 0 ? Math.round(cldN  / total * 100) : 0;
-
-    var cats = { SEO:0, CodeQuality:0, AdSense:0, RankOpportunity:0, Security:0 };
-    (data.actions || []).forEach(function(a) { if (cats.hasOwnProperty(a.Category)) cats[a.Category]++; });
-    var catMax = Math.max.apply(null, Object.values(cats)) || 1;
-    var catConf = [
-      { k:'SEO',            l:'SEO',      c:'#818cf8' },
-      { k:'CodeQuality',    l:'Code',     c:'#9ca3af' },
-      { k:'AdSense',        l:'AdSense',  c:'#f87171' },
-      { k:'RankOpportunity',l:'Rank+',    c:'#fcd34d' },
-      { k:'Security',       l:'Security', c:'#ef4444' }
-    ];
-
-    var statsH = [
-      { n: autoP + '%',  l: 'Automated',    c: '#00e5a0' },
-      { n: autoN,        l: 'Auto-fixed',   c: '#6ee7b7' },
-      { n: cldN,         l: 'Needs Claude', c: '#fcd34d' },
-      { n: total,        l: 'Total issues', c: '#a5b4fc' }
-    ].map(function(s) {
-      return '<div style="flex:1;min-width:100px;border-right:1px solid rgba(255,255,255,.06);padding:16px 12px;text-align:center">' +
-        '<div style="font-family:var(--font-mono);font-size:1.6rem;font-weight:700;color:' + s.c + '">' + s.n + '</div>' +
-        '<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-top:4px">' + s.l + '</div>' +
-      '</div>';
-    }).join('');
-
-    var catBarsH = catConf.map(function(c) {
-      var w = Math.round((cats[c.k] / catMax) * 100);
-      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
-        '<span style="font-family:var(--font-mono);font-size:.65rem;color:var(--dim);width:56px;text-align:right">' + c.l + '</span>' +
-        '<div style="flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden">' +
-          '<div style="height:100%;width:' + w + '%;background:' + c.c + ';border-radius:3px"></div>' +
-        '</div>' +
-        '<span style="font-family:var(--font-mono);font-size:.65rem;color:var(--dim);width:32px;text-align:right">' + cats[c.k] + '</span>' +
-      '</div>';
-    }).join('');
-
-    var LANES = [
-      { freq:'Every 10 min', c:'rgba(99,102,241,.8)',  steps:['auto-publish','git push','code scan','fix-queue','IndexNow','backup'] },
-      { freq:'Daily',        c:'rgba(6,182,212,.8)',   steps:['fetch-gsc-stats','gsc-stats CDN','site-health','uptime.json'] },
-      { freq:'Weekly',       c:'rgba(16,185,129,.8)',  steps:['seo-audit','seo-fix','check-page-rank','prioritize-fixes','auto-improve','pagespeed','trend-tracker','update-visibility'] },
-      { freq:'Daily (Cowork)',   c:'rgba(6,182,212,.8)',   steps:['Daily Summary','Daily Legal Check','Daily Fix Queue','Feedback Audit'] },
-      { freq:'Weekly (Cowork)',  c:'rgba(16,185,129,.8)',  steps:['SEO Digest','Webring Audit','Trademark Monitor'] },
-      { freq:'Monthly (Cowork)',  c:'rgba(168,85,247,.8)',  steps:['Security Audit','Client Report'] },
-      { freq:'On demand',    c:'rgba(245,158,11,.8)',  steps:['Claude session','top items','Publish Now'] }
-    ];
-    var lanesH = LANES.map(function(lane) {
-      var stepsH = lane.steps.map(function(s, i) {
-        return (i > 0 ? '<span style="color:rgba(255,255,255,.2);margin:0 4px">&#8594;</span>' : '') +
-          '<span style="display:inline-block;padding:4px 8px;border:1px solid ' + lane.c.replace('.8', '.3') + ';border-radius:4px;font-size:.68rem;font-family:var(--font-mono);color:' + lane.c.replace('.8','1') + ';background:' + lane.c.replace('.8','.08') + ';white-space:nowrap">' + s + '</span>';
-      }).join('');
-      return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">' +
-        '<span style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.05em;width:70px;flex-shrink:0;text-align:right;padding-top:6px">' + lane.freq + '</span>' +
-        '<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;row-gap:4px">' + stepsH + '</div>' +
-      '</div>';
-    }).join('');
-
-    var COWORK_TASKS = [
-      { name:'Daily Summary',       schedule:'Daily · 8:00 AM',          status:'scheduled', file:'',                               desc:'Daily briefing summarising recent AIUNITES sessions, file changes, pending items, and suggested focus areas' },
-      { name:'Daily Legal Check',   schedule:'Daily · 7:00 AM',          status:'scheduled', file:'',                               desc:'Daily scan of feedback CSV for cease & desist, legal threats, abuse, and spam injection signals' },
-      { name:'Daily Fix Queue',     schedule:'Daily · 9:00 AM',          status:'scheduled', file:'',                               desc:'Reads scripts/fix-queue.md, applies PENDING fixes (AdSense language, flagged text), marks items DONE or SKIPPED' },
-      { name:'Feedback Audit',      schedule:'Daily · 7:30 AM',          status:'scheduled', file:'',                               desc:'Daily audit of AIUNITES feedback submissions — legal alert scan and submission summary' },
-      { name:'SEO Digest',          schedule:'Weekly · Mon 7:00 AM',    status:'scheduled', file:'AIUNITES_SEO_DIGEST_TASK.md',       desc:'Cross-references seo-report.json + gsc-stats.json, rewrites titles/meta for high-impression/zero-click sites, writes seo-digest.md' },
-      { name:'Webring Audit',       schedule:'Weekly · Mon 9:00 AM',    status:'scheduled', file:'WEBRING_AUDIT_TASK.md',            desc:'Weekly audit of the AIUNITES webring across all 17 sites, checking for missing/extra/misordered links' },
-      { name:'Trademark Monitor',   schedule:'Weekly · Mon 8:00 AM',    status:'scheduled', file:'',                               desc:'Weekly search for third-party uses of AIUNITES trademarks, tradenames, and owned domains, logging findings to trademark-monitor folder' },
-      { name:'Security Audit',      schedule:'Monthly · 1st of month',  status:'scheduled', file:'AIUNITES_SECURITY_AUDIT_TASK.md',  desc:'Monthly security audit of AIUNITES auth sites — checks password storage, async auth, CloudDB leaks, export safety, password-utils usage' },
-      { name:'Client Report',       schedule:'Monthly · end of month',  status:'demo only', file:'AIUNITES_CLIENT_REPORT_TASK.md',   desc:'Generates branded HTML monthly report per client domain — demo built, not live (liability review pending)' }
-    ];
-    var coworkTasksH = COWORK_TASKS.map(function(t) {
-      var statusColor = t.status === 'scheduled' ? '#6ee7b7' : '#fcd34d';
-      var statusBg    = t.status === 'scheduled' ? 'rgba(0,229,160,.1)' : 'rgba(245,158,11,.1)';
-      return '<div style="display:grid;grid-template-columns:1fr auto;align-items:start;gap:12px;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px">' +
-        '<div>' +
-          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">' +
-            '<span style="font-family:var(--font-mono);font-size:.72rem;font-weight:600;color:#e0e7ff">' + t.name + '</span>' +
-            '<span style="font-family:var(--font-mono);font-size:.58rem;padding:1px 6px;border-radius:3px;background:' + statusBg + ';color:' + statusColor + ';text-transform:uppercase;letter-spacing:.05em">' + t.status + '</span>' +
-          '</div>' +
-          '<div style="font-family:var(--font-mono);font-size:.62rem;color:rgba(168,85,247,.9);margin-bottom:4px">' + t.schedule + '</div>' +
-          '<div style="font-size:.72rem;color:var(--dim);line-height:1.5">' + t.desc + '</div>' +
-        '</div>' +
-        '<div style="font-family:var(--font-mono);font-size:.58rem;color:var(--dimmer);white-space:nowrap;text-align:right">' + t.file + '</div>' +
-      '</div>';
-    }).join('');
-
-    el.innerHTML =
-      '<div style="display:flex;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.06)">' + statsH + '</div>' +
-      '<div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)">' +
-        '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.65rem;color:var(--dim);margin-bottom:7px"><span>Automation coverage</span><span style="color:#fff;font-weight:700">' + autoP + '% runs without you</span></div>' +
-        '<div style="height:22px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;display:flex">' +
-          '<div style="width:' + autoP + '%;background:linear-gradient(90deg,#00c47a,#00e5a0);display:flex;align-items:center;padding-left:8px"><span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:#032a1e;white-space:nowrap">' + autoN + ' auto</span></div>' +
-          (cldP > 3 ? '<div style="width:' + cldP + '%;background:rgba(249,115,22,.45);display:flex;align-items:center;justify-content:center"><span style="font-family:var(--font-mono);font-size:.62rem;color:rgba(255,255,255,.75);white-space:nowrap">' + cldN + ' review</span></div>' : '') +
-        '</div>' +
-      '</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.06)">' +
-        '<div style="padding:14px 20px;border-right:1px solid rgba(255,255,255,.06)">' +
-          '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:10px">By category</div>' +
-          catBarsH +
-        '</div>' +
-        '<div style="padding:14px 20px">' +
-          '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:10px">Pipeline stages</div>' +
-          lanesH +
-        '</div>' +
-      '</div>' +
-      '<div style="padding:8px 20px;font-family:var(--font-mono);font-size:.62rem;color:var(--dimmer);display:flex;justify-content:space-between">' +
-        '<span>Updated: ' + (data.generatedFmt || 'weekly') + '</span>' +
-        '<a href="automation-live.html" style="color:var(--purple);text-decoration:none">Full view &#8599;</a>' +
-      '</div>' +
-      '<div style="padding:16px 20px;border-top:1px solid rgba(255,255,255,.06);">' +
-        '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:12px">&#129302; Cowork Scheduled Tasks</div>' +
-        '<div style="display:grid;gap:8px">' +
-          coworkTasksH +
-        '</div>' +
-      '</div>';
-  }
-
-  // ---- ACTION ROWS ----
-  function badgeClass(cat) {
-    var m = {SEO:'badge-seo',AdSense:'badge-adsense',RankOpportunity:'badge-rank',CodeQuality:'badge-cq',Security:'badge-sec'};
-    return m[cat] || 'badge-cq';
-  }
-  function badgeLabel(cat) {
-    return cat === 'RankOpportunity' ? 'Rank+' : (cat || 'Other');
-  }
-
-  function renderActionRows(filter) {
-    var el = document.getElementById('action-rows');
-    var data = DATA.actionList;
-    if (!data || !data.actions) { el.innerHTML = '<div class="au-empty">No data - run prioritize-fixes.ps1</div>'; return; }
-    var items = data.actions;
-    if (filter === 'claude') items = items.filter(function(a) { return !a.AutoFixable; });
-    else if (filter === 'auto') items = items.filter(function(a) { return a.AutoFixable; });
-    else if (filter !== 'all') items = items.filter(function(a) { return a.Category === filter; });
-    items = items.slice(0, 60);
-    el.innerHTML = items.map(function(a) {
-      var fname = (a.File || '').replace(/^.*[\\/]/, '').substring(0, 35);
-      var where = (a.Domain || '') + (fname ? ' / ' + fname : '');
-      var iss = (a.Issue || a.Fix || '').substring(0, 90);
-      var badge = a.AutoFixable ? 'badge-auto' : badgeClass(a.Category);
-      var label = a.AutoFixable ? 'Auto' : badgeLabel(a.Category);
-      return '<div class="action-row">' +
-        '<span class="ar-rank">#' + a.Rank + '</span>' +
-        '<div><div class="ar-issue">' + iss + '</div><div class="ar-where">' + where + '</div></div>' +
-        '<div class="ar-where">' + (a.Impressions > 0 ? a.Impressions + ' impr' : '') + '</div>' +
-        '<span class="ar-badge ' + badge + '">' + label + '</span>' +
-      '</div>';
-    }).join('') || '<div class="au-empty">No items match this filter</div>';
-  }
-
-  // ---- SESSION BRIEF ----
-  function renderBrief(md) {
-    var el = document.getElementById('brief-body');
-    if (!md) { el.innerHTML = '<div class="au-empty">No session-brief.md yet. Run prioritize-fixes.ps1 then Publish Now.</div>'; return; }
-    var lines = md.split('\n');
-    var html = '';
-    var inUl = false;
-    lines.forEach(function(line) {
-      var t = line.trim();
-      if (!t) { if (inUl) { html += '</ul>'; inUl = false; } return; }
-      if (/^# /.test(t))   { if (inUl) { html += '</ul>'; inUl = false; } html += '<h1>' + t.slice(2) + '</h1>'; }
-      else if (/^## /.test(t))  { if (inUl) { html += '</ul>'; inUl = false; } html += '<h2>' + t.slice(3) + '</h2>'; }
-      else if (/^### /.test(t)) { if (inUl) { html += '</ul>'; inUl = false; } html += '<h3>' + t.slice(4) + '</h3>'; }
-      else if (/^---/.test(t))  { if (inUl) { html += '</ul>'; inUl = false; } html += '<hr>'; }
-      else if (/^[-*] /.test(t)) { if (!inUl) { html += '<ul>'; inUl = true; } html += '<li>' + t.slice(2).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</li>'; }
-      else if (/^\|/.test(t) && !/^\| ?[-:| ]+\|/.test(t)) {
-        if (inUl) { html += '</ul>'; inUl = false; }
-        html += '<table><tr>' + t.split('|').slice(1,-1).map(function(c) { return '<td>' + c.trim() + '</td>'; }).join('') + '</tr></table>';
-      } else {
-        if (inUl) { html += '</ul>'; inUl = false; }
-        html += '<p>' + t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</p>';
-      }
-    });
-    if (inUl) html += '</ul>';
-    el.innerHTML = html;
-  }
-
-  // ---- WIDGETS ----
-  function renderWidgets(vis) {
-    var el = document.getElementById('widget-cards');
-    if (!vis || !vis.widgets) { el.innerHTML = '<div class="au-empty">No visibility.json. Run update-visibility.ps1 then Publish Now.</div>'; return; }
-    var html = '';
-    Object.keys(vis.widgets).forEach(function(id) {
-      var w = vis.widgets[id];
-      var pub = w.public === true;
-      var met = w.meetsThreshold === true;
-      var boolVal = pub ? '$false' : '$true';
-      var cmd = '& "C:\\Users\\tombh\\Documents\\GitHub\\scripts\\update-visibility.ps1" -Widget "' + id + '" -Public ' + boolVal;
-      html += '<div class="widget-card' + (pub ? ' public' : '') + '">' +
-        '<div class="wc-head">' +
-          '<span class="wc-status ' + (pub ? 'pub' : 'priv') + '">' + (pub ? 'PUBLIC' : 'ADMIN ONLY') + '</span>' +
-          '<span class="wc-label">' + (w.label || id) + '</span>' +
-        '</div>' +
-        '<div class="wc-desc">' + (w.desc || '') + '</div>' +
-        '<div class="wc-thresh' + (met ? ' met' : '') + '">' + (met ? '&#10003; Threshold met' : (w.thresholdStatus || 'Thresholds not met')) + '</div>' +
-        '<button class="wc-btn ' + (pub ? 'wc-demote' : 'wc-promote') + '" onclick="auCopyWidget(this,' + JSON.stringify(cmd) + ')">' +
-          (pub ? 'Set admin only' : 'Promote to public') +
-        '</button>' +
-        '<div class="wc-cmd-note" id="wn-' + id + '">Copied! Paste in PowerShell, then Publish Now.</div>' +
-        '<div class="wc-pages">Pages: ' + (w.pages || '-') + '</div>' +
-      '</div>';
-    });
-    el.innerHTML = html;
-  }
-
-  window.auCopyWidget = function(btn, cmd) {
-    navigator.clipboard.writeText(cmd).then(function() {
-      var note = btn.nextElementSibling;
-      if (note) { note.style.display = 'block'; }
-      btn.style.opacity = '.4';
-      setTimeout(function() {
-        if (note) note.style.display = 'none';
-        btn.style.opacity = '1';
-      }, 4000);
-    });
-  };
-
-  // ---- INIT ----
-  if (isAdmin()) {
+async function doLogin() {
+  var u = document.getElementById('lg-user').value.trim();
+  var p = document.getElementById('lg-pass').value;
+  var hash = await sha256(p);
+  if (u === 'admin' && hash === PW_HASH) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({username:'admin',displayName:'Tom',isAdmin:true,loginTime:Date.now()}));
     showAdmin();
   } else {
-    // Show full-page login
-    var lp = document.getElementById('au-login-page');
-    if (lp) lp.style.display = 'flex';
-    setTimeout(function() {
-      var u = document.getElementById('lg-user');
-      if (u) u.focus();
-    }, 100);
+    document.getElementById('lg-err').style.display = 'block';
+    document.getElementById('lg-pass').value = '';
+  }
+}
+
+document.getElementById('sb-logout').addEventListener('click', function(){
+  if(confirm('Sign out?')){ localStorage.removeItem(STORAGE_KEY); location.reload(); }
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// SHOW ADMIN
+// ══════════════════════════════════════════════════════════════════════════
+function showAdmin() {
+  document.getElementById('au-login-page').style.display = 'none';
+  document.getElementById('au-layout').style.display = 'flex';
+  var user = null;
+  try { user = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) {}
+  document.getElementById('sb-user-name').textContent = (user && user.displayName) || 'Admin';
+
+  // Show localhost / live banner
+  if (IS_LOCAL) {
+    document.getElementById('local-banner').classList.add('show');
+  } else {
+    document.getElementById('live-banner').style.display = 'block';
+    document.getElementById('tb-badge').textContent = 'Live Site';
+    document.getElementById('tb-badge').className = 'tb-badge';
   }
 
-  // Pipeline section lazy-load
+  initNav();
+  loadAllData();
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════════════════════════════════════
+var SEC_TITLES = {
+  'dashboard':'Dashboard','publish-log':'Publish Log','adsense':'AdSense Report',
+  'fix-queue':'Fix Queue','security':'Security','code-quality':'Code Quality',
+  'pipeline':'Automation Pipeline','actions':'Action List','brief':'Session Brief',
+  'widgets':'Widget Visibility','network-status':'Network Status','git-log':'Git Log',
+  'publishing':'Publishing System','legal-log':'Legal Log','trademark':'Trademark Monitor',
+  'webring-audit':'Webring Audit','feedback':'Feedback','progress':'Progress',
+  'ext-links':'External Links'
+};
+
+function initNav() {
   document.querySelectorAll('.sb-nav-link').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      if (this.dataset.sec === 'pipeline' && DATA.actionList) {
-        var el = document.getElementById('pipeline-widget');
-        if (el.innerHTML.indexOf('au-loading') !== -1) {
-          renderPipelineInto(DATA.actionList, el);
-        }
-      }
+    btn.addEventListener('click', function(){
+      var sec = this.dataset.sec;
+      document.querySelectorAll('.sb-nav-link').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      document.querySelectorAll('.au-section').forEach(function(s){ s.classList.remove('active'); });
+      document.getElementById('sec-' + sec).classList.add('active');
+      document.getElementById('tb-title').textContent = SEC_TITLES[sec] || sec;
+      document.getElementById('tb-badge').className = 'tb-badge' + (IS_LOCAL ? ' local' : '');
+      document.getElementById('tb-badge').textContent = IS_LOCAL ? 'Localhost' : 'Live';
     });
   });
 
-})();
+  document.getElementById('action-filters').addEventListener('click', function(e){
+    var btn = e.target.closest('.af-btn');
+    if (!btn) return;
+    document.querySelectorAll('.af-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderActionRows(btn.dataset.filter);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// LOG COLORIZER
+// ══════════════════════════════════════════════════════════════════════════
+function colorizeLine(line) {
+  var e = line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if (/Pushed changes/.test(e))           return '<span class="l-green">'+e+'</span>';
+  if (/No changes/.test(e))              return '<span class="l-gray">'+e+'</span>';
+  if (/SECURITY WARNING|ADSENSE.*WARNING/.test(e)) return '<span class="l-magenta">'+e+'</span>';
+  if (/WARNING|still waiting|may be hung/.test(e)) return '<span class="l-yellow">'+e+'</span>';
+  if (/scan clean|confirmed live|Password scan clean/.test(e)) return '<span class="l-cyan">'+e+'</span>';
+  if (/===.*===/.test(e))                return '<span class="l-head">'+e+'</span>';
+  if (/\[Deploy\].*LIVE/.test(e))        return '<span class="l-green">'+e+'</span>';
+  if (/\[Deploy\]/.test(e))             return '<span class="l-cyan">'+e+'</span>';
+  if (/Complete:/.test(e))              return '<span class="l-white">'+e+'</span>';
+  if (/-->/.test(e))                    return '<span class="l-yellow">'+e+'</span>';
+  return '<span class="l-gray">'+e+'</span>';
+}
+
+function colorizeLog(text) {
+  return text.split('\n').map(colorizeLine).join('\n');
+}
+
+function ts() { return new Date().toLocaleTimeString(); }
+
+// ══════════════════════════════════════════════════════════════════════════
+// LOCAL-ONLY SECTION GUARD
+// ══════════════════════════════════════════════════════════════════════════
+function localOnlyMsg(id) {
+  document.getElementById(id).innerHTML =
+    '<div style="padding:28px;text-align:center;color:rgba(99,102,241,.5);font-family:var(--font-mono);font-size:.82rem">' +
+    '&#128274; This section reads local log files.<br>' +
+    '<span style="color:var(--dimmer)">Open on <a href="http://localhost:8000/aiunites-site/admin.html" style="color:#a5b4fc">localhost:8000</a> to view.</span>' +
+    '</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// LOAD ALL DATA
+// ══════════════════════════════════════════════════════════════════════════
+function loadAllData() {
+  // Live data (works anywhere)
+  fetchJson('pubStats', function(d){ DATA.pubStats=d; renderDashStats(); loadPublishingSystem(); });
+  fetchJson('actionList', function(d){ DATA.actionList=d; renderDashPipelineMini(d); renderActionRows('all'); if(d) document.getElementById('tb-meta').textContent = d.generatedFmt||''; });
+  fetchJson('visibility', function(d){ DATA.visibility=d; renderWidgets(d); });
+  fetchText('brief', function(t){ DATA.brief=t; renderBrief(t); });
+
+  // Local-only sections
+  if (IS_LOCAL) {
+    loadPublishLog();
+    loadAdsenseLog();
+    loadFixQueue();
+    loadGitLog();
+    loadSecurity();
+    loadFeedback();
+    loadLegalLog();
+    loadWebringAudit();
+    loadProgress();
+    loadTrademark();
+    loadCodeQuality();
+  } else {
+    localOnlyMsg('publish-log-viewer');
+    localOnlyMsg('adsense-log-viewer');
+    localOnlyMsg('fix-queue-list');
+    localOnlyMsg('git-log-list');
+    localOnlyMsg('sec-history-viewer');
+    localOnlyMsg('sec-warnings-content');
+    localOnlyMsg('fb-by-site');
+    localOnlyMsg('ll-scan-report');
+    localOnlyMsg('ll-entries');
+    localOnlyMsg('tm-report-viewer');
+    localOnlyMsg('wa-report-viewer');
+    localOnlyMsg('prog-report-viewer');
+    localOnlyMsg('cq-log-viewer');
+    ['cq-total','cq-types','cq-last-scan','tm-high','tm-med','tm-clear','tm-date',
+     'wa-total','wa-pass','wa-issues','wa-missing','ll-total','ll-open','ll-resolved',
+     'll-last-scan','as-html-count','as-js-count','as-last-scan','sec-warn-count',
+     'sec-last-scan','fb-total','fb-sites','fb-recent'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.textContent = '—';
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// DASHBOARD STATS
+// ══════════════════════════════════════════════════════════════════════════
+function renderDashStats() {
+  var ps = DATA.pubStats; var al = DATA.actionList;
+  var stats = [
+    {n:ps?ps.reposManaged:'22',l:'Repos managed',sub:'',c:'#a5b4fc'},
+    {n:ps?ps.totalPushes:'--',l:'Total pushes',sub:'all time',c:'#6ee7b7'},
+    {n:ps?ps.monthPushes:'--',l:'This month',sub:'pushes',c:'#60a5fa'},
+    {n:al?(al.autoFixable||0):'--',l:'Auto-fixed',sub:'this cycle',c:'#6ee7b7'},
+    {n:al?(al.needsClaude||0):'--',l:'Needs Claude',sub:'top items',c:'#fcd34d'},
+    {n:al?Math.round((al.autoFixable||0)/Math.max(al.totalActions||1,1)*100)+'%':'--',l:'Automated',sub:'no human needed',c:'#00e5a0'}
+  ];
+  document.getElementById('dash-stats').innerHTML = stats.map(function(s){
+    return '<div class="stat-card"><span class="stat-n" style="color:'+s.c+'">'+s.n+'</span><span class="stat-l">'+s.l+'</span>'+(s.sub?'<span class="stat-sub">'+s.sub+'</span>':'')+'</div>';
+  }).join('');
+}
+
+function renderDashPipelineMini(data) {
+  var el = document.getElementById('dash-pipeline-mini');
+  if (!data) { el.innerHTML='<div class="au-empty">No data — run prioritize-fixes.ps1 then Publish Now</div>'; return; }
+  renderPipelineInto(data, el);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// PIPELINE
+// ══════════════════════════════════════════════════════════════════════════
+function renderPipelineInto(data, el) {
+  var total=data.totalActions||0, autoN=data.autoFixable||0, cldN=data.needsClaude||0;
+  var autoP=total>0?Math.round(autoN/total*100):0, cldP=total>0?Math.round(cldN/total*100):0;
+  var cats={SEO:0,CodeQuality:0,AdSense:0,RankOpportunity:0,Security:0};
+  (data.actions||[]).forEach(function(a){ if(cats.hasOwnProperty(a.Category)) cats[a.Category]++; });
+  var catMax=Math.max.apply(null,Object.values(cats))||1;
+  var catConf=[{k:'SEO',l:'SEO',c:'#818cf8'},{k:'CodeQuality',l:'Code',c:'#9ca3af'},{k:'AdSense',l:'AdSense',c:'#f87171'},{k:'RankOpportunity',l:'Rank+',c:'#fcd34d'},{k:'Security',l:'Security',c:'#ef4444'}];
+
+  var statsH=[{n:autoP+'%',l:'Automated',c:'#00e5a0'},{n:autoN,l:'Auto-fixed',c:'#6ee7b7'},{n:cldN,l:'Needs Claude',c:'#fcd34d'},{n:total,l:'Total issues',c:'#a5b4fc'}].map(function(s){
+    return '<div style="flex:1;min-width:100px;border-right:1px solid rgba(255,255,255,.06);padding:16px 12px;text-align:center"><div style="font-family:var(--font-mono);font-size:1.6rem;font-weight:700;color:'+s.c+'">'+s.n+'</div><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-top:4px">'+s.l+'</div></div>';
+  }).join('');
+
+  var catBarsH=catConf.map(function(c){
+    var w=Math.round((cats[c.k]/catMax)*100);
+    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--dim);width:56px;text-align:right">'+c.l+'</span><div style="flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+c.c+';border-radius:3px"></div></div><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--dim);width:32px;text-align:right">'+cats[c.k]+'</span></div>';
+  }).join('');
+
+  var LANES=[
+    {freq:'Every 10 min',c:'rgba(99,102,241,.8)',steps:['auto-publish','git push','code scan','fix-queue','IndexNow','backup']},
+    {freq:'Daily',c:'rgba(6,182,212,.8)',steps:['fetch-gsc-stats','gsc-stats CDN','site-health','uptime.json']},
+    {freq:'Weekly',c:'rgba(16,185,129,.8)',steps:['seo-audit','seo-fix','check-page-rank','prioritize-fixes','auto-improve','pagespeed','trend-tracker','update-visibility','SEO Digest (Cowork)']},
+    {freq:'Monthly',c:'rgba(168,85,247,.8)',steps:['Security Audit (Cowork)','Client Report (Cowork)']},
+    {freq:'On demand',c:'rgba(245,158,11,.8)',steps:['Claude session','top items','Publish Now']}
+  ];
+  var lanesH=LANES.map(function(lane){
+    var stepsH=lane.steps.map(function(s,i){
+      return (i>0?'<span style="color:rgba(255,255,255,.2);margin:0 4px">&#8594;</span>':'')+'<span style="display:inline-block;padding:4px 8px;border:1px solid '+lane.c.replace('.8','.3')+';border-radius:4px;font-size:.68rem;font-family:var(--font-mono);color:'+lane.c.replace('.8','1')+';background:'+lane.c.replace('.8','.08')+';white-space:nowrap">'+s+'</span>';
+    }).join('');
+    return '<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px"><span style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.05em;width:70px;flex-shrink:0;text-align:right;padding-top:6px">'+lane.freq+'</span><div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;row-gap:4px">'+stepsH+'</div></div>';
+  }).join('');
+
+  // Cowork tasks block
+  var COWORK=[
+    {name:'SEO Digest',schedule:'Weekly \u00b7 Mon 7:10 AM',status:'scheduled',file:'AIUNITES_SEO_DIGEST_TASK.md',desc:'Reads gsc-stats.json + seo-report.json, rewrites titles/meta for high-impression pages'},
+    {name:'Security Audit',schedule:'Monthly \u00b7 1st of month',status:'scheduled',file:'AIUNITES_SECURITY_AUDIT_TASK.md',desc:'7 security checks across all auth sites, flags issues to fix-queue.md'},
+    {name:'Client Report',schedule:'Monthly \u00b7 end of month',status:'demo only',file:'AIUNITES_CLIENT_REPORT_TASK.md',desc:'Generates branded HTML monthly report per client domain \u2014 liability review pending'}
+  ];
+  var coworkH=COWORK.map(function(t){
+    var sc=t.status==='scheduled'?'#6ee7b7':'#fcd34d', sb=t.status==='scheduled'?'rgba(0,229,160,.1)':'rgba(245,158,11,.1)';
+    return '<div style="display:grid;grid-template-columns:1fr auto;align-items:start;gap:12px;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;margin-bottom:8px"><div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-family:var(--font-mono);font-size:.72rem;font-weight:600;color:#e0e7ff">'+t.name+'</span><span style="font-family:var(--font-mono);font-size:.58rem;padding:1px 6px;border-radius:3px;background:'+sb+';color:'+sc+';text-transform:uppercase">'+t.status+'</span></div><div style="font-family:var(--font-mono);font-size:.62rem;color:rgba(168,85,247,.9);margin-bottom:4px">'+t.schedule+'</div><div style="font-size:.72rem;color:var(--dim);line-height:1.5">'+t.desc+'</div></div><div style="font-family:var(--font-mono);font-size:.56rem;color:var(--dimmer);white-space:nowrap;text-align:right">'+t.file+'</div></div>';
+  }).join('');
+
+  el.innerHTML=
+    '<div style="display:flex;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.06)">'+statsH+'</div>'+
+    '<div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)">'+
+      '<div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.65rem;color:var(--dim);margin-bottom:7px"><span>Automation coverage</span><span style="color:#fff;font-weight:700">'+autoP+'% runs without you</span></div>'+
+      '<div style="height:22px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;display:flex">'+
+        '<div style="width:'+autoP+'%;background:linear-gradient(90deg,#00c47a,#00e5a0);display:flex;align-items:center;padding-left:8px"><span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:#032a1e;white-space:nowrap">'+autoN+' auto</span></div>'+
+        (cldP>3?'<div style="width:'+cldP+'%;background:rgba(249,115,22,.45);display:flex;align-items:center;justify-content:center"><span style="font-family:var(--font-mono);font-size:.62rem;color:rgba(255,255,255,.75);white-space:nowrap">'+cldN+' review</span></div>':'')+
+      '</div>'+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.06)">'+
+      '<div style="padding:14px 20px;border-right:1px solid rgba(255,255,255,.06)">'+
+        '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:10px">By category</div>'+catBarsH+
+      '</div>'+
+      '<div style="padding:14px 20px">'+
+        '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:10px">Pipeline stages</div>'+lanesH+
+      '</div>'+
+    '</div>'+
+    '<div style="padding:16px 20px;border-top:1px solid rgba(255,255,255,.06)">'+
+      '<div style="font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dimmer);margin-bottom:12px">&#129302; Cowork Scheduled Tasks</div>'+coworkH+
+    '</div>'+
+    '<div style="padding:8px 20px;font-family:var(--font-mono);font-size:.62rem;color:var(--dimmer);display:flex;justify-content:space-between">'+
+      '<span>Updated: '+(data.generatedFmt||'weekly')+'</span>'+
+      '<a href="automation-live.html" style="color:var(--purple);text-decoration:none">Full view &#8599;</a>'+
+    '</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// PUBLISH LOG
+// ══════════════════════════════════════════════════════════════════════════
+async function loadPublishLog() {
+  var raw = await fetchLocal('/scripts/publish-log.txt');
+  if (!raw) { document.getElementById('publish-log-viewer').innerHTML='<span class="l-yellow">Could not load publish-log.txt</span>'; return; }
+  publishLogRaw = raw;
+  applyLogFilter(currentLogFilter);
+  document.getElementById('log-updated').textContent = 'Last loaded: '+ts();
+
+  // Also update dashboard with last run
+  var runBlocks = raw.split(/(?==== Auto-Publish Run:)/);
+  var lastRun = runBlocks[runBlocks.length-1]||'';
+  var dashEl = document.getElementById('dash-last-run');
+  if (dashEl) dashEl.innerHTML = colorizeLog(lastRun.trim());
+}
+
+function applyLogFilter(filter) {
+  currentLogFilter = filter;
+  var blocks = publishLogRaw.split(/(?==== Auto-Publish Run:)/);
+  var header = blocks[0].includes('Auto-Publish Run') ? '' : blocks.shift();
+  blocks.reverse();
+  var text = (header+blocks.join('')).trim();
+  if (filter==='pushed')   text=text.split('\n').filter(function(l){ return /Pushed changes|=== Auto-Publish/.test(l); }).join('\n');
+  if (filter==='warnings') text=text.split('\n').filter(function(l){ return /WARNING|-->/.test(l); }).join('\n');
+  if (filter==='deploy')   text=text.split('\n').filter(function(l){ return /\[Deploy\]|=== Auto-Publish/.test(l); }).join('\n');
+  var el = document.getElementById('publish-log-viewer');
+  el.innerHTML = colorizeLog(text);
+  el.scrollTop = 0;
+}
+
+function filterLog(f, btn) {
+  document.querySelectorAll('#sec-publish-log .filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('archive-selector').style.display='none';
+  applyLogFilter(f);
+}
+
+async function loadArchive(btn) {
+  var sel = document.getElementById('archive-selector');
+  if (sel.style.display!=='none') { sel.style.display='none'; btn.classList.remove('active'); applyLogFilter(currentLogFilter); return; }
+  btn.classList.add('active'); btn.textContent='...scanning';
+  var found=[]; var now=new Date();
+  for (var i=0;i<12;i++) {
+    var d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    var key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    try { var r=await fetch('../scripts/publish-log-archive-'+key+'.txt?t='+Date.now()); if(r.ok) found.push(key); } catch(e) {}
+  }
+  btn.textContent='\uD83D\uDCBE Archive';
+  sel.style.display='block';
+  if (!found.length) { sel.innerHTML='<span style="color:var(--dimmer)">No archive files yet.</span>'; return; }
+  sel.innerHTML='Load archive: '+found.map(function(k){ return '<span onclick="loadArchiveMonth(\''+k+'\')" style="cursor:pointer;color:#a5b4fc;margin:0 4px;padding:3px 10px;border:1px solid var(--border);border-radius:4px;display:inline-block;margin-top:4px">'+k+'</span>'; }).join('');
+}
+
+async function loadArchiveMonth(key) {
+  var viewer=document.getElementById('publish-log-viewer'), upd=document.getElementById('log-updated');
+  viewer.innerHTML='<span style="color:var(--dim)">Loading archive '+key+'...</span>';
+  var raw=await fetchLocal('/scripts/publish-log-archive-'+key+'.txt');
+  if (!raw) { viewer.innerHTML='<span style="color:var(--amber)">Could not load archive.</span>'; return; }
+  var blocks=raw.split(/(?==== Auto-Publish Run:)/).filter(function(b){ return b.trim(); }).reverse();
+  viewer.innerHTML=colorizeLog(blocks.join(''));
+  viewer.scrollTop=0;
+  upd.textContent='Archive: '+key+' \u2014 '+blocks.length+' runs';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// ADSENSE LOG
+// ══════════════════════════════════════════════════════════════════════════
+async function loadAdsenseLog() {
+  var raw=await fetchLocal('/scripts/adsense-warnings.log');
+  if (!raw) { document.getElementById('adsense-log-viewer').innerHTML='<span class="l-yellow">Could not load adsense-warnings.log</span>'; return; }
+  var htmlM=(raw.match(/ADSENSE WARNING/g)||[]).length, jsM=(raw.match(/ADSENSE-JS WARNING/g)||[]).length;
+  document.getElementById('as-html-count').textContent=htmlM;
+  document.getElementById('as-js-count').textContent=jsM;
+  var allTs=[...raw.matchAll(/\((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\)/g)];
+  if (allTs.length) document.getElementById('as-last-scan').textContent=allTs[allTs.length-1][1].split(' ')[1];
+  var blocks=raw.split(/(?=ADSENSE)/).filter(function(b){ return b.trim(); });
+  blocks.reverse();
+  document.getElementById('adsense-log-viewer').innerHTML=colorizeLog(blocks.join('\n'));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// FIX QUEUE
+// ══════════════════════════════════════════════════════════════════════════
+async function loadFixQueue() {
+  var raw=await fetchLocal('/scripts/fix-queue.md');
+  if (!raw) { document.getElementById('fix-queue-list').innerHTML='<div class="au-empty">Could not load fix-queue.md</div>'; return; }
+  fixQueueRaw=raw;
+  renderFixQueue('all');
+  document.getElementById('fq-updated').textContent='Last loaded: '+ts();
+  loadFixHistory();
+}
+
+function renderFixQueue(filter) {
+  currentFQFilter=filter;
+  var blocks=fixQueueRaw.split(/(?=### )/).filter(function(b){ return b.includes('|'); }).reverse();
+  var items=blocks.map(function(b){
+    var sm=b.match(/### (PENDING|DONE|SKIPPED) \| (.+?) \| (.+)/);
+    if (!sm) return null;
+    return { status:sm[1], category:sm[2], label:sm[3].trim(),
+      file:(b.match(/\*\*File:\*\* (.+)/)||[])[1]||'',
+      line:(b.match(/\*\*Line:\*\* (.+)/)||[])[1]||'',
+      found:(b.match(/\*\*Found:\*\* `(.+)`/)||[])[1]||'',
+      fix:(b.match(/\*\*Fix:\*\* (.+)/)||[])[1]||'',
+      date:((b.match(/\*\*Fixed:\*\* (.+)/)||[])[1]||(b.match(/\*\*Added:\*\* (.+)/)||[])[1]||'')
+    };
+  }).filter(Boolean);
+  var filtered=filter==='all'?items:items.filter(function(i){ return i.status===filter; });
+  if (!filtered.length) { document.getElementById('fix-queue-list').innerHTML='<div class="au-empty">No items match this filter.</div>'; return; }
+  document.getElementById('fix-queue-list').innerHTML=filtered.map(function(i){
+    return '<div class="fq-item '+i.status.toLowerCase()+'">'+
+      '<div class="fq-status '+i.status.toLowerCase()+'">'+i.status+' \u00b7 '+i.category+'</div>'+
+      '<div class="fq-label">'+i.label+'</div>'+
+      '<div class="fq-file">'+i.file+(i.line?' \u00b7 Line '+i.line:'')+'</div>'+
+      (i.date?'<div class="fq-file" style="color:var(--dimmer)">'+i.date.substring(0,50)+'</div>':'')+
+      (i.found?'<div class="fq-found">Found: '+i.found.replace(/</g,'&lt;').replace(/>/g,'&gt;').substring(0,120)+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+function filterFQ(f,btn) {
+  document.querySelectorAll('#sec-fix-queue .filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderFixQueue(f);
+}
+
+async function loadFixHistory() {
+  var raw=await fetchLocal('/scripts/fix-reports/fix-log.txt');
+  var el=document.getElementById('fix-history-viewer');
+  if (!raw) { el.innerHTML='<span style="color:var(--dimmer)">No fix-log.txt yet.</span>'; return; }
+  el.innerHTML=raw.trim().split('\n').filter(function(l){ return l.trim(); }).reverse().map(function(l){
+    var color=/Fixed:\s*0/.test(l)?'var(--dimmer)':/Skipped:/.test(l)&&!/Skipped:\s*0/.test(l)?'var(--amber)':'var(--cyan)';
+    return '<span style="color:'+color+'">'+l.replace(/</g,'&lt;')+'</span>';
+  }).join('\n');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// SECURITY
+// ══════════════════════════════════════════════════════════════════════════
+async function loadSecurity() {
+  var pubRaw=publishLogRaw||await fetchLocal('/scripts/publish-log.txt');
+  if (pubRaw) {
+    var secLines=pubRaw.split('\n').filter(function(l){ return /\[Security\]|SECURITY WARNING/.test(l); });
+    var runBlocks=pubRaw.split(/(?==== Auto-Publish Run:)/);
+    var lastRun=runBlocks[runBlocks.length-1]||'';
+    var tsM=lastRun.match(/=== Auto-Publish Run: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) ===/);
+    document.getElementById('sec-last-scan').textContent=tsM?tsM[1].split(' ')[1]:'—';
+    var warnCount=secLines.filter(function(l){ return /SECURITY WARNING/.test(l); }).length;
+    var cleanCount=secLines.filter(function(l){ return /scan clean/.test(l); }).length;
+    var el=document.getElementById('sec-warn-count');
+    el.textContent=warnCount; el.className='stat-n '+(warnCount>0?'red':'green');
+    document.getElementById('sec-warn-note').textContent=warnCount>0?'needs attention':'clean \u2014 '+cleanCount+' scans';
+    document.getElementById('sec-history-viewer').innerHTML=colorizeLog(secLines.slice().reverse().join('\n'))||'<span style="color:var(--dimmer)">No scan history yet.</span>';
+  }
+  var warnRaw=await fetchLocal('/scripts/security-warnings.log');
+  var warnEl=document.getElementById('sec-warnings-content');
+  if (!warnRaw) {
+    warnEl.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:16px"><span style="font-size:1.8rem">&#9989;</span><div><div style="font-weight:600;color:var(--green);margin-bottom:2px">No warnings file found</div><div style="font-size:.8rem;color:var(--dim)">security-warnings.log is only created when a plaintext password is detected. Not existing means the scanner has never flagged anything.</div></div></div>';
+  } else {
+    var blocks=warnRaw.split(/(?=SECURITY WARNING)/).filter(function(b){ return b.trim(); });
+    blocks.reverse();
+    warnEl.innerHTML='<div class="log-viewer" style="max-height:300px;border:none">'+colorizeLog(blocks.join('\n'))+'</div>';
+  }
+  document.getElementById('sec-updated').textContent='Last loaded: '+ts();
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// CODE QUALITY
+// ══════════════════════════════════════════════════════════════════════════
+async function loadCodeQuality() {
+  var raw=await fetchLocal('/scripts/code-quality.log');
+  var logEl=document.getElementById('cq-log-viewer'), byType=document.getElementById('cq-by-type');
+  if (!raw) {
+    logEl.innerHTML='<span style="color:var(--dimmer)">code-quality.log not found yet \u2014 created on next auto-publish run.</span>';
+    ['cq-total','cq-types','cq-last-scan'].forEach(function(id){ document.getElementById(id).textContent='—'; });
+    return;
+  }
+  var types={DupeAdSense:(raw.match(/\[DupeAdSense\]/g)||[]).length,WrongCanonical:(raw.match(/\[WrongCanonical\]/g)||[]).length,MissingGA4:(raw.match(/\[MissingGA4\]/g)||[]).length,StaleCopyright:(raw.match(/\[StaleCopyright\]/g)||[]).length,MissingOgImage:(raw.match(/\[MissingOgImage\]/g)||[]).length,MissingPriceDisclaimer:(raw.match(/\[MissingPriceDisclaimer\]/g)||[]).length};
+  var total=Object.values(types).reduce(function(a,b){ return a+b; },0);
+  document.getElementById('cq-total').textContent=total;
+  document.getElementById('cq-total').className='stat-n '+(total>0?'yellow':'green');
+  var typeNames=Object.entries(types).filter(function(e){ return e[1]>0; }).map(function(e){ return e[0]+':'+e[1]; });
+  document.getElementById('cq-types').textContent=typeNames.length?typeNames.join(', '):'None';
+  var tsM=raw.match(/CODE QUALITY \((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\)/);
+  if (tsM) document.getElementById('cq-last-scan').textContent=tsM[1].split(' ')[1];
+  var icons={DupeAdSense:'📋',WrongCanonical:'🔗',MissingGA4:'📊',StaleCopyright:'📅',MissingOgImage:'🖼️',MissingPriceDisclaimer:'💲'};
+  var labels={DupeAdSense:'Duplicate AdSense Tag',WrongCanonical:'Wrong Canonical Domain',MissingGA4:'Missing GA4 Tag',StaleCopyright:'Stale Copyright Year',MissingOgImage:'Missing og:image',MissingPriceDisclaimer:'Competitor Price — No Date/Disclaimer'};
+  byType.innerHTML=Object.entries(types).map(function(e){
+    var color=e[1]>0?'var(--amber)':'var(--green)';
+    return '<div class="cq-row"><span style="font-size:1.2rem;width:24px;text-align:center">'+icons[e[0]]+'</span><div style="flex:1;font-size:.82rem;color:#e0e7ff">'+labels[e[0]]+'</div><span style="font-weight:700;font-size:1rem;color:'+color+'">'+e[1]+'</span></div>';
+  }).join('');
+  var blocks=raw.split(/(?=CODE QUALITY)/).filter(function(b){ return b.trim(); }).reverse();
+  logEl.innerHTML=blocks.map(function(b){
+    return b.split('\n').map(function(l){
+      var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      if (/DupeAdSense|WrongCanonical|MissingGA4|StaleCopyright|MissingOgImage|MissingPriceDisclaimer/.test(e)) return '<span style="color:var(--amber)">'+e+'</span>';
+      if (/CODE QUALITY/.test(e)) return '<span style="color:#a5b4fc;font-weight:700">'+e+'</span>';
+      if (/All checks clean/.test(e)) return '<span style="color:var(--green)">'+e+'</span>';
+      return '<span style="color:var(--dim)">'+e+'</span>';
+    }).join('\n');
+  }).join('\n');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// ACTION ROWS
+// ══════════════════════════════════════════════════════════════════════════
+function badgeClass(cat) {
+  var m={SEO:'badge-seo',AdSense:'badge-adsense',RankOpportunity:'badge-rank',CodeQuality:'badge-cq',Security:'badge-sec'};
+  return m[cat]||'badge-cq';
+}
+function badgeLabel(cat) { return cat==='RankOpportunity'?'Rank+':(cat||'Other'); }
+
+function renderActionRows(filter) {
+  var el=document.getElementById('action-rows'); var data=DATA.actionList;
+  if (!data||!data.actions) { el.innerHTML='<div class="au-empty">No data \u2014 run prioritize-fixes.ps1</div>'; return; }
+  var items=data.actions;
+  if (filter==='claude') items=items.filter(function(a){ return !a.AutoFixable; });
+  else if (filter==='auto') items=items.filter(function(a){ return a.AutoFixable; });
+  else if (filter!=='all') items=items.filter(function(a){ return a.Category===filter; });
+  items=items.slice(0,60);
+  el.innerHTML=items.map(function(a){
+    var fname=(a.File||'').replace(/^.*[\\/]/,'').substring(0,35);
+    var where=(a.Domain||'')+(fname?' / '+fname:'');
+    var iss=(a.Issue||a.Fix||'').substring(0,90);
+    var badge=a.AutoFixable?'badge-auto':badgeClass(a.Category);
+    var label=a.AutoFixable?'Auto':badgeLabel(a.Category);
+    return '<div class="action-row"><span class="ar-rank">#'+a.Rank+'</span><div><div class="ar-issue">'+iss+'</div><div class="ar-where">'+where+'</div></div><div class="ar-where">'+(a.Impressions>0?a.Impressions+' impr':'')+'</div><span class="ar-badge '+badge+'">'+label+'</span></div>';
+  }).join('')||'<div class="au-empty">No items match this filter</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// SESSION BRIEF
+// ══════════════════════════════════════════════════════════════════════════
+function renderBrief(md) {
+  var el=document.getElementById('brief-body');
+  if (!md) { el.innerHTML='<div class="au-empty">No session-brief.md yet. Run prioritize-fixes.ps1 then Publish Now.</div>'; return; }
+  var lines=md.split('\n'), html='', inUl=false;
+  lines.forEach(function(line){
+    var t=line.trim();
+    if (!t) { if(inUl){html+='</ul>';inUl=false;} return; }
+    if (/^# /.test(t))   { if(inUl){html+='</ul>';inUl=false;} html+='<h1>'+t.slice(2)+'</h1>'; }
+    else if (/^## /.test(t))  { if(inUl){html+='</ul>';inUl=false;} html+='<h2>'+t.slice(3)+'</h2>'; }
+    else if (/^### /.test(t)) { if(inUl){html+='</ul>';inUl=false;} html+='<h3>'+t.slice(4)+'</h3>'; }
+    else if (/^---/.test(t))  { if(inUl){html+='</ul>';inUl=false;} html+='<hr>'; }
+    else if (/^[-*] /.test(t)){ if(!inUl){html+='<ul>';inUl=true;} html+='<li>'+t.slice(2).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')+'</li>'; }
+    else { if(inUl){html+='</ul>';inUl=false;} html+='<p>'+t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')+'</p>'; }
+  });
+  if (inUl) html+='</ul>';
+  el.innerHTML=html;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// WIDGETS
+// ══════════════════════════════════════════════════════════════════════════
+function renderWidgets(vis) {
+  var el=document.getElementById('widget-cards');
+  if (!vis||!vis.widgets) { el.innerHTML='<div class="au-empty">No visibility.json. Run update-visibility.ps1 then Publish Now.</div>'; return; }
+  var html='';
+  Object.keys(vis.widgets).forEach(function(id){
+    var w=vis.widgets[id], pub=w.public===true, met=w.meetsThreshold===true;
+    var boolVal=pub?'$false':'$true';
+    var cmd='& "C:\\Users\\tombh\\Documents\\GitHub\\scripts\\update-visibility.ps1" -Widget "'+id+'" -Public '+boolVal;
+    html+='<div class="widget-card'+(pub?' public':'')+'">'+
+      '<div class="wc-head"><span class="wc-status '+(pub?'pub':'priv')+'">'+(pub?'PUBLIC':'ADMIN ONLY')+'</span><span class="wc-label">'+(w.label||id)+'</span></div>'+
+      '<div class="wc-desc">'+(w.desc||'')+'</div>'+
+      '<div style="font-size:.7rem;font-family:var(--font-mono);color:'+(met?'var(--green)':'var(--dimmer)')+';margin-bottom:12px">'+(met?'&#10003; Threshold met':(w.thresholdStatus||'Thresholds not met'))+'</div>'+
+      '<button class="wc-btn '+(pub?'wc-demote':'wc-promote')+'" onclick="auCopyWidget(this,'+JSON.stringify(cmd)+')">'+(pub?'Set admin only':'Promote to public')+'</button>'+
+      '<div style="font-size:.68rem;font-family:var(--font-mono);color:var(--green);margin-top:6px;display:none" id="wn-'+id+'">Copied! Paste in PowerShell, then Publish Now.</div>'+
+      '<div class="wc-desc" style="margin-top:8px;margin-bottom:0">'+w.pages+'</div>'+
+    '</div>';
+  });
+  el.innerHTML=html;
+}
+
+window.auCopyWidget=function(btn,cmd){
+  navigator.clipboard.writeText(cmd).then(function(){
+    var note=btn.nextElementSibling; if(note){note.style.display='block';}
+    btn.style.opacity='.4';
+    setTimeout(function(){if(note)note.style.display='none';btn.style.opacity='1';},4000);
+  });
+};
+
+// ══════════════════════════════════════════════════════════════════════════
+// NETWORK STATUS
+// ══════════════════════════════════════════════════════════════════════════
+async function checkNetwork() {
+  var wrap=document.getElementById('network-table-wrap');
+  wrap.innerHTML='<div class="au-loading">Checking '+REPOS.length+' sites&hellip;</div>';
+  var results=await Promise.all(REPOS.map(async function(repo){
+    var url=repo==='AIUNITES.github.io'?'https://aiunites.github.io/':'https://aiunites.github.io/'+repo+'/';
+    var start=Date.now();
+    try { await fetch(url,{method:'HEAD',mode:'no-cors'}); return {repo,status:'live',ms:Date.now()-start,url}; }
+    catch(e) { return {repo,status:'error',ms:null,url}; }
+  }));
+  wrap.innerHTML='<table class="net-table"><thead><tr><th>Repo</th><th>URL</th><th>Status</th><th>Response</th></tr></thead><tbody>'+
+    results.map(function(r){
+      return '<tr><td>'+r.repo+'</td><td><a href="'+r.url+'" target="_blank" style="color:#a5b4fc;font-size:.75rem">'+r.url+'</a></td>'+
+        '<td><span class="badge '+(r.status==='live'?'live':'error')+'">'+(r.status==='live'?'&#10003; Live':'&#10007; Error')+'</span></td>'+
+        '<td style="color:var(--dim)">'+(r.ms?r.ms+'ms':'—')+'</td></tr>';
+    }).join('')+
+  '</tbody></table><div class="last-updated" style="margin-top:10px">Checked at '+ts()+'</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// GIT LOG
+// ══════════════════════════════════════════════════════════════════════════
+async function loadGitLog() {
+  // Try local first, then CDN
+  var raw=await fetchLocal('/scripts/git-log.json');
+  if (!raw) {
+    // Try CDN version
+    try {
+      var r=await fetch('data/git-log.json?_='+Date.now());
+      if (r.ok) raw=await r.text();
+    } catch(e) {}
+  }
+  var el=document.getElementById('git-log-list'), upd=document.getElementById('git-log-updated');
+  if (!raw) { el.innerHTML='<div class="au-empty">git-log.json not found yet \u2014 generated on first auto-publish run.</div>'; return; }
+  try {
+    gitLogData=JSON.parse(raw);
+    renderGitLog('all');
+    upd.textContent='Last loaded: '+ts();
+  } catch(e) { el.innerHTML='<div class="au-empty">Could not parse git-log.json</div>'; }
+}
+
+function renderGitLog(filter) {
+  var el=document.getElementById('git-log-list');
+  var entries=filter==='pushed'?gitLogData.filter(function(e){ return e.pushed; }):[...gitLogData];
+  if (!entries.length) { el.innerHTML='<div class="au-empty">No entries match this filter.</div>'; return; }
+  el.innerHTML=entries.map(function(e){
+    return '<div style="display:flex;gap:0;border-bottom:1px solid rgba(99,102,241,.08);padding:10px 16px;align-items:flex-start">'+
+      '<div style="flex-shrink:0;width:90px"><div style="font-size:.7rem;color:var(--dimmer);font-family:var(--font-mono)">'+(e.date||'')+'</div><div style="font-size:.65rem;color:var(--dimmer)">'+(e.time||'')+'</div></div>'+
+      '<div style="flex-shrink:0;width:38px;margin-right:12px"><span class="badge '+(e.pushed?'live':'info')+'" style="font-size:.58rem;padding:1px 5px">'+(e.pushed?'\u2191 push':'scan')+'</span></div>'+
+      '<div style="flex:1;min-width:0"><div style="font-size:.82rem;font-weight:600;color:#e0e7ff;margin-bottom:2px">'+e.repo+'</div>'+
+      '<div style="font-size:.75rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(e.message||'').replace(/</g,'&lt;')+'</div>'+
+      (e.hash?'<div style="font-size:.65rem;color:var(--dimmer);font-family:var(--font-mono);margin-top:2px">'+e.hash+'</div>':'')+
+      '</div></div>';
+  }).join('');
+}
+
+function filterGitLog(f,btn) {
+  document.querySelectorAll('#sec-git-log .filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active'); renderGitLog(f);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// PUBLISHING SYSTEM
+// ══════════════════════════════════════════════════════════════════════════
+async function loadPublishingSystem() {
+  // Try local stats first, then CDN
+  var statsRaw=await fetchLocal('/scripts/publish-stats.json');
+  if (!statsRaw && DATA.pubStats) {
+    try { statsRaw=JSON.stringify(DATA.pubStats); } catch(e) {}
+  }
+  var upd=document.getElementById('pub-updated');
+  if (statsRaw) {
+    try {
+      var s=JSON.parse(statsRaw);
+      document.getElementById('pub-repos').textContent=s.reposManaged||'—';
+      document.getElementById('pub-month').textContent=s.monthPushes!=null?s.monthPushes:'—';
+      document.getElementById('pub-total').textContent=s.totalPushes!=null?s.totalPushes:'—';
+      document.getElementById('pub-gen').textContent=s.generated||'—';
+      var lr=(s.lastRun||'— —').split(' ');
+      document.getElementById('pub-last').textContent=lr[1]||'—';
+      document.getElementById('pub-last-date').textContent=lr[0]||'';
+      var secEl=document.getElementById('pub-sec');
+      secEl.textContent=s.secStatus||'—';
+      secEl.className='stat-n '+(s.secStatus==='Clean'?'green':'yellow');
+      var cqEl=document.getElementById('pub-cq');
+      cqEl.textContent=s.cqIssues!=null?s.cqIssues:'—';
+      cqEl.className='stat-n '+(s.cqIssues===0?'green':'yellow');
+      var net=document.getElementById('pub-network');
+      if (s.repos&&s.repos.length) {
+        net.innerHTML=s.repos.map(function(r){
+          return '<div style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 14px">'+
+            '<div style="font-size:.78rem;font-weight:600;color:#a5b4fc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+r.domain+'</div>'+
+            '<div style="font-size:.65rem;color:var(--dimmer);margin-top:2px">'+r.repo+'</div>'+
+            '<div style="margin-top:6px"><span class="badge live" style="font-size:.58rem">&#10003; Live</span></div>'+
+          '</div>';
+        }).join('');
+      }
+    } catch(e) {}
+  }
+  // Activity feed from git log
+  var feed=document.getElementById('pub-feed');
+  var gitRaw=await fetchLocal('/scripts/git-log.json');
+  if (!gitRaw) { try { var r=await fetch('data/git-log.json?_='+Date.now()); if(r.ok) gitRaw=await r.text(); } catch(e){} }
+  if (gitRaw) {
+    try {
+      var entries=JSON.parse(gitRaw).filter(function(e){ return e.pushed; }).slice(0,30);
+      if (entries.length) {
+        feed.innerHTML=entries.map(function(e){
+          return '<div style="display:flex;gap:12px;padding:9px 16px;border-bottom:1px solid rgba(99,102,241,.06);align-items:center">'+
+            '<span style="color:var(--dimmer);flex-shrink:0;font-size:.7rem;width:110px">'+e.date+' '+e.time+'</span>'+
+            '<span style="color:var(--green);flex-shrink:0">\u2191</span>'+
+            '<span style="color:#a5b4fc;flex-shrink:0;width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e.repo+'</span>'+
+            '<span style="color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(e.message||'').replace(/</g,'&lt;')+'</span>'+
+          '</div>';
+        }).join('');
+      } else { feed.innerHTML='<div class="au-empty">No pushed commits yet.</div>'; }
+    } catch(e) { feed.innerHTML='<div class="au-empty">Could not parse git-log.json</div>'; }
+  } else { feed.innerHTML='<div class="au-empty">git-log.json not found yet.</div>'; }
+  if (upd) upd.textContent='Last loaded: '+ts();
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// FEEDBACK
+// ══════════════════════════════════════════════════════════════════════════
+async function loadFeedback() {
+  var sumRaw=await fetchLocal('/analytics/feedback-summary-latest.txt');
+  if (sumRaw) {
+    var totalM=sumRaw.match(/Total responses: (\d+)/);
+    document.getElementById('fb-total').textContent=totalM?totalM[1]:'—';
+    var dlM=sumRaw.match(/Downloaded: (.+)/)||sumRaw.match(/=== AIUNITES Feedback Summary: (.+) ===/);
+    document.getElementById('fb-updated-note').textContent=dlM?dlM[1]:'';
+    var siteSection=sumRaw.match(/--- Submissions by Site ---([\/\s\S]+?)--- /);
+    if (siteSection) {
+      var lines=siteSection[1].trim().split('\n').filter(function(l){ return l.trim()&&l.includes(':'); });
+      document.getElementById('fb-sites').textContent=lines.length;
+      var maxCount=Math.max.apply(null,lines.map(function(l){ return parseInt((l.match(/: (\d+)/)||[0,'0'])[1]); }));
+      document.getElementById('fb-by-site').innerHTML=lines.map(function(l){
+        var parts=l.split(': '), site=parts[0].trim(), count=parseInt(parts[parts.length-1])||0, pct=Math.round((count/maxCount)*100);
+        return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(99,102,241,.06)">'+
+          '<div style="width:160px;font-size:.8rem;color:var(--dim);flex-shrink:0">'+site+'</div>'+
+          '<div style="flex:1;background:var(--bg3);border-radius:4px;height:8px"><div style="width:'+pct+'%;background:var(--purple);height:8px;border-radius:4px"></div></div>'+
+          '<div style="width:30px;text-align:right;font-size:.8rem;font-weight:600">'+count+'</div>'+
+        '</div>';
+      }).join('');
+    }
+    var recentSection=sumRaw.match(/--- Recent Real Submissions[\s\S]+/);
+    if (recentSection) {
+      var recentLines=recentSection[0].split('\n').filter(function(l){ return /\d{4}-\d{2}-\d{2}/.test(l); });
+      var el=document.getElementById('fb-recent');
+      el.textContent=recentLines.length; el.className='stat-n '+(recentLines.length>0?'green':'');
+    }
+  }
+  var csvRaw=await fetchLocal('/analytics/feedback-detail-latest.csv');
+  if (csvRaw) {
+    var rows=csvRaw.trim().split('\n').slice(1).reverse();
+    document.getElementById('fb-detail-body').innerHTML=rows.slice(0,50).map(function(r){
+      var cols=r.split(',');
+      var dt=(cols[0]||'').replace(/"/g,''), email=(cols[1]||'').replace(/"/g,''), site=(cols[2]||'').replace(/"/g,''), msg=cols.slice(3).join(',').replace(/"/g,'').substring(0,80);
+      return '<tr><td style="white-space:nowrap;color:var(--dim);font-size:.73rem">'+dt+'</td><td style="font-size:.78rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+email+'</td><td><span class="badge info" style="font-size:.63rem">'+site+'</span></td><td style="font-size:.78rem;color:var(--dim)">'+msg+'</td></tr>';
+    }).join('');
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// LEGAL LOG
+// ══════════════════════════════════════════════════════════════════════════
+async function loadLegalLog() {
+  // Load latest C&D scan report
+  var cdFiles=['2026-04-23','2026-03-26','2026-03-19','2026-03-18','2026-03-15','2026-03-14'];
+  var cdRaw=null;
+  for (var i=0;i<cdFiles.length;i++) {
+    cdRaw=await fetchLocal('/docs/cd-checks/cd-check-'+cdFiles[i]+'.md');
+    if (cdRaw) break;
+  }
+  var scanEl=document.getElementById('ll-scan-report');
+  if (cdRaw) {
+    var resultM=cdRaw.match(/### Result\n([^\n]+)/);
+    var statEl=document.getElementById('ll-last-scan');
+    if (resultM&&/No legal threats/.test(resultM[1])) { statEl.textContent='Clean \u2713'; statEl.className='stat-n green'; }
+    else if (resultM) { statEl.textContent='FLAG'; statEl.className='stat-n red'; }
+    else { statEl.textContent='Report found'; }
+    scanEl.innerHTML=colorizeLog(cdRaw);
+  } else {
+    document.getElementById('ll-last-scan').textContent='No report';
+    scanEl.innerHTML='<span style="color:var(--dimmer)">No C&D scan report found. Run daily-cd-check via Cowork.</span>';
+  }
+  var raw=await fetchLocal('/analytics/legal-log.md');
+  var el=document.getElementById('ll-entries');
+  if (!raw) {
+    ['ll-total','ll-open','ll-resolved'].forEach(function(id){ document.getElementById(id).textContent='0'; });
+    el.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:20px"><span style="font-size:1.8rem">&#9989;</span><div><div style="font-weight:600;color:var(--green);margin-bottom:2px">No legal log found</div><div style="font-size:.8rem;color:var(--dim)">analytics/legal-log.md doesn\'t exist yet. Click "+ Add Entry" to create the first entry.</div></div></div>';
+    return;
+  }
+  var blocks=raw.split(/(?=### )/).filter(function(b){ return b.includes('|'); }).reverse();
+  document.getElementById('ll-total').textContent=blocks.length;
+  document.getElementById('ll-open').textContent=blocks.filter(function(b){ return /### OPEN/.test(b); }).length;
+  document.getElementById('ll-resolved').textContent=blocks.filter(function(b){ return /### RESOLVED/.test(b); }).length;
+  el.innerHTML=blocks.map(function(b){
+    var sm=b.match(/### (OPEN|RESOLVED|NOTED) \| (.+?) \| (.+)/);
+    if (!sm) return '';
+    var color=sm[1]==='OPEN'?'var(--red)':sm[1]==='RESOLVED'?'var(--green)':'var(--dimmer)';
+    var date=(b.match(/\*\*Date:\*\* (.+)/)||[])[1]||'';
+    var notes=(b.match(/\*\*Notes:\*\* (.+)/)||[])[1]||'';
+    return '<div class="fq-item" style="border-left-color:'+color+'"><div class="fq-status" style="color:'+color+'">'+sm[1]+' \u00b7 '+sm[2]+'</div><div class="fq-label">'+sm[3].trim()+'</div>'+(date?'<div class="fq-file" style="color:var(--dimmer)">'+date+'</div>':'')+(notes?'<div class="fq-file" style="margin-top:4px">'+notes+'</div>':'')+'</div>';
+  }).join('');
+}
+
+function addLegalEntry() {
+  var type=prompt('Type (C&D / DMCA / Complaint / Notice):'); if(!type) return;
+  var title=prompt('Title / subject:'); if(!title) return;
+  var notes=prompt('Notes (sender, action taken, etc.):','')||'';
+  var date=new Date().toISOString().split('T')[0];
+  var entry='\n### OPEN | '+type+' | '+title+'\n- **Date:** '+date+'\n- **Notes:** '+notes+'\n';
+  prompt('Copy this entry and paste into analytics/legal-log.md:', entry);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// TRADEMARK
+// ══════════════════════════════════════════════════════════════════════════
+async function loadTrademark() {
+  var listEl=document.getElementById('tm-report-list'), upd=document.getElementById('tm-updated');
+  var found=[], now=new Date();
+  for (var i=0;i<60;i++) {
+    var d=new Date(now); d.setDate(now.getDate()-i);
+    var key=d.toISOString().split('T')[0];
+    try { var r=await fetch(resolvePath('/docs/trademark-monitor/trademark-monitor-'+key+'.md')); if(r&&r.ok) found.push(key); } catch(e) {}
+  }
+  if (!found.length) {
+    listEl.innerHTML='<span style="color:var(--dimmer);font-size:.78rem">No reports yet \u2014 run the trademark scan task first.</span>';
+    document.getElementById('tm-report-viewer').innerHTML='<span style="color:var(--dimmer)">No reports found.</span>';
+  } else {
+    listEl.innerHTML=found.map(function(k){ return '<span onclick="loadTrademarkReport(\''+k+'\')" style="cursor:pointer;color:#a5b4fc;padding:3px 10px;border:1px solid var(--border);border-radius:4px;font-size:.73rem">'+k+'</span>'; }).join('');
+    loadTrademarkReport(found[0]);
+  }
+  var logRaw=await fetchLocal('/docs/trademark-monitor/trademark-log.txt');
+  var logEl=document.getElementById('tm-log-viewer');
+  if (!logRaw) { logEl.innerHTML='<span style="color:var(--dimmer)">No log yet.</span>'; }
+  else {
+    var lines=logRaw.trim().split('\n').filter(function(l){ return l.trim()&&!l.startsWith('#'); }).reverse();
+    logEl.innerHTML=lines.map(function(l){
+      var color=/HIGH:[^0]/.test(l)?'var(--red)':/MED:[^0]/.test(l)?'var(--amber)':'var(--cyan)';
+      return '<span style="color:'+color+'">'+l.replace(/</g,'&lt;')+'</span>';
+    }).join('\n');
+  }
+  upd.textContent='Last loaded: '+ts();
+}
+
+async function loadTrademarkReport(key) {
+  var viewer=document.getElementById('tm-report-viewer'), dateEl=document.getElementById('tm-report-date');
+  viewer.innerHTML='<span style="color:var(--dim)">Loading '+key+'&hellip;</span>';
+  var raw=await fetchLocal('/docs/trademark-monitor/trademark-monitor-'+key+'.md');
+  if (!raw) { viewer.innerHTML='<span style="color:var(--amber)">Could not load report.</span>'; return; }
+  dateEl.textContent=key;
+  var highM=raw.match(/HIGH flags:\s*(\d+)/i), medM=raw.match(/MEDIUM flags:\s*(\d+)/i), clearM=raw.match(/Clear:\s*(\d+)/i);
+  if (highM) { var e=document.getElementById('tm-high'); e.textContent=highM[1]; e.className='stat-n '+(parseInt(highM[1])>0?'red':'green'); }
+  if (medM)  { var e=document.getElementById('tm-med');  e.textContent=medM[1];  e.className='stat-n '+(parseInt(medM[1])>0?'yellow':'green'); }
+  if (clearM){ document.getElementById('tm-clear').textContent=clearM[1]; }
+  document.getElementById('tm-date').textContent=key;
+  viewer.innerHTML=raw.split('\n').map(function(l){
+    var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (/🔴|HIGH/.test(e))  return '<span style="color:var(--red)">'+e+'</span>';
+    if (/🟡|MEDIUM/.test(e)) return '<span style="color:var(--amber)">'+e+'</span>';
+    if (/🟢|LOW/.test(e))    return '<span style="color:var(--cyan)">'+e+'</span>';
+    if (/✅|CLEAR|Clear/.test(e))   return '<span style="color:var(--green)">'+e+'</span>';
+    if (/^##/.test(e)) return '<span style="color:#a5b4fc;font-weight:700">'+e+'</span>';
+    return '<span style="color:var(--dim)">'+e+'</span>';
+  }).join('\n');
+  viewer.scrollTop=0;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// WEBRING AUDIT
+// ══════════════════════════════════════════════════════════════════════════
+async function loadWebringAudit() {
+  var listEl=document.getElementById('wa-report-list'), upd=document.getElementById('wa-updated');
+  var found=[], now=new Date();
+  for (var i=0;i<30;i++) {
+    var d=new Date(now); d.setDate(now.getDate()-i);
+    var key=d.toISOString().split('T')[0];
+    try { var r=await fetch(resolvePath('/docs/webring-audits/audit-'+key+'.md')); if(r&&r.ok) found.push(key); } catch(e) {}
+  }
+  if (!found.length) {
+    listEl.innerHTML='<span style="color:var(--dimmer);font-size:.78rem">No audit reports yet.</span>';
+    ['wa-total','wa-pass','wa-issues','wa-missing'].forEach(function(id){ document.getElementById(id).textContent='—'; });
+    document.getElementById('wa-report-viewer').innerHTML='<span style="color:var(--dimmer)">No reports found.</span>';
+    return;
+  }
+  listEl.innerHTML=found.map(function(k){ return '<span onclick="loadWebringReport(\''+k+'\')" style="cursor:pointer;color:#a5b4fc;padding:3px 10px;border:1px solid var(--border);border-radius:4px;font-size:.73rem">'+k+'</span>'; }).join('');
+  upd.textContent='Last loaded: '+ts();
+  loadWebringReport(found[0]);
+}
+
+async function loadWebringReport(key) {
+  var viewer=document.getElementById('wa-report-viewer'), dateEl=document.getElementById('wa-report-date');
+  viewer.innerHTML='<span style="color:var(--dim)">Loading '+key+'&hellip;</span>';
+  var raw=await fetchLocal('/docs/webring-audits/audit-'+key+'.md');
+  if (!raw) { viewer.innerHTML='<span style="color:var(--amber)">Could not load report.</span>'; return; }
+  dateEl.textContent=key;
+  var totalM=raw.match(/Files audited:\s*(\d+)/i), passM=raw.match(/Fully passing:\s*(\d+)/i), issuesM=raw.match(/Files with issues:\s*(\d+)/i);
+  if (totalM) document.getElementById('wa-total').textContent=totalM[1];
+  if (passM)  { var e=document.getElementById('wa-pass');   e.textContent=passM[1];   e.className='stat-n '+(parseInt(passM[1])>0?'green':''); }
+  if (issuesM){ var e=document.getElementById('wa-issues'); e.textContent=issuesM[1]; e.className='stat-n '+(parseInt(issuesM[1])>0?'yellow':'green'); }
+  var redSection=raw.match(/### 🔴 Files Missing Webring Bar[\s\S]*?(?=###|$)/);
+  var missingCount=redSection?(redSection[0].match(/\n- /g)||[]).length:0;
+  var missingEl=document.getElementById('wa-missing'); missingEl.textContent=missingCount; missingEl.className='stat-n '+(missingCount>0?'red':'green');
+  viewer.innerHTML=raw.split('\n').map(function(l){
+    var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (/✅|Fully Passing/i.test(e)) return '<span style="color:var(--green)">'+e+'</span>';
+    if (/⚠️|CHECK \d FAIL|MISSING|Issues/i.test(e)) return '<span style="color:var(--amber)">'+e+'</span>';
+    if (/🔴|Missing Webring Bar/i.test(e)) return '<span style="color:var(--red)">'+e+'</span>';
+    if (/^##/.test(e)) return '<span style="color:#a5b4fc;font-weight:700">'+e+'</span>';
+    return '<span style="color:var(--dim)">'+e+'</span>';
+  }).join('\n');
+  viewer.scrollTop=0;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// PROGRESS SUMMARIES
+// ══════════════════════════════════════════════════════════════════════════
+async function loadProgress() {
+  var listEl=document.getElementById('prog-report-list'), upd=document.getElementById('prog-updated');
+  var found=[], now=new Date();
+  for (var i=0;i<30;i++) {
+    var d=new Date(now); d.setDate(now.getDate()-i);
+    var key=d.toISOString().split('T')[0];
+    try { var r=await fetch(resolvePath('/docs/daily-summaries/summary-'+key+'.md')); if(r&&r.ok) found.push(key); } catch(e) {}
+  }
+  if (!found.length) {
+    listEl.innerHTML='<span style="color:var(--dimmer);font-size:.78rem">No progress summaries yet.</span>';
+    document.getElementById('prog-report-viewer').innerHTML='<span style="color:var(--dimmer)">No summaries found.</span>';
+    return;
+  }
+  listEl.innerHTML=found.map(function(k){ return '<span onclick="loadProgressReport(\''+k+'\')" style="cursor:pointer;color:#a5b4fc;padding:3px 10px;border:1px solid var(--border);border-radius:4px;font-size:.73rem">'+k+'</span>'; }).join('');
+  upd.textContent='Last loaded: '+ts();
+  loadProgressReport(found[0]);
+}
+
+async function loadProgressReport(key) {
+  var viewer=document.getElementById('prog-report-viewer'), dateEl=document.getElementById('prog-report-date');
+  viewer.innerHTML='<span style="color:var(--dim)">Loading '+key+'&hellip;</span>';
+  var raw=await fetchLocal('/docs/daily-summaries/summary-'+key+'.md');
+  if (!raw) { viewer.innerHTML='<span style="color:var(--amber)">Could not load summary.</span>'; return; }
+  dateEl.textContent=key;
+  viewer.innerHTML=raw.split('\n').map(function(l){
+    var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (/^## /.test(e))  return '<span style="color:#a5b4fc;font-weight:700">'+e+'</span>';
+    if (/^### /.test(e)) return '<span style="color:var(--cyan);font-weight:600">'+e+'</span>';
+    if (/^- /.test(e))   return '<span style="color:#e0e7ff">'+e+'</span>';
+    return '<span style="color:var(--dim)">'+e+'</span>';
+  }).join('\n');
+  viewer.scrollTop=0;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// PIPELINE SECTION LAZY LOAD
+// ══════════════════════════════════════════════════════════════════════════
+document.querySelectorAll('.sb-nav-link').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    if (this.dataset.sec==='pipeline'&&DATA.actionList) {
+      var el=document.getElementById('pipeline-widget');
+      if (el.innerHTML.indexOf('au-loading')!==-1) renderPipelineInto(DATA.actionList,el);
+    }
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════
+if (isAdmin()) {
+  showAdmin();
+} else {
+  var lp=document.getElementById('au-login-page');
+  if (lp) lp.style.display='flex';
+  setTimeout(function(){ var u=document.getElementById('lg-user'); if(u) u.focus(); },100);
+}
 </script>
 </body>
 </html>
