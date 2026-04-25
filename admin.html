@@ -257,6 +257,7 @@ html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-
       <button class="sb-nav-link" data-sec="webring-audit"><span class="icon">&#128279;</span> Webring Audit<span class="sb-local-badge">local</span></button>
 
       <div class="sb-group">History</div>
+      <button class="sb-nav-link" data-sec="seo-digest"><span class="icon">&#128200;</span> SEO Digest<span class="sb-local-badge">local</span></button>
       <button class="sb-nav-link" data-sec="feedback"><span class="icon">&#128140;</span> Feedback<span class="sb-local-badge">local</span></button>
       <button class="sb-nav-link" data-sec="progress"><span class="icon">&#128196;</span> Progress<span class="sb-local-badge">local</span></button>
 
@@ -533,6 +534,30 @@ html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-
         <div class="last-updated" id="wa-updated"></div>
       </section>
 
+      <!-- ══════════════════════════════════════════ SEO DIGEST -->
+      <section class="au-section" id="sec-seo-digest">
+        <div class="sec-head"><h2>SEO Digest history</h2><p>Weekly SEO optimization runs &mdash; docs/seo-digest/</p></div>
+        <div class="stat-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="stat-card"><span class="stat-n blue" id="sd-runs">—</span><span class="stat-l">Total Runs</span></div>
+          <div class="stat-card"><span class="stat-n green" id="sd-edited">—</span><span class="stat-l">Files Edited</span><span class="stat-sub">all time</span></div>
+          <div class="stat-card"><span class="stat-n green" id="sd-published">—</span><span class="stat-l">Pages Published</span><span class="stat-sub">all time</span></div>
+          <div class="stat-card"><span class="stat-n blue" id="sd-last" style="font-size:.85rem;padding-top:6px">—</span><span class="stat-l">Last Run</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot" style="background:var(--cyan)"></span>Run Log <span style="margin-left:auto;font-size:.68rem;color:var(--dimmer)">docs/seo-digest/seo-digest-log.txt</span></div>
+          <div class="log-viewer" id="sd-log-viewer" style="max-height:180px">Loading&hellip;</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:.78rem;color:var(--dim)">Load report:</span>
+          <div id="sd-report-list" style="display:flex;gap:6px;flex-wrap:wrap"><span style="color:var(--dimmer);font-size:.78rem">Loading&hellip;</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="card-dot"></span>Report <span id="sd-report-date" style="margin-left:6px;font-size:.73rem;color:var(--dim)"></span></div>
+          <div class="log-viewer" id="sd-report-viewer" style="max-height:600px;white-space:pre-wrap">Select a report above.</div>
+        </div>
+        <div class="last-updated" id="sd-updated"></div>
+      </section>
+
       <!-- ══════════════════════════════════════════ FEEDBACK -->
       <section class="au-section" id="sec-feedback">
         <div class="sec-head"><h2>Feedback</h2><p>Form submissions from all sites &mdash; analytics/feedback-summary-latest.txt</p></div>
@@ -737,7 +762,8 @@ var SEC_TITLES = {
   'pipeline':'Automation Pipeline','actions':'Action List','brief':'Session Brief',
   'widgets':'Widget Visibility','network-status':'Network Status','git-log':'Git Log',
   'publishing':'Publishing System','legal-log':'Legal Log','trademark':'Trademark Monitor',
-  'webring-audit':'Webring Audit','feedback':'Feedback','progress':'Progress',
+  'webring-audit':'Webring Audit',
+  'seo-digest':'SEO Digest','feedback':'Feedback','progress':'Progress',
   'ext-links':'External Links'
 };
 
@@ -811,17 +837,18 @@ function loadAllData() {
 
   // Local-only sections
   if (IS_LOCAL) {
-    loadPublishLog();
-    loadAdsenseLog();
-    loadFixQueue();
-    loadGitLog();
-    loadSecurity();
-    loadFeedback();
-    loadLegalLog();
-    loadWebringAudit();
-    loadProgress();
-    loadTrademark();
-    loadCodeQuality();
+  loadPublishLog();
+  loadAdsenseLog();
+  loadFixQueue();
+  loadGitLog();
+  loadSecurity();
+  loadFeedback();
+  loadLegalLog();
+  loadWebringAudit();
+  loadProgress();
+  loadTrademark();
+  loadCodeQuality();
+    loadSeoDigest();
   } else {
     localOnlyMsg('publish-log-viewer');
     localOnlyMsg('adsense-log-viewer');
@@ -1615,6 +1642,67 @@ document.querySelectorAll('.sb-nav-link').forEach(function(btn){
 // ══════════════════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════════════════
+// SEO DIGEST HISTORY
+async function loadSeoDigest() {
+  var listEl=document.getElementById('sd-report-list'), upd=document.getElementById('sd-updated');
+  var logRaw=await fetchLocal('/docs/seo-digest/seo-digest-log.txt');
+  var logEl=document.getElementById('sd-log-viewer');
+  if (logRaw) {
+    var lines=logRaw.trim().split('\n').filter(function(l){ return l.trim(); }).reverse();
+    document.getElementById('sd-runs').textContent=lines.length;
+    var totalEdited=0, totalPublished=0;
+    lines.forEach(function(l){
+      var em=l.match(/edited:(\d+)/); if(em) totalEdited+=parseInt(em[1]);
+      var pm=l.match(/published:(\d+)/); if(pm) totalPublished+=parseInt(pm[1]);
+    });
+    document.getElementById('sd-edited').textContent=totalEdited;
+    document.getElementById('sd-published').textContent=totalPublished;
+    if (lines[0]) { var dm=lines[0].match(/^(\d{4}-\d{2}-\d{2})/); document.getElementById('sd-last').textContent=dm?dm[1]:lines[0].substring(0,10); }
+    logEl.innerHTML=lines.map(function(l){
+      var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      var c=/edited:[^0]/.test(l)?'var(--green)':/edited:0/.test(l)?'var(--dimmer)':'var(--cyan)';
+      return '<span style="color:'+c+'">'+e+'</span>';
+    }).join('\n');
+  } else {
+    logEl.innerHTML='<span style="color:var(--dimmer)">No digest log yet — runs Monday 7:10 AM via Cowork.</span>';
+    ['sd-runs','sd-edited','sd-published'].forEach(function(id){ document.getElementById(id).textContent='0'; });
+    document.getElementById('sd-last').textContent='Never';
+  }
+  var found=[], now=new Date();
+  for (var i=0;i<60;i++) {
+    var d=new Date(now); d.setDate(now.getDate()-i);
+    var key=d.toISOString().split('T')[0];
+    try { var r=await fetch(resolvePath('/docs/seo-digest/seo-digest-'+key+'.md')); if(r&&r.ok) found.push(key); } catch(e) {}
+  }
+  if (!found.length) {
+    listEl.innerHTML='<span style="color:var(--dimmer);font-size:.78rem">No reports yet — first report generates next Monday.</span>';
+    document.getElementById('sd-report-viewer').innerHTML='<span style="color:var(--dimmer)">No reports found yet.</span>';
+  } else {
+    listEl.innerHTML=found.map(function(k){ return '<span onclick="loadSeoDigestReport(\''+k+'\')" style="cursor:pointer;color:#a5b4fc;padding:3px 10px;border:1px solid var(--border);border-radius:4px;font-size:.73rem">'+k+'</span>'; }).join('');
+    loadSeoDigestReport(found[0]);
+  }
+  if (upd) upd.textContent='Last loaded: '+ts();
+}
+
+async function loadSeoDigestReport(key) {
+  var viewer=document.getElementById('sd-report-viewer'), dateEl=document.getElementById('sd-report-date');
+  viewer.innerHTML='<span style="color:var(--dim)">Loading '+key+'&hellip;</span>';
+  var raw=await fetchLocal('/docs/seo-digest/seo-digest-'+key+'.md');
+  if (!raw) { viewer.innerHTML='<span style="color:var(--amber)">Could not load report.</span>'; return; }
+  dateEl.textContent=key;
+  viewer.innerHTML=raw.split('\n').map(function(l){
+    var e=l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (/^## /.test(e)) return '<span style="color:#a5b4fc;font-weight:700">'+e+'</span>';
+    if (/^### /.test(e)) return '<span style="color:var(--cyan);font-weight:600">'+e+'</span>';
+    if (/OLD title:|NEW title:|OLD desc:|NEW desc:/.test(e)) return '<span style="color:var(--amber)">'+e+'</span>';
+    if (/Reason:/.test(e)) return '<span style="color:var(--green)">'+e+'</span>';
+    if (/No files changed/.test(e)) return '<span style="color:var(--dimmer)">'+e+'</span>';
+    if (/^- /.test(e)) return '<span style="color:#e0e7ff">'+e+'</span>';
+    return '<span style="color:var(--dim)">'+e+'</span>';
+  }).join('\n');
+  viewer.scrollTop=0;
+}
+
 if (isAdmin()) {
   showAdmin();
 } else {
