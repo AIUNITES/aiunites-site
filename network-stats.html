@@ -229,14 +229,14 @@
     <a href="https://lookerstudio.google.com/reporting/bb4e6805-5a2f-4d47-a5cc-283d1e5283cc" target="_blank" class="btn btn-primary">📊 Looker Studio →</a>
     <a href="https://adsense.google.com/adsense/u/0/pub-4573596965267859/sites/list" target="_blank" class="btn">AdSense</a>
     <a href="https://search.google.com/search-console" target="_blank" class="btn">GSC</a>
-    <button class="btn btn-primary" id="refresh-btn" onclick="fetchLiveStats()">🔄 Refresh Live Data</button>
+    <button class="btn" id="refresh-btn" onclick="fetchLiveStats()">🔄 Reload Stats</button>
     <button class="btn" onclick="exportNotes()">⬇ Export Notes</button>
     <button class="btn" onclick="clearAllData()" style="color:var(--red);border-color:rgba(239,68,68,.3)">🗑 Reset Data</button>
   </div>
   <div style="font-size:.75rem;color:var(--gray);margin-bottom:1rem">
     📡 Live data: <span id="live-updated" style="color:var(--gray-light)">Loading...</span>
     &nbsp;·&nbsp; Range: <span id="live-daterange" style="color:var(--gray-light)">28 days</span>
-    &nbsp;·&nbsp; <span style="color:var(--amber)">Add service account to each GSC property to enable auto-fetch</span>
+    &nbsp;·&nbsp; <span style="color:var(--green)">&#10003; Auto-updates daily via service account</span>
   </div>
 
   <!-- ====== INDEXING TRACKER ====== -->
@@ -369,7 +369,9 @@ function renderIndexingGrid() {
     const cardClass = hasIssues ? 'has-issues' : (allGood ? 'all-good' : '');
     const dotColor  = hasIssues ? 'var(--red)' : (allGood ? 'var(--green)' : 'var(--gray)');
     const statusBadge = total === 0
-      ? `<span class="badge badge-gray">No data</span>`
+      ? (sd.gscFetched
+          ? `<span class="badge badge-gray">Not indexed yet</span>`
+          : `<span class="badge badge-gray">No data</span>`)
       : hasIssues
         ? `<span class="badge badge-red">${sd.notIndexed} not indexed</span>`
         : `<span class="badge badge-green">All indexed</span>`;
@@ -461,26 +463,28 @@ function updateOverviewBars() {
   const data = loadData();
   const rows = SITES.map(s => {
     const sd = data[s.domain] || {};
-    return { name: s.name, indexed: sd.indexed||0, notIndexed: sd.notIndexed||0 };
-  }).filter(r => r.indexed + r.notIndexed > 0);
+    return { name: s.name, indexed: sd.indexed||0, notIndexed: sd.notIndexed||0, gscFetched: sd.gscFetched||false };
+  }).filter(r => r.gscFetched || r.indexed + r.notIndexed > 0);
 
   if (rows.length === 0) {
-    container.innerHTML = '<div style="color:var(--gray);font-size:.8rem">Enter indexed/not-indexed counts below to populate this chart...</div>';
+    container.innerHTML = '<div style="color:var(--gray);font-size:.8rem">Loading GSC data...</div>';
     return;
   }
-  const maxTotal = Math.max(...rows.map(r => r.indexed + r.notIndexed));
+  const maxTotal = Math.max(...rows.map(r => r.indexed + r.notIndexed), 1);
   container.innerHTML = rows.map(r => {
     const total = r.indexed + r.notIndexed;
-    const idxPct = Math.round((r.indexed/total)*100);
+    const idxPct = total > 0 ? Math.round((r.indexed/total)*100) : 0;
     const notPct = 100 - idxPct;
-    const barColor = notPct === 0 ? 'var(--green)' : notPct < 30 ? 'var(--amber)' : 'var(--red)';
+    const barColor = total === 0 ? 'var(--gray)' : notPct === 0 ? 'var(--green)' : notPct < 30 ? 'var(--amber)' : 'var(--red)';
+    const barWidth = total === 0 ? 3 : idxPct; // show tiny stub for not-yet-indexed
+    const numsLabel = total === 0 ? 'pending' : `${r.indexed} / ${total}`;
     return `
     <div class="idx-ov-row">
       <div class="idx-ov-label" title="${r.name}">${r.name}</div>
       <div class="idx-ov-track">
-        <div class="idx-ov-fill" style="width:${idxPct}%;background:${barColor}"></div>
+        <div class="idx-ov-fill" style="width:${barWidth}%;background:${barColor};opacity:${total===0?0.3:1}"></div>
       </div>
-      <div class="idx-ov-nums">${r.indexed} / ${total}</div>
+      <div class="idx-ov-nums">${numsLabel}</div>
     </div>`;
   }).join('');
 }
@@ -698,6 +702,7 @@ function applyLiveData(json) {
       if (!stored[s.domain]) stored[s.domain] = { indexed:0, notIndexed:0, lastChecked:'', notes:'' };
       stored[s.domain].indexed = live.indexed || 0;
       stored[s.domain].lastChecked = live.lastFetched || '';
+      stored[s.domain].gscFetched = true;
       changed = true;
     }
   });
