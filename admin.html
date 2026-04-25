@@ -771,14 +771,18 @@ function initNav() {
   document.querySelectorAll('.sb-nav-link').forEach(function(btn) {
     btn.addEventListener('click', function(){
       var sec = this.dataset.sec;
-      document.querySelectorAll('.sb-nav-link').forEach(function(b){ b.classList.remove('active'); });
-      this.classList.add('active');
-      document.querySelectorAll('.au-section').forEach(function(s){ s.classList.remove('active'); });
-      document.getElementById('sec-' + sec).classList.add('active');
-      document.getElementById('tb-title').textContent = SEC_TITLES[sec] || sec;
-      document.getElementById('tb-badge').className = 'tb-badge' + (IS_LOCAL ? ' local' : '');
-      document.getElementById('tb-badge').textContent = IS_LOCAL ? 'Localhost' : 'Live';
+      navTo(sec);
     });
+  });
+
+  // Read hash on load
+  var hash = location.hash.replace('#','');
+  navTo(hash && document.getElementById('sec-'+hash) ? hash : 'dashboard');
+
+  // Listen for back/forward
+  window.addEventListener('hashchange', function(){
+    var h = location.hash.replace('#','');
+    if (h && document.getElementById('sec-'+h)) navTo(h, true);
   });
 
   document.getElementById('action-filters').addEventListener('click', function(e){
@@ -788,6 +792,23 @@ function initNav() {
     btn.classList.add('active');
     renderActionRows(btn.dataset.filter);
   });
+}
+
+function navTo(sec, fromHash) {
+  document.querySelectorAll('.sb-nav-link').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.querySelector('.sb-nav-link[data-sec="'+sec+'"]');
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('.au-section').forEach(function(s){ s.classList.remove('active'); });
+  var secEl = document.getElementById('sec-'+sec);
+  if (secEl) secEl.classList.add('active');
+  document.getElementById('tb-title').textContent = SEC_TITLES[sec] || sec;
+  document.getElementById('tb-badge').className = 'tb-badge' + (IS_LOCAL ? ' local' : '');
+  document.getElementById('tb-badge').textContent = IS_LOCAL ? 'Localhost' : 'Live';
+  if (!fromHash) location.hash = sec;
+  if (sec==='pipeline'&&DATA.actionList) {
+    var el=document.getElementById('pipeline-widget');
+    if (el.innerHTML.indexOf('au-loading')!==-1) renderPipelineInto(DATA.actionList,el);
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════════════
