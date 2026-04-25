@@ -908,7 +908,8 @@ function renderPipelineInto(data, el) {
   var COWORK=[
     {name:'SEO Digest',schedule:'Weekly \u00b7 Mon 7:10 AM',status:'scheduled',file:'AIUNITES_SEO_DIGEST_TASK.md',desc:'Reads gsc-stats.json + seo-report.json, rewrites titles/meta for high-impression pages'},
     {name:'Security Audit',schedule:'Monthly \u00b7 1st of month',status:'scheduled',file:'AIUNITES_SECURITY_AUDIT_TASK.md',desc:'7 security checks across all auth sites, flags issues to fix-queue.md'},
-    {name:'Client Report',schedule:'Monthly \u00b7 end of month',status:'demo only',file:'AIUNITES_CLIENT_REPORT_TASK.md',desc:'Generates branded HTML monthly report per client domain \u2014 liability review pending'}
+    {name:'Client Report',schedule:'Monthly \u00b7 end of month',status:'demo only',file:'AIUNITES_CLIENT_REPORT_TASK.md',desc:'Generates branded HTML monthly report per client domain \u2014 liability review pending'},
+    {name:'Trademark Monitor',schedule:'Weekly \u00b7 Thu 7:15 AM',status:'scheduled',file:'scripts/trademark-monitor.ps1',desc:'Claude AI scans 11 portfolio terms (BODWAVE, MNN, VRN, HMN etc.) for conflicts, saves report to docs/trademark-monitor/ via Task Scheduler'}
   ];
   var coworkH=COWORK.map(function(t){
     var sc=t.status==='scheduled'?'#6ee7b7':'#fcd34d', sb=t.status==='scheduled'?'rgba(0,229,160,.1)':'rgba(245,158,11,.1)';
