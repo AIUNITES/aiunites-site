@@ -1,0 +1,18 @@
+[
+  { "name": "🌌 COSMOS", "repo": "cosmostheopera-site" },
+  { "name": "AIZines",   "repo": "aizines-app" },
+  { "name": "AIByJob",   "repo": "aibyjob-demo" },
+  { "name": "Redomy",    "repo": "redomy-demo" },
+  { "name": "VideoBate", "repo": "videobate-site" },
+  { "name": "🎤 VoiceStry", "repo": "voicestry-site" },
+  { "name": "FurnishThings", "repo": "furnishthings-site" },
+  { "name": "BizStry",   "repo": "bizstry-site" },
+  { "name": "AI YHWH",   "repo": "aiyhwh-site" },
+  { "name": "Cloudsion", "repo": "cloudsion-site" },
+  { "name": "Gameatica", "repo": "gameatica-site" },
+  { "name": "UptownIT",  "repo": "uptownit-site" },
+  { "name": "InThisWorld", "repo": "inthisworld-site" },
+  { "name": "ERPise",    "repo": "erpise-site" },
+  { "name": "ERPize",    "repo": "erpize-site" },
+  { "name": "AITSQL",    "repo": "aitsql-site" }
+]
