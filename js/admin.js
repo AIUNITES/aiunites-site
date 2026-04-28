@@ -18,7 +18,8 @@
     if (typeof LOCAL_USERS !== 'undefined' && LOCAL_USERS.admin) {
       return LOCAL_USERS.admin;
     }
-    return { username: 'admin', password: 'aiunites2026', displayName: 'Tom' };
+    // No fallback - credentials must be in js/local-users.js
+    return null;
   }
 
   function isAdmin() {
@@ -47,6 +48,7 @@
 
   function login(username, password) {
     var creds = getAdminCreds();
+    if (!creds) return false;
     if (username === creds.username && password === creds.password) {
       var user = { username: creds.username, displayName: creds.displayName || 'Admin', isAdmin: true, loginTime: Date.now() };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
