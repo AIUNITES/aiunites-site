@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="js/local-users.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
@@ -633,7 +634,7 @@ html,body{height:100%;background:var(--bg);color:#e0e7ff;font-family:var(--font-
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════════
 var STORAGE_KEY = 'aiunites_currentUser';
-var PW_HASH = '8f526028a324e19cfe5091fea68a6e37f2df3de9c30ba836da3534079637d85f';
+var PW_HASH = '9f0f6d9bbe5cac864765bebf60f8fb3daa8429c86601ed7ad8b7b4f0125d52ac';
 var BASE_PATH = 'C:/Users/tombh/Documents/GitHub';
 var IS_LOCAL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
 
@@ -725,7 +726,7 @@ async function doLogin() {
   var u = document.getElementById('lg-user').value.trim();
   var p = document.getElementById('lg-pass').value;
   var hash = await sha256(p);
-  if (u === 'admin' && hash === PW_HASH) {
+  if (u === 'tom' && hash === PW_HASH) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({username:'admin',displayName:'Tom',isAdmin:true,loginTime:Date.now()}));
     showAdmin();
   } else {
