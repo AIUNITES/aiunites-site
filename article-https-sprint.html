@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4573596965267859" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Apex DNS to AdSense Authorized: A 10-Domain HTTPS Sprint | AIUNITES</title>
+  <meta name="description" content="A field report on debugging GitHub Pages TLS provisioning across 10 custom domains: the dns_changed state, the apex-vs-www cert trap, the Let's Encrypt rate limit, and what AdSense actually crawls.">
+  <meta name="keywords" content="GitHub Pages HTTPS, custom domain, dns_changed cert state, Let's Encrypt rate limit, AdSense ads.txt not found, apex CNAME, gh api PUT pages, AIUNITES">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.com/article-https-sprint.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="From Apex DNS to AdSense Authorized: A 10-Domain HTTPS Sprint">
+  <meta property="og:description" content="A field report on debugging GitHub Pages TLS provisioning across 10 custom domains.">
+  <meta property="og:site_name" content="AIUNITES">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <style>
+    .article-hero { padding: 10rem 0 4rem; max-width: 780px; margin: 0 auto; }
+    .article-tag { display: inline-block; background: rgba(99,102,241,.15); color: var(--primary-light); border: 1px solid rgba(99,102,241,.3); border-radius: 20px; padding: .3rem .9rem; font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .article-hero h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.2rem; }
+    .article-meta { color: var(--gray-light); font-size: .9rem; margin-bottom: 2.5rem; }
+    .article-lead { font-size: 1.2rem; line-height: 1.8; color: var(--gray-light); border-left: 3px solid var(--primary); padding-left: 1.5rem; margin-bottom: 3rem; }
+    .article-body { max-width: 780px; margin: 0 auto; padding-bottom: 6rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--text-light); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 .8rem; color: var(--primary-light); }
+    .article-body p { font-size: 1.05rem; line-height: 1.85; color: var(--gray-light); margin-bottom: 1.4rem; }
+    .article-body strong { color: var(--text-light); }
+    .callout { background: var(--dark-light); border: 1px solid rgba(99,102,241,.25); border-radius: var(--radius-md); padding: 1.5rem 2rem; margin: 2rem 0; }
+    .callout p { margin: 0; font-style: italic; }
+    .code-example { background: #0d0d1a; border: 1px solid rgba(99,102,241,.2); border-radius: var(--radius-sm); padding: 1.2rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: .85rem; line-height: 1.8; color: #a5b4fc; margin: 1.5rem 0; overflow-x: auto; }
+    .article-cta { background: linear-gradient(135deg, rgba(99,102,241,.1), rgba(139,92,246,.1)); border: 1px solid rgba(99,102,241,.3); border-radius: var(--radius-md); padding: 2.5rem; text-align: center; margin: 4rem 0; }
+    .article-cta h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: .8rem; }
+    .article-cta p { margin-bottom: 1.5rem; }
+    .article-nav { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .article-nav a { color: var(--primary-light); text-decoration: none; font-size: .95rem; }
+    .article-nav a:hover { text-decoration: underline; }
+  </style>
+<meta property="og:image" content="https://aiunites.com/images/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"aiunites.com","url":"https://aiunites.com/"}</script></head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-active{color:#fff!important;text-decoration:underline;text-underline-offset:3px}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.wb-arrow{display:none;position:fixed;top:0;width:36px;height:33px;align-items:center;justify-content:center;cursor:pointer;z-index:1102;border:none;padding:0;font-size:16px;line-height:1;color:rgba(255,255,255,.8);transition:color .2s,opacity .2s}.wb-arrow:hover{color:#fff}.wb-left{left:0;background:linear-gradient(90deg,#0d0d1a 55%,transparent)}.wb-right{right:0;background:linear-gradient(270deg,#0d0d1a 55%,transparent)}@media (hover:hover) and (pointer:fine){.wb-arrow{display:flex}}body{padding-top:38px!important}.nav,.site-nav,.main-nav,.landing-nav,.top-nav,nav[class*="nav"]{top:38px!important}</style>
+<button class="wb-arrow wb-left" id="wb-left" aria-label="Scroll webring left">&#8249;</button>
+<div class="aiunites-bar"><div class="aiunites-bar-content" id="wb-content"><a href="https://aiunites.github.io/aiunites-site/" class="aiunites-bar-brand">&#9670; AIUNITES</a><span class="aiunites-bar-divider">|</span></div></div>
+<button class="wb-arrow wb-right" id="wb-right" aria-label="Scroll webring right">&#8250;</button>
+<script>(function(){var IS_LOCAL=location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';var BASE=IS_LOCAL?'../':'https://aiunites.github.io/';var JSON_URL=IS_LOCAL?'../aiunites-site/data/webring.json':'https://aiunites.github.io/aiunites-site/data/webring.json';var c=document.getElementById('wb-content'),l=document.getElementById('wb-left'),r=document.getElementById('wb-right');function buildBar(sites){sites.forEach(function(s){var a=document.createElement('a');a.href=(IS_LOCAL?BASE+s.repo+'/index.html':BASE+s.repo+'/');a.textContent=s.name;if(location.pathname.indexOf(s.repo)!==-1)a.className='aiunites-bar-active';c.appendChild(a);});setupArrows();}function setupArrows(){if(!c||!l||!r)return;function upd(){var atL=c.scrollLeft<8,atR=c.scrollLeft>=c.scrollWidth-c.clientWidth-8;l.style.opacity=atL?'0':'1';l.style.pointerEvents=atL?'none':'auto';r.style.opacity=atR?'0':'1';r.style.pointerEvents=atR?'none':'auto';}l.onclick=function(){c.scrollBy({left:-220,behavior:'smooth'});};r.onclick=function(){c.scrollBy({left:220,behavior:'smooth'});};c.addEventListener('scroll',upd,{passive:true});upd();}var FB=[{name:'\uD83C\uDF0C COSMOS',repo:'cosmostheopera-site'},{name:'AIZines',repo:'aizines-app'},{name:'AIByJob',repo:'aibyjob-demo'},{name:'Redomy',repo:'redomy-demo'},{name:'VideoBate',repo:'videobate-site'},{name:'\uD83C\uDFA4 VoiceStry',repo:'voicestry-site'},{name:'FurnishThings',repo:'furnishthings-site'},{name:'BizStry',repo:'bizstry-site'},{name:'AI YHWH',repo:'aiyhwh-site'},{name:'Cloudsion',repo:'cloudsion-site'},{name:'Gameatica',repo:'gameatica-site'},{name:'UptownIT',repo:'uptownit-site'},{name:'InThisWorld',repo:'inthisworld-site'},{name:'ERPise',repo:'erpise-site'},{name:'ERPize',repo:'erpize-site'},{name:'AITSQL',repo:'aitsql-site'}];fetch(JSON_URL).then(function(r){return r.json();}).then(buildBar).catch(function(){buildBar(FB);});})()</script>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">&#9670;</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="network.html">Network</a>
+        <a href="movement.html">Movement</a>
+        <a href="press.html" style="color:var(--primary)">Articles</a>
+        <a href="consulting.html">Consulting</a>
+        <a href="index.html#contact" class="nav-cta">Contact</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="article-hero">
+      <div class="article-tag">Operations</div>
+      <h1>From Apex DNS to AdSense Authorized: A 10-Domain HTTPS Sprint</h1>
+      <div class="article-meta">By AIUNITES LLC &nbsp;&middot;&nbsp; May 2026 &nbsp;&middot;&nbsp; 10 min read</div>
+      <p class="article-lead">A field report from the AIUNITES network: 18 production sites on custom domains, AdSense reporting "ads.txt not found" on every one. The fix took two days, four scripts, and an uncomfortably close look at how GitHub Pages provisions Let's Encrypt certificates. Here's what was actually happening, and what the public documentation does not say out loud.</p>
+    </div>
+
+    <div class="article-body">
+
+      <h2>The Trigger</h2>
+
+      <p>The AIUNITES network runs eighteen separate production sites, each on its own custom apex domain. All eighteen had been registered with Google AdSense for monetization. As of late April 2026, the AdSense Sites dashboard showed every single one with the same status: <strong>Ads.txt status &mdash; Not found</strong>.</p>
+
+      <p>This was surprising, because the <code>ads.txt</code> file with the correct publisher line existed in every repository. It had been deployed via the network's auto-publish pipeline weeks earlier. A spot check of a handful of domains in a browser confirmed the file was there, served correctly, with the right content. And yet AdSense was unanimously reporting it missing.</p>
+
+      <p>Worse, several sites that had been showing as <em>Authorized</em> just days earlier had silently regressed to <em>Not found</em>. Whatever had broken, broke recently, and broke at scale.</p>
+
+      <h2>First Wrong Hypothesis: The Public Suffix List</h2>
+
+      <p>The first instinct was to check whether the AdSense documentation imposed any constraints that might apply to a network of sites hosted on GitHub Pages. AdSense's published guidance notes that <code>ads.txt</code> must live at the root of the domain, and that for hosts on the Public Suffix List, each subdomain needs its own <code>ads.txt</code>.</p>
+
+      <p>GitHub's <code>github.io</code> is on the Public Suffix List. For a moment, this looked like a possible explanation: maybe AdSense was ignoring the project-page <code>ads.txt</code> files because <code>aiunites.github.io/some-repo/ads.txt</code> isn't where the crawler would look.</p>
+
+      <p>This turned out to be a red herring. None of the eighteen AIUNITES sites was registered with AdSense at its <code>github.io</code> address. Every site was registered at its custom apex domain &mdash; <code>aiunites.com</code>, <code>videobate.com</code>, <code>inthisworld.com</code>, and so on. The Public Suffix List rule does not apply to a custom domain. AdSense was crawling the apex, not the GitHub project subpath.</p>
+
+      <p>The hypothesis was wrong, but the process of ruling it out clarified what to check next: what was AdSense actually able to fetch when it asked the apex for <code>ads.txt</code>?</p>
+
+      <h2>Building a Proper Diagnostic</h2>
+
+      <p>Rather than checking domains one at a time in a browser, the right move was a script that hit <code>https://[domain]/ads.txt</code> for every site in the network, captured the HTTP status, the final URL after redirects, and the first content line, and reported each result. The implementation was about 80 lines of PowerShell:</p>
+
+      <div class="code-example">[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+foreach ($domain in $domains) {
+  $resp = Invoke-WebRequest -Uri "https://$domain/ads.txt" `
+                            -UseBasicParsing -TimeoutSec 12 `
+                            -MaximumRedirection 5 -ErrorAction Stop
+  # ... check status, body match, redirect chain
+}</div>
+
+      <p>The output split the network cleanly in half. <strong>Eight sites returned 200 OK with the correct publisher line.</strong> Ten sites returned the same TLS error: <em>"The underlying connection was closed: Could not establish trust relationship for the SSL/TLS secure channel."</em></p>
+
+      <p>That error meant something specific. The DNS was resolving. A connection was being established to the right IP address. But the certificate the server presented during the TLS handshake was either expired, invalid, or for a different name than the client was asking for. The browser, in normal use, would fail to connect with a security warning. AdSense's crawler, in its own way, was doing the same thing &mdash; concluding that the page was unreachable, and recording that as <code>ads.txt</code> not found.</p>
+
+      <h2>Inspecting the Pages API</h2>
+
+      <p>The next question was why ten domains had broken TLS while eight worked. Same hosting platform, same network, same auto-publish pipeline. Something was different about those ten.</p>
+
+      <p>GitHub's REST API exposes the relevant state per repository at <code>repos/{org}/{repo}/pages</code>. The fields that matter are <code>cname</code> (the custom domain GitHub will serve at), <code>https_certificate.state</code> (the cert lifecycle state), <code>https_certificate.domains</code> (which names the cert covers), and <code>https_enforced</code> (whether GitHub redirects HTTP to HTTPS).</p>
+
+      <p>A second diagnostic script walked all ten broken repos and pulled this state. The pattern was unambiguous:</p>
+
+      <ul style="font-size:1.05rem;line-height:1.85;color:var(--gray-light);margin-bottom:1.4rem;padding-left:1.5rem">
+        <li>The eight working sites had <code>cname</code> set to the apex (e.g., <code>aiunites.com</code>).</li>
+        <li>The ten broken sites had <code>cname</code> set to <code>www.X.com</code>.</li>
+      </ul>
+
+      <p>That was the whole problem. When a GitHub Pages custom domain is set to <code>www.example.com</code>, Let's Encrypt issues a certificate whose Subject Alternative Names cover only <code>www.example.com</code>. A client connecting to the apex &mdash; <code>example.com</code> &mdash; reaches GitHub's edge over the apex A records, GitHub presents the cert it has, and the cert does not match. The TLS handshake aborts. AdSense's crawler, hitting <code>https://example.com/ads.txt</code>, gets exactly the failure mode our diagnostic captured.</p>
+
+      <p>The eight sites that had been working had been configured with the apex as the canonical name, and Let's Encrypt issued multi-SAN certificates covering both apex and <code>www</code>. The ten broken sites had been registered with <code>www</code> as canonical, somewhere in the network's setup history, and never been corrected.</p>
+
+      <h2>The Fix That Should Have Worked</h2>
+
+      <p>The fix appeared simple. For each of the ten broken repos:</p>
+
+      <ol style="font-size:1.05rem;line-height:1.85;color:var(--gray-light);margin-bottom:1.4rem;padding-left:1.5rem">
+        <li>Rewrite the local <code>CNAME</code> file from <code>www.X.com</code> to <code>X.com</code>.</li>
+        <li>Commit and push.</li>
+        <li>Call <code>gh api PUT repos/AIUNITES/[repo]/pages</code> with the new <code>cname</code> value.</li>
+      </ol>
+
+      <p>A script automated all three steps across the ten repos. Nine succeeded immediately. One returned a 404: <em>"The certificate does not exist yet."</em> A retry a few minutes later got the same error. Then, mysteriously, on a third attempt it succeeded. Race condition; no obvious cause; minor irritation.</p>
+
+      <p>With all ten <code>cname</code> values updated, the next step was to wait for Let's Encrypt to issue fresh apex-covering certificates. GitHub's documentation suggests this typically takes fifteen to sixty minutes.</p>
+
+      <p>Sixty minutes passed. Nothing.</p>
+
+      <p>Two hours passed. Still nothing.</p>
+
+      <p>The Pages API now reported <code>cert_state: dns_changed</code> on every one of the ten domains. None had progressed to <code>pending</code>, <code>issued</code>, or <code>approved</code>. The <code>cname</code> change had been registered. The cert state machine had moved into the right initial state. And then it had simply stopped.</p>
+
+      <h2>The dns_changed Trap</h2>
+
+      <p>The <code>dns_changed</code> state is mentioned almost nowhere in GitHub's public documentation. Inferring its behavior required reading the source of the Pages API and a handful of community threads.</p>
+
+      <p>What it represents is an internal lock. When GitHub detects that the custom domain's effective DNS configuration has changed &mdash; for example, when the canonical name flips from <code>www</code> to apex, or when the apex A records are added for the first time &mdash; the cert state moves to <code>dns_changed</code>. From that state, GitHub schedules a fresh certificate issuance through Let's Encrypt. But the schedule is internal, opaque, and not user-triggerable through normal means.</p>
+
+      <p>A toggle on <code>https_enforced</code> &mdash; setting it <code>false</code>, then <code>true</code> a few seconds later &mdash; is documented in some community threads as a way to force the state machine forward. The script that automated this toggle across all ten domains did succeed in registering the request: every PUT call returned, sometimes with <code>200</code>, sometimes with a <code>404 "certificate has not finished being issued"</code>. The 404 in this context is not a failure. It is GitHub saying <em>the cert is mid-flight; your toggle has been recorded but cannot apply yet</em>.</p>
+
+      <p>And yet hours later, all ten domains were still in <code>dns_changed</code>.</p>
+
+      <h2>The Rate Limit</h2>
+
+      <p>Let's Encrypt enforces a rate limit of five duplicate certificates per registered domain per rolling seven-day window. "Duplicate" here means a cert covering the same set of names. For each AIUNITES domain, the recent history was: an initial www-only cert, the failed retries during initial setup, the cert reissued when DNS was first corrected, and now the cert request triggered by the apex flip.</p>
+
+      <p>Several of the ten domains had quietly burned through their five attempts. From Let's Encrypt's perspective, the next request would have to wait until the oldest of the previous attempts aged out of the rolling window. From GitHub's perspective, this manifested as a cert that simply would not progress out of <code>dns_changed</code>, with no error message, because the request had been queued internally and would retry on its own schedule.</p>
+
+      <p>This was not a bug, in any sense. It was Let's Encrypt's intended behavior, GitHub's intended behavior, and the entirely natural consequence of having reconfigured the same custom domain too many times in close succession during a debugging session. The fix was to stop touching anything and wait.</p>
+
+      <h2>The Self-Rescheduling Watcher</h2>
+
+      <p>Waiting is not a satisfying engineering answer, but it was the right one. What needed to be built was not another fix &mdash; it was an <strong>observer</strong> that would notice when GitHub's internal scheduler eventually did re-issue each certificate, and at that moment flip <code>https_enforced</code> to <code>true</code> so the apex would start serving the new cert.</p>
+
+      <p>The pattern that worked is what we have started calling, internally, a <em>self-rescheduling watcher</em>. The full implementation is short:</p>
+
+      <ul style="font-size:1.05rem;line-height:1.85;color:var(--gray-light);margin-bottom:1.4rem;padding-left:1.5rem">
+        <li>The watcher is a single PowerShell script that runs one observation cycle per invocation.</li>
+        <li>Per cycle, for each of the ten domains, it reads the current Pages API state and checks whether <code>https://[apex]/ads.txt</code> serves the publisher line correctly.</li>
+        <li>If the apex is serving correctly and <code>https_enforced</code> is already <code>true</code>, that domain is marked done and skipped on subsequent cycles.</li>
+        <li>If the cert state has reached <code>approved</code> but the apex is not yet serving, the watcher sets <code>https_enforced=true</code>, which causes GitHub to start serving the new cert.</li>
+        <li>If the cert is still in <code>dns_changed</code>, the watcher does nothing &mdash; just logs the state.</li>
+        <li>At the end of the cycle, if any domain is still incomplete, the watcher throws an exception. If all are done, it returns cleanly.</li>
+      </ul>
+
+      <p>The watcher is queued in a network-wide Script Runner that fires every ten minutes via Windows Task Scheduler. The Script Runner has a run-once behavior: scripts that complete successfully are commented out of its queue and not run again. Scripts that throw stay in the queue. So a watcher that throws on incomplete state stays scheduled; a watcher that returns clean removes itself.</p>
+
+      <p>This pattern has two important properties. The first is that nothing has to know in advance how long the certificate provisioning will take. Whether it is twenty minutes or three days, the watcher will handle it. The second is that it does no damage on cycles where there is nothing to do. A cycle that observes <code>dns_changed</code> ten times in a row consumes negligible API quota and zero rate-limit budget against Let's Encrypt.</p>
+
+      <h3>What we removed from the watcher</h3>
+
+      <p>An earlier draft of the watcher attempted to be helpful by toggling <code>https_enforced</code> off and on during <code>dns_changed</code> cycles, in the belief that the toggle would speed things up. This was wrong in two ways. First, the toggle does not actually accelerate Let's Encrypt's rate-limit cooldown &mdash; nothing does. Second, repeated toggles consume cert request attempts against the rate-limit window. The watcher was making the situation it was supposed to be observing measurably worse.</p>
+
+      <p>The fix was the smallest possible: replace the toggle block with a no-op log line. The watcher's job is to observe and to act exactly once per domain, when there is a real action that will change the state in the desired direction. Restraint is a feature.</p>
+
+      <h2>What AdSense Actually Does</h2>
+
+      <p>Once each apex started serving valid TLS again, the question was how quickly AdSense would notice. The dashboard's "Last updated" column was the key signal. AdSense re-crawls each registered domain on its own schedule, ranging from hours to weeks depending on the activity level of the site.</p>
+
+      <p>A site can also be manually nudged toward a fresh crawl by clicking into its detail page in the AdSense Sites view and using the recheck action. This does not always trigger an immediate fetch &mdash; AdSense's crawler still has its own queue &mdash; but it advances the request in the queue from "scheduled" to "next available."</p>
+
+      <p>An interesting behavioral detail: AdSense's <code>ads.txt</code> crawler is more sensitive to TLS handshake errors than to other failure modes. A 404 on <code>ads.txt</code> generally results in a "Not found" status that clears within a day of fixing the file. A TLS handshake failure produces the same "Not found" status, but takes substantially longer to clear once fixed &mdash; consistent with the crawler tagging the host with a "do not retry too soon" flag.</p>
+
+      <h2>Operating Lessons</h2>
+
+      <p>Several lessons crystallized out of the sprint that are worth recording for any team running a multi-domain network on GitHub Pages with AdSense in the loop.</p>
+
+      <h3>The cert covers the names you ask for, not the names you want</h3>
+
+      <p>If your custom domain is configured as <code>www.X.com</code>, the cert will cover only <code>www.X.com</code>. Apex traffic will fail with a TLS error that looks like the kind of thing a support engineer would dismiss as a transient connection issue. Always set the GitHub Pages custom domain to the apex form. The www subdomain can still be served by adding a <code>www</code> CNAME DNS record pointing to the org page. GitHub will detect this and add www to the cert's SAN list automatically.</p>
+
+      <h3>ads.txt is a TLS test, not a content test</h3>
+
+      <p>From AdSense's perspective, "Not found" can mean four very different things: the file is missing, the file is at the wrong path, the file has the wrong content, or the host's TLS is broken in a way that makes the file unreachable. A diagnostic script that hits the URL directly and reports the actual failure mode is worth more than any amount of dashboard staring.</p>
+
+      <h3>Let's Encrypt rate limits are real and silent</h3>
+
+      <p>Five duplicate certificates per registered domain per seven days is enough for normal operation. It is not enough for an iterative debugging session. The rate limit is enforced silently from GitHub's perspective &mdash; you will not see an explicit error, just a cert state that does not progress. Plan changes in batches, get them right the first time, and resist the urge to "try one more thing."</p>
+
+      <h3>Observability beats automation</h3>
+
+      <p>The most useful piece of code in the whole sprint was not the script that fixed anything. It was the eighty-line diagnostic that hit each apex and reported its actual TLS state. Without that, the misdiagnosis would have continued indefinitely. Build the observer first; build the actuator second; and trust the observer when it disagrees with your model of the system.</p>
+
+      <h2>The Final State</h2>
+
+      <p>By the end of the sprint, all eighteen AIUNITES domains served HTTPS at their apex with valid Let's Encrypt certificates covering both apex and www. All eighteen <code>ads.txt</code> files returned the correct publisher line. The watcher continues to run every ten minutes as a passive monitor and is now part of the network's standard ops tooling &mdash; if any of the eighteen ever regresses, it will be detected within the next cycle.</p>
+
+      <p>The AdSense status across the network is gradually clearing. Some sites have already moved from "Not found" to "Authorized" on the next AdSense recheck. Others are still in the queue. None of the remaining work is technical &mdash; it is just calendar time.</p>
+
+      <p>This is the unglamorous side of running a connected web network at scale. The user-facing product surfaces are the part anyone sees. The cert provisioning, the DNS records, the third-party crawlers, and the rate limits are the part that determines whether any of those surfaces are reachable at all. Getting them right is not interesting work in the way that designing a notation system or shipping a feature is interesting work. It is, however, the work that determines whether the rest of it ships.</p>
+
+      <div class="article-cta">
+        <h3>The AIUNITES Network</h3>
+        <p>Eighteen connected products on custom domains, sharing a webring, an authentication layer, and an open notation standard for human movement. Built on plain HTML, vanilla JavaScript, and GitHub Pages.</p>
+        <a href="network.html" class="btn btn-primary" style="margin-right:1rem">Explore the Network &rarr;</a>
+        <a href="press.html" class="btn btn-outline">More Articles &rarr;</a>
+      </div>
+
+      <div class="article-nav">
+        <a href="press.html">&larr; All Articles</a>
+        <a href="article-ai-publishing-pipeline.html">Next: The AI Publishing Pipeline &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="mw-footer">
+    <div class="container">
+      <p>&copy; 2026 AIUNITES LLC. All rights reserved.</p>
+      <p><a href="index.html">&larr; Home</a> &middot; <a href="press.html">Articles</a> &middot; <a href="movement.html">Movement</a> &middot; <a href="spec.html">Spec</a> &middot; <a href="consulting.html">Consulting</a> &middot; <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>
