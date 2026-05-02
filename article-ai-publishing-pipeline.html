@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4573596965267859" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The AI Publishing Pipeline: How One Team Maintains an 18-Site Network with Claude | AIUNITES</title>
+  <meta name="description" content="Inside the AIUNITES publishing pipeline: how a single operator maintains eighteen production websites with auto-publish scripts, a self-rescheduling Script Runner, and Claude as a long-context engineering partner via Anthropic's MCP filesystem server.">
+  <meta name="keywords" content="AI publishing pipeline, Claude Anthropic MCP, automated content publishing, GitHub Pages auto deploy, multi-site network, Cloudsion, AIUNITES, Script Runner pattern, AI engineering workflow">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.com/article-ai-publishing-pipeline.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The AI Publishing Pipeline: How One Team Maintains an 18-Site Network with Claude">
+  <meta property="og:description" content="Inside the AIUNITES publishing pipeline: auto-publish scripts, a self-rescheduling Script Runner, and Claude as a long-context engineering partner.">
+  <meta property="og:site_name" content="AIUNITES">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <style>
+    .article-hero { padding: 10rem 0 4rem; max-width: 780px; margin: 0 auto; }
+    .article-tag { display: inline-block; background: rgba(99,102,241,.15); color: var(--primary-light); border: 1px solid rgba(99,102,241,.3); border-radius: 20px; padding: .3rem .9rem; font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .article-hero h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.2rem; }
+    .article-meta { color: var(--gray-light); font-size: .9rem; margin-bottom: 2.5rem; }
+    .article-lead { font-size: 1.2rem; line-height: 1.8; color: var(--gray-light); border-left: 3px solid var(--primary); padding-left: 1.5rem; margin-bottom: 3rem; }
+    .article-body { max-width: 780px; margin: 0 auto; padding-bottom: 6rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--text-light); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 .8rem; color: var(--primary-light); }
+    .article-body p { font-size: 1.05rem; line-height: 1.85; color: var(--gray-light); margin-bottom: 1.4rem; }
+    .article-body strong { color: var(--text-light); }
+    .callout { background: var(--dark-light); border: 1px solid rgba(99,102,241,.25); border-radius: var(--radius-md); padding: 1.5rem 2rem; margin: 2rem 0; }
+    .callout p { margin: 0; font-style: italic; }
+    .code-example { background: #0d0d1a; border: 1px solid rgba(99,102,241,.2); border-radius: var(--radius-sm); padding: 1.2rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: .85rem; line-height: 1.8; color: #a5b4fc; margin: 1.5rem 0; overflow-x: auto; }
+    .article-cta { background: linear-gradient(135deg, rgba(99,102,241,.1), rgba(139,92,246,.1)); border: 1px solid rgba(99,102,241,.3); border-radius: var(--radius-md); padding: 2.5rem; text-align: center; margin: 4rem 0; }
+    .article-cta h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: .8rem; }
+    .article-cta p { margin-bottom: 1.5rem; }
+    .article-nav { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .article-nav a { color: var(--primary-light); text-decoration: none; font-size: .95rem; }
+    .article-nav a:hover { text-decoration: underline; }
+  </style>
+<meta property="og:image" content="https://aiunites.com/images/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"aiunites.com","url":"https://aiunites.com/"}</script></head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-active{color:#fff!important;text-decoration:underline;text-underline-offset:3px}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.wb-arrow{display:none;position:fixed;top:0;width:36px;height:33px;align-items:center;justify-content:center;cursor:pointer;z-index:1102;border:none;padding:0;font-size:16px;line-height:1;color:rgba(255,255,255,.8);transition:color .2s,opacity .2s}.wb-arrow:hover{color:#fff}.wb-left{left:0;background:linear-gradient(90deg,#0d0d1a 55%,transparent)}.wb-right{right:0;background:linear-gradient(270deg,#0d0d1a 55%,transparent)}@media (hover:hover) and (pointer:fine){.wb-arrow{display:flex}}body{padding-top:38px!important}.nav,.site-nav,.main-nav,.landing-nav,.top-nav,nav[class*="nav"]{top:38px!important}</style>
+<button class="wb-arrow wb-left" id="wb-left" aria-label="Scroll webring left">&#8249;</button>
+<div class="aiunites-bar"><div class="aiunites-bar-content" id="wb-content"><a href="https://aiunites.github.io/aiunites-site/" class="aiunites-bar-brand">&#9670; AIUNITES</a><span class="aiunites-bar-divider">|</span></div></div>
+<button class="wb-arrow wb-right" id="wb-right" aria-label="Scroll webring right">&#8250;</button>
+<script>(function(){var IS_LOCAL=location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';var BASE=IS_LOCAL?'../':'https://aiunites.github.io/';var JSON_URL=IS_LOCAL?'../aiunites-site/data/webring.json':'https://aiunites.github.io/aiunites-site/data/webring.json';var c=document.getElementById('wb-content'),l=document.getElementById('wb-left'),r=document.getElementById('wb-right');function buildBar(sites){sites.forEach(function(s){var a=document.createElement('a');a.href=(IS_LOCAL?BASE+s.repo+'/index.html':BASE+s.repo+'/');a.textContent=s.name;if(location.pathname.indexOf(s.repo)!==-1)a.className='aiunites-bar-active';c.appendChild(a);});setupArrows();}function setupArrows(){if(!c||!l||!r)return;function upd(){var atL=c.scrollLeft<8,atR=c.scrollLeft>=c.scrollWidth-c.clientWidth-8;l.style.opacity=atL?'0':'1';l.style.pointerEvents=atL?'none':'auto';r.style.opacity=atR?'0':'1';r.style.pointerEvents=atR?'none':'auto';}l.onclick=function(){c.scrollBy({left:-220,behavior:'smooth'});};r.onclick=function(){c.scrollBy({left:220,behavior:'smooth'});};c.addEventListener('scroll',upd,{passive:true});upd();}var FB=[{name:'\uD83C\uDF0C COSMOS',repo:'cosmostheopera-site'},{name:'AIZines',repo:'aizines-app'},{name:'AIByJob',repo:'aibyjob-demo'},{name:'Redomy',repo:'redomy-demo'},{name:'VideoBate',repo:'videobate-site'},{name:'\uD83C\uDFA4 VoiceStry',repo:'voicestry-site'},{name:'FurnishThings',repo:'furnishthings-site'},{name:'BizStry',repo:'bizstry-site'},{name:'AI YHWH',repo:'aiyhwh-site'},{name:'Cloudsion',repo:'cloudsion-site'},{name:'Gameatica',repo:'gameatica-site'},{name:'UptownIT',repo:'uptownit-site'},{name:'InThisWorld',repo:'inthisworld-site'},{name:'ERPise',repo:'erpise-site'},{name:'ERPize',repo:'erpize-site'},{name:'AITSQL',repo:'aitsql-site'}];fetch(JSON_URL).then(function(r){return r.json();}).then(buildBar).catch(function(){buildBar(FB);});})()</script>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">&#9670;</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="network.html">Network</a>
+        <a href="movement.html">Movement</a>
+        <a href="press.html" style="color:var(--primary)">Articles</a>
+        <a href="consulting.html">Consulting</a>
+        <a href="index.html#contact" class="nav-cta">Contact</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="article-hero">
+      <div class="article-tag">AI Workflow</div>
+      <h1>The AI Publishing Pipeline: How One Team Maintains an 18-Site Network with Claude</h1>
+      <div class="article-meta">By AIUNITES LLC &nbsp;&middot;&nbsp; May 2026 &nbsp;&middot;&nbsp; 11 min read</div>
+      <p class="article-lead">Eighteen production websites. One human operator. Daily updates, full SEO, AdSense compliance, automated cross-site sync. The bill of materials includes plain HTML, vanilla JavaScript, GitHub Pages, a handful of PowerShell scripts, and a long-context engineering partner from Anthropic. This is what the AIUNITES publishing pipeline actually looks like, end to end.</p>
+    </div>
+
+    <div class="article-body">
+
+      <h2>Why Manual Publishing Doesn't Scale Past Three Sites</h2>
+
+      <p>The AIUNITES network started with a single hub site and grew, over the course of a few months, into a network of eighteen interconnected products. Each is a separate GitHub repository, each with its own custom domain, each with its own UAT plan, its own changelog, its own AdSense registration, and its own Search Console verification.</p>
+
+      <p>At three sites, manually committing and pushing changes was slightly tedious. At ten, it was the dominant time sink in any given session. By the time the count crossed fifteen, the math broke: a fifteen-second commit and push, multiplied by eighteen repositories, is over four minutes of pure tooling overhead per round of edits, before any of the cross-site coordination tasks &mdash; sitemap regeneration, IndexNow submission, webring updates, ads.txt verification &mdash; even started.</p>
+
+      <p>The publishing pipeline that emerged was not a sudden architectural decision. It was a series of small automations layered onto a workflow until the round-trip cost of a change to any site dropped below the cost of thinking about which site needed the change.</p>
+
+      <h2>The Core Loop</h2>
+
+      <p>The pipeline runs on four pieces of infrastructure, in roughly this order of importance:</p>
+
+      <ol style="font-size:1.05rem;line-height:1.85;color:var(--gray-light);margin-bottom:1.4rem;padding-left:1.5rem">
+        <li><strong>auto-publish.ps1</strong> &mdash; commits and pushes any changed repository in the network, every ten minutes, via Windows Task Scheduler.</li>
+        <li><strong>script-runner.ps1</strong> &mdash; executes a queue of one-off and recurring scripts, with a self-comment-out behavior that turns the queue into a kind of durable to-do list.</li>
+        <li><strong>tray-monitor.ps1</strong> &mdash; a small system tray window showing the publishing state in real time, with a manual run trigger when the next ten-minute cycle is too far away.</li>
+        <li><strong>Claude with the Anthropic MCP filesystem server</strong> &mdash; the long-context engineering partner that does the actual editing, refactoring, code review, and writing.</li>
+      </ol>
+
+      <p>The flow of any given change is short. The operator describes what needs to happen, in plain English, in a chat session with Claude. Claude reads the relevant files via the MCP filesystem server, makes the necessary edits, and verifies the work. The auto-publish task picks up the changes within minutes and pushes them. GitHub Pages rebuilds. The change is live, on the relevant production domain, usually within fifteen minutes of the original instruction.</p>
+
+      <h2>auto-publish.ps1</h2>
+
+      <p>The auto-publish script is the load-bearing piece of the system. It iterates over every repository in the network's GitHub directory, runs <code>git status --porcelain</code> to detect changes, and for any repository with uncommitted modifications, stages the work, generates a descriptive commit message, and pushes to the appropriate branch.</p>
+
+      <p>Several details matter for an eighteen-repository setup that a single-repo workflow would never need to think about.</p>
+
+      <h3>Branch detection per repository</h3>
+
+      <p>Most repos in the network use <code>master</code>. A few &mdash; notably <code>cloudsion-site</code> &mdash; use <code>main</code>. The script tries the expected branch first and falls back gracefully when the expected branch is not present. This is unglamorous defensive coding that prevents one repo's branch quirks from breaking the entire publishing run.</p>
+
+      <h3>Stats generation in the same pass</h3>
+
+      <p>The auto-publish run also produces a <code>publish-stats.json</code> file summarizing per-repo activity &mdash; commits per day, files changed, last push timestamp. This is published into <code>cloudsion-site/data/</code> and consumed by the network's automation dashboard. Doing it in the same pass as the commit means the stats are always within ten minutes of accurate.</p>
+
+      <h3>Silent execution via VBS</h3>
+
+      <p>Windows AppLocker on the operator's machine blocks executables launched from arbitrary directories. The auto-publish task runs through a <code>wscript.exe</code> launcher pointed at <code>auto-publish-silent.vbs</code>, which in turn invokes the PowerShell script. This indirection is required for the task to run silently in the background without an AppLocker prompt or a visible console window flashing every ten minutes.</p>
+
+      <h3>The IndexNow side effect</h3>
+
+      <p>Every successful push triggers a small follow-on call to Bing's IndexNow endpoint, submitting the changed URLs for fast re-crawl. IndexNow is an open protocol that Microsoft and a handful of other search engines have committed to, and it is the difference between Google or Bing seeing a change in two hours versus two weeks. The integration is one HTTP POST per push.</p>
+
+      <h2>The Script Runner Pattern</h2>
+
+      <p>Auto-publish handles the routine case &mdash; if you changed a file, your change goes live. Everything that is <em>not</em> a routine commit-and-push goes through the Script Runner instead.</p>
+
+      <p>The Script Runner is, structurally, a list of script paths in a PowerShell file. Each script in the list is run once on the next Task Scheduler cycle. A script that completes without throwing is automatically commented out of the list and will not run again. A script that throws stays in the list and will run again on the next cycle.</p>
+
+      <p>This produces a useful pair of behaviors. <strong>Successful one-off tasks remove themselves from the queue</strong> &mdash; "rebuild the OG image set after a logo update" runs once, succeeds, and is gone. <strong>Long-running observers stay queued by design</strong> &mdash; the cert watcher described in the recent <a href="article-https-sprint.html">HTTPS sprint article</a> throws on every cycle until all monitored domains are healthy, at which point it returns clean and removes itself.</p>
+
+      <p>The Script Runner is also the right place for batch operations across the network. A script like "regenerate every site's <code>sitemap.xml</code>" gets queued, runs once, and self-comments. A script like "monitor for AdSense regressions" gets queued and stays queued indefinitely. The same primitive handles both shapes of work.</p>
+
+      <h3>The strict ASCII rule</h3>
+
+      <p>One non-obvious operating constraint: every script and every separator comment in the Script Runner queue must be ASCII-only. The runner reads its own source via <code>Get-Content -Encoding UTF8</code>, edits the queue line for the script that just ran, and writes it back via <code>Set-Content -Encoding UTF8</code>. Any non-ASCII characters in the file get re-encoded in subtly wrong ways across this round trip and corrupt the queue. Box-drawing characters, em dashes in comments, smart quotes pasted from a Word document &mdash; all of these have, at one time or another, broken the runner. The fix is a strict policy: ASCII or it doesn't ship.</p>
+
+      <h2>Where Claude Fits</h2>
+
+      <p>The publishing pipeline is what makes a change deployable. The actual work of authoring the change &mdash; reading code, making correct edits, designing schemas, writing documentation, debugging, reviewing &mdash; is done in collaboration with Claude, accessed through Anthropic's chat interface and connected to the file system via Anthropic's MCP filesystem server.</p>
+
+      <p>This is worth describing carefully, because the popular framing of "AI engineering assistants" tends to drift into two unhelpful caricatures. One caricature treats the AI as an autonomous agent: type a goal, walk away, return to a finished product. The other treats it as a slightly fancier autocomplete: useful for boilerplate, irrelevant to the actual work. Neither maps to what is actually happening.</p>
+
+      <p>What is actually happening is that the operator describes a problem, and Claude, which has substantial context on the AIUNITES architecture from prior sessions and from the project files it can read on demand, proposes and implements solutions. The operator reviews, redirects, and approves. For many changes, this collaboration is fast: the operator describes the desired change in a sentence, Claude reads the relevant files, makes the edit, and the operator confirms. For more complex changes &mdash; a new template, an architectural shift, a debugging session with no obvious cause &mdash; the collaboration looks more like pair programming, with Claude proposing hypotheses, building diagnostic tools, and iterating in close coordination with the operator's judgment.</p>
+
+      <h3>The MCP filesystem server</h3>
+
+      <p>The technical mechanism that makes this work at scale is Anthropic's MCP (Model Context Protocol) filesystem server. The MCP server runs on the operator's machine and exposes a controlled set of file system operations &mdash; read, write, edit, list, search &mdash; to Claude over the protocol. The configured allowed directories include the GitHub root, AppData, Downloads, Documents, and a small handful of others. Operations outside those directories are simply unavailable.</p>
+
+      <p>From Claude's side, this looks like a set of tools that can be invoked during a conversation. The tool calls produce real effects on the local filesystem. From the operator's side, this looks like asking a colleague to make a change, with the colleague reading the files in question and editing them in place, except that the colleague is an AI model and the read-write operations are happening in seconds rather than hours.</p>
+
+      <p>The combination of MCP file access and Claude's long context window is what makes the eighteen-site scale tractable. Claude can hold the structure of the network in working memory across a session: which sites use the modal-admin template versus the page-admin template, which repos use <code>main</code> versus <code>master</code>, which sites have AdSense enabled, which are flagged for content review. When a change needs to apply across multiple repos, Claude can apply it consistently without the operator having to context-switch between eighteen separate codebases.</p>
+
+      <h2>Cloudsion: The Productized Version</h2>
+
+      <p>The pipeline described above is what runs the AIUNITES network internally. <a href="https://cloudsion.com">Cloudsion</a> is the productized version of the same pattern, packaged for clients who want the same publishing capability for their own sites without reinventing the auto-publish, Script Runner, and MCP integration components.</p>
+
+      <p>Cloudsion's pricing reflects what the underlying pipeline actually costs to operate. The on-premises setup is a one-time engagement that installs the auto-publish stack, configures Task Scheduler and the silent VBS launchers, sets up the MCP filesystem server with appropriate allowed directories, and walks the client through their first few publishing sessions. The monthly retainer covers ongoing pipeline operation: the actual editing, refactoring, and content work that runs through the chat interface, billed in time blocks against the same 80-dollar-per-hour rate that applies to the rest of the AIUNITES consulting work.</p>
+
+      <p>The running cost to a client of an established Cloudsion pipeline is approximately twenty dollars per month, all in. That figure is striking, and worth explaining. GitHub Pages hosting is free for public repositories. Custom domain registration is whatever the client is paying their registrar &mdash; typically twelve to fifteen dollars per domain per year. The pipeline scripts are free; the operator runs them on a machine they already own. The single ongoing recurring cost is the Anthropic Claude Pro subscription that powers the long-context editing sessions.</p>
+
+      <p>This is not a typical SaaS economics story. The pipeline is not selling compute or storage at a markup. It is selling a way of working &mdash; a publishing capability that turns ongoing edits and content updates into a flow rather than a project &mdash; and the underlying infrastructure costs are genuinely small.</p>
+
+      <h2>Operating Discipline</h2>
+
+      <p>Tools alone do not produce a stable network. A handful of discipline practices keep the AIUNITES pipeline from drifting into chaos as the site count grows.</p>
+
+      <h3>UATEST plans, never deletions</h3>
+
+      <p>Every site has its own <code>UATEST_PLAN.md</code> in its repository root, listing every feature with a checkbox status. The hard rule is that features are never deleted from a UATEST plan. Removed or deprecated features get marked with a strikethrough or a "deprecated" tag. This means the UAT plan history becomes the authoritative changelog for a site &mdash; what was once true, what is true now, and what changed between them &mdash; and it is the first file Claude reads when starting work on any given site.</p>
+
+      <h3>Versioning in four places</h3>
+
+      <p>Every site tracks its semantic version in four places: the UAT plan header, the JS config file that drives the admin panel, the admin panel's changelog tab, and the network-wide PROGRESS_LOG. The redundancy is intentional. A version visible only in one place gets out of sync. Versions visible in four places that all need to be updated together produce a small ritual that catches lapses early.</p>
+
+      <h3>Transcripts and the journal</h3>
+
+      <p>Substantial sessions are saved as Markdown transcripts in a per-site <code>transcripts/</code> directory. A network-wide <code>journal.txt</code> captures the human-readable summary of each session. The transcripts are searchable by Claude in subsequent sessions, which means the system retains a kind of organizational memory across operators and across time without requiring anyone to remember to write documentation as they go.</p>
+
+      <h3>Backups via a separate scripts repo</h3>
+
+      <p>The auto-publish run also writes a snapshot of the scripts directory to a separate <code>aiunites-scripts-backup</code> repository on every cycle. This is the equivalent of a versioned backup with no operator effort. If a script gets corrupted &mdash; the ASCII rule above is the most common way this happens &mdash; the previous working version is one <code>git log</code> away.</p>
+
+      <h2>What This Pipeline Is Not</h2>
+
+      <p>It is worth being explicit about what the AIUNITES publishing pipeline is not, because the framing of "AI-powered everything" tends to overpromise.</p>
+
+      <p>It is not autonomous. There is always an operator in the loop, providing direction, reviewing changes, and exercising judgment. The pipeline accelerates the work; it does not replace the worker.</p>
+
+      <p>It is not magic. The auto-publish, Script Runner, and MCP integration are straightforward engineering. The novel piece is the combination &mdash; the pipeline is more useful than the sum of its parts because each part eliminates a different category of friction.</p>
+
+      <p>It is not zero-defect. Things break. The recent HTTPS sprint described in the companion article is one example of a class of failures that the pipeline cannot prevent and can only help diagnose and recover from. What the pipeline provides is the leverage to fix problems quickly when they appear, not the guarantee that they won't.</p>
+
+      <p>And it is not a replacement for engineering taste. The operator still has to know what the right answer is. Claude is a remarkably capable partner for executing on a vision, but it does not invent the vision. The pipeline amplifies the operator; it does not substitute for them.</p>
+
+      <h2>Where This Goes Next</h2>
+
+      <p>The current pipeline is sufficient for an eighteen-site network operated by a single person at a sustainable pace. Two areas of expansion are in progress.</p>
+
+      <p>The first is multi-operator support. Cloudsion clients are starting to engage with the pipeline as more than a single-operator tool. The Script Runner pattern generalizes naturally to a team setting &mdash; queues that survive across operator handoffs &mdash; but the MCP filesystem server is currently a single-machine concern, and the pattern for sharing it across collaborators is still being worked out.</p>
+
+      <p>The second is observability. The current system logs heavily but does not yet ship a single dashboard that says "the network is healthy" or "X needs attention." The publish-stats.json file is the closest thing, and it is already informative, but the gap between "useful logs" and "actionable status" is real and worth closing. The cert watcher described in the HTTPS sprint article is an early example of an observer that produces actionable signal; more of those, with a unified surface, is the natural direction.</p>
+
+      <p>For now, the pipeline does what it was built for. Eighteen sites stay current, AdSense stays compliant, content stays consistent, and the operator's available time stays mostly available for the actual work of building things rather than the work of shipping them.</p>
+
+      <div class="article-cta">
+        <h3>Cloudsion: Publishing as a Capability</h3>
+        <p>The same pipeline that runs AIUNITES, packaged for client networks. On-premises setup, monthly retainer, custom configurations available.</p>
+        <a href="https://cloudsion.com" class="btn btn-primary" style="margin-right:1rem">Learn About Cloudsion &rarr;</a>
+        <a href="consulting.html" class="btn btn-outline">Consulting &rarr;</a>
+      </div>
+
+      <div class="article-nav">
+        <a href="press.html">&larr; All Articles</a>
+        <a href="article-local-first-architecture.html">Next: Local-First Across 18 Sites &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="mw-footer">
+    <div class="container">
+      <p>&copy; 2026 AIUNITES LLC. All rights reserved.</p>
+      <p><a href="index.html">&larr; Home</a> &middot; <a href="press.html">Articles</a> &middot; <a href="movement.html">Movement</a> &middot; <a href="spec.html">Spec</a> &middot; <a href="consulting.html">Consulting</a> &middot; <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>

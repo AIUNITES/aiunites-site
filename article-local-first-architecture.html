@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VP15KRLV6P');</script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4573596965267859" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local-First Across 18 Sites: The AIUNITES Database Architecture | AIUNITES</title>
+  <meta name="description" content="No application servers. No managed database. No auth backend. The AIUNITES network of eighteen sites runs entirely on GitHub Pages with a local-first data model that survives device migrations and offline use. Here's how it works and where it breaks.">
+  <meta name="keywords" content="local-first architecture, GitHub Pages backend, no-server web app, localStorage database, offline-first design, CloudDB sync, AIUNITES, vanilla JavaScript, static site database">
+  <meta name="author" content="AIUNITES LLC">
+  <link rel="canonical" href="https://aiunites.com/article-local-first-architecture.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Local-First Across 18 Sites: The AIUNITES Database Architecture">
+  <meta property="og:description" content="No application servers. No managed database. The AIUNITES network of eighteen sites runs entirely on GitHub Pages with a local-first data model.">
+  <meta property="og:site_name" content="AIUNITES">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <style>
+    .article-hero { padding: 10rem 0 4rem; max-width: 780px; margin: 0 auto; }
+    .article-tag { display: inline-block; background: rgba(99,102,241,.15); color: var(--primary-light); border: 1px solid rgba(99,102,241,.3); border-radius: 20px; padding: .3rem .9rem; font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .article-hero h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.2rem; }
+    .article-meta { color: var(--gray-light); font-size: .9rem; margin-bottom: 2.5rem; }
+    .article-lead { font-size: 1.2rem; line-height: 1.8; color: var(--gray-light); border-left: 3px solid var(--primary); padding-left: 1.5rem; margin-bottom: 3rem; }
+    .article-body { max-width: 780px; margin: 0 auto; padding-bottom: 6rem; }
+    .article-body h2 { font-size: 1.5rem; font-weight: 700; margin: 3rem 0 1rem; color: var(--text-light); }
+    .article-body h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 .8rem; color: var(--primary-light); }
+    .article-body p { font-size: 1.05rem; line-height: 1.85; color: var(--gray-light); margin-bottom: 1.4rem; }
+    .article-body strong { color: var(--text-light); }
+    .callout { background: var(--dark-light); border: 1px solid rgba(99,102,241,.25); border-radius: var(--radius-md); padding: 1.5rem 2rem; margin: 2rem 0; }
+    .callout p { margin: 0; font-style: italic; }
+    .code-example { background: #0d0d1a; border: 1px solid rgba(99,102,241,.2); border-radius: var(--radius-sm); padding: 1.2rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: .85rem; line-height: 1.8; color: #a5b4fc; margin: 1.5rem 0; overflow-x: auto; }
+    .article-cta { background: linear-gradient(135deg, rgba(99,102,241,.1), rgba(139,92,246,.1)); border: 1px solid rgba(99,102,241,.3); border-radius: var(--radius-md); padding: 2.5rem; text-align: center; margin: 4rem 0; }
+    .article-cta h3 { color: var(--text-light); font-size: 1.3rem; margin-bottom: .8rem; }
+    .article-cta p { margin-bottom: 1.5rem; }
+    .article-nav { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .article-nav a { color: var(--primary-light); text-decoration: none; font-size: .95rem; }
+    .article-nav a:hover { text-decoration: underline; }
+  </style>
+<meta property="og:image" content="https://aiunites.com/images/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"aiunites.com","url":"https://aiunites.com/"}</script></head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-active{color:#fff!important;text-decoration:underline;text-underline-offset:3px}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.wb-arrow{display:none;position:fixed;top:0;width:36px;height:33px;align-items:center;justify-content:center;cursor:pointer;z-index:1102;border:none;padding:0;font-size:16px;line-height:1;color:rgba(255,255,255,.8);transition:color .2s,opacity .2s}.wb-arrow:hover{color:#fff}.wb-left{left:0;background:linear-gradient(90deg,#0d0d1a 55%,transparent)}.wb-right{right:0;background:linear-gradient(270deg,#0d0d1a 55%,transparent)}@media (hover:hover) and (pointer:fine){.wb-arrow{display:flex}}body{padding-top:38px!important}.nav,.site-nav,.main-nav,.landing-nav,.top-nav,nav[class*="nav"]{top:38px!important}</style>
+<button class="wb-arrow wb-left" id="wb-left" aria-label="Scroll webring left">&#8249;</button>
+<div class="aiunites-bar"><div class="aiunites-bar-content" id="wb-content"><a href="https://aiunites.github.io/aiunites-site/" class="aiunites-bar-brand">&#9670; AIUNITES</a><span class="aiunites-bar-divider">|</span></div></div>
+<button class="wb-arrow wb-right" id="wb-right" aria-label="Scroll webring right">&#8250;</button>
+<script>(function(){var IS_LOCAL=location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';var BASE=IS_LOCAL?'../':'https://aiunites.github.io/';var JSON_URL=IS_LOCAL?'../aiunites-site/data/webring.json':'https://aiunites.github.io/aiunites-site/data/webring.json';var c=document.getElementById('wb-content'),l=document.getElementById('wb-left'),r=document.getElementById('wb-right');function buildBar(sites){sites.forEach(function(s){var a=document.createElement('a');a.href=(IS_LOCAL?BASE+s.repo+'/index.html':BASE+s.repo+'/');a.textContent=s.name;if(location.pathname.indexOf(s.repo)!==-1)a.className='aiunites-bar-active';c.appendChild(a);});setupArrows();}function setupArrows(){if(!c||!l||!r)return;function upd(){var atL=c.scrollLeft<8,atR=c.scrollLeft>=c.scrollWidth-c.clientWidth-8;l.style.opacity=atL?'0':'1';l.style.pointerEvents=atL?'none':'auto';r.style.opacity=atR?'0':'1';r.style.pointerEvents=atR?'none':'auto';}l.onclick=function(){c.scrollBy({left:-220,behavior:'smooth'});};r.onclick=function(){c.scrollBy({left:220,behavior:'smooth'});};c.addEventListener('scroll',upd,{passive:true});upd();}var FB=[{name:'\uD83C\uDF0C COSMOS',repo:'cosmostheopera-site'},{name:'AIZines',repo:'aizines-app'},{name:'AIByJob',repo:'aibyjob-demo'},{name:'Redomy',repo:'redomy-demo'},{name:'VideoBate',repo:'videobate-site'},{name:'\uD83C\uDFA4 VoiceStry',repo:'voicestry-site'},{name:'FurnishThings',repo:'furnishthings-site'},{name:'BizStry',repo:'bizstry-site'},{name:'AI YHWH',repo:'aiyhwh-site'},{name:'Cloudsion',repo:'cloudsion-site'},{name:'Gameatica',repo:'gameatica-site'},{name:'UptownIT',repo:'uptownit-site'},{name:'InThisWorld',repo:'inthisworld-site'},{name:'ERPise',repo:'erpise-site'},{name:'ERPize',repo:'erpize-site'},{name:'AITSQL',repo:'aitsql-site'}];fetch(JSON_URL).then(function(r){return r.json();}).then(buildBar).catch(function(){buildBar(FB);});})()</script>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">&#9670;</span><span class="logo-text">AI<span class="logo-accent">UNITES</span></span></a>
+      <div class="nav-links" id="nav-links">
+        <a href="network.html">Network</a>
+        <a href="movement.html">Movement</a>
+        <a href="press.html" style="color:var(--primary)">Articles</a>
+        <a href="consulting.html">Consulting</a>
+        <a href="index.html#contact" class="nav-cta">Contact</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="article-hero">
+      <div class="article-tag">Engineering</div>
+      <h1>Local-First Across 18 Sites: The AIUNITES Database Architecture</h1>
+      <div class="article-meta">By AIUNITES LLC &nbsp;&middot;&nbsp; May 2026 &nbsp;&middot;&nbsp; 10 min read</div>
+      <p class="article-lead">A network of eighteen connected web applications. No application server. No managed database. No authentication backend. No paid hosting beyond a domain registrar. The AIUNITES architecture flips the default assumption that a "real" web application needs server-side state. Here is how the network actually stores data, why local-first works at this scale, and where the model breaks.</p>
+    </div>
+
+    <div class="article-body">
+
+      <h2>The Default Assumption</h2>
+
+      <p>The conventional architecture for a web application looks roughly the same regardless of stack. A frontend &mdash; React, Vue, plain JavaScript, it does not particularly matter &mdash; talks to a backend over HTTP. The backend talks to a database. The database is administered by someone, somewhere, and runs on hardware that someone is paying for. Authentication state lives on the server. User data lives on the server. The server is the single source of truth, and the frontend is a view onto that truth.</p>
+
+      <p>This architecture is not wrong. It is the right model for a great many problems, and the tooling that supports it is mature. But it carries a specific set of costs that become more visible the more applications you try to run at once. Each backend needs to be deployed somewhere. Each database needs to be administered. Each authentication service needs to be secured, monitored, patched, and paid for. Each application acquires a small ongoing operational tax that is invisible at the scale of one application and dominant at the scale of eighteen.</p>
+
+      <p>The AIUNITES network was built under a constraint that made the conventional architecture impractical: the entire network had to run, in production, with no per-site server cost. Eighteen separate Heroku dynos and managed Postgres instances would have made the network financially unviable from day one. The architecture had to flip the default assumption.</p>
+
+      <h2>What Local-First Actually Means</h2>
+
+      <p>The term "local-first" gets used in several overlapping senses. The version that applies to AIUNITES is fairly specific: <strong>the user's device is the primary source of truth for their data, and the network is involved only when explicitly needed for sharing or backup.</strong></p>
+
+      <p>This is different from offline-first, which is mostly about graceful degradation when the network is unavailable. It is different from edge computing, which is about moving server logic closer to the user. Local-first means that the data lives on the device first and elsewhere only as a derived secondary copy. If the network never works again, the application keeps working. If the user wants their data on a different device, they take it with them, deliberately, in a format they control.</p>
+
+      <p>For AIUNITES, this manifests as three layers of state, in increasing distance from the device:</p>
+
+      <ol style="font-size:1.05rem;line-height:1.85;color:var(--gray-light);margin-bottom:1.4rem;padding-left:1.5rem">
+        <li><strong>localStorage</strong> &mdash; the actual database for almost all per-user state, per site.</li>
+        <li><strong>Backup and restore via JSON</strong> &mdash; the format the user uses to move data between devices, save it externally, or migrate to a different site.</li>
+        <li><strong>CloudDB</strong> &mdash; an optional shared synchronization layer for the cases where data genuinely needs to live somewhere accessible from multiple devices.</li>
+      </ol>
+
+      <p>The shape of these layers, and what they cost in complexity, is the rest of this article.</p>
+
+      <h2>localStorage as the Real Database</h2>
+
+      <p>The decision to use the browser's <code>localStorage</code> API as the primary persistence layer is the architectural pivot that makes the rest of the system possible. Each AIUNITES site stores its user accounts, application state, and per-user data under a site-specific key prefix. The structure is simple enough to write out:</p>
+
+      <div class="code-example">[prefix]_users          = JSON array of user accounts
+[prefix]_currentUser    = ID of the currently logged-in user
+[prefix]_settings       = site-level configuration
+[prefix]_items          = the site's primary content type
+[prefix]_changelog      = version history</div>
+
+      <p>The <code>[prefix]</code> is the site name &mdash; <code>videobate</code>, <code>aibyjob</code>, <code>redomy</code>, and so on &mdash; which keeps multiple AIUNITES sites coexisting in the same browser without colliding. Each key holds a JSON-serialized value, parsed on read and stringified on write.</p>
+
+      <p>localStorage is not a sophisticated database. It does not support queries. It does not enforce schemas. It does not provide transactions. Reading a key returns a string; the application is responsible for everything more structured than that. The 5MB-per-origin limit, while substantial for most uses, is genuinely a limit and the application has to plan around it.</p>
+
+      <p>What localStorage <em>does</em> provide is the only thing that actually matters for this architecture: <strong>persistent, fast, reliable per-origin storage that survives page reloads and works without any server contact whatsoever.</strong> Every other capability the conventional architecture requires &mdash; authentication, authorization, query, joining, indexing &mdash; can be reproduced in front-end JavaScript at the scale most applications actually need.</p>
+
+      <h3>Authentication without a server</h3>
+
+      <p>The first user to register on a fresh AIUNITES site becomes the admin. The site stores that user record in <code>[prefix]_users</code> with an <code>isAdmin: true</code> flag. Subsequent registrants are regular users by default. Login is, structurally, a form that compares submitted credentials against the stored user list and sets <code>[prefix]_currentUser</code> to the matching user ID.</p>
+
+      <p>This is, deliberately, not a real authentication system. It is suitable for the actual use case of most AIUNITES sites: a single user (or a small known group) using the site as a personal tool, where the threat model does not include sophisticated attackers and the application's value is not gated by access control. It would be wholly inappropriate for a banking application or a multi-tenant SaaS, and AIUNITES does not pretend otherwise.</p>
+
+      <p>Several sites in the network are migrating from this localStorage-based authentication to a database-backed login system that uses CloudDB as the authentication store. That migration is described later. The point for now is that the simple model is sufficient for many actual applications, and the cost of building a "real" authentication system before you need one is high.</p>
+
+      <h3>Backup and restore as the portability primitive</h3>
+
+      <p>Because all of a user's state is in a small set of localStorage keys, exporting it is trivial: serialize the values to JSON, prompt the user to download the resulting file. Importing is the inverse operation. The format is documented; the user can edit it in a text editor; it survives any future version of any browser; it survives the user switching browsers entirely.</p>
+
+      <p>This is what data ownership looks like in practice. The user does not have to ask the application's vendor for an export. They do not have to use a third-party data portability service. The export is a button on the settings panel, the file is theirs, and the application has no leverage over them once they have it.</p>
+
+      <p>Several AIUNITES sites use this backup format as the implicit interchange format between sites in the network. A user's identity record can be exported from the hub site and imported into a product site, populating that site's user store with consistent data. The format is the integration.</p>
+
+      <h2>The CloudDB Layer</h2>
+
+      <p>Local-first does not mean the network is never involved. Some kinds of data genuinely need to live somewhere accessible from multiple devices: shared identity across the AIUNITES sites, cross-site analytics, configuration that should propagate from a central source, and backup-of-record for users who want network-resident copies of their work.</p>
+
+      <p>The AIUNITES CloudDB layer addresses these cases without reintroducing a per-site application server. The pattern uses a single Google Apps Script endpoint backed by Google Sheets as the storage layer. Each site embeds a small JavaScript module &mdash; <code>js/cloud-database.js</code> &mdash; that knows how to read and write rows in the shared sheet. The sheet is, structurally, a database table. The Apps Script is, structurally, a stateless API in front of it.</p>
+
+      <p>This sounds informal, and in some ways it is. Google Sheets is not a high-performance database. Apps Script has rate limits. Concurrent writes can produce ordering ambiguities that a real database would resolve through transactions. None of this matters for the actual workload, which is occasional writes, infrequent reads, and a total data volume that fits comfortably in a sheet.</p>
+
+      <p>What the CloudDB layer provides is a syncable, networked, multi-device backbone that the application can opt into when it needs to. The default mode is local-first; CloudDB is the escape hatch for the cases where local-first is genuinely insufficient.</p>
+
+      <h3>The opt-in pattern</h3>
+
+      <p>Every AIUNITES site that uses CloudDB also has an "online/offline" toggle in its settings. With the toggle off, the site behaves as a pure local-first application; CloudDB is not contacted. With the toggle on, certain operations &mdash; logging in, creating items, updating settings &mdash; mirror to CloudDB asynchronously after they complete locally.</p>
+
+      <p>This design has one important consequence: the CloudDB layer never blocks the user-facing operation. A login completes immediately against localStorage. The cloud sync happens after, and if it fails, the local operation is unaffected. The cloud is a backup of the truth, not the truth itself.</p>
+
+      <h2>Where the Model Works Well</h2>
+
+      <p>The local-first pattern is genuinely good for several categories of application that are common at the AIUNITES scale.</p>
+
+      <p><strong>Personal tools.</strong> A site that helps one user track home renovation projects, like Redomy, has no inherent need for server state. The user's projects are theirs. Other users do not need to see them. The cost of running a server to host data the user is going to access only from their own devices is overhead, not value.</p>
+
+      <p><strong>Educational and reference content.</strong> A site like AIByJob, which curates AI tools by profession, is mostly static content. The interactive layer &mdash; favoriting tools, building shortlists &mdash; is per-user and easily local. There is no scenario where one user's favorited list needs to be visible to another user.</p>
+
+      <p><strong>Demonstrations and prototypes.</strong> Many AIUNITES sites are demonstrations of capabilities that could later become full products. The local-first model lets these sites ship without committing to a backend infrastructure that may turn out to be unnecessary if the demonstration finds a different shape than expected.</p>
+
+      <p><strong>Static content with light interactivity.</strong> A press section, a webring, a portfolio of links, a notation editor that produces text the user copies elsewhere &mdash; all of these are well served by static hosting plus localStorage for any small amount of state the user generates.</p>
+
+      <h2>Where the Model Breaks</h2>
+
+      <p>The local-first model breaks in predictable ways, and being honest about those is part of using it well.</p>
+
+      <p><strong>Multi-user collaboration.</strong> Anything where multiple users need a shared, consistent view of state is fundamentally not a local-first application. localStorage cannot represent a shared state, and CloudDB's eventual-consistency semantics are wrong for collaboration. A real collaboration application needs a real database with conflict resolution, and AIUNITES has no shame in using one when that is the actual requirement.</p>
+
+      <p><strong>Cross-device continuity without explicit action.</strong> A user who edits something on their phone and expects to find the edit on their desktop, without doing anything in between, will be disappointed by a pure localStorage-based site. The CloudDB layer addresses this for sites that opt into it, but the default experience is per-device.</p>
+
+      <p><strong>Server-side enforcement.</strong> Local-first authentication cannot enforce anything against a determined user. If the value of the application depends on users being unable to modify their own data &mdash; a leaderboard, a competitive game, a financial application &mdash; the model is unsuitable. Server-side validation is non-negotiable in those cases.</p>
+
+      <p><strong>Storage limits.</strong> 5MB per origin is a lot of text but a small amount of media. Sites that need to store substantial binary data &mdash; images, audio, video &mdash; cannot reasonably use localStorage as the primary store. IndexedDB pushes the limit higher, and Cache API pushes it higher again, but for genuinely media-heavy applications, the right answer is server-side object storage.</p>
+
+      <h2>The 18-Site Test</h2>
+
+      <p>Running eighteen separate sites on this architecture has taught a few things that are worth recording for anyone considering a similar pattern.</p>
+
+      <h3>Consistency is the discipline, not the framework</h3>
+
+      <p>Without a framework imposing structure across the network, consistency comes from explicit shared patterns. Every AIUNITES site uses the same localStorage prefix scheme. Every site that uses authentication uses the same user record shape. Every site has a settings modal in the same place with the same fields. The sameness is enforced by template inheritance &mdash; new sites are forked from <code>DemoTemplate</code>, which carries the canonical implementations &mdash; not by a runtime layer.</p>
+
+      <p>This works well as long as the templates stay aligned, and produces drift when they do not. The network has, on occasion, had to do a sweep where every site's authentication module is updated to match a new canonical version. The sweep is unglamorous but tractable: it is a script that walks the eighteen repositories and applies the same patch.</p>
+
+      <h3>The browser's storage limits are real</h3>
+
+      <p>The 5MB-per-origin localStorage limit is enough for a personal application's worth of state. It is not enough for a site that wants to cache, say, a user's entire history of generated content alongside their settings and identity records. When a site approaches the limit, the right answer is to push secondary state into IndexedDB rather than fight localStorage.</p>
+
+      <h3>"Persistence" is not the same as "reliability"</h3>
+
+      <p>localStorage data persists across reloads, but it can be cleared by the user, by browser privacy controls, by extensions, by enterprise device management policies, and by a long tail of edge cases. A serious local-first application treats local storage as durable but not reliable, and pairs it with a backup-and-restore flow that the user is gently encouraged to use periodically.</p>
+
+      <h3>The total cost of operating the network</h3>
+
+      <p>Eighteen sites, at the time of writing, run on free GitHub Pages hosting. Custom domains cost approximately fifteen dollars per year per domain at the registrar. The publishing pipeline runs on the operator's existing machine. The CloudDB layer runs on Google Workspace's free tier for personal use. The total ongoing infrastructure cost of operating the network, excluding the operator's time, is approximately what eighteen domain registrations cost &mdash; roughly two hundred and seventy dollars per year, or fifteen dollars per site per year.</p>
+
+      <p>This is not a typical web operations budget. It is the natural consequence of a model where the user's device does most of the storage work, where static hosting handles delivery, and where the publishing pipeline replaces what would otherwise be deployment infrastructure.</p>
+
+      <h2>What This Pattern Is Suitable For</h2>
+
+      <p>Local-first is not a universal answer. It is the right answer for a specific shape of problem &mdash; applications where the data is genuinely the user's, where multi-user coordination is not the core requirement, and where the cost of running a backend is high relative to the value the application creates. For that shape of problem, the pattern is excellent. For other shapes, conventional architectures remain correct.</p>
+
+      <p>The AIUNITES network exists, in part, to demonstrate that this pattern is more applicable than the default assumption suggests. Many applications that would conventionally be built with backends do not actually need them. Recognizing which ones do and which ones do not is, increasingly, an architectural skill worth developing.</p>
+
+      <div class="article-cta">
+        <h3>Build Local-First with Us</h3>
+        <p>If your application is the kind that fits this pattern, we can help you build it. AIUNITES Consulting offers architectural review and implementation engagements for local-first systems on static hosting.</p>
+        <a href="consulting.html" class="btn btn-primary" style="margin-right:1rem">Talk to Us &rarr;</a>
+        <a href="article-middleware-philosophy.html" class="btn btn-outline">More on the Stack &rarr;</a>
+      </div>
+
+      <div class="article-nav">
+        <a href="press.html">&larr; All Articles</a>
+        <a href="article-vrn-vocal-notation.html">Next: VRN &mdash; Notating the Voice &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="mw-footer">
+    <div class="container">
+      <p>&copy; 2026 AIUNITES LLC. All rights reserved.</p>
+      <p><a href="index.html">&larr; Home</a> &middot; <a href="press.html">Articles</a> &middot; <a href="movement.html">Movement</a> &middot; <a href="spec.html">Spec</a> &middot; <a href="consulting.html">Consulting</a> &middot; <a href="legal.html">Legal</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>
