@@ -87,9 +87,9 @@
 
       <p>Before reaching for an answer, it helps to know how much data and compute the universe would actually need. These are not handwaving estimates. They come from physics that has held up for decades.</p>
 
-      <p>The <strong>Bekenstein bound</strong>, derived from black hole thermodynamics, sets a hard ceiling on how much information any region of space can contain. The <strong>holographic principle</strong> says the maximum information in any volume is bounded by its surface area, not its volume, in Planck units. Together they give a number for the total information capacity of the observable universe. The <strong>Margolus-Levitin theorem</strong> caps how fast any physical system can change states, given its energy. Apply it to the universe's mass-energy and you get a bound on the maximum operations per second that could possibly be happening anywhere.</p>
+      <p>The <strong>Bekenstein bound</strong> (Bekenstein, 1981), derived from black hole thermodynamics, sets a hard ceiling on how much information any region of space can contain. The <strong>holographic principle</strong> ('t Hooft, 1993; Susskind, 1995) says the maximum information in any volume is bounded by its surface area, not its volume, in Planck units. Together they give a number for the total information capacity of the observable universe. The <strong>Margolus-Levitin theorem</strong> (Margolus &amp; Levitin, 1998) caps how fast any physical system can change states, given its energy. Apply it to the universe's mass-energy and you get a bound on the maximum operations per second that could possibly be happening anywhere.</p>
 
-      <p>The numbers, worked out carefully by physicists like Seth Lloyd in the early 2000s:</p>
+      <p>The numbers, worked out carefully by physicists like Seth Lloyd in the early 2000s (Lloyd, 2002):</p>
 
       <div class="num-block">
         <div class="num-row"><span class="num-label">Information capacity of the observable universe</span><span class="num-val">~10<sup>122</sup> bits</span></div>
@@ -113,7 +113,7 @@
       <h2>Candidate 2: Somewhere outside &mdash; we are in a simulation</h2>
 
       <div class="candidate-block">
-        <h3>The Bostrom argument and its descendants</h3>
+        <h3>The Bostrom argument and its descendants (Bostrom, 2003)</h3>
         <p>The simulation hypothesis says we are inside a vast computer program running on hardware in a host universe. The compute requirement collapses interestingly here: the simulator does not need to render the whole universe at full fidelity. It only renders what is being observed, at the resolution observers can perceive. Frustum culling and lazy evaluation, applied to physics. A rock on Mars does not need full atomic state if no one is looking at it.</p>
         <p>The honest problem is that this answer does not actually answer the question. It moves it. <em>Where</em> does the simulator's compute happen? On their hardware. Where is their hardware? In their universe. If their universe is also simulated, you have an infinite regress. If it is not, you eventually reach a base reality that simply <em>is</em> &mdash; which is candidate 1 wearing a costume. Either way, the question has not been resolved, only deferred.</p>
         <p>The other problem is testability. There are arguments that quantum mechanics' weirdness is "evidence" of simulation, but quantum mechanics is weird because reality is weird, not because someone is saving cycles. No prediction the simulation hypothesis makes is currently distinguishable from "the universe is just like this."</p>
@@ -122,16 +122,16 @@
       <h2>Candidate 3: Spacetime itself is the computer</h2>
 
       <div class="candidate-block">
-        <h3>"It from bit" &mdash; pancomputationalism, digital physics, Wolfram's project</h3>
+        <h3>"It from bit" &mdash; pancomputationalism, digital physics, Wolfram's project (Wheeler, 1990; Wolfram, 2020)</h3>
         <p>John Wheeler's slogan was "it from bit." The idea is that the universe does not run <em>on</em> hardware; the universe <em>is</em> the hardware. Every particle interaction is a computation. The substrate is spacetime, the operations are physical processes, and the rate is exactly what Margolus-Levitin says it should be.</p>
-        <p>This is not obviously wrong. There is a real research program around it. Cellular automata can produce dynamics that look quantum-mechanical. Wolfram's hypergraph rewriting can produce something that looks like general relativity. Edward Fredkin spent decades arguing for it. Tegmark's mathematical universe hypothesis is a relative of it.</p>
+        <p>This is not obviously wrong. There is a real research program around it. Cellular automata can produce dynamics that look quantum-mechanical (Fredkin, 1990). Wolfram's hypergraph rewriting can produce something that looks like general relativity (Wolfram, 2020). Edward Fredkin spent decades arguing for it. Tegmark's mathematical universe hypothesis is a relative of it (Tegmark, 2008).</p>
         <p>The honest problem is that nobody has yet produced a digital physics model that <em>predicts</em> something experiment confirms and continuous physics does not. It is reformulation, not theory. Until digital physics gives a number that wins where calculus fails, it remains an interesting metaphor with strong defenders rather than a confirmed picture of reality.</p>
       </div>
 
       <h2>Candidate 4: Distributed across the multiverse</h2>
 
       <div class="candidate-block">
-        <h3>Many-worlds, many computations</h3>
+        <h3>Many-worlds, many computations (Everett, 1957; Deutsch, 1997)</h3>
         <p>The many-worlds interpretation of quantum mechanics says that every quantum event splits the universe into branches and every branch is real. The total compute, then, is enormous &mdash; every possible history is being computed in parallel, all the time.</p>
         <p>This actually fits the 10<sup>120</sup> ops/sec figure if you take it as parallel throughput across all branches. The price is an exponentially-branching multiverse, almost all of which is causally inaccessible to you and to itself. The compute "happens" by virtue of every alternative being equally real.</p>
         <p>The honest problem is that many-worlds is interpretation, not mechanism. It does not <em>cause</em> anything to be computed differently than other interpretations of quantum mechanics; it just says all the possibilities are equally real. The compute is not happening somewhere new. It is just being relabeled as actual instead of as potential.</p>
@@ -173,9 +173,31 @@
 
       <p>Whether or not the universe is binary, the digital ones we build certainly will be. And both, in their different ways, have to figure out where the data and the processing live.</p>
 
-      <h2>Further reading, if you want to go deeper</h2>
+      <h2>References</h2>
 
-      <p>Seth Lloyd's 2002 paper <em>Computational Capacity of the Universe</em> is the place where the numbers in the table above come from, and is readable for someone with an undergraduate physics background. Wheeler's "Information, Physics, Quantum: The Search for Links" is the original "it from bit" essay. Bostrom's <em>Are You Living in a Computer Simulation?</em> lays out the simulation argument cleanly. Stephen Wolfram's <em>A Project to Find the Fundamental Theory of Physics</em> is the most ambitious living attempt at digital physics; David Deutsch's <em>The Fabric of Reality</em> is the readable case for many-worlds. Each disagrees with the others. None of them have settled the question. That is, broadly, the state of the field.</p>
+      <p style="font-size:.95rem;line-height:1.85">Bekenstein, J. D. (1981). Universal upper bound on the entropy-to-energy ratio for bounded systems. <em>Physical Review D</em>, 23(2), 287&ndash;298.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Bostrom, N. (2003). Are you living in a computer simulation? <em>Philosophical Quarterly</em>, 53(211), 243&ndash;255.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Deutsch, D. (1997). <em>The Fabric of Reality: The Science of Parallel Universes &mdash; and Its Implications</em>. Allen Lane.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Everett, H. (1957). "Relative State" formulation of quantum mechanics. <em>Reviews of Modern Physics</em>, 29(3), 454&ndash;462.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Fredkin, E. (1990). Digital mechanics: An informational process based on reversible universal cellular automata. <em>Physica D: Nonlinear Phenomena</em>, 45(1&ndash;3), 254&ndash;270.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Lloyd, S. (2002). Computational capacity of the universe. <em>Physical Review Letters</em>, 88(23), 237901.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Margolus, N., &amp; Levitin, L. B. (1998). The maximum speed of dynamical evolution. <em>Physica D: Nonlinear Phenomena</em>, 120(1&ndash;2), 188&ndash;195.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Susskind, L. (1995). The world as a hologram. <em>Journal of Mathematical Physics</em>, 36(11), 6377&ndash;6396.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Tegmark, M. (2008). The mathematical universe. <em>Foundations of Physics</em>, 38(2), 101&ndash;150.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">'t Hooft, G. (1993). Dimensional reduction in quantum gravity. <em>arXiv preprint</em> gr-qc/9310026.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Wheeler, J. A. (1990). Information, physics, quantum: The search for links. In W. H. Zurek (Ed.), <em>Complexity, Entropy, and the Physics of Information</em> (pp. 3&ndash;28). Addison-Wesley.</p>
+
+      <p style="font-size:.95rem;line-height:1.85">Wolfram, S. (2020). <em>A Project to Find the Fundamental Theory of Physics</em>. Wolfram Media.</p>
 
       <div class="article-cta">
         <h3>Building synthetic universes that respect the bounds</h3>
