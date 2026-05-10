@@ -1,17 +1,17 @@
 ﻿{
-    "generated":  "2026-05-02T19:32:16",
-    "generatedFmt":  "May 2, 2026 7:32PM",
-    "totalIssues":  373,
+    "generated":  "2026-05-09T19:41:40",
+    "generatedFmt":  "May 9, 2026 7:41PM",
+    "totalIssues":  348,
     "sites":  {
                   "aiunites.com":  {
                                        "name":  "AIUNITES",
                                        "domain":  "aiunites.com",
-                                       "totalScore":  100,
-                                       "pageCount":  28,
+                                       "totalScore":  101,
+                                       "pageCount":  29,
                                        "indexed":  6,
                                        "clicks":  0,
-                                       "impressions":  27,
-                                       "avgPosition":  18.7,
+                                       "impressions":  18,
+                                       "avgPosition":  20.3,
                                        "topQuery":  "ai consulting oklahoma",
                                        "pages":  [
                                                      {
@@ -109,6 +109,25 @@
                                                                     ],
                                                          "title":  "The AI Publishing Pipeline: How One Team Maintains an 18-Site Network with Claude | AIUNITES",
                                                          "desc":  "Inside the AIUNITES publishing pipeline: how a single operator maintains eighteen production websites with auto-publish scripts, a self-rescheduling Script Runner, and Claude as a long-context engineering partner via Anthropic\u0027s MCP filesystem server."
+                                                     },
+                                                     {
+                                                         "file":  "article-binary-universe.html",
+                                                         "url":  "https://aiunites.com/article-binary-universe.html",
+                                                         "score":  2,
+                                                         "issues":  [
+                                                                        {
+                                                                            "code":  "LONG_TITLE",
+                                                                            "sev":  1,
+                                                                            "msg":  "Title too long (84 chars, max 65)"
+                                                                        },
+                                                                        {
+                                                                            "code":  "LONG_DESC",
+                                                                            "sev":  1,
+                                                                            "msg":  "Meta description too long (229 chars, max 165)"
+                                                                        }
+                                                                    ],
+                                                         "title":  "If the Universe Is Binary, Where Is All the Data and Processing Going On? | AIUNITES",
+                                                         "desc":  "Five candidate answers to where the universe\u0027s compute could happen, with real numbers from Bekenstein, Lloyd, and Margolus-Levitin. The honest scientific position, the metaphysical alternatives, and what each one buys and costs."
                                                      },
                                                      {
                                                          "file":  "article-fitness-data.html",
@@ -376,16 +395,12 @@
                                                      {
                                                          "file":  "index.html",
                                                          "url":  "https://aiunites.com/",
-                                                         "score":  1,
+                                                         "score":  0,
                                                          "issues":  [
-                                                                        {
-                                                                            "code":  "LONG_DESC",
-                                                                            "sev":  1,
-                                                                            "msg":  "Meta description too long (236 chars, max 165)"
-                                                                        }
+
                                                                     ],
-                                                         "title":  "AI Consulting Tulsa, OK | AI Integration Services | AIUNITES",
-                                                         "desc":  "Tulsa AI consulting firm building open standards for human movement notation, middleware-driven web apps, and fitness data ownership. Read our articles on engineering, interoperability, and the AIUNITES network of 18 connected products."
+                                                         "title":  "AI Consulting Oklahoma | AIUNITES — Tulsa AI Integration",
+                                                         "desc":  "AI consulting in Oklahoma — practical AI integration, custom agents, and workflow automation for Tulsa-area businesses. Free initial consult."
                                                      },
                                                      {
                                                          "file":  "legal.html",
@@ -555,17 +570,17 @@
                                                          "desc":  "Technical specification for MNN (Muscular Neuro Notation), VRN (Vocal Resonance Notation), and VNN (Vocal Neuro Notation). Open text formats for human movement, vocal production, and the cranial nerve pathways that execute them. Machine-parseable, human-readable, vendor-neutral."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-05-02"
+                                       "auditDate":  "2026-05-09"
                                    },
                   "aibyjob.com":  {
                                       "name":  "AIByJob",
                                       "domain":  "aibyjob.com",
-                                      "totalScore":  20,
+                                      "totalScore":  26,
                                       "pageCount":  10,
                                       "indexed":  3,
                                       "clicks":  0,
-                                      "impressions":  3,
-                                      "avgPosition":  8.2,
+                                      "impressions":  9,
+                                      "avgPosition":  8.3,
                                       "topQuery":  "aiby careers",
                                       "pages":  [
                                                     {
@@ -609,12 +624,12 @@
                                                     {
                                                         "file":  "ecomscout.html",
                                                         "url":  "https://aibyjob.com/agents/ecomscout.html",
-                                                        "score":  2,
+                                                        "score":  3,
                                                         "issues":  [
                                                                        {
-                                                                           "code":  "LOW_CONTENT",
-                                                                           "sev":  2,
-                                                                           "msg":  "Low word count: ~298 words (recommend 300+)"
+                                                                           "code":  "THIN_CONTENT",
+                                                                           "sev":  3,
+                                                                           "msg":  "Thin content: ~123 words (min 300 for indexing)"
                                                                        }
                                                                    ],
                                                         "title":  "EcomScout Agent - Find E-Commerce Opportunities | AIByJob",
@@ -623,12 +638,12 @@
                                                     {
                                                         "file":  "leadfinder.html",
                                                         "url":  "https://aibyjob.com/agents/leadfinder.html",
-                                                        "score":  2,
+                                                        "score":  3,
                                                         "issues":  [
                                                                        {
-                                                                           "code":  "LOW_CONTENT",
-                                                                           "sev":  2,
-                                                                           "msg":  "Low word count: ~298 words (recommend 300+)"
+                                                                           "code":  "THIN_CONTENT",
+                                                                           "sev":  3,
+                                                                           "msg":  "Thin content: ~120 words (min 300 for indexing)"
                                                                        }
                                                                    ],
                                                         "title":  "LeadFinder Agent - Find Businesses Without Websites | AIByJob",
@@ -637,12 +652,12 @@
                                                     {
                                                         "file":  "marketing.html",
                                                         "url":  "https://aibyjob.com/agents/marketing.html",
-                                                        "score":  2,
+                                                        "score":  3,
                                                         "issues":  [
                                                                        {
-                                                                           "code":  "LOW_CONTENT",
-                                                                           "sev":  2,
-                                                                           "msg":  "Low word count: ~287 words (recommend 300+)"
+                                                                           "code":  "THIN_CONTENT",
+                                                                           "sev":  3,
+                                                                           "msg":  "Thin content: ~115 words (min 300 for indexing)"
                                                                        }
                                                                    ],
                                                         "title":  "Marketing Agent - AI Digital Marketing | AIByJob",
@@ -651,12 +666,12 @@
                                                     {
                                                         "file":  "promotion.html",
                                                         "url":  "https://aibyjob.com/agents/promotion.html",
-                                                        "score":  2,
+                                                        "score":  3,
                                                         "issues":  [
                                                                        {
-                                                                           "code":  "LOW_CONTENT",
-                                                                           "sev":  2,
-                                                                           "msg":  "Low word count: ~279 words (recommend 300+)"
+                                                                           "code":  "THIN_CONTENT",
+                                                                           "sev":  3,
+                                                                           "msg":  "Thin content: ~101 words (min 300 for indexing)"
                                                                        }
                                                                    ],
                                                         "title":  "Promotion Agent - Generate Social Media Content | AIByJob",
@@ -665,12 +680,17 @@
                                                     {
                                                         "file":  "webbuilder.html",
                                                         "url":  "https://aibyjob.com/agents/webbuilder.html",
-                                                        "score":  1,
+                                                        "score":  3,
                                                         "issues":  [
                                                                        {
                                                                            "code":  "MULTI_H1",
                                                                            "sev":  1,
                                                                            "msg":  "Multiple H1 tags found (2)"
+                                                                       },
+                                                                       {
+                                                                           "code":  "LOW_CONTENT",
+                                                                           "sev":  2,
+                                                                           "msg":  "Low word count: ~207 words (recommend 300+)"
                                                                        }
                                                                    ],
                                                         "title":  "WebBuilder Agent - AI Website Creation | AIByJob",
@@ -721,18 +741,18 @@
                                                         "desc":  "lead-qualification - AIByJob helps professionals find the right AI tools for their specific job role. Discover AI tools for marketing, legal,"
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-02"
+                                      "auditDate":  "2026-05-09"
                                   },
                   "aitsql.com":  {
                                      "name":  "AITSQL",
                                      "domain":  "aitsql.com",
                                      "totalScore":  1,
                                      "pageCount":  2,
-                                     "indexed":  0,
+                                     "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  0,
-                                     "avgPosition":  0,
-                                     "topQuery":  "",
+                                     "impressions":  5,
+                                     "avgPosition":  73.4,
+                                     "topQuery":  "ai tools for sql server",
                                      "pages":  [
                                                    {
                                                        "file":  "audit.html",
@@ -759,7 +779,7 @@
                                                        "desc":  "SQL Server expertise meets AI. Tools, scripts, consulting, and insights for database professionals working with T-SQL and SQL Server."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-02"
+                                     "auditDate":  "2026-05-09"
                                  },
                   "aiyhwh.com":  {
                                      "name":  "AI YHWH",
@@ -801,7 +821,7 @@
                                                        "desc":  "Honest answers to the hardest biblical questions. Communion and cannibalism, the Trinity, hell, contradictions — answered with scholarly rigor and intellectual honesty."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-02"
+                                     "auditDate":  "2026-05-09"
                                  },
                   "aizines.com":  {
                                       "name":  "AIZines",
@@ -809,10 +829,10 @@
                                       "totalScore":  2,
                                       "pageCount":  3,
                                       "indexed":  3,
-                                      "clicks":  2,
-                                      "impressions":  11,
+                                      "clicks":  0,
+                                      "impressions":  6,
                                       "avgPosition":  4.4,
-                                      "topQuery":  "aizine",
+                                      "topQuery":  "ai zine",
                                       "pages":  [
                                                     {
                                                         "file":  "compare.html",
@@ -853,18 +873,18 @@
                                                         "desc":  "Write for AIZines — pitch or submit an article about AI, digital publishing, zines, or the creator economy. Get published, get your byline, and reach a growing AI-curious audience."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-02"
+                                      "auditDate":  "2026-05-09"
                                   },
                   "bizstry.com":  {
                                       "name":  "BizStry",
                                       "domain":  "bizstry.com",
                                       "totalScore":  1,
                                       "pageCount":  1,
-                                      "indexed":  0,
+                                      "indexed":  1,
                                       "clicks":  0,
-                                      "impressions":  0,
-                                      "avgPosition":  0,
-                                      "topQuery":  "",
+                                      "impressions":  3,
+                                      "avgPosition":  32,
+                                      "topQuery":  "bizstry",
                                       "pages":  [
                                                     {
                                                         "file":  "index.html",
@@ -881,12 +901,12 @@
                                                         "desc":  "Form your LLC in minutes. BizStry makes starting a business simple with fast formation, registered agent services, and ongoing compliance support."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-02"
+                                      "auditDate":  "2026-05-09"
                                   },
                   "bodspas.com":  {
                                       "name":  "BodSpas",
                                       "domain":  "bodspas.com",
-                                      "totalScore":  19,
+                                      "totalScore":  23,
                                       "pageCount":  7,
                                       "indexed":  2,
                                       "clicks":  0,
@@ -897,7 +917,7 @@
                                                     {
                                                         "file":  "bodwave-avatar.html",
                                                         "url":  "https://bodspas.com/bodwave-avatar.html",
-                                                        "score":  4,
+                                                        "score":  5,
                                                         "issues":  [
                                                                        {
                                                                            "code":  "NO_H1",
@@ -905,9 +925,9 @@
                                                                            "msg":  "Missing H1 heading"
                                                                        },
                                                                        {
-                                                                           "code":  "LOW_CONTENT",
-                                                                           "sev":  2,
-                                                                           "msg":  "Low word count: ~229 words (recommend 300+)"
+                                                                           "code":  "THIN_CONTENT",
+                                                                           "sev":  3,
+                                                                           "msg":  "Thin content: ~53 words (min 300 for indexing)"
                                                                        }
                                                                    ],
                                                         "title":  "BodWave Avatar — Muscle Focus Trainer | BodSpas",
@@ -993,9 +1013,13 @@
                                                     {
                                                         "file":  "scrapbook.html",
                                                         "url":  "https://bodspas.com/scrapbook.html",
-                                                        "score":  0,
+                                                        "score":  3,
                                                         "issues":  [
-
+                                                                       {
+                                                                           "code":  "THIN_CONTENT",
+                                                                           "sev":  3,
+                                                                           "msg":  "Thin content: ~177 words (min 300 for indexing)"
+                                                                       }
                                                                    ],
                                                         "title":  "Scrapbook | BodSpas - Fitness Inspiration",
                                                         "desc":  "Get inspired with our fitness gallery. See the results of dedicated training and proper nutrition."
@@ -1011,7 +1035,7 @@
                                                         "desc":  "Sports massage, Graston/IASTM technique, and soft tissue therapy for bodybuilders and athletes. Learn how to use spa recovery protocols to build muscle faster."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-02"
+                                      "auditDate":  "2026-05-09"
                                   },
                   "cloudsion.com":  {
                                         "name":  "Cloudsion",
@@ -1042,7 +1066,7 @@
                                                                          {
                                                                              "code":  "THIN_CONTENT",
                                                                              "sev":  3,
-                                                                             "msg":  "Thin content: ~170 words (min 300 for indexing)"
+                                                                             "msg":  "Thin content: ~6 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "help - Cloudsion",
@@ -1069,12 +1093,12 @@
                                                           "desc":  "A complete, ready-to-deploy AI web publishing system. Run it on your own machine or subscribe to our hosted cloud platform. White-label available."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-02"
+                                        "auditDate":  "2026-05-09"
                                     },
                   "cosmostheopera.com":  {
                                              "name":  "COSMOS the OPERA",
                                              "domain":  "cosmostheopera.com",
-                                             "totalScore":  111,
+                                             "totalScore":  83,
                                              "pageCount":  33,
                                              "indexed":  1,
                                              "clicks":  0,
@@ -1201,9 +1225,13 @@
                                                            {
                                                                "file":  "pitch-trainer.html",
                                                                "url":  "https://cosmostheopera.com/pitch-trainer.html",
-                                                               "score":  0,
+                                                               "score":  3,
                                                                "issues":  [
-
+                                                                              {
+                                                                                  "code":  "THIN_CONTENT",
+                                                                                  "sev":  3,
+                                                                                  "msg":  "Thin content: ~152 words (min 300 for indexing)"
+                                                                              }
                                                                           ],
                                                                "title":  "Pitch Trainer — Practice Pitch Accuracy | COSMOS the OPERA",
                                                                "desc":  "Interactive pitch training tool. Hear a note, sing it back, and get real-time visual feedback on your accuracy. Learn intervals, match pitch, and train your ear."
@@ -1211,7 +1239,7 @@
                                                            {
                                                                "file":  "search.html",
                                                                "url":  "https://cosmostheopera.com/search.html",
-                                                               "score":  10,
+                                                               "score":  5,
                                                                "issues":  [
                                                                               {
                                                                                   "code":  "SHORT_TITLE",
@@ -1219,28 +1247,13 @@
                                                                                   "msg":  "Title too short (25 chars, min 30)"
                                                                               },
                                                                               {
-                                                                                  "code":  "SHORT_DESC",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Meta description too short (57 chars, min 80)"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_OG_IMAGE",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing og:image meta tag"
-                                                                              },
-                                                                              {
                                                                                   "code":  "THIN_CONTENT",
                                                                                   "sev":  3,
                                                                                   "msg":  "Thin content: ~112 words (min 300 for indexing)"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_SCHEMA",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "No JSON-LD schema markup"
                                                                               }
                                                                           ],
-                                                               "title":  "Search — COSMOS the OPERA",
-                                                               "desc":  "Search across all COSMOS the OPERA pages and score files."
+                                                               "title":  "search - COSMOS the OPERA",
+                                                               "desc":  "search - COSMOS the OPERA is an original opera project featuring personified cosmic beings. Experience a unique blend of classica"
                                                            },
                                                            {
                                                                "file":  "sheet-music-act1-p1.html",
@@ -1408,9 +1421,13 @@
                                                            {
                                                                "file":  "sight-reading.html",
                                                                "url":  "https://cosmostheopera.com/sight-reading.html",
-                                                               "score":  0,
+                                                               "score":  2,
                                                                "issues":  [
-
+                                                                              {
+                                                                                  "code":  "LOW_CONTENT",
+                                                                                  "sev":  2,
+                                                                                  "msg":  "Low word count: ~277 words (recommend 300+)"
+                                                                              }
                                                                           ],
                                                                "title":  "Sight Reading — Learn to Read Music | COSMOS the OPERA",
                                                                "desc":  "Interactive sight reading trainer. Learn to identify notes on the treble and bass clef, practice reading music by sight, and build speed."
@@ -1475,9 +1492,13 @@
                                                            {
                                                                "file":  "ssaattbb-index.html",
                                                                "url":  "https://cosmostheopera.com/ssaattbb-index.html",
-                                                               "score":  0,
+                                                               "score":  2,
                                                                "issues":  [
-
+                                                                              {
+                                                                                  "code":  "LOW_CONTENT",
+                                                                                  "sev":  2,
+                                                                                  "msg":  "Low word count: ~266 words (recommend 300+)"
+                                                                              }
                                                                           ],
                                                                "title":  "SSAATTBB Orchestral Score | COSMOS the OPERA",
                                                                "desc":  "Complete SSAATTBB 8-part choral and orchestral score for COSMOS the OPERA with full instrumentation."
@@ -1485,28 +1506,9 @@
                                                            {
                                                                "file":  "temp-act1-p1.html",
                                                                "url":  "https://cosmostheopera.com/temp-act1-p1.html",
-                                                               "score":  6,
+                                                               "score":  0,
                                                                "issues":  [
-                                                                              {
-                                                                                  "code":  "NO_CANONICAL",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing canonical tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_OG_IMAGE",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing og:image meta tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_SCHEMA",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "No JSON-LD schema markup"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_GA4",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "Missing Google Analytics tag"
-                                                                              }
+
                                                                           ],
                                                                "title":  "Act I Part 1: Do You See, Look - Sheet Music | COSMOS the OPERA",
                                                                "desc":  "Act I Part 1 complete sheet music for COSMOS the OPERA - Do You See and Look with every line notated."
@@ -1514,32 +1516,12 @@
                                                            {
                                                                "file":  "temp-act1-p2.html",
                                                                "url":  "https://cosmostheopera.com/temp-act1-p2.html",
-                                                               "score":  7,
+                                                               "score":  1,
                                                                "issues":  [
                                                                               {
                                                                                   "code":  "LONG_TITLE",
                                                                                   "sev":  1,
                                                                                   "msg":  "Title too long (71 chars, max 65)"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_CANONICAL",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing canonical tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_OG_IMAGE",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing og:image meta tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_SCHEMA",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "No JSON-LD schema markup"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_GA4",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "Missing Google Analytics tag"
                                                                               }
                                                                           ],
                                                                "title":  "Act I Part 2: Stand, Journey, Together - Sheet Music | COSMOS the OPERA",
@@ -1548,28 +1530,9 @@
                                                            {
                                                                "file":  "temp-act2.html",
                                                                "url":  "https://cosmostheopera.com/temp-act2.html",
-                                                               "score":  6,
+                                                               "score":  0,
                                                                "issues":  [
-                                                                              {
-                                                                                  "code":  "NO_CANONICAL",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing canonical tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_OG_IMAGE",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing og:image meta tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_SCHEMA",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "No JSON-LD schema markup"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_GA4",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "Missing Google Analytics tag"
-                                                                              }
+
                                                                           ],
                                                                "title":  "Act II: What Are We, What Is - Sheet Music | COSMOS the OPERA",
                                                                "desc":  "Act II complete sheet music for COSMOS the OPERA - What Are We and What Is with every line notated."
@@ -1577,28 +1540,9 @@
                                                            {
                                                                "file":  "temp-act3-p1.html",
                                                                "url":  "https://cosmostheopera.com/temp-act3-p1.html",
-                                                               "score":  6,
+                                                               "score":  0,
                                                                "issues":  [
-                                                                              {
-                                                                                  "code":  "NO_CANONICAL",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing canonical tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_OG_IMAGE",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing og:image meta tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_SCHEMA",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "No JSON-LD schema markup"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_GA4",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "Missing Google Analytics tag"
-                                                                              }
+
                                                                           ],
                                                                "title":  "Act III Part 1: Believe, Truth - Sheet Music | COSMOS the OPERA",
                                                                "desc":  "Act III Part 1 complete sheet music for COSMOS the OPERA - Believe and Truth with every line notated."
@@ -1606,32 +1550,12 @@
                                                            {
                                                                "file":  "temp-act3-p2.html",
                                                                "url":  "https://cosmostheopera.com/temp-act3-p2.html",
-                                                               "score":  7,
+                                                               "score":  1,
                                                                "issues":  [
                                                                               {
                                                                                   "code":  "LONG_TITLE",
                                                                                   "sev":  1,
                                                                                   "msg":  "Title too long (74 chars, max 65)"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_CANONICAL",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing canonical tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_OG_IMAGE",
-                                                                                  "sev":  2,
-                                                                                  "msg":  "Missing og:image meta tag"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_SCHEMA",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "No JSON-LD schema markup"
-                                                                              },
-                                                                              {
-                                                                                  "code":  "NO_GA4",
-                                                                                  "sev":  1,
-                                                                                  "msg":  "Missing Google Analytics tag"
                                                                               }
                                                                           ],
                                                                "title":  "Act III Part 2: Transcend, Return, COSMOS - Sheet Music | COSMOS the OPERA",
@@ -1691,17 +1615,17 @@
                                                                "desc":  "COSMOS the OPERA - The complete prose poetry, presented as word art. Original words by Tom Sans, 2002-2026."
                                                            }
                                                        ],
-                                             "auditDate":  "2026-05-02"
+                                             "auditDate":  "2026-05-09"
                                          },
                   "erpise.com":  {
                                      "name":  "ERPise",
                                      "domain":  "erpise.com",
-                                     "totalScore":  5,
+                                     "totalScore":  4,
                                      "pageCount":  3,
                                      "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  10,
-                                     "avgPosition":  21.2,
+                                     "impressions":  14,
+                                     "avgPosition":  21.3,
                                      "topQuery":  "erpise",
                                      "pages":  [
                                                    {
@@ -1745,19 +1669,15 @@
                                                    {
                                                        "file":  "index.html",
                                                        "url":  "https://erpise.com/",
-                                                       "score":  1,
+                                                       "score":  0,
                                                        "issues":  [
-                                                                      {
-                                                                          "code":  "LONG_DESC",
-                                                                          "sev":  1,
-                                                                          "msg":  "Meta description too long (197 chars, max 165)"
-                                                                      }
+
                                                                   ],
-                                                       "title":  "ERPise - ERP \u0026 SIS Consulting | Higher Education Solutions",
-                                                       "desc":  "Expert ERP and Student Information System consulting for higher education. SQL reporting, IPEDS compliance, database optimization, and SIS integration. Transform your institution\u0027s data management."
+                                                       "title":  "ERPise — ERP \u0026 SIS Consulting for Higher Education",
+                                                       "desc":  "ERPise — expert ERP and Student Information System consulting for higher education. SQL reporting, IPEDS compliance, and database optimization."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-02"
+                                     "auditDate":  "2026-05-09"
                                  },
                   "erpize.com":  {
                                      "name":  "ERPize",
@@ -1766,8 +1686,8 @@
                                      "pageCount":  6,
                                      "indexed":  2,
                                      "clicks":  0,
-                                     "impressions":  4,
-                                     "avgPosition":  6.5,
+                                     "impressions":  7,
+                                     "avgPosition":  6.9,
                                      "topQuery":  "erpise",
                                      "pages":  [
                                                    {
@@ -1856,18 +1776,18 @@
                                                        "desc":  "Write for ERPize — pitch or submit an article about ERP, SIS, SQL, compliance, automation, or higher education technology. Get published and build your professional profile."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-02"
+                                     "auditDate":  "2026-05-09"
                                  },
                   "furnishthings.com":  {
                                             "name":  "FurnishThings",
                                             "domain":  "furnishthings.com",
-                                            "totalScore":  5,
+                                            "totalScore":  7,
                                             "pageCount":  6,
-                                            "indexed":  1,
+                                            "indexed":  2,
                                             "clicks":  0,
-                                            "impressions":  0,
-                                            "avgPosition":  0,
-                                            "topQuery":  "",
+                                            "impressions":  2,
+                                            "avgPosition":  55,
+                                            "topQuery":  "furnish furniture",
                                             "pages":  [
                                                           {
                                                               "file":  "apartment.html",
@@ -1912,9 +1832,13 @@
                                                           {
                                                               "file":  "index.html",
                                                               "url":  "https://furnishthings.com/",
-                                                              "score":  0,
+                                                              "score":  2,
                                                               "issues":  [
-
+                                                                             {
+                                                                                 "code":  "LOW_CONTENT",
+                                                                                 "sev":  2,
+                                                                                 "msg":  "Low word count: ~254 words (recommend 300+)"
+                                                                             }
                                                                          ],
                                                               "title":  "FurnishThings - Quality Furniture for Modern Living",
                                                               "desc":  "Discover beautiful furniture for every room. Sofas, beds, dining sets, and home décor at competitive prices. Free delivery on orders over $500."
@@ -1939,7 +1863,7 @@
                                                               "desc":  "Plan your life in phases. Modular, foldable furniture designed to ship flat and grow with you from dorm to first home. Not just a store — a system."
                                                           }
                                                       ],
-                                            "auditDate":  "2026-05-02"
+                                            "auditDate":  "2026-05-09"
                                         },
                   "gameatica.com":  {
                                         "name":  "Gameatica",
@@ -2788,7 +2712,7 @@
                                                                          {
                                                                              "code":  "THIN_CONTENT",
                                                                              "sev":  3,
-                                                                             "msg":  "Thin content: ~185 words (min 300 for indexing)"
+                                                                             "msg":  "Thin content: ~28 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "tetris - Gameatica",
@@ -2928,12 +2852,12 @@
                                                           "desc":  "Word Roots teaches the Latin and Greek building blocks that make up a huge proportion of academic English vocabulary. When you know that bio means life, graph means write, and logy means the study of - you can decode biology, biography, bibliography, and dozens of other words instantly. A root is shown on screen. Select its correct meaning then identify a word that uses it. Progress through increasingly rare roots as your score builds. Some rounds reverse the challenge, showing a definition and asking you to identify the root. Vocabulary researchers estimate that learning 20 to 30 key Latin and Greek roots can help you decode over 10,000 English words. This game targets the highest-frequency roots found in SAT and GRE vocabulary lists, academic textbooks, and professional writing."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-02"
+                                        "auditDate":  "2026-05-09"
                                     },
                   "inthisworld.com":  {
                                           "name":  "InThisWorld",
                                           "domain":  "inthisworld.com",
-                                          "totalScore":  107,
+                                          "totalScore":  94,
                                           "pageCount":  19,
                                           "indexed":  1,
                                           "clicks":  0,
@@ -2958,7 +2882,7 @@
                                                         {
                                                             "file":  "community.html",
                                                             "url":  "https://inthisworld.com/community.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -2966,9 +2890,9 @@
                                                                                "msg":  "Title too short (23 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~219 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~59 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "community - InThisWorld",
@@ -2977,26 +2901,17 @@
                                                         {
                                                             "file":  "index.html",
                                                             "url":  "https://inthisworld.com/",
-                                                            "score":  2,
+                                                            "score":  0,
                                                             "issues":  [
-                                                                           {
-                                                                               "code":  "LONG_TITLE",
-                                                                               "sev":  1,
-                                                                               "msg":  "Title too long (77 chars, max 65)"
-                                                                           },
-                                                                           {
-                                                                               "code":  "LONG_DESC",
-                                                                               "sev":  1,
-                                                                               "msg":  "Meta description too long (174 chars, max 165)"
-                                                                           }
+
                                                                        ],
-                                                            "title":  "InThisWorld - Free 3D Browser Games | Space Trader, FPS Arena \u0026 Virtual Rooms",
-                                                            "desc":  "Play 3 free 3D browser games built with Three.js — Space Trader, World Explorer, Arena FPS. Walk through furnished 3D chat rooms. No download, play instantly in your browser."
+                                                            "title":  "InThisWorld — Free 3D Browser Games \u0026 Virtual Rooms",
+                                                            "desc":  "InThisWorld — play 3 free 3D browser games and walk through virtual chat rooms. Space Trader, FPS Arena, World Explorer. No download required."
                                                         },
                                                         {
                                                             "file":  "mnn-avatar.html",
                                                             "url":  "https://inthisworld.com/mnn-avatar.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "NO_H1",
@@ -3004,9 +2919,9 @@
                                                                                "msg":  "Missing H1 heading"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~241 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~72 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "MNN Avatar Viewer — AIUNITES / InThisWorld",
@@ -3029,32 +2944,17 @@
                                                         {
                                                             "file":  "air-race.html",
                                                             "url":  "https://inthisworld.com/games/air-race.html",
-                                                            "score":  9,
+                                                            "score":  4,
                                                             "issues":  [
-                                                                           {
-                                                                               "code":  "NO_CANONICAL",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing canonical tag"
-                                                                           },
                                                                            {
                                                                                "code":  "MULTI_H1",
                                                                                "sev":  1,
                                                                                "msg":  "Multiple H1 tags found (2)"
                                                                            },
                                                                            {
-                                                                               "code":  "NO_OG_IMAGE",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing og:image meta tag"
-                                                                           },
-                                                                           {
                                                                                "code":  "THIN_CONTENT",
                                                                                "sev":  3,
-                                                                               "msg":  "Thin content: ~63 words (min 300 for indexing)"
-                                                                           },
-                                                                           {
-                                                                               "code":  "NO_SCHEMA",
-                                                                               "sev":  1,
-                                                                               "msg":  "No JSON-LD schema markup"
+                                                                               "msg":  "Thin content: ~82 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "Pylon Race — Aerobatic Racing | InThisWorld",
@@ -3063,7 +2963,7 @@
                                                         {
                                                             "file":  "arena-fps.html",
                                                             "url":  "https://inthisworld.com/games/arena-fps.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -3071,9 +2971,9 @@
                                                                                "msg":  "Title too short (23 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~219 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~56 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "arena fps - InThisWorld",
@@ -3082,32 +2982,17 @@
                                                         {
                                                             "file":  "boat-race.html",
                                                             "url":  "https://inthisworld.com/games/boat-race.html",
-                                                            "score":  9,
+                                                            "score":  4,
                                                             "issues":  [
-                                                                           {
-                                                                               "code":  "NO_CANONICAL",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing canonical tag"
-                                                                           },
                                                                            {
                                                                                "code":  "MULTI_H1",
                                                                                "sev":  1,
                                                                                "msg":  "Multiple H1 tags found (2)"
                                                                            },
                                                                            {
-                                                                               "code":  "NO_OG_IMAGE",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing og:image meta tag"
-                                                                           },
-                                                                           {
                                                                                "code":  "THIN_CONTENT",
                                                                                "sev":  3,
-                                                                               "msg":  "Thin content: ~63 words (min 300 for indexing)"
-                                                                           },
-                                                                           {
-                                                                               "code":  "NO_SCHEMA",
-                                                                               "sev":  1,
-                                                                               "msg":  "No JSON-LD schema markup"
+                                                                               "msg":  "Thin content: ~82 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "Buoy Run \u0026mdash; Powerboat Racing | InThisWorld",
@@ -3116,32 +3001,17 @@
                                                         {
                                                             "file":  "car-race.html",
                                                             "url":  "https://inthisworld.com/games/car-race.html",
-                                                            "score":  10,
+                                                            "score":  4,
                                                             "issues":  [
-                                                                           {
-                                                                               "code":  "WRONG_CANONICAL",
-                                                                               "sev":  3,
-                                                                               "msg":  "Canonical points to github.io: https://aiunites.github.io/inthisworld-site/games/car-race.html"
-                                                                           },
                                                                            {
                                                                                "code":  "MULTI_H1",
                                                                                "sev":  1,
                                                                                "msg":  "Multiple H1 tags found (2)"
                                                                            },
                                                                            {
-                                                                               "code":  "NO_OG_IMAGE",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing og:image meta tag"
-                                                                           },
-                                                                           {
                                                                                "code":  "THIN_CONTENT",
                                                                                "sev":  3,
-                                                                               "msg":  "Thin content: ~61 words (min 300 for indexing)"
-                                                                           },
-                                                                           {
-                                                                               "code":  "NO_SCHEMA",
-                                                                               "sev":  1,
-                                                                               "msg":  "No JSON-LD schema markup"
+                                                                               "msg":  "Thin content: ~80 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "Night Circuit — Car Racing | InThisWorld",
@@ -3199,7 +3069,7 @@
                                                         {
                                                             "file":  "pirate-battle.html",
                                                             "url":  "https://inthisworld.com/games/pirate-battle.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "NO_H1",
@@ -3207,9 +3077,9 @@
                                                                                "msg":  "Missing H1 heading"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~240 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~77 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "Caribbean Cannon — InThisWorld",
@@ -3218,32 +3088,17 @@
                                                         {
                                                             "file":  "space-race.html",
                                                             "url":  "https://inthisworld.com/games/space-race.html",
-                                                            "score":  9,
+                                                            "score":  4,
                                                             "issues":  [
-                                                                           {
-                                                                               "code":  "NO_CANONICAL",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing canonical tag"
-                                                                           },
                                                                            {
                                                                                "code":  "MULTI_H1",
                                                                                "sev":  1,
                                                                                "msg":  "Multiple H1 tags found (2)"
                                                                            },
                                                                            {
-                                                                               "code":  "NO_OG_IMAGE",
-                                                                               "sev":  2,
-                                                                               "msg":  "Missing og:image meta tag"
-                                                                           },
-                                                                           {
                                                                                "code":  "THIN_CONTENT",
                                                                                "sev":  3,
-                                                                               "msg":  "Thin content: ~61 words (min 300 for indexing)"
-                                                                           },
-                                                                           {
-                                                                               "code":  "NO_SCHEMA",
-                                                                               "sev":  1,
-                                                                               "msg":  "No JSON-LD schema markup"
+                                                                               "msg":  "Thin content: ~80 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "Nebula Sprint — Space Racing | InThisWorld",
@@ -3252,7 +3107,7 @@
                                                         {
                                                             "file":  "space-trader.html",
                                                             "url":  "https://inthisworld.com/games/space-trader.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -3260,9 +3115,9 @@
                                                                                "msg":  "Title too short (26 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~224 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~61 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "space trader - InThisWorld",
@@ -3271,7 +3126,7 @@
                                                         {
                                                             "file":  "world-explorer.html",
                                                             "url":  "https://inthisworld.com/games/world-explorer.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -3279,9 +3134,9 @@
                                                                                "msg":  "Title too short (28 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~207 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~44 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "world explorer - InThisWorld",
@@ -3290,7 +3145,7 @@
                                                         {
                                                             "file":  "bedroom.html",
                                                             "url":  "https://inthisworld.com/rooms/bedroom.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -3298,9 +3153,9 @@
                                                                                "msg":  "Title too short (21 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~205 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~45 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "bedroom - InThisWorld",
@@ -3309,7 +3164,7 @@
                                                         {
                                                             "file":  "gym.html",
                                                             "url":  "https://inthisworld.com/rooms/gym.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -3317,9 +3172,9 @@
                                                                                "msg":  "Title too short (17 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~206 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~46 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "gym - InThisWorld",
@@ -3372,7 +3227,7 @@
                                                         {
                                                             "file":  "living-room.html",
                                                             "url":  "https://inthisworld.com/rooms/living-room.html",
-                                                            "score":  4,
+                                                            "score":  5,
                                                             "issues":  [
                                                                            {
                                                                                "code":  "SHORT_TITLE",
@@ -3380,9 +3235,9 @@
                                                                                "msg":  "Title too short (25 chars, min 30)"
                                                                            },
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~214 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~51 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "living room - InThisWorld",
@@ -3391,30 +3246,30 @@
                                                         {
                                                             "file":  "space-station.html",
                                                             "url":  "https://inthisworld.com/rooms/space-station.html",
-                                                            "score":  2,
+                                                            "score":  3,
                                                             "issues":  [
                                                                            {
-                                                                               "code":  "LOW_CONTENT",
-                                                                               "sev":  2,
-                                                                               "msg":  "Low word count: ~218 words (recommend 300+)"
+                                                                               "code":  "THIN_CONTENT",
+                                                                               "sev":  3,
+                                                                               "msg":  "Thin content: ~52 words (min 300 for indexing)"
                                                                            }
                                                                        ],
                                                             "title":  "Space Station Lounge — InThisWorld",
                                                             "desc":  "space-station - InThisWorld is a virtual world sandbox with 3D browser games, virtual chat rooms, and interactive experiences. Explore,"
                                                         }
                                                     ],
-                                          "auditDate":  "2026-05-02"
+                                          "auditDate":  "2026-05-09"
                                       },
                   "redomy.com":  {
                                      "name":  "Redomy",
                                      "domain":  "redomy.com",
-                                     "totalScore":  70,
+                                     "totalScore":  66,
                                      "pageCount":  15,
-                                     "indexed":  6,
+                                     "indexed":  13,
                                      "clicks":  0,
-                                     "impressions":  11,
-                                     "avgPosition":  2.2,
-                                     "topQuery":  "redo my",
+                                     "impressions":  13,
+                                     "avgPosition":  4.6,
+                                     "topQuery":  "my redo",
                                      "pages":  [
                                                    {
                                                        "file":  "ai-room-builder.html",
@@ -3437,8 +3292,8 @@
                                                                           "msg":  "Multiple H1 tags found (4)"
                                                                       }
                                                                   ],
-                                                       "title":  "Redomy — Redo My Home in 3D | AI Room Visualizer \u0026 Planner",
-                                                       "desc":  "Redo my kitchen, bedroom, or backyard — upload a photo and walk your room in 3D. AI renovation ideas, budgets, and project tracking. Free to try."
+                                                       "title":  "Redo My Home in 3D — AI Renovation Planner | Redomy",
+                                                       "desc":  "Redo my kitchen, bedroom, or backyard — upload a photo, walk your room in 3D, and get AI renovation ideas with budgets and tracking. Free to try."
                                                    },
                                                    {
                                                        "file":  "room-visualizer.html",
@@ -3458,7 +3313,7 @@
                                                                       {
                                                                           "code":  "THIN_CONTENT",
                                                                           "sev":  3,
-                                                                          "msg":  "Thin content: ~177 words (min 300 for indexing)"
+                                                                          "msg":  "Thin content: ~9 words (min 300 for indexing)"
                                                                       }
                                                                   ],
                                                        "title":  "Room Visualizer — AI 3D Room Builder | Redomy",
@@ -3477,7 +3332,7 @@
                                                                       {
                                                                           "code":  "THIN_CONTENT",
                                                                           "sev":  3,
-                                                                          "msg":  "Thin content: ~180 words (min 300 for indexing)"
+                                                                          "msg":  "Thin content: ~199 words (min 300 for indexing)"
                                                                       }
                                                                   ],
                                                        "title":  "Backyard — Walk in 3D | Redomy",
@@ -3486,7 +3341,7 @@
                                                    {
                                                        "file":  "basement.html",
                                                        "url":  "https://redomy.com/rooms/basement.html",
-                                                       "score":  5,
+                                                       "score":  4,
                                                        "issues":  [
                                                                       {
                                                                           "code":  "NO_H1",
@@ -3494,9 +3349,9 @@
                                                                           "msg":  "Missing H1 heading"
                                                                       },
                                                                       {
-                                                                          "code":  "THIN_CONTENT",
-                                                                          "sev":  3,
-                                                                          "msg":  "Thin content: ~183 words (min 300 for indexing)"
+                                                                          "code":  "LOW_CONTENT",
+                                                                          "sev":  2,
+                                                                          "msg":  "Low word count: ~202 words (recommend 300+)"
                                                                       }
                                                                   ],
                                                        "title":  "Basement — Walk in 3D | Redomy",
@@ -3529,7 +3384,7 @@
                                                    {
                                                        "file":  "dining-room.html",
                                                        "url":  "https://redomy.com/rooms/dining-room.html",
-                                                       "score":  5,
+                                                       "score":  4,
                                                        "issues":  [
                                                                       {
                                                                           "code":  "NO_H1",
@@ -3537,9 +3392,9 @@
                                                                           "msg":  "Missing H1 heading"
                                                                       },
                                                                       {
-                                                                          "code":  "THIN_CONTENT",
-                                                                          "sev":  3,
-                                                                          "msg":  "Thin content: ~184 words (min 300 for indexing)"
+                                                                          "code":  "LOW_CONTENT",
+                                                                          "sev":  2,
+                                                                          "msg":  "Low word count: ~203 words (recommend 300+)"
                                                                       }
                                                                   ],
                                                        "title":  "Dining Room — Walk in 3D | Redomy",
@@ -3548,7 +3403,7 @@
                                                    {
                                                        "file":  "frontyard.html",
                                                        "url":  "https://redomy.com/rooms/frontyard.html",
-                                                       "score":  5,
+                                                       "score":  4,
                                                        "issues":  [
                                                                       {
                                                                           "code":  "NO_H1",
@@ -3556,9 +3411,9 @@
                                                                           "msg":  "Missing H1 heading"
                                                                       },
                                                                       {
-                                                                          "code":  "THIN_CONTENT",
-                                                                          "sev":  3,
-                                                                          "msg":  "Thin content: ~187 words (min 300 for indexing)"
+                                                                          "code":  "LOW_CONTENT",
+                                                                          "sev":  2,
+                                                                          "msg":  "Low word count: ~206 words (recommend 300+)"
                                                                       }
                                                                   ],
                                                        "title":  "Front Yard — Walk in 3D | Redomy",
@@ -3606,7 +3461,7 @@
                                                                       {
                                                                           "code":  "THIN_CONTENT",
                                                                           "sev":  3,
-                                                                          "msg":  "Thin content: ~95 words (min 300 for indexing)"
+                                                                          "msg":  "Thin content: ~114 words (min 300 for indexing)"
                                                                       }
                                                                   ],
                                                        "title":  "Home Office (After) \u0026mdash; Cable Management Done Right | Redomy",
@@ -3635,7 +3490,7 @@
                                                                       {
                                                                           "code":  "THIN_CONTENT",
                                                                           "sev":  3,
-                                                                          "msg":  "Thin content: ~88 words (min 300 for indexing)"
+                                                                          "msg":  "Thin content: ~107 words (min 300 for indexing)"
                                                                       }
                                                                   ],
                                                        "title":  "Home Office (Before) \u0026mdash; Cable Management Walk-Through | Redomy",
@@ -3701,7 +3556,7 @@
                                                    {
                                                        "file":  "living-room.html",
                                                        "url":  "https://redomy.com/rooms/living-room.html",
-                                                       "score":  5,
+                                                       "score":  4,
                                                        "issues":  [
                                                                       {
                                                                           "code":  "NO_H1",
@@ -3709,23 +3564,23 @@
                                                                           "msg":  "Missing H1 heading"
                                                                       },
                                                                       {
-                                                                          "code":  "THIN_CONTENT",
-                                                                          "sev":  3,
-                                                                          "msg":  "Thin content: ~198 words (min 300 for indexing)"
+                                                                          "code":  "LOW_CONTENT",
+                                                                          "sev":  2,
+                                                                          "msg":  "Low word count: ~217 words (recommend 300+)"
                                                                       }
                                                                   ],
                                                        "title":  "Living Room — Walk in 3D | Redomy",
                                                        "desc":  "Walk through a 3D living room and get renovation tips for sofa, fireplace, TV wall, lighting and more. Plan your living room remodel with Redomy."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-02"
+                                     "auditDate":  "2026-05-09"
                                  },
                   "uptownit.com":  {
                                        "name":  "UptownIT",
                                        "domain":  "uptownit.com",
-                                       "totalScore":  3,
+                                       "totalScore":  4,
                                        "pageCount":  2,
-                                       "indexed":  0,
+                                       "indexed":  1,
                                        "clicks":  0,
                                        "impressions":  0,
                                        "avgPosition":  0,
@@ -3734,12 +3589,12 @@
                                                      {
                                                          "file":  "index.html",
                                                          "url":  "https://uptownit.com/",
-                                                         "score":  2,
+                                                         "score":  3,
                                                          "issues":  [
                                                                         {
-                                                                            "code":  "LOW_CONTENT",
-                                                                            "sev":  2,
-                                                                            "msg":  "Low word count: ~289 words (recommend 300+)"
+                                                                            "code":  "THIN_CONTENT",
+                                                                            "sev":  3,
+                                                                            "msg":  "Thin content: ~125 words (min 300 for indexing)"
                                                                         }
                                                                     ],
                                                          "title":  "UptownIT - Professional IT Services \u0026 Support",
@@ -3760,18 +3615,18 @@
                                                          "desc":  "Add AI-powered web publishing to your managed IT service catalog. Deploy for clients using Windows infrastructure — Task Scheduler, PowerShell, GitHub. A new billable managed service for MSPs and IT departments."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-05-02"
+                                       "auditDate":  "2026-05-09"
                                    },
                   "videobate.com":  {
                                         "name":  "VideoBate",
                                         "domain":  "videobate.com",
-                                        "totalScore":  7,
+                                        "totalScore":  14,
                                         "pageCount":  7,
-                                        "indexed":  0,
+                                        "indexed":  1,
                                         "clicks":  0,
-                                        "impressions":  0,
-                                        "avgPosition":  0,
-                                        "topQuery":  "",
+                                        "impressions":  8,
+                                        "avgPosition":  4.8,
+                                        "topQuery":  "online video debate platform",
                                         "pages":  [
                                                       {
                                                           "file":  "compare.html",
@@ -3796,12 +3651,17 @@
                                                       {
                                                           "file":  "index.html",
                                                           "url":  "https://videobate.com/",
-                                                          "score":  1,
+                                                          "score":  3,
                                                           "issues":  [
                                                                          {
                                                                              "code":  "LONG_DESC",
                                                                              "sev":  1,
                                                                              "msg":  "Meta description too long (168 chars, max 165)"
+                                                                         },
+                                                                         {
+                                                                             "code":  "LOW_CONTENT",
+                                                                             "sev":  2,
+                                                                             "msg":  "Low word count: ~248 words (recommend 300+)"
                                                                          }
                                                                      ],
                                                           "title":  "VideoBate - Spot Logical Fallacies | Free Debate Skills Game",
@@ -3810,12 +3670,12 @@
                                                       {
                                                           "file":  "leaderboard.html",
                                                           "url":  "https://videobate.com/leaderboard.html",
-                                                          "score":  2,
+                                                          "score":  3,
                                                           "issues":  [
                                                                          {
-                                                                             "code":  "LOW_CONTENT",
-                                                                             "sev":  2,
-                                                                             "msg":  "Low word count: ~203 words (recommend 300+)"
+                                                                             "code":  "THIN_CONTENT",
+                                                                             "sev":  3,
+                                                                             "msg":  "Thin content: ~40 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "Leaderboard | Fallacy Spotter - VideoBate",
@@ -3824,9 +3684,13 @@
                                                       {
                                                           "file":  "profile.html",
                                                           "url":  "https://videobate.com/profile.html",
-                                                          "score":  0,
+                                                          "score":  2,
                                                           "issues":  [
-
+                                                                         {
+                                                                             "code":  "LOW_CONTENT",
+                                                                             "sev":  2,
+                                                                             "msg":  "Low word count: ~287 words (recommend 300+)"
+                                                                         }
                                                                      ],
                                                           "title":  "My Profile | Fallacy Spotter - VideoBate",
                                                           "desc":  "profile - VideoBate is a live video debate platform. Host and participate in structured video debates, discussions, and argumentat"
@@ -3834,12 +3698,12 @@
                                                       {
                                                           "file":  "quiz.html",
                                                           "url":  "https://videobate.com/quiz.html",
-                                                          "score":  2,
+                                                          "score":  3,
                                                           "issues":  [
                                                                          {
-                                                                             "code":  "LOW_CONTENT",
-                                                                             "sev":  2,
-                                                                             "msg":  "Low word count: ~228 words (recommend 300+)"
+                                                                             "code":  "THIN_CONTENT",
+                                                                             "sev":  3,
+                                                                             "msg":  "Thin content: ~56 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "Fallacy Quiz - Test Your Critical Thinking | VideoBate",
@@ -3848,24 +3712,24 @@
                                                       {
                                                           "file":  "reset-password.html",
                                                           "url":  "https://videobate.com/reset-password.html",
-                                                          "score":  2,
+                                                          "score":  3,
                                                           "issues":  [
                                                                          {
-                                                                             "code":  "LOW_CONTENT",
-                                                                             "sev":  2,
-                                                                             "msg":  "Low word count: ~232 words (recommend 300+)"
+                                                                             "code":  "THIN_CONTENT",
+                                                                             "sev":  3,
+                                                                             "msg":  "Thin content: ~66 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "Password Reset | Fallacy Spotter - VideoBate",
                                                           "desc":  "reset-password - VideoBate is a live video debate platform. Host and participate in structured video debates, discussions, and argumentat"
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-02"
+                                        "auditDate":  "2026-05-09"
                                     },
                   "voicestry.com":  {
                                         "name":  "VoiceStry",
                                         "domain":  "voicestry.com",
-                                        "totalScore":  15,
+                                        "totalScore":  24,
                                         "pageCount":  15,
                                         "indexed":  3,
                                         "clicks":  0,
@@ -3938,9 +3802,13 @@
                                                       {
                                                           "file":  "karaoke.html",
                                                           "url":  "https://voicestry.com/karaoke.html",
-                                                          "score":  0,
+                                                          "score":  2,
                                                           "issues":  [
-
+                                                                         {
+                                                                             "code":  "LOW_CONTENT",
+                                                                             "sev":  2,
+                                                                             "msg":  "Low word count: ~239 words (recommend 300+)"
+                                                                         }
                                                                      ],
                                                           "title":  "Karaoke Studio — Sing Along \u0026amp; Train Your Voice | VoiceStry",
                                                           "desc":  "Karaoke practice with synchronized lyrics, live pitch meter, and VRN vocal warm-ups. Search any song, watch the karaoke video, and train your voice in real time."
@@ -3962,9 +3830,13 @@
                                                       {
                                                           "file":  "pitch-trainer.html",
                                                           "url":  "https://voicestry.com/pitch-trainer.html",
-                                                          "score":  0,
+                                                          "score":  2,
                                                           "issues":  [
-
+                                                                         {
+                                                                             "code":  "LOW_CONTENT",
+                                                                             "sev":  2,
+                                                                             "msg":  "Low word count: ~249 words (recommend 300+)"
+                                                                         }
                                                                      ],
                                                           "title":  "Pitch Trainer — Practice Pitch Accuracy | VoiceStry",
                                                           "desc":  "Interactive pitch training tool. Hear a note, sing it back, and get real-time visual feedback on your accuracy. Learn intervals, match pitch, and train your ear."
@@ -3996,12 +3868,17 @@
                                                       {
                                                           "file":  "sonic-portrait.html",
                                                           "url":  "https://voicestry.com/sonic-portrait.html",
-                                                          "score":  1,
+                                                          "score":  4,
                                                           "issues":  [
                                                                          {
                                                                              "code":  "LONG_DESC",
                                                                              "sev":  1,
                                                                              "msg":  "Meta description too long (167 chars, max 165)"
+                                                                         },
+                                                                         {
+                                                                             "code":  "THIN_CONTENT",
+                                                                             "sev":  3,
+                                                                             "msg":  "Thin content: ~192 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "Sonic Portrait — See a Face Drawn by Sound | VoiceStry",
@@ -4053,12 +3930,17 @@
                                                       {
                                                           "file":  "voice-lab.html",
                                                           "url":  "https://voicestry.com/voice-lab.html",
-                                                          "score":  1,
+                                                          "score":  3,
                                                           "issues":  [
                                                                          {
                                                                              "code":  "LONG_DESC",
                                                                              "sev":  1,
                                                                              "msg":  "Meta description too long (220 chars, max 165)"
+                                                                         },
+                                                                         {
+                                                                             "code":  "LOW_CONTENT",
+                                                                             "sev":  2,
+                                                                             "msg":  "Low word count: ~286 words (recommend 300+)"
                                                                          }
                                                                      ],
                                                           "title":  "VRN Voice Lab — Hear Voices, See the Notation | VoiceStry",
@@ -4084,7 +3966,7 @@
                                                           "desc":  "The world\u0027s first Vocal Resonance Notation system — 75+ symbols across 8 notation systems for encoding vocal resonance, phonation, breath, formants, vibrato, and timbral color."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-02"
+                                        "auditDate":  "2026-05-09"
                                     }
               }
 }
