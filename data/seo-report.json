@@ -1,7 +1,7 @@
 ﻿{
-    "generated":  "2026-05-09T19:41:40",
-    "generatedFmt":  "May 9, 2026 7:41PM",
-    "totalIssues":  348,
+    "generated":  "2026-05-16T19:51:57",
+    "generatedFmt":  "May 16, 2026 7:51PM",
+    "totalIssues":  346,
     "sites":  {
                   "aiunites.com":  {
                                        "name":  "AIUNITES",
@@ -10,8 +10,8 @@
                                        "pageCount":  29,
                                        "indexed":  6,
                                        "clicks":  0,
-                                       "impressions":  18,
-                                       "avgPosition":  20.3,
+                                       "impressions":  10,
+                                       "avgPosition":  20.2,
                                        "topQuery":  "ai consulting oklahoma",
                                        "pages":  [
                                                      {
@@ -570,7 +570,7 @@
                                                          "desc":  "Technical specification for MNN (Muscular Neuro Notation), VRN (Vocal Resonance Notation), and VNN (Vocal Neuro Notation). Open text formats for human movement, vocal production, and the cranial nerve pathways that execute them. Machine-parseable, human-readable, vendor-neutral."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-05-09"
+                                       "auditDate":  "2026-05-16"
                                    },
                   "aibyjob.com":  {
                                       "name":  "AIByJob",
@@ -579,8 +579,8 @@
                                       "pageCount":  10,
                                       "indexed":  3,
                                       "clicks":  0,
-                                      "impressions":  9,
-                                      "avgPosition":  8.3,
+                                      "impressions":  11,
+                                      "avgPosition":  8.6,
                                       "topQuery":  "aiby careers",
                                       "pages":  [
                                                     {
@@ -608,8 +608,8 @@
                                                                            "msg":  "Multiple H1 tags found (7)"
                                                                        }
                                                                    ],
-                                                        "title":  "AIByJob - AI Agents for Your Profession | AIUNITES",
-                                                        "desc":  "Deploy AI agents, templates, and tools for your profession. Autonomous agents that work 24/7 to find leads, build sites, and automate marketing."
+                                                        "title":  "AIByJob — AI Agents for Careers \u0026 Professions | AIUNITES",
+                                                        "desc":  "Deploy AI agents built for your career — autonomous tools that work 24/7 to find leads, build your site, and grow your professional brand. Free to try."
                                                     },
                                                     {
                                                         "file":  "ai-publishing-setup.html",
@@ -741,7 +741,7 @@
                                                         "desc":  "lead-qualification - AIByJob helps professionals find the right AI tools for their specific job role. Discover AI tools for marketing, legal,"
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-09"
+                                      "auditDate":  "2026-05-16"
                                   },
                   "aitsql.com":  {
                                      "name":  "AITSQL",
@@ -750,8 +750,8 @@
                                      "pageCount":  2,
                                      "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  5,
-                                     "avgPosition":  73.4,
+                                     "impressions":  8,
+                                     "avgPosition":  75.2,
                                      "topQuery":  "ai tools for sql server",
                                      "pages":  [
                                                    {
@@ -779,14 +779,14 @@
                                                        "desc":  "SQL Server expertise meets AI. Tools, scripts, consulting, and insights for database professionals working with T-SQL and SQL Server."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-09"
+                                     "auditDate":  "2026-05-16"
                                  },
                   "aiyhwh.com":  {
                                      "name":  "AI YHWH",
                                      "domain":  "aiyhwh.com",
                                      "totalScore":  2,
                                      "pageCount":  2,
-                                     "indexed":  1,
+                                     "indexed":  2,
                                      "clicks":  0,
                                      "impressions":  0,
                                      "avgPosition":  0,
@@ -821,7 +821,7 @@
                                                        "desc":  "Honest answers to the hardest biblical questions. Communion and cannibalism, the Trinity, hell, contradictions — answered with scholarly rigor and intellectual honesty."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-09"
+                                     "auditDate":  "2026-05-16"
                                  },
                   "aizines.com":  {
                                       "name":  "AIZines",
@@ -830,8 +830,8 @@
                                       "pageCount":  3,
                                       "indexed":  3,
                                       "clicks":  0,
-                                      "impressions":  6,
-                                      "avgPosition":  4.4,
+                                      "impressions":  5,
+                                      "avgPosition":  6.2,
                                       "topQuery":  "ai zine",
                                       "pages":  [
                                                     {
@@ -855,8 +855,8 @@
                                                                            "msg":  "Multiple H1 tags found (5)"
                                                                        }
                                                                    ],
-                                                        "title":  "AIZines - AI-Powered Magazine Creator | Create Digital Magazines",
-                                                        "desc":  "Create stunning AI-powered digital magazines in minutes. Generate articles, design layouts, and publish your own magazine with the power of artificial intelligence."
+                                                        "title":  "AIZines — Create Your Own AI Zine \u0026 Digital Magazine",
+                                                        "desc":  "Build your own AI zine in minutes. Generate articles, design layouts, and publish a digital magazine with AIZines. Free to try, no signup required."
                                                     },
                                                     {
                                                         "file":  "write-for-us.html",
@@ -873,7 +873,7 @@
                                                         "desc":  "Write for AIZines — pitch or submit an article about AI, digital publishing, zines, or the creator economy. Get published, get your byline, and reach a growing AI-curious audience."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-09"
+                                      "auditDate":  "2026-05-16"
                                   },
                   "bizstry.com":  {
                                       "name":  "BizStry",
@@ -901,14 +901,14 @@
                                                         "desc":  "Form your LLC in minutes. BizStry makes starting a business simple with fast formation, registered agent services, and ongoing compliance support."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-09"
+                                      "auditDate":  "2026-05-16"
                                   },
                   "bodspas.com":  {
                                       "name":  "BodSpas",
                                       "domain":  "bodspas.com",
                                       "totalScore":  23,
                                       "pageCount":  7,
-                                      "indexed":  2,
+                                      "indexed":  1,
                                       "clicks":  0,
                                       "impressions":  0,
                                       "avgPosition":  0,
@@ -1035,7 +1035,7 @@
                                                         "desc":  "Sports massage, Graston/IASTM technique, and soft tissue therapy for bodybuilders and athletes. Learn how to use spa recovery protocols to build muscle faster."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-05-09"
+                                      "auditDate":  "2026-05-16"
                                   },
                   "cloudsion.com":  {
                                         "name":  "Cloudsion",
@@ -1093,7 +1093,7 @@
                                                           "desc":  "A complete, ready-to-deploy AI web publishing system. Run it on your own machine or subscribe to our hosted cloud platform. White-label available."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-09"
+                                        "auditDate":  "2026-05-16"
                                     },
                   "cosmostheopera.com":  {
                                              "name":  "COSMOS the OPERA",
@@ -1102,8 +1102,8 @@
                                              "pageCount":  33,
                                              "indexed":  1,
                                              "clicks":  0,
-                                             "impressions":  3,
-                                             "avgPosition":  5.7,
+                                             "impressions":  5,
+                                             "avgPosition":  5.6,
                                              "topQuery":  "cosmo opera",
                                              "pages":  [
                                                            {
@@ -1615,7 +1615,7 @@
                                                                "desc":  "COSMOS the OPERA - The complete prose poetry, presented as word art. Original words by Tom Sans, 2002-2026."
                                                            }
                                                        ],
-                                             "auditDate":  "2026-05-09"
+                                             "auditDate":  "2026-05-16"
                                          },
                   "erpise.com":  {
                                      "name":  "ERPise",
@@ -1624,9 +1624,9 @@
                                      "pageCount":  3,
                                      "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  14,
-                                     "avgPosition":  21.3,
-                                     "topQuery":  "erpise",
+                                     "impressions":  18,
+                                     "avgPosition":  20.5,
+                                     "topQuery":  "education erp consulting",
                                      "pages":  [
                                                    {
                                                        "file":  "index-consulting.html",
@@ -1677,17 +1677,17 @@
                                                        "desc":  "ERPise — expert ERP and Student Information System consulting for higher education. SQL reporting, IPEDS compliance, and database optimization."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-09"
+                                     "auditDate":  "2026-05-16"
                                  },
                   "erpize.com":  {
                                      "name":  "ERPize",
                                      "domain":  "erpize.com",
-                                     "totalScore":  6,
+                                     "totalScore":  4,
                                      "pageCount":  6,
-                                     "indexed":  2,
+                                     "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  7,
-                                     "avgPosition":  6.9,
+                                     "impressions":  8,
+                                     "avgPosition":  7,
                                      "topQuery":  "erpise",
                                      "pages":  [
                                                    {
@@ -1745,21 +1745,12 @@
                                                    {
                                                        "file":  "index.html",
                                                        "url":  "https://erpize.com/",
-                                                       "score":  2,
+                                                       "score":  0,
                                                        "issues":  [
-                                                                      {
-                                                                          "code":  "LONG_TITLE",
-                                                                          "sev":  1,
-                                                                          "msg":  "Title too long (77 chars, max 65)"
-                                                                      },
-                                                                      {
-                                                                          "code":  "LONG_DESC",
-                                                                          "sev":  1,
-                                                                          "msg":  "Meta description too long (201 chars, max 165)"
-                                                                      }
+
                                                                   ],
-                                                       "title":  "ERPize - The ERP Magazine | News, Tutorials \u0026 Insights for Enterprise Systems",
-                                                       "desc":  "Your source for ERP news, tutorials, and insights. Covering Student Information Systems, higher education ERP, and enterprise platforms. Tips, best practices, and industry trends for ERP professionals."
+                                                       "title":  "ERPize — The ERP Magazine for Enterprise Systems",
+                                                       "desc":  "ERPize is the magazine for ERP pros — news, tutorials, and insights on Student Information Systems, higher-ed ERP, and enterprise platforms."
                                                    },
                                                    {
                                                        "file":  "write-for-us.html",
@@ -1776,17 +1767,17 @@
                                                        "desc":  "Write for ERPize — pitch or submit an article about ERP, SIS, SQL, compliance, automation, or higher education technology. Get published and build your professional profile."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-09"
+                                     "auditDate":  "2026-05-16"
                                  },
                   "furnishthings.com":  {
                                             "name":  "FurnishThings",
                                             "domain":  "furnishthings.com",
                                             "totalScore":  7,
                                             "pageCount":  6,
-                                            "indexed":  2,
+                                            "indexed":  3,
                                             "clicks":  0,
-                                            "impressions":  2,
-                                            "avgPosition":  55,
+                                            "impressions":  3,
+                                            "avgPosition":  57.3,
                                             "topQuery":  "furnish furniture",
                                             "pages":  [
                                                           {
@@ -1863,7 +1854,7 @@
                                                               "desc":  "Plan your life in phases. Modular, foldable furniture designed to ship flat and grow with you from dorm to first home. Not just a store — a system."
                                                           }
                                                       ],
-                                            "auditDate":  "2026-05-09"
+                                            "auditDate":  "2026-05-16"
                                         },
                   "gameatica.com":  {
                                         "name":  "Gameatica",
@@ -1872,9 +1863,9 @@
                                         "pageCount":  52,
                                         "indexed":  1,
                                         "clicks":  0,
-                                        "impressions":  0,
-                                        "avgPosition":  0,
-                                        "topQuery":  "",
+                                        "impressions":  1,
+                                        "avgPosition":  45,
+                                        "topQuery":  "viatica",
                                         "pages":  [
                                                       {
                                                           "file":  "compare.html",
@@ -2852,7 +2843,7 @@
                                                           "desc":  "Word Roots teaches the Latin and Greek building blocks that make up a huge proportion of academic English vocabulary. When you know that bio means life, graph means write, and logy means the study of - you can decode biology, biography, bibliography, and dozens of other words instantly. A root is shown on screen. Select its correct meaning then identify a word that uses it. Progress through increasingly rare roots as your score builds. Some rounds reverse the challenge, showing a definition and asking you to identify the root. Vocabulary researchers estimate that learning 20 to 30 key Latin and Greek roots can help you decode over 10,000 English words. This game targets the highest-frequency roots found in SAT and GRE vocabulary lists, academic textbooks, and professional writing."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-09"
+                                        "auditDate":  "2026-05-16"
                                     },
                   "inthisworld.com":  {
                                           "name":  "InThisWorld",
@@ -2861,9 +2852,9 @@
                                           "pageCount":  19,
                                           "indexed":  1,
                                           "clicks":  0,
-                                          "impressions":  6,
-                                          "avgPosition":  2.5,
-                                          "topQuery":  "inthisworld",
+                                          "impressions":  14,
+                                          "avgPosition":  16.7,
+                                          "topQuery":  "free virtual world",
                                           "pages":  [
                                                         {
                                                             "file":  "avatar-notation.html",
@@ -3258,7 +3249,7 @@
                                                             "desc":  "space-station - InThisWorld is a virtual world sandbox with 3D browser games, virtual chat rooms, and interactive experiences. Explore,"
                                                         }
                                                     ],
-                                          "auditDate":  "2026-05-09"
+                                          "auditDate":  "2026-05-16"
                                       },
                   "redomy.com":  {
                                      "name":  "Redomy",
@@ -3267,7 +3258,7 @@
                                      "pageCount":  15,
                                      "indexed":  13,
                                      "clicks":  0,
-                                     "impressions":  13,
+                                     "impressions":  12,
                                      "avgPosition":  4.6,
                                      "topQuery":  "my redo",
                                      "pages":  [
@@ -3573,7 +3564,7 @@
                                                        "desc":  "Walk through a 3D living room and get renovation tips for sofa, fireplace, TV wall, lighting and more. Plan your living room remodel with Redomy."
                                                    }
                                                ],
-                                     "auditDate":  "2026-05-09"
+                                     "auditDate":  "2026-05-16"
                                  },
                   "uptownit.com":  {
                                        "name":  "UptownIT",
@@ -3615,7 +3606,7 @@
                                                          "desc":  "Add AI-powered web publishing to your managed IT service catalog. Deploy for clients using Windows infrastructure — Task Scheduler, PowerShell, GitHub. A new billable managed service for MSPs and IT departments."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-05-09"
+                                       "auditDate":  "2026-05-16"
                                    },
                   "videobate.com":  {
                                         "name":  "VideoBate",
@@ -3624,9 +3615,9 @@
                                         "pageCount":  7,
                                         "indexed":  1,
                                         "clicks":  0,
-                                        "impressions":  8,
-                                        "avgPosition":  4.8,
-                                        "topQuery":  "online video debate platform",
+                                        "impressions":  12,
+                                        "avgPosition":  5.2,
+                                        "topQuery":  "l\u0027videowates",
                                         "pages":  [
                                                       {
                                                           "file":  "compare.html",
@@ -3724,7 +3715,7 @@
                                                           "desc":  "reset-password - VideoBate is a live video debate platform. Host and participate in structured video debates, discussions, and argumentat"
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-09"
+                                        "auditDate":  "2026-05-16"
                                     },
                   "voicestry.com":  {
                                         "name":  "VoiceStry",
@@ -3733,9 +3724,9 @@
                                         "pageCount":  15,
                                         "indexed":  3,
                                         "clicks":  0,
-                                        "impressions":  0,
-                                        "avgPosition":  0,
-                                        "topQuery":  "",
+                                        "impressions":  1,
+                                        "avgPosition":  64,
+                                        "topQuery":  "voice rhythm",
                                         "pages":  [
                                                       {
                                                           "file":  "5-gears.html",
@@ -3966,7 +3957,7 @@
                                                           "desc":  "The world\u0027s first Vocal Resonance Notation system — 75+ symbols across 8 notation systems for encoding vocal resonance, phonation, breath, formants, vibrato, and timbral color."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-05-09"
+                                        "auditDate":  "2026-05-16"
                                     }
               }
 }

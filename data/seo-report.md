@@ -1,5 +1,5 @@
 ﻿# AIUNITES SEO Audit
-Generated: May 9, 2026
+Generated: May 16, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
@@ -10,15 +10,15 @@ Generated: May 9, 2026
 | Redomy | 66 | 15 | 13 | 33 | NO_H1 |
 | AIByJob | 26 | 10 | 3 | 13 | THIN_CONTENT |
 | VoiceStry | 24 | 15 | 3 | 18 | LONG_DESC |
-| BodSpas | 23 | 7 | 2 | 11 | THIN_CONTENT |
+| BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
 | VideoBate | 14 | 7 | 1 | 6 | LOW_CONTENT |
-| FurnishThings | 7 | 6 | 2 | 3 |  |
+| FurnishThings | 7 | 6 | 3 | 3 |  |
 | Cloudsion | 7 | 3 | 0 | 3 |  |
-| ERPize | 6 | 6 | 2 | 6 |  |
-| ERPise | 4 | 3 | 1 | 4 |  |
 | UptownIT | 4 | 2 | 1 | 2 | LONG_DESC |
+| ERPize | 4 | 6 | 1 | 4 |  |
+| ERPise | 4 | 3 | 1 | 4 |  |
+| AI YHWH | 2 | 2 | 2 | 2 | LONG_DESC |
 | AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
-| AI YHWH | 2 | 2 | 1 | 2 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
 | BizStry | 1 | 1 | 1 | 1 | LONG_TITLE |
 
@@ -700,11 +700,15 @@ Generated: May 9, 2026
 - [HIGH] Missing H1 heading
 - [HIGH] Title too short (16 chars, min 30)
 
-### ERPize - Score 6
+### UptownIT - Score 4
 
-**index.html** - https://erpize.com/
-- [MEDIUM] Meta description too long (201 chars, max 165)
-- [MEDIUM] Title too long (77 chars, max 65)
+**managed-ai-publishing-service.html** - https://uptownit.com/managed-ai-publishing-service.html
+- [MEDIUM] Meta description too long (211 chars, max 165)
+
+**index.html** - https://uptownit.com/
+- [CRITICAL] Thin content: ~125 words (min 300 for indexing)
+
+### ERPize - Score 4
 
 **write-for-us.html** - https://erpize.com/write-for-us.html
 - [MEDIUM] Meta description too long (173 chars, max 165)
@@ -728,13 +732,13 @@ Generated: May 9, 2026
 - [MEDIUM] Meta description too long (183 chars, max 165)
 - [MEDIUM] Title too long (72 chars, max 65)
 
-### UptownIT - Score 4
+### AI YHWH - Score 2
 
-**managed-ai-publishing-service.html** - https://uptownit.com/managed-ai-publishing-service.html
-- [MEDIUM] Meta description too long (211 chars, max 165)
+**qa.html** - https://aiyhwh.com/qa.html
+- [MEDIUM] Meta description too long (168 chars, max 165)
 
-**index.html** - https://uptownit.com/
-- [CRITICAL] Thin content: ~125 words (min 300 for indexing)
+**index.html** - https://aiyhwh.com/
+- [MEDIUM] Meta description too long (171 chars, max 165)
 
 ### AIZines - Score 2
 
@@ -743,14 +747,6 @@ Generated: May 9, 2026
 
 **index.html** - https://aizines.com/
 - [MEDIUM] Multiple H1 tags found (5)
-
-### AI YHWH - Score 2
-
-**qa.html** - https://aiyhwh.com/qa.html
-- [MEDIUM] Meta description too long (168 chars, max 165)
-
-**index.html** - https://aiyhwh.com/
-- [MEDIUM] Meta description too long (171 chars, max 165)
 
 ### AITSQL - Score 1
 
