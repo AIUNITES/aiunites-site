@@ -1,60 +1,57 @@
-# AIUNITES SEO Digest — 2026-05-11
+# AIUNITES SEO Digest — 2026-05-18
 
 ## Summary
-- Sites with GSC traction (impressions > 0): 12 of 18
-- Sites with 0 impressions: 6 (uptownit, voicestry, gameatica, cloudsion, bodspas, aiyhwh)
-- Files edited this run: 3 (aibyjob-demo, aizines-app, erpize-site — index.html in each)
+- Sites with GSC traction (impressions > 0): 14 of 18
+- Sites with 0 impressions: 4 (uptownit, cloudsion, bodspas, aiyhwh)
+- Files edited this run: 3 (inthisworld, aitsql, erpise)
 
 ## Top Opportunities This Week
 
-1. **aibyjob.com — title/desc mismatch with top query** (9 impr, pos 8.3, topQuery "aiby careers")
-   The page sits at the bottom of page 1 but the title says "AI Agents for Your Profession" while the query is "aiby careers." Rewriting to surface "Careers" should lift CTR. **Action:** Title + meta rewritten. **Expected impact:** CTR lift from ~0% toward 2-5%, possible 1-2 position bump from relevance signal.
+1. **InThisWorld — `free virtual world` (18 imp, pos 22.1)**
+   Highest-impression site still on page 2-3. Title didn't include "virtual world" — query mismatch. Title and meta description rewritten to lead with the exact phrase. Expected lift: pos 22 → 10-15 if Google re-crawls within the week.
 
-2. **erpize.com — title overlong (77 chars) and brand-confused with erpise.com** (7 impr, pos 6.9, topQuery "erpise")
-   Title truncates in SERPs; query "erpise" matches the sister site, not this one. **Action:** Trimmed title to 49 chars and made the "ERP Magazine" positioning explicit so erpize.com stops cannibalizing erpise.com on the same query. **Expected impact:** Cleaner SERP listing; reduced inter-site cannibalization.
+2. **ERPise — `education erp consulting` (19 imp, pos 21.4)**
+   Highest impressions in the whole network, mid-page-2. Title and desc rewritten to lead with "Education ERP Consulting" verbatim. Expected lift: pos 21 → 10-15.
 
-3. **aizines.com — query is "ai zine", title says "magazine"** (6 impr, pos 4.4, topQuery "ai zine")
-   Already on page 1, but title leads with "Magazine Creator." Users searching "ai zine" may scroll past. **Action:** Title rewritten to lead with "AI Zine." **Expected impact:** CTR lift on an already page-1 listing.
+3. **AITSQL — `ai tools for sql server` (8 imp, pos 75.2)**
+   Position 75 means buried — but the topQuery is an exact-match commercial intent. Title rewritten to lead with "AI Tools for SQL Server." Position is so low that a single rewrite likely won't push to page 1; flag for content depth follow-up.
 
-4. **aitsql.com — strong query intent, poor ranking** (6 impr, pos 74.5, topQuery "ai tools for sql server")
-   Query matches the brand mission almost word-for-word but the page sits at position 74. Title is fine. The issue is content depth and backlinks, not copy. **Action flagged for manual review** — needs a long-form content piece on "AI tools for SQL Server" with comparison tables and code samples.
+4. **AIByJob — `aiby careers` (11 imp, pos 8.6)** — *no edit*
+   topQuery is a brand-typo. Title already includes "Careers". Position 8.6 is page-1 — leave it; one more solid backlink or content tweak should push to top 5.
 
-5. **aiunites.com — already optimized for query, ranking is the bottleneck** (17 impr, pos 20.4, topQuery "ai consulting oklahoma")
-   Highest impression site in the network. Title and desc already include "AI Consulting Oklahoma" verbatim. Position 20.4 means it's on page 3 — no copy tweak will fix that. **Action flagged for manual review** — needs local SEO work (Google Business Profile, Oklahoma directory listings, location schema) and a dedicated "AI Consulting Tulsa" landing page.
+5. **Redomy — `my redo` (13 imp, pos 4.7)** — *no edit*
+   Already top-5. Title leads with "Redo My Home." No copy work needed; this needs CTR experimentation (rich result, schema) instead.
 
 ## Changes Made
 
-### aibyjob-demo/index.html
-- **Old title:** "AIByJob - AI Agents for Your Profession | AIUNITES"
-- **New title:** "AIByJob — AI Agents for Careers & Professions | AIUNITES"
-- **Old desc:** "Deploy AI agents, templates, and tools for your profession. Autonomous agents that work 24/7 to find leads, build sites, and automate marketing."
-- **New desc:** "Deploy AI agents built for your career — autonomous tools that work 24/7 to find leads, build your site, and grow your professional brand. Free to try."
-- Updated og:title, og:description, twitter:title, twitter:description to match.
+### inthisworld.com (`inthisworld-site/index.html`)
+- **Old title:** `InThisWorld — Free 3D Browser Games & Virtual Rooms`
+- **New title:** `Free Virtual World Online — 3D Browser Games | InThisWorld`
+- **Old desc:** `InThisWorld — play 3 free 3D browser games and walk through virtual chat rooms. Space Trader, FPS Arena, World Explorer. No download required.`
+- **New desc:** `Free virtual world online — explore 3D rooms, race cars, planes and boats, run an FPS arena. Browser-based, no download, no signup. Built with Three.js.`
 
-### aizines-app/index.html
-- **Old title:** "AIZines - AI-Powered Magazine Creator | Create Digital Magazines"
-- **New title:** "AIZines — Create Your Own AI Zine & Digital Magazine"
-- **Old desc:** "Create stunning AI-powered digital magazines in minutes. Generate articles, design layouts, and publish your own magazine with the power of artificial intelligence."
-- **New desc:** "Build your own AI zine in minutes. Generate articles, design layouts, and publish a digital magazine with AIZines. Free to try, no signup required."
-- Updated og:title, og:description, twitter:title, twitter:description to match.
+### aitsql.com (`aitsql-site/index.html`)
+- **Old title:** `AITSQL - AI-Powered SQL Server Tools & Consulting`
+- **New title:** `AI Tools for SQL Server — DBA Helpers & Consulting | AITSQL`
+- **Old desc:** `SQL Server expertise meets AI. Tools, scripts, consulting, and insights for database professionals working with T-SQL and SQL Server.`
+- **New desc:** `AI tools for SQL Server — query helpers, audit scripts, T-SQL automation, and consulting. Built by a working DBA for database pros.`
 
-### erpize-site/index.html
-- **Old title:** "ERPize - The ERP Magazine | News, Tutorials & Insights for Enterprise Systems" (77 chars, over the 65-char limit)
-- **New title:** "ERPize — The ERP Magazine for Enterprise Systems" (49 chars)
-- **Old desc:** "Your source for ERP news, tutorials, and insights. Covering Student Information Systems, higher education ERP, and enterprise platforms. Tips, best practices, and industry trends for ERP professionals." (201 chars, over the 165-char limit)
-- **New desc:** "ERPize is the magazine for ERP pros — news, tutorials, and insights on Student Information Systems, higher-ed ERP, and enterprise platforms." (145 chars)
-- Updated og:title, og:description, twitter:title, twitter:description to match.
+### erpise.com (`erpise-site/index.html`)
+- **Old title:** `ERPise — ERP & SIS Consulting for Higher Education`
+- **New title:** `Education ERP Consulting — Higher Ed SIS Experts | ERPise`
+- **Old desc:** `ERPise — expert ERP and Student Information System consulting for higher education. SQL reporting, IPEDS compliance, and database optimization.`
+- **New desc:** `Education ERP consulting for higher ed — Jenzabar, Banner, SIS, SQL reporting, and IPEDS compliance. Trusted by colleges for data modernization.`
+
+`script-runner.ps1` updated to queue `auto-publish.ps1` on the next cycle.
 
 ## Flags for Manual Review
 
-- **aitsql.com (pos 74.5):** Query "ai tools for sql server" is gold-tier intent. Title already matches. Need long-form content piece + backlinks to move from page 7 to page 1.
-- **aiunites.com (pos 20.4):** Highest-impression site in network but stuck on page 3. Needs local SEO (GBP, directories, location schema), not copy changes.
-- **furnishthings.com (pos 55, 2 impr):** Low-content flag in audit (254 words on index.html). Query "furnish furniture" is plausible but ambiguous — needs a clearer commercial intent piece.
-- **bizstry.com (pos 32, 3 impr):** Branded query "bizstry" returns it at position 32 — there is a competitor outranking the brand on its own name. Worth investigating who.
-- **videobate.com top query "l'videowates"** — looks like a misspelling/non-English query. Not actionable; ignore unless it recurs.
-- **erpise.com (14 impr, pos 21.3):** Title and desc already match the brand query "erpise". Like aiunites.com, this is a ranking problem, not a CTR problem. Needs content depth.
-- **6 zero-impression sites (uptownit, voicestry, gameatica, cloudsion, bodspas, aiyhwh):** These need indexing/backlinks first, not copy tweaks. Consider submitting sitemaps and getting 1-2 directory listings each.
+- **AITSQL at pos 75:** Title rewrite alone unlikely to push this to page 1. The site has only 2 indexed pages. Needs content depth — a real "AI tools for SQL Server" guide page with examples, scripts, before/after queries.
+- **ERPize / ERPise cross-brand confusion:** erpize.com (the magazine) is ranking at position 7 for the topQuery "erpise" — meaning people searching for the consulting brand are finding the magazine first. Worth a manual link audit; the magazine should link to the consulting site for that exact-match query.
+- **VideoBate topQuery is garbled (`l'videowates`):** 12 impressions at pos 5.2 from what looks like typo/autocorrect traffic. Not worth optimizing for. The real query the page should target (logical fallacies game) needs separate GSC investigation.
+- **CosmosTheOpera topQuery `cosmo opera` (5 imp, pos 5.6):** Strong intent match, already on page 1. A slight wording tweak to include "cosmic opera" as a secondary keyword could pick up misspelling traffic. Manual judgment call.
+- **Zero-impression sites (uptownit, cloudsion, bodspas, aiyhwh):** These need indexing/sitemap work, not copy work. Manually submit URLs via GSC URL Inspection.
 
 ## Next Week Focus
 
-Write a long-form "AI tools for SQL Server" guide on **aitsql.com** — it is the single highest-leverage page in the network this week: a 6-impression query with strong commercial intent, the brand title already matches, and only content depth is blocking it from rising 60+ positions.
+Build a real "AI Tools for SQL Server" content page on aitsql.com (currently only 2 indexed pages) — it's the network's lowest-hanging exact-match commercial query, but title-only fixes won't move pos 75 onto page 1 without supporting content.
