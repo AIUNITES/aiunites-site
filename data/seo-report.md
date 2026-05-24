@@ -1,14 +1,14 @@
 ﻿# AIUNITES SEO Audit
-Generated: May 16, 2026
+Generated: May 23, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
-| Gameatica | 202 | 52 | 1 | 101 | THIN_CONTENT |
-| AIUNITES | 101 | 29 | 6 | 58 |  |
-| InThisWorld | 94 | 19 | 1 | 44 | THIN_CONTENT |
+| Gameatica | 202 | 52 | 12 | 101 | THIN_CONTENT |
+| AIUNITES | 101 | 29 | 7 | 58 |  |
+| InThisWorld | 94 | 19 | 2 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 83 | 33 | 1 | 40 | THIN_CONTENT |
-| Redomy | 66 | 15 | 13 | 33 | NO_H1 |
-| AIByJob | 26 | 10 | 3 | 13 | THIN_CONTENT |
+| Redomy | 66 | 15 | 14 | 33 | NO_H1 |
+| AIByJob | 26 | 10 | 2 | 13 | THIN_CONTENT |
 | VoiceStry | 24 | 15 | 3 | 18 | LONG_DESC |
 | BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
 | VideoBate | 14 | 7 | 1 | 6 | LOW_CONTENT |
