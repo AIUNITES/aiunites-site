@@ -1,57 +1,59 @@
-# AIUNITES SEO Digest — 2026-05-18
+# AIUNITES SEO Digest — 2026-05-25
 
 ## Summary
-- Sites with GSC traction (impressions > 0): 14 of 18
-- Sites with 0 impressions: 4 (uptownit, cloudsion, bodspas, aiyhwh)
-- Files edited this run: 3 (inthisworld, aitsql, erpise)
+- Sites with GSC traction (impressions > 0): 15
+- Sites with 0 impressions: 3 (cloudsion.com, bodspas.com, aiyhwh.com)
+- Files edited this run: 3
 
 ## Top Opportunities This Week
 
-1. **InThisWorld — `free virtual world` (18 imp, pos 22.1)**
-   Highest-impression site still on page 2-3. Title didn't include "virtual world" — query mismatch. Title and meta description rewritten to lead with the exact phrase. Expected lift: pos 22 → 10-15 if Google re-crawls within the week.
+1. **erpise.com — 16 imp / 0 clicks / pos 16.7 / "education erp consulting"** (highest leverage)
+   - Title already a near-perfect match for the top query. Position 16.7 is just outside page 1.
+   - Blocker is rank, not copy. Needs content depth + internal links from the AIUNITES hub on the "Education ERP" topic. Estimated impact: 5–15 clicks/week once on page 1.
 
-2. **ERPise — `education erp consulting` (19 imp, pos 21.4)**
-   Highest impressions in the whole network, mid-page-2. Title and desc rewritten to lead with "Education ERP Consulting" verbatim. Expected lift: pos 21 → 10-15.
+2. **cosmostheopera.com — 6 imp / 0 clicks / pos 6.3 / "cosmo opera"** (quickest win)
+   - Already on page 1. Description was 192 chars (truncated by Google). Fixed this run.
+   - With a clean snippet, expect CTR to convert at least 1 click/week from the existing impressions.
 
-3. **AITSQL — `ai tools for sql server` (8 imp, pos 75.2)**
-   Position 75 means buried — but the topQuery is an exact-match commercial intent. Title rewritten to lead with "AI Tools for SQL Server." Position is so low that a single rewrite likely won't push to page 1; flag for content depth follow-up.
+3. **inthisworld.com — 27 imp / 1 click / pos 37.2 / "inthisworld"** (highest impression volume)
+   - Brand-name query but position 37 means Google isn't confident this is the canonical answer.
+   - Likely needs more inbound brand mentions + a stronger home H1. Flag for manual content review.
 
-4. **AIByJob — `aiby careers` (11 imp, pos 8.6)** — *no edit*
-   topQuery is a brand-typo. Title already includes "Careers". Position 8.6 is page-1 — leave it; one more solid backlink or content tweak should push to top 5.
+4. **videobate.com — 12 imp / 0 clicks / pos 5.2 / "l'videowates"** (gibberish query)
+   - Top query is junk (likely a scraper or typo cluster). Real opportunity is rank for "fallacy spotter" / "logical fallacy game".
+   - Description was 168 chars — trimmed this run. Add a real fallacy-spotter dedicated landing page next.
 
-5. **Redomy — `my redo` (13 imp, pos 4.7)** — *no edit*
-   Already top-5. Title leads with "Redo My Home." No copy work needed; this needs CTR experimentation (rich result, schema) instead.
+5. **aiunites.com — 9 imp / 0 clicks / pos 60.2 / "ai consulting okc"** (geo mismatch)
+   - Title says "Oklahoma" + "Tulsa", query is "OKC". Position 60 means copy alone won't fix it.
+   - Flag for manual review: consider adding an Oklahoma City landing page or a dedicated "OKC AI Consulting" article.
 
 ## Changes Made
 
-### inthisworld.com (`inthisworld-site/index.html`)
-- **Old title:** `InThisWorld — Free 3D Browser Games & Virtual Rooms`
-- **New title:** `Free Virtual World Online — 3D Browser Games | InThisWorld`
-- **Old desc:** `InThisWorld — play 3 free 3D browser games and walk through virtual chat rooms. Space Trader, FPS Arena, World Explorer. No download required.`
-- **New desc:** `Free virtual world online — explore 3D rooms, race cars, planes and boats, run an FPS arena. Browser-based, no download, no signup. Built with Three.js.`
+### cosmostheopera.com (LONG_DESC, 192 → 156 chars)
+- **Old desc:** `A trance opera featuring personified cosmic beings - the Sun, the Twin, the Light, the Universe - singing across space and time. Featuring Hubble imagery and original Vocal Resonance Notation.`
+- **New desc:** `A trance opera with personified cosmic beings — the Sun, Twin, Light, Universe — singing across space and time. Hubble imagery and Vocal Resonance Notation.`
+- **Why:** Under the 165-char limit so Google stops truncating. Site is at position 6.3 — the snippet is its best leverage right now.
 
-### aitsql.com (`aitsql-site/index.html`)
-- **Old title:** `AITSQL - AI-Powered SQL Server Tools & Consulting`
-- **New title:** `AI Tools for SQL Server — DBA Helpers & Consulting | AITSQL`
-- **Old desc:** `SQL Server expertise meets AI. Tools, scripts, consulting, and insights for database professionals working with T-SQL and SQL Server.`
-- **New desc:** `AI tools for SQL Server — query helpers, audit scripts, T-SQL automation, and consulting. Built by a working DBA for database pros.`
+### videobate.com (LONG_DESC, 168 → 150 chars)
+- **Old desc:** `Play Fallacy Spotter free — identify 25+ logical fallacies, take the debate quiz, and climb the leaderboard. Train the critical thinking skills that win real arguments.`
+- **New desc:** `Play Fallacy Spotter free — spot 25+ logical fallacies, take the debate quiz, climb the leaderboard. Critical thinking skills that win real arguments.`
+- **Why:** Mechanical fix for the 168-char overrun. Keeps every keyword that was already there.
 
-### erpise.com (`erpise-site/index.html`)
-- **Old title:** `ERPise — ERP & SIS Consulting for Higher Education`
-- **New title:** `Education ERP Consulting — Higher Ed SIS Experts | ERPise`
-- **Old desc:** `ERPise — expert ERP and Student Information System consulting for higher education. SQL reporting, IPEDS compliance, and database optimization.`
-- **New desc:** `Education ERP consulting for higher ed — Jenzabar, Banner, SIS, SQL reporting, and IPEDS compliance. Trusted by colleges for data modernization.`
-
-`script-runner.ps1` updated to queue `auto-publish.ps1` on the next cycle.
+### bizstry.com (LONG_TITLE, 71 → 57 chars)
+- **Old title:** `BizStry - Start Your Business Story | LLC Formation & Business Services`
+- **New title:** `BizStry — LLC Formation Made Simple | Start Your Business`
+- **Why:** Under the 65-char Google cutoff. Keeps the brand, the primary service ("LLC formation"), and the "Start Your Business" CTA. Drops the redundant "Business Services" tail.
 
 ## Flags for Manual Review
 
-- **AITSQL at pos 75:** Title rewrite alone unlikely to push this to page 1. The site has only 2 indexed pages. Needs content depth — a real "AI tools for SQL Server" guide page with examples, scripts, before/after queries.
-- **ERPize / ERPise cross-brand confusion:** erpize.com (the magazine) is ranking at position 7 for the topQuery "erpise" — meaning people searching for the consulting brand are finding the magazine first. Worth a manual link audit; the magazine should link to the consulting site for that exact-match query.
-- **VideoBate topQuery is garbled (`l'videowates`):** 12 impressions at pos 5.2 from what looks like typo/autocorrect traffic. Not worth optimizing for. The real query the page should target (logical fallacies game) needs separate GSC investigation.
-- **CosmosTheOpera topQuery `cosmo opera` (5 imp, pos 5.6):** Strong intent match, already on page 1. A slight wording tweak to include "cosmic opera" as a secondary keyword could pick up misspelling traffic. Manual judgment call.
-- **Zero-impression sites (uptownit, cloudsion, bodspas, aiyhwh):** These need indexing/sitemap work, not copy work. Manually submit URLs via GSC URL Inspection.
+- **erpise.com:** thin homepage content blocking rank. Needs 800+ words of real "education ERP consulting" expertise — case studies, Jenzabar/Banner deep-dives, SIS data modernization. Do NOT template this across sites.
+- **gameatica.com:** 12 impressions at position 62 on "estatica game". Title rewrite won't help at that depth. Real fix is backlinks + each game page having unique long-form description (NOT the seo-fix.ps1 boilerplate — that was reverted in April).
+- **inthisworld.com:** 27 impressions but pos 37 on its own brand name. Investigate whether another site is outranking us on "inthisworld" — likely a similarly-named app store listing.
+- **aitsql.com:** position 78.6 on "ai search integration services" — query doesn't match site purpose (SQL Server DBA tools). Probably no fix; this is a query mismatch, not a copy problem.
+- **furnishthings.com:** 254 words on homepage, position 56. Needs real product content before any title tweak makes sense.
+- **uptownit.com:** THIN_CONTENT (125 words). Site has 1 click on 3 impressions — small but real engagement. Worth a content expansion sprint.
+- **redomy.com, aibyjob.com, aizines.com:** MULTI_H1 warnings (4–7 H1 tags each). Low-severity but worth a structural cleanup pass for accessibility + SEO clarity.
 
 ## Next Week Focus
 
-Build a real "AI Tools for SQL Server" content page on aitsql.com (currently only 2 indexed pages) — it's the network's lowest-hanging exact-match commercial query, but title-only fixes won't move pos 75 onto page 1 without supporting content.
+Write 800+ words of expert "education ERP consulting" content for erpise.com — it's the one site one push away from page 1 with a perfectly-matched title and meta. Everything else needs structural work that won't pay off for several weeks.
