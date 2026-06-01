@@ -1,59 +1,40 @@
-# AIUNITES SEO Digest — 2026-05-25
+# AIUNITES SEO Digest — 2026-06-01
+
+*Audit data: seo-report.json (generated 2026-05-30) · GSC pull: gsc-stats.json (2026-05-03 → 2026-05-31)*
 
 ## Summary
-- Sites with GSC traction (impressions > 0): 15
-- Sites with 0 impressions: 3 (cloudsion.com, bodspas.com, aiyhwh.com)
-- Files edited this run: 3
+- Sites with GSC traction (impressions > 0): **16**
+- Sites with 0 impressions (need indexing, not copy): **2** — aiyhwh.com, bodspas.com
+- Files edited this run: **0** (see "Why no edits" below)
+- Auto-publish queued: **No**
+
+## Why no meta edits were applied this run
+
+I checked the actual `index.html` files, not just the audit. Every site's **homepage** already carries a well-formed, correctly-sized, keyword-targeted `<title>` and meta description — last week's pass plus the 2026-05-23 seo-fix run already handled the truncation/length issues (cosmostheopera, videobate, bizstry, etc.). There is no homepage meta rewrite this week that clears the "confident this is genuinely better than what exists" bar.
+
+The zero-click pattern is **not a copy problem**, it's two other things:
+1. **Ranking depth.** Most zero-click sites sit at positions 35–78 (pages 4–8). No title rewrite earns clicks from page 5 — the lever is content/authority/internal links.
+2. **Branded / garbled topQueries.** "aiby"/"byjob", "erpise" (on erpize), "my redo", "cosmo opera", "sion cloud", "l'videowates" are navigational or junk queries. Optimizing homepage copy for them won't move clicks.
+
+Per the task guardrail ("only edit if confident the copy is better; otherwise flag for manual review") and the documented seo-fix.ps1 incident, mass-editing homepages with templated copy during an active AdSense review is exactly the move to avoid. No files changed; auto-publish was **not** queued.
 
 ## Top Opportunities This Week
 
-1. **erpise.com — 16 imp / 0 clicks / pos 16.7 / "education erp consulting"** (highest leverage)
-   - Title already a near-perfect match for the top query. Position 16.7 is just outside page 1.
-   - Blocker is rank, not copy. Needs content depth + internal links from the AIUNITES hub on the "Education ERP" topic. Estimated impact: 5–15 clicks/week once on page 1.
-
-2. **cosmostheopera.com — 6 imp / 0 clicks / pos 6.3 / "cosmo opera"** (quickest win)
-   - Already on page 1. Description was 192 chars (truncated by Google). Fixed this run.
-   - With a clean snippet, expect CTR to convert at least 1 click/week from the existing impressions.
-
-3. **inthisworld.com — 27 imp / 1 click / pos 37.2 / "inthisworld"** (highest impression volume)
-   - Brand-name query but position 37 means Google isn't confident this is the canonical answer.
-   - Likely needs more inbound brand mentions + a stronger home H1. Flag for manual content review.
-
-4. **videobate.com — 12 imp / 0 clicks / pos 5.2 / "l'videowates"** (gibberish query)
-   - Top query is junk (likely a scraper or typo cluster). Real opportunity is rank for "fallacy spotter" / "logical fallacy game".
-   - Description was 168 chars — trimmed this run. Add a real fallacy-spotter dedicated landing page next.
-
-5. **aiunites.com — 9 imp / 0 clicks / pos 60.2 / "ai consulting okc"** (geo mismatch)
-   - Title says "Oklahoma" + "Tulsa", query is "OKC". Position 60 means copy alone won't fix it.
-   - Flag for manual review: consider adding an Oklahoma City landing page or a dedicated "OKC AI Consulting" article.
+1. **inthisworld.com section pages — highest leverage.** Network traffic leader (48 impr, 2 clicks — the most of any site). Homepage is clean, but `/games/index.html` and `/rooms/index.html` have NO_DESC, THIN_CONTENT, NO_CANONICAL, NO_OG_IMAGE, NO_SCHEMA, NO_GA4. Real, fixable, on your top site — but needs content + structural tags, not a one-line meta edit. *Manual content pass recommended.*
+2. **erpise.com — your one real commercial keyword.** topQuery "continuing ed erp systems" (23 impr, pos 35.6) is a genuine non-branded buyer query, and the homepage title already matches it well. The blocker is depth/rank: the site is only 3 pages on page 4. A dedicated "Continuing Education ERP" page is the move. *Same flag as last week — still the best growth bet, still needs the content written.*
+3. **aiunites.com geo mismatch — needs your call.** topQuery "ai consulting **okc**" (Oklahoma City) but the homepage targets **Tulsa**. If OKC is a market you want, reflect it in title/H1 or add an OKC page. Business decision, low urgency (currently pos 75.5).
+4. **Quick-win zone (already page 1, low-volume branded).** erpize.com (pos 7.5), cosmostheopera.com (pos 6.3), aizines.com (pos 6.5, already 2 clicks), uptownit.com (pos 10, 1 click), cloudsion.com (pos 10.7). These convert with more branded impressions; no copy fix needed.
+5. **Two dark sites.** aiyhwh.com and bodspas.com have 0 impressions — indexing problem, not copy. bodspas has only 1 of 7 pages indexed; verify sitemap + GSC submission.
 
 ## Changes Made
-
-### cosmostheopera.com (LONG_DESC, 192 → 156 chars)
-- **Old desc:** `A trance opera featuring personified cosmic beings - the Sun, the Twin, the Light, the Universe - singing across space and time. Featuring Hubble imagery and original Vocal Resonance Notation.`
-- **New desc:** `A trance opera with personified cosmic beings — the Sun, Twin, Light, Universe — singing across space and time. Hubble imagery and Vocal Resonance Notation.`
-- **Why:** Under the 165-char limit so Google stops truncating. Site is at position 6.3 — the snippet is its best leverage right now.
-
-### videobate.com (LONG_DESC, 168 → 150 chars)
-- **Old desc:** `Play Fallacy Spotter free — identify 25+ logical fallacies, take the debate quiz, and climb the leaderboard. Train the critical thinking skills that win real arguments.`
-- **New desc:** `Play Fallacy Spotter free — spot 25+ logical fallacies, take the debate quiz, climb the leaderboard. Critical thinking skills that win real arguments.`
-- **Why:** Mechanical fix for the 168-char overrun. Keeps every keyword that was already there.
-
-### bizstry.com (LONG_TITLE, 71 → 57 chars)
-- **Old title:** `BizStry - Start Your Business Story | LLC Formation & Business Services`
-- **New title:** `BizStry — LLC Formation Made Simple | Start Your Business`
-- **Why:** Under the 65-char Google cutoff. Keeps the brand, the primary service ("LLC formation"), and the "Start Your Business" CTA. Drops the redundant "Business Services" tail.
+None. No homepage meta copy met the bar for a confident improvement over what is already live.
 
 ## Flags for Manual Review
-
-- **erpise.com:** thin homepage content blocking rank. Needs 800+ words of real "education ERP consulting" expertise — case studies, Jenzabar/Banner deep-dives, SIS data modernization. Do NOT template this across sites.
-- **gameatica.com:** 12 impressions at position 62 on "estatica game". Title rewrite won't help at that depth. Real fix is backlinks + each game page having unique long-form description (NOT the seo-fix.ps1 boilerplate — that was reverted in April).
-- **inthisworld.com:** 27 impressions but pos 37 on its own brand name. Investigate whether another site is outranking us on "inthisworld" — likely a similarly-named app store listing.
-- **aitsql.com:** position 78.6 on "ai search integration services" — query doesn't match site purpose (SQL Server DBA tools). Probably no fix; this is a query mismatch, not a copy problem.
-- **furnishthings.com:** 254 words on homepage, position 56. Needs real product content before any title tweak makes sense.
-- **uptownit.com:** THIN_CONTENT (125 words). Site has 1 click on 3 impressions — small but real engagement. Worth a content expansion sprint.
-- **redomy.com, aibyjob.com, aizines.com:** MULTI_H1 warnings (4–7 H1 tags each). Low-severity but worth a structural cleanup pass for accessibility + SEO clarity.
+- **inthisworld.com `/games/` and `/rooms/`** — thin section pages on the top-traffic site; need descriptions, canonicals, schema, GA4, and real content. Do NOT template across sites.
+- **aiunites.com** — decide OKC vs Tulsa geo targeting (topQuery says OKC, title says Tulsa).
+- **Structural, audit-flagged (not meta copy):** furnishthings.com index `LOW_CONTENT`; aibyjob.com & redomy.com index `MULTI_H1`. Mechanical but out of scope for a meta-copy run.
+- **bodspas.com / aiyhwh.com** — indexing problem; verify sitemap submission and indexable content.
+- **Recurring theme:** most topQueries are branded/garbled. The real unlock is a dedicated session on **non-branded keyword targeting + content depth**, not meta rewrites.
 
 ## Next Week Focus
-
-Write 800+ words of expert "education ERP consulting" content for erpise.com — it's the one site one push away from page 1 with a perfectly-matched title and meta. Everything else needs structural work that won't pay off for several weeks.
+Write the "continuing ed ERP" content page for **erpise.com** (its one matched commercial keyword, one push from page 1) and fix the **inthisworld.com `/games/` + `/rooms/`** section pages — both beat any homepage meta tweak on leverage.
