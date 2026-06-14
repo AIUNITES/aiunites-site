@@ -1,7 +1,7 @@
 ﻿{
-    "generated":  "2026-06-06T20:11:54",
-    "generatedFmt":  "Jun 6, 2026 8:11PM",
-    "totalIssues":  342,
+    "generated":  "2026-06-13T20:12:10",
+    "generatedFmt":  "Jun 13, 2026 8:12PM",
+    "totalIssues":  338,
     "sites":  {
                   "aiunites.com":  {
                                        "name":  "AIUNITES",
@@ -10,8 +10,8 @@
                                        "pageCount":  29,
                                        "indexed":  6,
                                        "clicks":  0,
-                                       "impressions":  8,
-                                       "avgPosition":  75.5,
+                                       "impressions":  9,
+                                       "avgPosition":  66.2,
                                        "topQuery":  "ai consulting okc",
                                        "pages":  [
                                                      {
@@ -570,7 +570,7 @@
                                                          "desc":  "Technical specification for MNN (Muscular Neuro Notation), VRN (Vocal Resonance Notation), and VNN (Vocal Neuro Notation). Open text formats for human movement, vocal production, and the cranial nerve pathways that execute them. Machine-parseable, human-readable, vendor-neutral."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-06-06"
+                                       "auditDate":  "2026-06-13"
                                    },
                   "aibyjob.com":  {
                                       "name":  "AIByJob",
@@ -579,7 +579,7 @@
                                       "pageCount":  10,
                                       "indexed":  4,
                                       "clicks":  0,
-                                      "impressions":  8,
+                                      "impressions":  7,
                                       "avgPosition":  26.2,
                                       "topQuery":  "aiby",
                                       "pages":  [
@@ -741,7 +741,7 @@
                                                         "desc":  "lead-qualification - AIByJob helps professionals find the right AI tools for their specific job role. Discover AI tools for marketing, legal,"
                                                     }
                                                 ],
-                                      "auditDate":  "2026-06-06"
+                                      "auditDate":  "2026-06-13"
                                   },
                   "aitsql.com":  {
                                      "name":  "AITSQL",
@@ -750,8 +750,8 @@
                                      "pageCount":  2,
                                      "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  5,
-                                     "avgPosition":  80,
+                                     "impressions":  3,
+                                     "avgPosition":  82.3,
                                      "topQuery":  "ai search integration services",
                                      "pages":  [
                                                    {
@@ -779,14 +779,14 @@
                                                        "desc":  "AI tools for SQL Server — query helpers, audit scripts, T-SQL automation, and consulting. Built by a working DBA for database pros."
                                                    }
                                                ],
-                                     "auditDate":  "2026-06-06"
+                                     "auditDate":  "2026-06-13"
                                  },
                   "aiyhwh.com":  {
                                      "name":  "AI YHWH",
                                      "domain":  "aiyhwh.com",
                                      "totalScore":  2,
                                      "pageCount":  2,
-                                     "indexed":  2,
+                                     "indexed":  1,
                                      "clicks":  0,
                                      "impressions":  0,
                                      "avgPosition":  0,
@@ -821,7 +821,7 @@
                                                        "desc":  "Honest answers to the hardest biblical questions. Communion and cannibalism, the Trinity, hell, contradictions — answered with scholarly rigor and intellectual honesty."
                                                    }
                                                ],
-                                     "auditDate":  "2026-06-06"
+                                     "auditDate":  "2026-06-13"
                                  },
                   "aizines.com":  {
                                       "name":  "AIZines",
@@ -829,9 +829,9 @@
                                       "totalScore":  2,
                                       "pageCount":  3,
                                       "indexed":  3,
-                                      "clicks":  2,
-                                      "impressions":  13,
-                                      "avgPosition":  11.8,
+                                      "clicks":  4,
+                                      "impressions":  21,
+                                      "avgPosition":  11.3,
                                       "topQuery":  "aizine",
                                       "pages":  [
                                                     {
@@ -873,7 +873,7 @@
                                                         "desc":  "Write for AIZines — pitch or submit an article about AI, digital publishing, zines, or the creator economy. Get published, get your byline, and reach a growing AI-curious audience."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-06-06"
+                                      "auditDate":  "2026-06-13"
                                   },
                   "bizstry.com":  {
                                       "name":  "BizStry",
@@ -897,7 +897,7 @@
                                                         "desc":  "Form your LLC in minutes. BizStry makes starting a business simple with fast formation, registered agent services, and ongoing compliance support."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-06-06"
+                                      "auditDate":  "2026-06-13"
                                   },
                   "bodspas.com":  {
                                       "name":  "BodSpas",
@@ -1031,7 +1031,7 @@
                                                         "desc":  "Sports massage, Graston/IASTM technique, and soft tissue therapy for bodybuilders and athletes. Learn how to use spa recovery protocols to build muscle faster."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-06-06"
+                                      "auditDate":  "2026-06-13"
                                   },
                   "cloudsion.com":  {
                                         "name":  "Cloudsion",
@@ -1089,7 +1089,7 @@
                                                           "desc":  "A complete, ready-to-deploy AI web publishing system. Run it on your own machine or subscribe to our hosted cloud platform. White-label available."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-06-06"
+                                        "auditDate":  "2026-06-13"
                                     },
                   "cosmostheopera.com":  {
                                              "name":  "COSMOS the OPERA",
@@ -1098,8 +1098,8 @@
                                              "pageCount":  33,
                                              "indexed":  1,
                                              "clicks":  0,
-                                             "impressions":  8,
-                                             "avgPosition":  6,
+                                             "impressions":  7,
+                                             "avgPosition":  5.7,
                                              "topQuery":  "cosmo opera",
                                              "pages":  [
                                                            {
@@ -1607,7 +1607,7 @@
                                                                "desc":  "COSMOS the OPERA - The complete prose poetry, presented as word art. Original words by Tom Sans, 2002-2026."
                                                            }
                                                        ],
-                                             "auditDate":  "2026-06-06"
+                                             "auditDate":  "2026-06-13"
                                          },
                   "erpise.com":  {
                                      "name":  "ERPise",
@@ -1616,8 +1616,8 @@
                                      "pageCount":  3,
                                      "indexed":  2,
                                      "clicks":  0,
-                                     "impressions":  32,
-                                     "avgPosition":  43.7,
+                                     "impressions":  45,
+                                     "avgPosition":  49.8,
                                      "topQuery":  "continuing ed erp systems",
                                      "pages":  [
                                                    {
@@ -1665,11 +1665,11 @@
                                                        "issues":  [
 
                                                                   ],
-                                                       "title":  "Education ERP Consulting — Higher Ed SIS Experts | ERPise",
-                                                       "desc":  "Education ERP consulting for higher ed — Jenzabar, Banner, SIS, SQL reporting, and IPEDS compliance. Trusted by colleges for data modernization."
+                                                       "title":  "Continuing Ed ERP Systems \u0026 SIS Consulting | ERPise",
+                                                       "desc":  "ERP consulting for continuing education and higher ed — Banner, Jenzabar, SIS, SQL reporting, and IPEDS compliance. Modernize your student data systems."
                                                    }
                                                ],
-                                     "auditDate":  "2026-06-06"
+                                     "auditDate":  "2026-06-13"
                                  },
                   "erpize.com":  {
                                      "name":  "ERPize",
@@ -1678,7 +1678,7 @@
                                      "pageCount":  6,
                                      "indexed":  2,
                                      "clicks":  0,
-                                     "impressions":  8,
+                                     "impressions":  7,
                                      "avgPosition":  8,
                                      "topQuery":  "erpise",
                                      "pages":  [
@@ -1759,7 +1759,7 @@
                                                        "desc":  "Write for ERPize — pitch or submit an article about ERP, SIS, SQL, compliance, automation, or higher education technology. Get published and build your professional profile."
                                                    }
                                                ],
-                                     "auditDate":  "2026-06-06"
+                                     "auditDate":  "2026-06-13"
                                  },
                   "furnishthings.com":  {
                                             "name":  "FurnishThings",
@@ -1768,9 +1768,9 @@
                                             "pageCount":  6,
                                             "indexed":  2,
                                             "clicks":  0,
-                                            "impressions":  7,
-                                            "avgPosition":  71.2,
-                                            "topQuery":  "furnish website",
+                                            "impressions":  8,
+                                            "avgPosition":  80.4,
+                                            "topQuery":  "create a total of 10 furnishings",
                                             "pages":  [
                                                           {
                                                               "file":  "apartment.html",
@@ -1846,7 +1846,7 @@
                                                               "desc":  "Plan your life in phases. Modular, foldable furniture designed to ship flat and grow with you from dorm to first home. Not just a store — a system."
                                                           }
                                                       ],
-                                            "auditDate":  "2026-06-06"
+                                            "auditDate":  "2026-06-13"
                                         },
                   "gameatica.com":  {
                                         "name":  "Gameatica",
@@ -1855,9 +1855,9 @@
                                         "pageCount":  52,
                                         "indexed":  14,
                                         "clicks":  0,
-                                        "impressions":  15,
-                                        "avgPosition":  60.6,
-                                        "topQuery":  "2048 math playground",
+                                        "impressions":  16,
+                                        "avgPosition":  61.8,
+                                        "topQuery":  "2048 game math playground",
                                         "pages":  [
                                                       {
                                                           "file":  "compare.html",
@@ -2835,17 +2835,17 @@
                                                           "desc":  "Word Roots teaches the Latin and Greek building blocks that make up a huge proportion of academic English vocabulary. When you know that bio means life, graph means write, and logy means the study of - you can decode biology, biography, bibliography, and dozens of other words instantly. A root is shown on screen. Select its correct meaning then identify a word that uses it. Progress through increasingly rare roots as your score builds. Some rounds reverse the challenge, showing a definition and asking you to identify the root. Vocabulary researchers estimate that learning 20 to 30 key Latin and Greek roots can help you decode over 10,000 English words. This game targets the highest-frequency roots found in SAT and GRE vocabulary lists, academic textbooks, and professional writing."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-06-06"
+                                        "auditDate":  "2026-06-13"
                                     },
                   "inthisworld.com":  {
                                           "name":  "InThisWorld",
                                           "domain":  "inthisworld.com",
                                           "totalScore":  94,
                                           "pageCount":  19,
-                                          "indexed":  2,
-                                          "clicks":  2,
-                                          "impressions":  38,
-                                          "avgPosition":  28.1,
+                                          "indexed":  3,
+                                          "clicks":  5,
+                                          "impressions":  61,
+                                          "avgPosition":  27.4,
                                           "topQuery":  "inthisworld",
                                           "pages":  [
                                                         {
@@ -3241,18 +3241,18 @@
                                                             "desc":  "space-station - InThisWorld is a virtual world sandbox with 3D browser games, virtual chat rooms, and interactive experiences. Explore,"
                                                         }
                                                     ],
-                                          "auditDate":  "2026-06-06"
+                                          "auditDate":  "2026-06-13"
                                       },
                   "redomy.com":  {
                                      "name":  "Redomy",
                                      "domain":  "redomy.com",
                                      "totalScore":  66,
                                      "pageCount":  15,
-                                     "indexed":  10,
+                                     "indexed":  5,
                                      "clicks":  0,
-                                     "impressions":  2,
-                                     "avgPosition":  44,
-                                     "topQuery":  "my redo",
+                                     "impressions":  3,
+                                     "avgPosition":  66.5,
+                                     "topQuery":  "rooomy",
                                      "pages":  [
                                                    {
                                                        "file":  "ai-room-builder.html",
@@ -3556,7 +3556,7 @@
                                                        "desc":  "Walk through a 3D living room and get renovation tips for sofa, fireplace, TV wall, lighting and more. Plan your living room remodel with Redomy."
                                                    }
                                                ],
-                                     "auditDate":  "2026-06-06"
+                                     "auditDate":  "2026-06-13"
                                  },
                   "uptownit.com":  {
                                        "name":  "UptownIT",
@@ -3564,9 +3564,9 @@
                                        "totalScore":  4,
                                        "pageCount":  2,
                                        "indexed":  1,
-                                       "clicks":  1,
-                                       "impressions":  3,
-                                       "avgPosition":  10,
+                                       "clicks":  2,
+                                       "impressions":  10,
+                                       "avgPosition":  8.2,
                                        "topQuery":  "pacuplay138",
                                        "pages":  [
                                                      {
@@ -3598,7 +3598,7 @@
                                                          "desc":  "Add AI-powered web publishing to your managed IT service catalog. Deploy for clients using Windows infrastructure — Task Scheduler, PowerShell, GitHub. A new billable managed service for MSPs and IT departments."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-06-06"
+                                       "auditDate":  "2026-06-13"
                                    },
                   "videobate.com":  {
                                         "name":  "VideoBate",
@@ -3607,8 +3607,8 @@
                                         "pageCount":  7,
                                         "indexed":  1,
                                         "clicks":  0,
-                                        "impressions":  6,
-                                        "avgPosition":  1.5,
+                                        "impressions":  3,
+                                        "avgPosition":  1.3,
                                         "topQuery":  "videobate",
                                         "pages":  [
                                                       {
@@ -3698,17 +3698,17 @@
                                                           "desc":  "reset-password - VideoBate is a live video debate platform. Host and participate in structured video debates, discussions, and argumentat"
                                                       }
                                                   ],
-                                        "auditDate":  "2026-06-06"
+                                        "auditDate":  "2026-06-13"
                                     },
                   "voicestry.com":  {
                                         "name":  "VoiceStry",
                                         "domain":  "voicestry.com",
-                                        "totalScore":  24,
+                                        "totalScore":  15,
                                         "pageCount":  15,
                                         "indexed":  5,
                                         "clicks":  0,
-                                        "impressions":  9,
-                                        "avgPosition":  42.4,
+                                        "impressions":  13,
+                                        "avgPosition":  39.7,
                                         "topQuery":  "pitch trainer",
                                         "pages":  [
                                                       {
@@ -3770,19 +3770,15 @@
                                                           "issues":  [
 
                                                                      ],
-                                                          "title":  "VoiceStry — Train Your Voice Like You Train Your Body",
-                                                          "desc":  "Your voice has 5 gears and 6 resonance zones — and you\u0027ve never trained any of them. Free lessons, pitch trainer, and the VRN Method. No signup required."
+                                                          "title":  "VoiceStry — Free Online Pitch Trainer \u0026 Voice Coach",
+                                                          "desc":  "Train your voice with VoiceStry\u0027s free online pitch trainer — 5 vocal gears, 6 resonance zones, and the VRN Method. No signup, start improving today."
                                                       },
                                                       {
                                                           "file":  "karaoke.html",
                                                           "url":  "https://voicestry.com/karaoke.html",
-                                                          "score":  2,
+                                                          "score":  0,
                                                           "issues":  [
-                                                                         {
-                                                                             "code":  "LOW_CONTENT",
-                                                                             "sev":  2,
-                                                                             "msg":  "Low word count: ~239 words (recommend 300+)"
-                                                                         }
+
                                                                      ],
                                                           "title":  "Karaoke Studio — Sing Along \u0026amp; Train Your Voice | VoiceStry",
                                                           "desc":  "Karaoke practice with synchronized lyrics, live pitch meter, and VRN vocal warm-ups. Search any song, watch the karaoke video, and train your voice in real time."
@@ -3804,13 +3800,9 @@
                                                       {
                                                           "file":  "pitch-trainer.html",
                                                           "url":  "https://voicestry.com/pitch-trainer.html",
-                                                          "score":  2,
+                                                          "score":  0,
                                                           "issues":  [
-                                                                         {
-                                                                             "code":  "LOW_CONTENT",
-                                                                             "sev":  2,
-                                                                             "msg":  "Low word count: ~249 words (recommend 300+)"
-                                                                         }
+
                                                                      ],
                                                           "title":  "Pitch Trainer — Practice Pitch Accuracy | VoiceStry",
                                                           "desc":  "Interactive pitch training tool. Hear a note, sing it back, and get real-time visual feedback on your accuracy. Learn intervals, match pitch, and train your ear."
@@ -3842,17 +3834,12 @@
                                                       {
                                                           "file":  "sonic-portrait.html",
                                                           "url":  "https://voicestry.com/sonic-portrait.html",
-                                                          "score":  4,
+                                                          "score":  1,
                                                           "issues":  [
                                                                          {
                                                                              "code":  "LONG_DESC",
                                                                              "sev":  1,
                                                                              "msg":  "Meta description too long (167 chars, max 165)"
-                                                                         },
-                                                                         {
-                                                                             "code":  "THIN_CONTENT",
-                                                                             "sev":  3,
-                                                                             "msg":  "Thin content: ~192 words (min 300 for indexing)"
                                                                          }
                                                                      ],
                                                           "title":  "Sonic Portrait — See a Face Drawn by Sound | VoiceStry",
@@ -3904,17 +3891,12 @@
                                                       {
                                                           "file":  "voice-lab.html",
                                                           "url":  "https://voicestry.com/voice-lab.html",
-                                                          "score":  3,
+                                                          "score":  1,
                                                           "issues":  [
                                                                          {
                                                                              "code":  "LONG_DESC",
                                                                              "sev":  1,
                                                                              "msg":  "Meta description too long (220 chars, max 165)"
-                                                                         },
-                                                                         {
-                                                                             "code":  "LOW_CONTENT",
-                                                                             "sev":  2,
-                                                                             "msg":  "Low word count: ~286 words (recommend 300+)"
                                                                          }
                                                                      ],
                                                           "title":  "VRN Voice Lab — Hear Voices, See the Notation | VoiceStry",
@@ -3940,7 +3922,7 @@
                                                           "desc":  "The world\u0027s first Vocal Resonance Notation system — 75+ symbols across 8 notation systems for encoding vocal resonance, phonation, breath, formants, vibrato, and timbral color."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-06-06"
+                                        "auditDate":  "2026-06-13"
                                     }
               }
 }

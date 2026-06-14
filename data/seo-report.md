@@ -1,23 +1,23 @@
 ﻿# AIUNITES SEO Audit
-Generated: June 6, 2026
+Generated: June 13, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
 | Gameatica | 202 | 52 | 14 | 101 | THIN_CONTENT |
 | AIUNITES | 101 | 29 | 6 | 58 |  |
-| InThisWorld | 94 | 19 | 2 | 44 | THIN_CONTENT |
+| InThisWorld | 94 | 19 | 3 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
-| Redomy | 66 | 15 | 10 | 33 | NO_H1 |
+| Redomy | 66 | 15 | 5 | 33 | NO_H1 |
 | AIByJob | 26 | 10 | 4 | 13 | THIN_CONTENT |
-| VoiceStry | 24 | 15 | 5 | 18 | LONG_DESC |
 | BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
+| VoiceStry | 15 | 15 | 5 | 14 | LONG_DESC |
 | VideoBate | 11 | 7 | 1 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 2 | 3 |  |
 | Cloudsion | 7 | 3 | 2 | 3 |  |
 | UptownIT | 4 | 2 | 1 | 2 | LONG_DESC |
 | ERPize | 4 | 6 | 2 | 4 |  |
 | ERPise | 4 | 3 | 2 | 4 |  |
-| AI YHWH | 2 | 2 | 2 | 2 | LONG_DESC |
+| AI YHWH | 2 | 2 | 1 | 2 | LONG_DESC |
 | AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
 | BizStry | 0 | 1 | 0 | 0 |  |
@@ -596,50 +596,6 @@ Generated: June 6, 2026
 **ecomscout.html** - https://aibyjob.com/agents/ecomscout.html
 - [CRITICAL] Thin content: ~123 words (min 300 for indexing)
 
-### VoiceStry - Score 24
-
-**vocal-gym.html** - https://voicestry.com/vocal-gym.html
-- [MEDIUM] Meta description too long (193 chars, max 165)
-
-**sonic-portrait.html** - https://voicestry.com/sonic-portrait.html
-- [CRITICAL] Thin content: ~192 words (min 300 for indexing)
-- [MEDIUM] Meta description too long (167 chars, max 165)
-
-**vrn-method.html** - https://voicestry.com/vrn-method.html
-- [MEDIUM] Meta description too long (176 chars, max 165)
-- [MEDIUM] Title too long (72 chars, max 65)
-
-**voice-lab.html** - https://voicestry.com/voice-lab.html
-- [HIGH] Low word count: ~286 words (recommend 300+)
-- [MEDIUM] Meta description too long (220 chars, max 165)
-
-**voice-analyzer.html** - https://voicestry.com/voice-analyzer.html
-- [MEDIUM] Meta description too long (190 chars, max 165)
-- [MEDIUM] Title too long (72 chars, max 65)
-
-**press.html** - https://voicestry.com/press.html
-- [HIGH] Title too short (17 chars, min 30)
-
-**ai-vrn.html** - https://voicestry.com/ai-vrn.html
-- [MEDIUM] Meta description too long (209 chars, max 165)
-- [MEDIUM] Title too long (78 chars, max 65)
-
-**ai-neuro.html** - https://voicestry.com/ai-neuro.html
-- [MEDIUM] Meta description too long (196 chars, max 165)
-- [MEDIUM] Title too long (68 chars, max 65)
-
-**5-gears.html** - https://voicestry.com/5-gears.html
-- [MEDIUM] Meta description too long (176 chars, max 165)
-
-**pitch-trainer.html** - https://voicestry.com/pitch-trainer.html
-- [HIGH] Low word count: ~249 words (recommend 300+)
-
-**learn.html** - https://voicestry.com/learn.html
-- [MEDIUM] Title too long (68 chars, max 65)
-
-**karaoke.html** - https://voicestry.com/karaoke.html
-- [HIGH] Low word count: ~239 words (recommend 300+)
-
 ### BodSpas - Score 23
 
 **press.html** - https://bodspas.com/press.html
@@ -662,6 +618,42 @@ Generated: June 6, 2026
 - [CRITICAL] Thin content: ~8 words (min 300 for indexing)
 - [HIGH] Missing H1 heading
 - [MEDIUM] Meta description too long (226 chars, max 165)
+
+### VoiceStry - Score 15
+
+**vocal-gym.html** - https://voicestry.com/vocal-gym.html
+- [MEDIUM] Meta description too long (193 chars, max 165)
+
+**sonic-portrait.html** - https://voicestry.com/sonic-portrait.html
+- [MEDIUM] Meta description too long (167 chars, max 165)
+
+**vrn-method.html** - https://voicestry.com/vrn-method.html
+- [MEDIUM] Meta description too long (176 chars, max 165)
+- [MEDIUM] Title too long (72 chars, max 65)
+
+**voice-lab.html** - https://voicestry.com/voice-lab.html
+- [MEDIUM] Meta description too long (220 chars, max 165)
+
+**voice-analyzer.html** - https://voicestry.com/voice-analyzer.html
+- [MEDIUM] Meta description too long (190 chars, max 165)
+- [MEDIUM] Title too long (72 chars, max 65)
+
+**press.html** - https://voicestry.com/press.html
+- [HIGH] Title too short (17 chars, min 30)
+
+**ai-vrn.html** - https://voicestry.com/ai-vrn.html
+- [MEDIUM] Meta description too long (209 chars, max 165)
+- [MEDIUM] Title too long (78 chars, max 65)
+
+**ai-neuro.html** - https://voicestry.com/ai-neuro.html
+- [MEDIUM] Meta description too long (196 chars, max 165)
+- [MEDIUM] Title too long (68 chars, max 65)
+
+**5-gears.html** - https://voicestry.com/5-gears.html
+- [MEDIUM] Meta description too long (176 chars, max 165)
+
+**learn.html** - https://voicestry.com/learn.html
+- [MEDIUM] Title too long (68 chars, max 65)
 
 ### VideoBate - Score 11
 
