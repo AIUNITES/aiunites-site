@@ -1,45 +1,47 @@
-# AIUNITES SEO Digest — June 8, 2026
+# AIUNITES SEO Digest — June 15, 2026
 
-_GSC window: 2026-05-11 to 2026-06-08 · SEO audit generated: Jun 6, 2026_
+*GSC window: 2026-05-17 → 2026-06-14 · SEO audit: 2026-06-13*
 
 ## Summary
 - Sites with GSC traction (impressions > 0): 15
-- Sites with 0 impressions: 3 (bodspas.com, aiyhwh.com, bizstry.com)
-- Files edited this run: 2 (voicestry-site, erpise-site)
-- Total network clicks this window: 11 · Total impressions: 198
+- Sites with 0 impressions (need indexing, not copy): 3 — aiyhwh.com, bizstry.com, bodspas.com
+- Files edited this run: 1 (gameatica-site/index.html)
+
+This week's key finding: the network's meta copy is already in good shape. A verification pass showed that the sites with the most impressions already have titles and descriptions that match their top queries (e.g. erpise.com's title is an exact match for "continuing ed erp systems"; voicestry.com already has a full 149-char description targeting "pitch trainer"). The real ceiling on these sites is ranking depth and content/authority, not metadata. So only one genuinely confident copy change was made; the rest are flagged for human judgment rather than auto-rewritten.
 
 ## Top Opportunities This Week
 
-1. **inthisworld.com — protect the network's biggest impression source (50 imp, 3 clk, pos 28.7).** The root homepage is clean, but its `<link rel="canonical">` points to `/rooms/` instead of itself, and the `/games/` and `/rooms/` sub-index pages are missing meta descriptions, canonicals, and have thin content. This is the highest-traffic property — fixing the sub-page meta and confirming the homepage self-canonicalizes is the single highest-leverage move. _Flagged for manual review (canonical change is structural)._
+1. **erpise.com — content/authority push (highest leverage).** 47 impressions, 0 clicks, avg position 50.2 (page 5). Title and description are already an exact match for the top query "continuing ed erp systems," so copy is NOT the blocker. This is the single biggest pool of wasted impressions on the network. Needs depth: real case studies, SIS/Banner/Jenzabar landing content, and backlinks to climb from page 5. Manual.
 
-2. **erpise.com — title now matches the top query (37 imp, 0 clk, pos 48.3). [EDITED]** Highest impression count of any zero-click site. Top query "continuing ed erp systems" was absent from the title (which said "Higher Ed"). Rewrote title and meta to lead with "Continuing Ed ERP Systems." Expected impact: improved relevance for the query already driving the most impressions; may also lift position off page 5.
+2. **gameatica.com — title rewrite (DONE this run).** 19 impressions, 0 clicks, position 63.5. Top query "2048 game math playground." Old title was a generic 36-char "Free Online Arcade Games" that buried the game people actually search for. Rewrote to surface "2048" by name (see Changes Made). Position is deep, so expect a relevance bump rather than an overnight jump.
 
-3. **voicestry.com — title now names the feature people search for (10 imp, 0 clk, pos 42.7). [EDITED]** Top query "pitch trainer" appeared only in the meta description, never the title. Rewrote title to "Free Online Pitch Trainer & Voice Coach." The pitch-trainer feature genuinely exists, so this is an accurate relevance gain.
+3. **inthisworld.com — fix missing descriptions on sub-pages.** Network's top performer (64 impressions, 5 clicks, CTR 7.2%, position 27.5). The homepage is healthy, but `/games/index.html` and `/rooms/index.html` are flagged NO_DESC (one also THIN_CONTENT). Adding descriptions to those two hub pages is a clean, low-risk win on the site that already converts best. Manual (sub-page edits outside this run's homepage scope).
 
-4. **cosmostheopera.com — page-1 ranking, zero clicks (7 imp, 0 clk, pos 6.3).** Best-positioned zero-click site in the network. Title and meta already match the "cosmo opera" query, so this is a CTR problem, not a relevance one. Worth an A/B-style title test (more benefit-driven hook) rather than an automated edit. _Flagged._
+4. **aizines.com — page-1 nudge.** 22 impressions, 4 clicks, position 10.7 on "aizine." Already converting and sitting right at the page-1 boundary. Copy is good; a small internal-linking / content-freshness push could pull it over the line. Manual.
 
-5. **erpize.com — page-1 ranking on a sister-brand query (8 imp, 0 clk, pos 8.0).** Ranks well, but its top query is "erpise" — the sister site's brand name. Capturing those clicks would mean hijacking erpise.com's brand traffic, so this needs a human call on positioning, not a copy tweak. _Flagged._
+5. **erpize.com — brand-confusion review.** 7 impressions, 0 clicks, position 8 (page 1) — but the top query is literally "erpise," the sister brand. Searchers want erpise.com and are landing on erpize.com. Do NOT optimize erpize for "erpise" (it would cannibalize the real site). Needs a human decision on cross-linking / disambiguation. Manual.
 
 ## Changes Made
 
-**voicestry.com** (`voicestry-site/index.html`)
-- Title: `VoiceStry — Train Your Voice Like You Train Your Body` → `VoiceStry — Free Online Pitch Trainer & Voice Coach`
-- Desc: `Your voice has 5 gears and 6 resonance zones — and you've never trained any of them. Free lessons, pitch trainer, and the VRN Method. No signup required.` → `Train your voice with VoiceStry's free online pitch trainer — 5 vocal gears, 6 resonance zones, and the VRN Method. No signup, start improving today.`
+**gameatica.com** (`gameatica-site/index.html`) — `<title>` and `<meta name="title">`
 
-**erpise.com** (`erpise-site/index.html`)
-- Title: `Education ERP Consulting — Higher Ed SIS Experts | ERPise` → `Continuing Ed ERP Systems & SIS Consulting | ERPise`
-- Desc: `Education ERP consulting for higher ed — Jenzabar, Banner, SIS, SQL reporting, and IPEDS compliance. Trusted by colleges for data modernization.` → `ERP consulting for continuing education and higher ed — Banner, Jenzabar, SIS, SQL reporting, and IPEDS compliance. Modernize your student data systems.`
+- Old: `Gameatica - Free Online Arcade Games` (36 chars)
+- New: `Gameatica — Play 2048, Snake, Tetris & Free Online Games` (56 chars)
+- Why: top query "2048 game math playground" — the old title omitted "2048" entirely despite it being the #1 search term landing on the site. Description already lists 2048, so it was left unchanged.
 
-Publish queued: uncommented `auto-publish.ps1` in `scripts/script-runner.ps1` (one-shot queue; auto-comments after the next ~10-min cycle).
+No other files were edited. Publish queued: `auto-publish.ps1` uncommented in `scripts/script-runner.ps1` (runs next cycle, then auto-comments).
 
 ## Flags for Manual Review
 
-- **aiunites.com (8 imp, 0 clk, pos 75.5, query "ai consulting okc"):** The homepage targets "Tulsa," but the top query is for Oklahoma City (OKC). Retargeting geo is a business decision, not a copy tweak — left unchanged. Decide whether the business serves OKC before editing.
-- **inthisworld.com canonical:** Homepage canonical points to `/rooms/`. If `/` should rank in its own right, this should self-canonicalize. Sub-index pages (`/games/`, `/rooms/`) need meta descriptions + canonicals.
-- **gameatica.com (14 imp, 0 clk, pos 62.6, query "2048 game math playground"):** Query is game-specific; the homepage won't satisfy it. The 2048 game page itself needs the title/content work, not the homepage. ~49 game pages still flagged THIN_CONTENT.
-- **furnishthings.com (8 imp, 0 clk, pos 72.7):** Homepage flagged LOW_CONTENT (~254 words) and ranks deep. Needs content depth before copy tweaks will matter.
-- **cosmostheopera.com & erpize.com:** See opportunities #4 and #5 — CTR test and brand-positioning call respectively.
-- **Thin content remains widespread** (gameatica, inthisworld, redomy, cosmostheopera sub-pages). Mechanical title fixes won't resolve it; these need real content or `noindex` on utility pages.
+- **erpise.com** — 47 impressions stuck at position 50 with already-optimal copy. Highest-value content/backlink project on the network. Metadata can't fix a page-5 ranking.
+- **inthisworld.com** — add meta descriptions to `/games/index.html` and `/rooms/index.html` (NO_DESC); one also flags THIN_CONTENT.
+- **uptownit.com** — index.html flags THIN_CONTENT. Note its top query "pacuplay138" (and its 2 clicks) appears to be irrelevant/spam traffic, not real IT-services intent — don't chase that keyword.
+- **furnishthings.com** — position 84, LOW_CONTENT, and top query "create a total of 10 furnishings" looks like a non-commercial/AI-prompt fragment, not a shopper query. Needs real product content + indexing before any copy work.
+- **erpize.com** — brand confusion with sister site erpise.com (see opportunity #5).
+- **aibyjob.com** — MULTI_H1 structural issue on homepage; top query "aiby" is just a partial brand match.
+- **aiunites.com** — minor: top query is "ai consulting okc" (Oklahoma City) but copy targets Tulsa. Position 66 means metadata isn't the limiter; consider an OKC mention only as part of a broader local-content effort.
+- **0-impression sites** (aiyhwh.com, bizstry.com, bodspas.com) — these need indexing/submission, not copy tweaks. Verify they're submitted in GSC and have inbound links.
 
 ## Next Week Focus
-Fix inthisworld.com's homepage canonical and the missing meta/canonical on its `/games/` and `/rooms/` sub-pages — it carries 50 impressions, far more than any other property, and is being held back by structural issues rather than copy.
+
+Start a real content build-out for **erpise.com** — it has 47 monthly impressions on a perfectly-matched query but sits on page 5; depth and links, not metadata, are what will convert that traffic.
