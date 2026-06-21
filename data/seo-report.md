@@ -1,16 +1,16 @@
 ﻿# AIUNITES SEO Audit
-Generated: June 13, 2026
+Generated: June 20, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
-| Gameatica | 202 | 52 | 14 | 101 | THIN_CONTENT |
-| AIUNITES | 101 | 29 | 6 | 58 |  |
+| Gameatica | 202 | 52 | 12 | 101 | THIN_CONTENT |
+| AIUNITES | 101 | 29 | 5 | 58 |  |
 | InThisWorld | 94 | 19 | 3 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | Redomy | 66 | 15 | 5 | 33 | NO_H1 |
 | AIByJob | 26 | 10 | 4 | 13 | THIN_CONTENT |
-| BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
-| VoiceStry | 15 | 15 | 5 | 14 | LONG_DESC |
+| BodSpas | 23 | 7 | 0 | 11 | THIN_CONTENT |
+| VoiceStry | 15 | 15 | 7 | 14 | LONG_DESC |
 | VideoBate | 11 | 7 | 1 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 2 | 3 |  |
 | Cloudsion | 7 | 3 | 2 | 3 |  |
@@ -18,7 +18,7 @@ Generated: June 13, 2026
 | ERPize | 4 | 6 | 2 | 4 |  |
 | ERPise | 4 | 3 | 2 | 4 |  |
 | AI YHWH | 2 | 2 | 1 | 2 | LONG_DESC |
-| AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
+| AIZines | 2 | 3 | 2 | 2 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
 | BizStry | 0 | 1 | 0 | 0 |  |
 
