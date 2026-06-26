@@ -1,6 +1,6 @@
 ﻿{
-    "updated":  "2026-06-25T03:42:11",
-    "updatedFmt":  "Jun 25, 2026 3:42AM",
+    "updated":  "2026-06-25T23:42:43",
+    "updatedFmt":  "Jun 25, 2026 11:42PM",
     "dateRange":  "2026-05-28 to 2026-06-25",
     "sites":  {
                   "uptownit.com":  {
@@ -13,19 +13,19 @@
                                        "ctr":  14.3,
                                        "avgPosition":  7.4,
                                        "topQuery":  "pacuplay138",
-                                       "lastFetched":  "Jun 25, 2026 3:42AM"
+                                       "lastFetched":  "Jun 25, 2026 11:42PM"
                                    },
                   "voicestry.com":  {
                                         "name":  "VoiceStry",
                                         "gsc":  "https://voicestry.com/",
-                                        "indexed":  11,
+                                        "indexed":  12,
                                         "indexMsg":  "ok",
                                         "clicks":  0,
                                         "impressions":  26,
                                         "ctr":  0,
                                         "avgPosition":  48.2,
                                         "topQuery":  "lovetri method",
-                                        "lastFetched":  "Jun 25, 2026 3:42AM"
+                                        "lastFetched":  "Jun 25, 2026 11:42PM"
                                     },
                   "gameatica.com":  {
                                         "name":  "Gameatica",
@@ -37,7 +37,7 @@
                                         "ctr":  0,
                                         "avgPosition":  59.4,
                                         "topQuery":  "1028 game",
-                                        "lastFetched":  "Jun 25, 2026 3:42AM"
+                                        "lastFetched":  "Jun 25, 2026 11:42PM"
                                     },
                   "videobate.com":  {
                                         "name":  "VideoBate",
@@ -49,7 +49,7 @@
                                         "ctr":  3.3,
                                         "avgPosition":  40.6,
                                         "topQuery":  "videobate",
-                                        "lastFetched":  "Jun 25, 2026 3:42AM"
+                                        "lastFetched":  "Jun 25, 2026 11:42PM"
                                     },
                   "aizines.com":  {
                                       "name":  "AIZines",
@@ -61,7 +61,7 @@
                                       "ctr":  3.7,
                                       "avgPosition":  31.7,
                                       "topQuery":  "aizine",
-                                      "lastFetched":  "Jun 25, 2026 3:41AM"
+                                      "lastFetched":  "Jun 25, 2026 11:42PM"
                                   },
                   "inthisworld.com":  {
                                           "name":  "InThisWorld",
@@ -73,7 +73,7 @@
                                           "ctr":  3.3,
                                           "avgPosition":  28.7,
                                           "topQuery":  "inthisworld",
-                                          "lastFetched":  "Jun 25, 2026 3:42AM"
+                                          "lastFetched":  "Jun 25, 2026 11:42PM"
                                       },
                   "cloudsion.com":  {
                                         "name":  "Cloudsion",
@@ -85,7 +85,7 @@
                                         "ctr":  0,
                                         "avgPosition":  0,
                                         "topQuery":  "",
-                                        "lastFetched":  "Jun 25, 2026 3:42AM"
+                                        "lastFetched":  "Jun 25, 2026 11:42PM"
                                     },
                   "aibyjob.com":  {
                                       "name":  "AIByJob",
@@ -97,7 +97,7 @@
                                       "ctr":  0,
                                       "avgPosition":  33.3,
                                       "topQuery":  "aiby",
-                                      "lastFetched":  "Jun 25, 2026 3:41AM"
+                                      "lastFetched":  "Jun 25, 2026 11:42PM"
                                   },
                   "bodspas.com":  {
                                       "name":  "BodSpas",
@@ -109,7 +109,7 @@
                                       "ctr":  0,
                                       "avgPosition":  0,
                                       "topQuery":  "",
-                                      "lastFetched":  "Jun 25, 2026 3:42AM"
+                                      "lastFetched":  "Jun 25, 2026 11:42PM"
                                   },
                   "erpise.com":  {
                                      "name":  "ERPise",
@@ -121,7 +121,7 @@
                                      "ctr":  0,
                                      "avgPosition":  63,
                                      "topQuery":  "continuing ed erp solutions",
-                                     "lastFetched":  "Jun 25, 2026 3:42AM"
+                                     "lastFetched":  "Jun 25, 2026 11:42PM"
                                  },
                   "aiyhwh.com":  {
                                      "name":  "AI YHWH",
@@ -133,7 +133,7 @@
                                      "ctr":  0,
                                      "avgPosition":  0,
                                      "topQuery":  "",
-                                     "lastFetched":  "Jun 25, 2026 3:41AM"
+                                     "lastFetched":  "Jun 25, 2026 11:42PM"
                                  },
                   "bizstry.com":  {
                                       "name":  "BizStry",
@@ -145,7 +145,7 @@
                                       "ctr":  0,
                                       "avgPosition":  0,
                                       "topQuery":  "",
-                                      "lastFetched":  "Jun 25, 2026 3:42AM"
+                                      "lastFetched":  "Jun 25, 2026 11:42PM"
                                   },
                   "furnishthings.com":  {
                                             "name":  "FurnishThings",
@@ -157,7 +157,7 @@
                                             "ctr":  0,
                                             "avgPosition":  72.1,
                                             "topQuery":  "create a total of 10 furnishings",
-                                            "lastFetched":  "Jun 25, 2026 3:42AM"
+                                            "lastFetched":  "Jun 25, 2026 11:42PM"
                                         },
                   "cosmostheopera.com":  {
                                              "name":  "COSMOS the OPERA",
@@ -169,7 +169,7 @@
                                              "ctr":  0,
                                              "avgPosition":  5.3,
                                              "topQuery":  "cosmo opera",
-                                             "lastFetched":  "Jun 25, 2026 3:42AM"
+                                             "lastFetched":  "Jun 25, 2026 11:42PM"
                                          },
                   "aitsql.com":  {
                                      "name":  "AITSQL",
@@ -181,7 +181,7 @@
                                      "ctr":  0,
                                      "avgPosition":  66.1,
                                      "topQuery":  "after sql",
-                                     "lastFetched":  "Jun 25, 2026 3:41AM"
+                                     "lastFetched":  "Jun 25, 2026 11:42PM"
                                  },
                   "redomy.com":  {
                                      "name":  "Redomy",
@@ -193,7 +193,7 @@
                                      "ctr":  0,
                                      "avgPosition":  41.8,
                                      "topQuery":  "my redo",
-                                     "lastFetched":  "Jun 25, 2026 3:42AM"
+                                     "lastFetched":  "Jun 25, 2026 11:42PM"
                                  },
                   "aiunites.com":  {
                                        "name":  "AIUNITES",
@@ -205,7 +205,7 @@
                                        "ctr":  0,
                                        "avgPosition":  51.3,
                                        "topQuery":  "nanites ai",
-                                       "lastFetched":  "Jun 25, 2026 3:41AM"
+                                       "lastFetched":  "Jun 25, 2026 11:42PM"
                                    },
                   "erpize.com":  {
                                      "name":  "ERPize",
@@ -217,7 +217,7 @@
                                      "ctr":  0,
                                      "avgPosition":  7,
                                      "topQuery":  "erpise",
-                                     "lastFetched":  "Jun 25, 2026 3:42AM"
+                                     "lastFetched":  "Jun 25, 2026 11:42PM"
                                  }
               }
 }
