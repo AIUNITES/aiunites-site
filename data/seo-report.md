@@ -1,19 +1,19 @@
 ﻿# AIUNITES SEO Audit
-Generated: June 20, 2026
+Generated: June 27, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
 | Gameatica | 202 | 52 | 12 | 101 | THIN_CONTENT |
-| AIUNITES | 101 | 29 | 5 | 58 |  |
+| AIUNITES | 101 | 29 | 3 | 58 |  |
 | InThisWorld | 94 | 19 | 3 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | Redomy | 66 | 15 | 5 | 33 | NO_H1 |
-| AIByJob | 26 | 10 | 4 | 13 | THIN_CONTENT |
-| BodSpas | 23 | 7 | 0 | 11 | THIN_CONTENT |
-| VoiceStry | 15 | 15 | 7 | 14 | LONG_DESC |
+| AIByJob | 26 | 10 | 3 | 13 | THIN_CONTENT |
+| BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
+| VoiceStry | 15 | 15 | 12 | 14 | LONG_DESC |
 | VideoBate | 11 | 7 | 1 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 2 | 3 |  |
-| Cloudsion | 7 | 3 | 2 | 3 |  |
+| Cloudsion | 7 | 3 | 1 | 3 |  |
 | UptownIT | 4 | 2 | 1 | 2 | LONG_DESC |
 | ERPize | 4 | 6 | 2 | 4 |  |
 | ERPise | 4 | 3 | 2 | 4 |  |
