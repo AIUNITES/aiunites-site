@@ -1,49 +1,44 @@
-# AIUNITES SEO Digest — 2026-06-22
+# AIUNITES SEO Digest — June 29, 2026
 
-*GSC window: 2026-05-24 → 2026-06-21 · Audit generated: 2026-06-20*
+*Audit data: Jun 27, 2026 (seo-report.json) · GSC data: May 31–Jun 28, 2026 (gsc-stats.json)*
 
 ## Summary
-- Sites with GSC traction (impressions > 0): **15** of 18
-- Sites with 0 impressions (need indexing, not copy): **3** — bodspas.com, aiyhwh.com, bizstry.com
-- Files edited this run: **1** — cosmostheopera.com (homepage title + meta description)
-- Network impressions this window: **285** · clicks: **11** · network CTR ≈ 3.9%
+- Sites with GSC traction (impressions > 0): **14**
+- Sites with 0 impressions (need indexing, not copy): **4** — cloudsion, bodspas, aiyhwh, bizstry
+- Files edited this run: **0** (rationale below)
+- Network audit issues outstanding: 338 (mostly thin-content/missing-title on deep/secondary pages, not homepages)
+
+### Why zero edits this run
+`seo-fix.ps1` ran Jun 27 and freshly patched homepage titles, meta descriptions, canonicals, OG images and schema across the network — most homepages now score **0** (no issues). Cross-referencing those clean homepages against GSC, **no site clears the bar for a confident copy edit**:
+
+- The high-impression sites all rank at **position 28–76** (page 3+). At those positions, zero clicks is expected and a title/meta rewrite will *not* generate clicks — the lever is ranking (content depth / relevance / links), not CTR copy.
+- The only two sites ranking on **page 1** (cosmostheopera at 5.5, erpize at 6.3) have either a tiny sample (8 impressions) or a sibling-brand-confusion query — neither a safe auto-edit.
+- Several `topQuery` values are noise or in-app text, not real targets (see Flags). Chasing them in titles would actively damage those pages — exactly the failure mode documented in the seo-fix.ps1 incident.
+
+Per CLAUDE.md automation discipline (creative copy doesn't ship unattended without human review) and the task's own "only edit if confident" clause, changes are **proposed for manual review** below rather than auto-applied. Auto-publish was **not** queued.
 
 ## Top Opportunities This Week
 
-1. **cosmostheopera.com — ranking page 1, earning zero clicks (FIXED).**
-   Position **5.4**, 7 impressions, 0 clicks for query "cosmo opera." This is the only category-A site already on page 1, so the snippet — not ranking — is the lever. The old title ("Personified Cosmic Beings") was abstract and gave a searcher no reason to click. Rewrote the title and meta description to be concrete and action-oriented (see Changes Made). Highest-leverage copy fix of the week because the click is there to be won.
+1. **inthisworld.com — build ranking, not copy (highest leverage).** 98 impressions (by far the most in the network), 3 clicks, position 28.7 for *"virtual world games online"*. Title already targets the exact query. It sits on page ~3 for a high-volume term — pushing it toward page 1–2 with deeper, more relevant content and internal linking is the single biggest opportunity on the network.
 
-2. **erpise.com — biggest demand signal in the network, but position-locked.**
-   **49 impressions** (highest in category A), 0 clicks, position **58.9** for "continuing ed erp solutions." The title already matches the query well ("Continuing Ed ERP Systems & SIS Consulting"). At page-6 ranking, no title tweak earns a click — this is a content-depth / authority problem, not a copy problem. 49 impressions proves real demand; this domain is the best target for a genuine content investment (a substantive Continuing-Ed ERP / SIS resource page), not a meta rewrite. **Flagged, not edited.**
+2. **erpise.com — niche B2B intent, needs an authority page.** 48 impressions, 0 clicks, position 64.3 for *"continuing ed erp solutions"*. Strong commercial-intent niche query; title is already well-matched. Held back by ranking (page 6+). Recommend a dedicated, in-depth page targeting "continuing education ERP solutions" to climb.
 
-3. **voicestry.com — ranking for an off-brand query.**
-   23 impressions, 0 clicks, position 41.1 for "lovetri method." The site targets its own "VRN Method"; "LoVetri Method" is a specific third-party vocal pedagogy. Stuffing a competitor's trademarked method name into the homepage title would be off-brand and low-quality. **Flagged for human judgment** — only worth targeting if VoiceStry genuinely publishes LoVetri / Somatic-Voicework content.
+3. **aitsql.com — verify the real queries.** 38 impressions, 0 clicks, position 65.8. Reported topQuery *"after sql"* is ambiguous/low-value; the 38 impressions almost certainly span other queries. Pull the full query list in GSC before acting. Position too low for copy to matter yet.
 
-4. **aizines.com — the network's quiet winner; protect it.**
-   29 impressions, **4 clicks**, position 10.5 for "aizine" — best CTR-to-position ratio of any site with volume. It's one spot off page 1. No copy change needed; the push here is a few more internal links / a bit more content depth to nudge position 10.5 → top 8. Minor MULTI_H1 issue on the homepage worth cleaning.
+4. **aizines.com — best performer, fix the MULTI_H1.** 40 impressions, **5 clicks** (the most clicks of any traction site), position 41.4 for *"aizine"* (brand). Only technical blemish is MULTI_H1 — a safe mechanical fix to add to the next seo-fix pass.
 
-5. **uptownit.com — page-1 position wasted by thin content + a spam query.**
-   Position **7.4**, 7 impressions, but topQuery is "pacuplay138" (gambling-spam pattern, not real intent) and the homepage carries a **THIN_CONTENT** flag. The good position is meaningless against a junk query and a thin page. **Flagged** — investigate the spam query (possible scraper / spam indexing) and thicken the homepage before any copy work.
+5. **cosmostheopera.com — page-1 watch item.** Position 5.5 for *"cosmo opera"*, 8 impressions, 0 clicks. Only true page-1 ranking with no clicks, but 8 impressions is too small to read a CTR signal. Title is already on-brand. Watch; revisit a punchier title once impressions grow.
 
 ## Changes Made
-
-**cosmostheopera.com — `index.html`** (title, meta description, og:title, og:description, twitter:title, twitter:description all updated for consistency)
-
-| Field | Old | New |
-|-------|-----|-----|
-| Title | `COSMOS the OPERA - Personified Cosmic Beings` (44 chars) | `COSMOS the OPERA — A Cosmic Trance Opera in Space & Sound` (57 chars) |
-| Description | `A trance opera with personified cosmic beings — the Sun, Twin, Light, Universe — singing across space and time. Hubble imagery and Vocal Resonance Notation.` | `Experience COSMOS the OPERA — a trance opera where the Sun, Twin, Light and Universe sing across space and time. Watch, listen, and explore the cosmos.` (151 chars) |
-
-Keeps the "COSMOS the OPERA" exact-match for the "cosmo opera" query, adds action verbs (Experience / Watch / listen / explore), and ends on a benefit. Queued for publish via `script-runner.ps1` (auto-publish entry activated for 2026-06-22).
+None. No homepage cleared the confidence bar this week (see "Why zero edits" above).
 
 ## Flags for Manual Review
-- **erpise.com (49 imp, pos 59):** highest-demand domain in the network — invest in a real Continuing-Ed ERP / SIS content page to move position; copy is already fine.
-- **voicestry.com (23 imp):** ranks for third-party "lovetri method" — decide whether that's an on-brand target before writing copy for it. Do not auto-target.
-- **uptownit.com (pos 7.4):** spam topQuery "pacuplay138" + THIN_CONTENT — check for spam / scraper indexing and thicken the homepage.
-- **furnishthings.com (11 imp, pos 75):** topQuery "create a total of 10 furnishings" looks like leaked/AI-prompt text, not real search intent; homepage flagged LOW_CONTENT. Needs content, not copy.
-- **gameatica.com (23 imp, pos 62) & aitsql.com (21 imp, pos 66):** strong impression counts but page-6/7 positions; queries reference a competitor brand ("math playground") and an ambiguous term ("after sql"). Titles already match available intent — position is the blocker.
-- **erpize.com vs erpise.com:** erpize ranks for "erpise" (sister-brand confusion). Consider clearer brand differentiation across the two sites.
-- **Minor MULTI_H1** on aibyjob, aizines, redomy homepages — quick mechanical cleanup for seo-fix.ps1.
+
+- **erpise.com vs erpize.com brand collision.** erpize.com ranks position 6.3 for the query *"erpise"* — the sibling site's brand. Do **not** rewrite erpize's title to capture it; that cannibalizes/confuses two of your own brands. Needs a human call on disambiguation (distinct titles, cross-links, or a canonical strategy).
+- **Junk / non-target topQueries — do not chase in titles:** `pacuplay138` (uptownit, looks like slot/gambling spam), `1028 game` (gameatica, likely a 2048/1024 typo), `after sql` (aitsql, fragment), `nanites ai` (aiunites, brand misspelling), `my redo` (redomy, fragment), `create a total of 10 furnishings` (furnishthings, reads like in-app quest text). These are indexing noise, not commercial intent.
+- **furnishthings.com homepage is "Phase 3: First Home".** The homepage title/desc read like an internal game-phase page, not a landing page (position 76.4). Worth a human review of whether index.html should present a proper site-level landing title.
+- **MULTI_H1 (minor, mechanical):** aizines.com, aibyjob.com, redomy.com. Safe to fold into the next mechanical seo-fix run.
+- **4 sites with 0 impressions** (cloudsion, bodspas, aiyhwh, bizstry): need indexing/sitemap submission and links — not copy tweaks. Per task scope, left untouched.
 
 ## Next Week Focus
-Build one substantive content page for **erpise.com** (Continuing-Ed ERP / SIS) — it has the network's strongest proven demand (49 impressions) and is held back only by ranking depth, which copy tweaks can't fix.
+Deepen content and internal linking on **inthisworld.com** to push *"virtual world games online"* (98 impressions, position 28.7) from page 3 toward page 1 — the highest-volume, highest-leverage term in the network.
