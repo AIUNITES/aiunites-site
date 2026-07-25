@@ -1,44 +1,74 @@
-# AIUNITES SEO Digest — June 29, 2026
+# AIUNITES SEO Digest — July 20, 2026
 
-*Audit data: Jun 27, 2026 (seo-report.json) · GSC data: May 31–Jun 28, 2026 (gsc-stats.json)*
+*Audit data: Jun 27, 2026 (seo-report.json) · GSC data: Jun 2–30, 2026 (gsc-stats.json)*
+
+> ## 🔴 STILL FROZEN — THIRD CONSECUTIVE DIGEST ON THE SAME DATA
+>
+> **The input files have not changed since June 30.** `publish-log.txt` last updated **Jun 30 17:53** and `gsc-stats.json` last updated **Jun 30 04:14** — both confirmed by file mtime today (Jul 20). That is the *exact* timestamp the July 13 digest flagged. **The `Auto Publish GitHub` scheduled task has now been dead for 20 days**, and this is the third digest in a row (Jul 6, Jul 13, Jul 20) reporting identical numbers.
+>
+> **This has escalated from "stale" to "the pipeline is abandoned."** Every SEO/GSC number below is a 3-week-old photograph. Nothing downstream — audits, fixes, measurement — has run since June 30.
+>
+> **Confirmed this run:**
+> - `Auto Publish GitHub` task: **not fired since Jun 30 17:53** (publish-log.txt mtime).
+> - GSC fetch: last clean `=== DONE ===` Jun 30 04:14, all 18 domains `msg=ok` — **not an auth failure**, the parent task simply isn't being invoked.
+> - `Script Runner`: **healthy** — fired today 07:10, but it only ran `check-tls-cert-once.ps1`. Its `auto-publish.ps1` line remains commented out (correctly). Do not mistake a live Script Runner log for a live pipeline; they are separate Task Scheduler entries.
+>
+> **Manual step required (Claude cannot touch Task Scheduler / PowerShell):**
+> Task Scheduler → **Auto Publish GitHub** → check **Last Run Result** and whether it is **Disabled**. Re-enable or re-import from `scripts\Auto Publish GitHub.xml`. Confirm success when `scripts\publish-log.txt` gets a timestamp newer than Jun 30 within ~10 minutes.
+>
+> **Until this is fixed, the July 27 digest will report these same numbers a fourth time.**
 
 ## Summary
-- Sites with GSC traction (impressions > 0): **14**
-- Sites with 0 impressions (need indexing, not copy): **4** — cloudsion, bodspas, aiyhwh, bizstry
-- Files edited this run: **0** (rationale below)
-- Network audit issues outstanding: 338 (mostly thin-content/missing-title on deep/secondary pages, not homepages)
+- Sites with GSC traction (impressions > 0): **13**
+- Sites with 0 impressions (need indexing, not copy): **5** — cloudsion, bodspas, aiyhwh, bizstry, (aiunites 3 imp is borderline)
+- Files edited this run: **0**
+- Network audit issues outstanding: **338** (frozen since Jun 27 — no re-audit has run)
+- Auto-publish queued: **No**
+
+### What changed since last week
+**Nothing measurable — the data is byte-frozen at June 30.** Any "flat" reading below is *unknown*, not *stable*. The last real movement (Jun 30) was: aizines 40→45 imp / 5→6 clicks; inthisworld 98→102 imp; aitsql 38→46 imp; videobate and uptownit each a first click.
 
 ### Why zero edits this run
-`seo-fix.ps1` ran Jun 27 and freshly patched homepage titles, meta descriptions, canonicals, OG images and schema across the network — most homepages now score **0** (no issues). Cross-referencing those clean homepages against GSC, **no site clears the bar for a confident copy edit**:
+Three independent reasons, any one sufficient:
 
-- The high-impression sites all rank at **position 28–76** (page 3+). At those positions, zero clicks is expected and a title/meta rewrite will *not* generate clicks — the lever is ranking (content depth / relevance / links), not CTR copy.
-- The only two sites ranking on **page 1** (cosmostheopera at 5.5, erpize at 6.3) have either a tiny sample (8 impressions) or a sibling-brand-confusion query — neither a safe auto-edit.
-- Several `topQuery` values are noise or in-app text, not real targets (see Flags). Chasing them in titles would actively damage those pages — exactly the failure mode documented in the seo-fix.ps1 incident.
+1. **Editing on 3-week-frozen data is editing blind** — the effect can't be measured until the pipeline is restored, so copy changes should follow the data refresh, not precede it.
+2. **The copy is already correct.** Every high-impression / zero-click site with a *legitimate* top query already has a homepage title and description that target that query (verified against current `index.html` files — see below). There is no better rewrite to make.
+3. **CLAUDE.md automation discipline.** Meta descriptions are *creative* content that "Never [ships] until a human has reviewed rendered output on the actual site" (the April 2026 seo-fix.ps1 incident that entrenched the AdSense rejection). Auto-applying generated copy and auto-publishing it unattended is exactly that failure mode. Proposals go to manual review, not to disk.
 
-Per CLAUDE.md automation discipline (creative copy doesn't ship unattended without human review) and the task's own "only edit if confident" clause, changes are **proposed for manual review** below rather than auto-applied. Auto-publish was **not** queued.
+### Copy is already matched (spot-check of current homepage tags)
+| Site | Top query | Current homepage title | Verdict |
+|---|---|---|---|
+| erpise.com | continuing ed erp solutions | *Continuing Ed ERP Systems & SIS Consulting \| ERPise* | Query already in title — no rewrite |
+| inthisworld.com | virtual world games online | *Free Virtual World Online — 3D Browser Games* | Query already in title — no rewrite |
+| voicestry.com | how to sight read bass clef | *Free Online Pitch Trainer & Voice Coach* | Homepage ≠ query intent — needs a **dedicated page**, not a title swap |
+| cosmostheopera.com | cosmo opera | *COSMOS the OPERA — A Cosmic Trance Opera…* | Branded, already page 1 (pos 5.8) — no action |
+| aitsql.com | after sql | *AI Tools for SQL Server — DBA Helpers* | Query is a fragment; copy fine, ranking is the issue |
 
 ## Top Opportunities This Week
 
-1. **inthisworld.com — build ranking, not copy (highest leverage).** 98 impressions (by far the most in the network), 3 clicks, position 28.7 for *"virtual world games online"*. Title already targets the exact query. It sits on page ~3 for a high-volume term — pushing it toward page 1–2 with deeper, more relevant content and internal linking is the single biggest opportunity on the network.
+1. **Restore the `Auto Publish GitHub` scheduled task — blocks everything else.** 20 days dead. Nothing on this list can be measured or iterated while data is frozen. Highest-leverage action on the network by a wide margin, and a ~5-minute manual fix. Every item below is downstream of it.
 
-2. **erpise.com — niche B2B intent, needs an authority page.** 48 impressions, 0 clicks, position 64.3 for *"continuing ed erp solutions"*. Strong commercial-intent niche query; title is already well-matched. Held back by ranking (page 6+). Recommend a dedicated, in-depth page targeting "continuing education ERP solutions" to climb.
+2. **inthisworld.com — build ranking, not copy (network traffic leader).** 102 impressions, 3 clicks, position 28.6. Title already targets *"virtual world games online"* exactly; it's sitting ~page 3 on a high-volume term. The blocker is 15 THIN_CONTENT subpages (car-race, boat-race, space-race, arena-fps, world-explorer, gym, bedroom, living-room, space-station, etc.). *The stale index.html NO_DESC/NO_CANONICAL flag is already resolved* — seo-fix patched it 4 seconds after the Jun 27 audit ran. Add real depth to the room/race pages; biggest organic upside on the network.
 
-3. **aitsql.com — verify the real queries.** 38 impressions, 0 clicks, position 65.8. Reported topQuery *"after sql"* is ambiguous/low-value; the 38 impressions almost certainly span other queries. Pull the full query list in GSC before acting. Position too low for copy to matter yet.
+3. **voicestry.com — wrong page for the query (genuine content gap).** 26 impressions, position 45.4, top query *"how to sight read bass clef"*. The homepage is a pitch trainer, not a sight-reading tutorial. Fix is a **hand-written sight-reading page**, not a homepage title change (which would dilute brand relevance and still not answer the query).
 
-4. **aizines.com — best performer, fix the MULTI_H1.** 40 impressions, **5 clicks** (the most clicks of any traction site), position 41.4 for *"aizine"* (brand). Only technical blemish is MULTI_H1 — a safe mechanical fix to add to the next seo-fix pass.
+4. **erpise.com — high commercial intent, needs an authority page.** 45 impressions, 0 clicks, position 64.9 for *"continuing ed erp solutions"* (valuable B2B niche). Title is already matched; page-6 ranking is the constraint. A dedicated in-depth continuing-ed-ERP page is the play.
 
-5. **cosmostheopera.com — page-1 watch item.** Position 5.5 for *"cosmo opera"*, 8 impressions, 0 clicks. Only true page-1 ranking with no clicks, but 8 impressions is too small to read a CTR signal. Title is already on-brand. Watch; revisit a punchier title once impressions grow.
+5. **aizines.com — best real performer; clear the MULTI_H1.** 45 impressions, **6 clicks** (most on the network), CTR 2.6%, position 34.3 for *"aizine"* (brand). Only blemish is one MULTI_H1 (+ one LONG_DESC) — safe *mechanical* fixes for the next seo-fix pass. Most likely site to reward attention.
 
 ## Changes Made
-None. No homepage cleared the confidence bar this week (see "Why zero edits" above).
+None. No `index.html` was edited; `script-runner.ps1` was **not** modified (auto-publish stays commented out — Step 5 is conditional on edits, and there were none).
 
 ## Flags for Manual Review
 
-- **erpise.com vs erpize.com brand collision.** erpize.com ranks position 6.3 for the query *"erpise"* — the sibling site's brand. Do **not** rewrite erpize's title to capture it; that cannibalizes/confuses two of your own brands. Needs a human call on disambiguation (distinct titles, cross-links, or a canonical strategy).
-- **Junk / non-target topQueries — do not chase in titles:** `pacuplay138` (uptownit, looks like slot/gambling spam), `1028 game` (gameatica, likely a 2048/1024 typo), `after sql` (aitsql, fragment), `nanites ai` (aiunites, brand misspelling), `my redo` (redomy, fragment), `create a total of 10 furnishings` (furnishthings, reads like in-app quest text). These are indexing noise, not commercial intent.
-- **furnishthings.com homepage is "Phase 3: First Home".** The homepage title/desc read like an internal game-phase page, not a landing page (position 76.4). Worth a human review of whether index.html should present a proper site-level landing title.
-- **MULTI_H1 (minor, mechanical):** aizines.com, aibyjob.com, redomy.com. Safe to fold into the next mechanical seo-fix run.
-- **4 sites with 0 impressions** (cloudsion, bodspas, aiyhwh, bizstry): need indexing/sitemap submission and links — not copy tweaks. Per task scope, left untouched.
+- **🔴 `Auto Publish GitHub` task dead 20 days (since Jun 30 17:53).** See banner. Root cause is the task not firing — not GSC auth. Requires a human at Task Scheduler.
+- **⚠️ Restarting auto-publish also restarts `seo-fix.ps1`** — the script behind the April 2026 boilerplate incident. Run `scripts\audit-seo-boilerplate.ps1` (read-only) after the first successful publish cycle to confirm no templated content was re-injected network-wide.
+- **erpise.com vs erpize.com brand collision.** erpize.com ranks position 6.2 for the query *"erpise"* (the sibling brand). Do **not** rewrite erpize's title to capture it — that cannibalizes two of your own brands. Human call on disambiguation.
+- **Junk / non-target topQueries — do NOT chase these in titles:** `pacuplay138` (uptownit — offshore gambling spam, unrelated to the IT-services site), `create a total of 10 furnishings` (furnishthings — reads like in-app quest text, not search intent), `1028 game` (gameatica — likely a 2048/1024 typo), `after sql` (aitsql — fragment), `nanites ai` (aiunites — brand misspelling), `my redo` (redomy — fragment). Indexing noise, not commercial intent.
+- **Content-depth backlog (creative — needs human, do NOT auto-fill):** inthisworld thin subpages (15), gameatica thin pages (50 — the incident site), cosmostheopera thin pages (14), redomy thin/low pages (11). These are the real ranking blockers; templated auto-fill is what caused the AdSense rejection.
+- **uptownit.com — THIN_CONTENT on an indexed homepage.** Real structural issue; write real content, don't auto-generate filler.
+- **Minor mechanical items for the next seo-fix run:** MULTI_H1 on aizines, aibyjob, redomy; LONG_DESC on aiyhwh, erpize.
+- **5 sites at 0 impressions** (cloudsion, bodspas, aiyhwh, bizstry): need indexing / sitemap / links — not copy tweaks. Out of scope per Step 3.
 
 ## Next Week Focus
-Deepen content and internal linking on **inthisworld.com** to push *"virtual world games online"* (98 impressions, position 28.7) from page 3 toward page 1 — the highest-volume, highest-leverage term in the network.
+**Restore `Auto Publish GitHub`.** Three straight digests have now read the same June 30 photograph. Until that task fires again, every downstream item — starting with the hand-written voicestry sight-reading page and inthisworld content depth — is unmeasurable, and the July 27 digest will repeat these numbers a fourth time.
