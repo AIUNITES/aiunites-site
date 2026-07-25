@@ -1,22 +1,22 @@
 ﻿# AIUNITES SEO Audit
-Generated: June 27, 2026
+Generated: July 25, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
-| Gameatica | 202 | 52 | 12 | 101 | THIN_CONTENT |
-| AIUNITES | 101 | 29 | 3 | 58 |  |
-| InThisWorld | 94 | 19 | 3 | 44 | THIN_CONTENT |
+| Gameatica | 202 | 52 | 14 | 101 | THIN_CONTENT |
+| AIUNITES | 101 | 29 | 8 | 58 |  |
+| InThisWorld | 94 | 19 | 4 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
-| Redomy | 66 | 15 | 5 | 33 | NO_H1 |
-| AIByJob | 26 | 10 | 3 | 13 | THIN_CONTENT |
-| BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
-| VoiceStry | 15 | 15 | 12 | 14 | LONG_DESC |
-| VideoBate | 11 | 7 | 1 | 4 | LOW_CONTENT |
+| Redomy | 66 | 15 | 6 | 33 | NO_H1 |
+| AIByJob | 26 | 10 | 2 | 13 | THIN_CONTENT |
+| BodSpas | 23 | 7 | 0 | 11 | THIN_CONTENT |
+| VoiceStry | 17 | 16 | 15 | 16 | LONG_DESC |
+| VideoBate | 11 | 7 | 5 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 2 | 3 |  |
 | Cloudsion | 7 | 3 | 1 | 3 |  |
-| UptownIT | 4 | 2 | 1 | 2 | LONG_DESC |
-| ERPize | 4 | 6 | 2 | 4 |  |
-| ERPise | 4 | 3 | 2 | 4 |  |
+| UptownIT | 4 | 2 | 0 | 2 | LONG_DESC |
+| ERPize | 4 | 6 | 3 | 4 |  |
+| ERPise | 4 | 3 | 1 | 4 |  |
 | AI YHWH | 2 | 2 | 1 | 2 | LONG_DESC |
 | AIZines | 2 | 3 | 2 | 2 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
@@ -619,38 +619,42 @@ Generated: June 27, 2026
 - [HIGH] Missing H1 heading
 - [MEDIUM] Meta description too long (226 chars, max 165)
 
-### VoiceStry - Score 15
+### VoiceStry - Score 17
+
+**sonic-portrait.html** - https://voicestry.com/sonic-portrait.html
+- [MEDIUM] Meta description too long (167 chars, max 165)
 
 **vocal-gym.html** - https://voicestry.com/vocal-gym.html
 - [MEDIUM] Meta description too long (193 chars, max 165)
 
-**sonic-portrait.html** - https://voicestry.com/sonic-portrait.html
-- [MEDIUM] Meta description too long (167 chars, max 165)
+**resonance-live.html** - https://voicestry.com/resonance-live.html
+- [MEDIUM] No JSON-LD schema markup
+- [MEDIUM] Meta description too long (205 chars, max 165)
+
+**voice-lab.html** - https://voicestry.com/voice-lab.html
+- [MEDIUM] Meta description too long (220 chars, max 165)
 
 **vrn-method.html** - https://voicestry.com/vrn-method.html
 - [MEDIUM] Meta description too long (176 chars, max 165)
 - [MEDIUM] Title too long (72 chars, max 65)
 
-**voice-lab.html** - https://voicestry.com/voice-lab.html
-- [MEDIUM] Meta description too long (220 chars, max 165)
-
 **voice-analyzer.html** - https://voicestry.com/voice-analyzer.html
 - [MEDIUM] Meta description too long (190 chars, max 165)
 - [MEDIUM] Title too long (72 chars, max 65)
-
-**press.html** - https://voicestry.com/press.html
-- [HIGH] Title too short (17 chars, min 30)
 
 **ai-vrn.html** - https://voicestry.com/ai-vrn.html
 - [MEDIUM] Meta description too long (209 chars, max 165)
 - [MEDIUM] Title too long (78 chars, max 65)
 
+**5-gears.html** - https://voicestry.com/5-gears.html
+- [MEDIUM] Meta description too long (176 chars, max 165)
+
 **ai-neuro.html** - https://voicestry.com/ai-neuro.html
 - [MEDIUM] Meta description too long (196 chars, max 165)
 - [MEDIUM] Title too long (68 chars, max 65)
 
-**5-gears.html** - https://voicestry.com/5-gears.html
-- [MEDIUM] Meta description too long (176 chars, max 165)
+**press.html** - https://voicestry.com/press.html
+- [HIGH] Title too short (17 chars, min 30)
 
 **learn.html** - https://voicestry.com/learn.html
 - [MEDIUM] Title too long (68 chars, max 65)
