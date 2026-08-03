@@ -1,55 +1,43 @@
-# AIUNITES SEO Digest — July 27, 2026
+# AIUNITES SEO Digest — 2026-08-03
 
-*Audit data: seo-report.json (generated Jul 25, 2026 · 340 issues) · GSC data: Jun 27 – Jul 25, 2026 (gsc-stats.json, fetched Jul 25)*
-
-> ## 🟢 PIPELINE RESTORED — DATA IS FRESH AGAIN
->
-> The last three digests (Jul 6 / 13 / 20) reported the input files byte-frozen at **June 30** and the `Auto Publish GitHub` task dead for 20 days. **That is now resolved.** Both inputs regenerated on **Jul 25, 2026 18:25** (seo-report.json, gsc-stats.json, seo-fix.log all share that timestamp), and the numbers have clearly moved: inthisworld 102→**155** imp, aitsql 46→**73** imp, aizines 45→**78** imp / 6→**16** clicks. This is the first digest on live data in four weeks — comparisons below are meaningful again, not a repeated photograph.
+Data sources: `seo-report.json` (audit generated Jul 25, 2026) · `gsc-stats.json` (GSC pull Jul 27, 2026, 28-day window Jun 29–Jul 27).
 
 ## Summary
-- Sites with GSC traction (impressions > 0): **12** of 18
-- Sites with 0 impressions: **6** — uptownit, bodspas, aiyhwh, bizstry, plus cloudsion (1 imp)
-- Files edited this run: **1** — aitsql-site/index.html
-- Auto-publish queued: **Yes** (one-shot entry added to script-runner.ps1)
+- Sites with GSC traction (impressions > 0): **14 of 18**
+- Sites with 0 impressions: **4** (uptownit.com, bodspas.com, aiyhwh.com, bizstry.com)
+- Files edited this run: **1** (erpize.com homepage meta)
 
 ## Top Opportunities This Week
 
-1. **aitsql.com — retitle to match "ai dba for sql server" (DONE this run).** 73 impressions, 0 clicks, position 59.1 — the highest-impression zero-click site on the network. Note the top query shifted from the old fragment *"after sql"* (last digest) to a real commercial query, *"ai dba for sql server"* — which the title did **not** contain verbatim (it led with "AI Tools for SQL Server"). Rewrote title + meta to lead with the exact phrase. *Expected impact: stronger query-title relevance should help CTR and position; position 59 caps near-term gains until depth/links improve.*
+1. **erpize.com — reframe homepage around "erp vs sis" (EDITED).** 22 impressions, 0 clicks, avg position 46.6. The top query is a comparison intent ("erp vs sis") but the old title/desc only said "The ERP Magazine for Enterprise Systems" — no match. Rewrote title + meta to lead with "ERP vs SIS." Expected impact: better CTR and relevance on the query already generating impressions; homepage should also start ranking for the comparison term rather than just brand-adjacent hits.
 
-2. **inthisworld.com — fix the `/games/` and `/rooms/` subfolder index pages (FLAG).** Network traffic leader: 155 imp, 5 clicks, position 30. The **homepage is clean (score 0)** — its old NO_DESC/NO_CANONICAL flags are resolved. The remaining problem is the subfolder landing pages `/games/` and `/rooms/`, which have NO_DESC, NO_CANONICAL, SHORT_TITLE and thin content. These sit directly under the brand's traffic. Confirm seo-fix.ps1 patches subfolder index.html, not just roots.
+2. **aitsql.com — already optimized, needs authority not copy.** 66 impressions (highest zero-click on the network), 0 clicks, position 59.2. Top query "ai dba for sql server." The live homepage already carries the exact title "AI DBA for SQL Server — Tools & Consulting | AITSQL" (the Jul 25 audit snapshot was stale). Copy is fine; position 59 = page 6, so the blocker is depth/backlinks, not the tag. No edit made. Highest-impression term on the network — worth a dedicated content/link push.
 
-3. **voicestry.com — copy already matches; ranking is the blocker (FLAG).** 25 imp, 0 clicks, position 54. Top query is now *"free online voice coach"* — and the title already reads *"VoiceStry — Free Online Pitch Trainer & Voice Coach."* No better rewrite exists; the constraint is page-5 ranking, which needs depth/links, not a title swap.
+3. **inthisworld.com — fix NO_DESC on section landing pages.** The network traffic leader (155 impressions, 5 clicks, position 31.3). Root index.html is clean, but `/games/` and `/rooms/` section index pages have NO_DESC (plus NO_CANONICAL, NO_SCHEMA on /games/). These are real landing pages with traction upstream. Mechanical meta-desc + canonical fix — safe to schedule, but not attempted this run (see flags).
 
-4. **erpize.com — "erp vs sis" is a content gap, not a copy fix (FLAG).** 22 imp, 0 clicks, position 47. Ranking for a comparison query the magazine homepage doesn't answer. A dedicated hand-written "ERP vs SIS" explainer would capture the intent far better than any homepage retitle.
+4. **voicestry.com — title already matches, needs ranking push.** 31 impressions, 0 clicks, position 49.8, top query "free online voice coach." Title already reads "VoiceStry — Free Online Pitch Trainer & Voice Coach" and the desc contains the phrase. No copy change warranted; the gap is position (page 5), not relevance.
 
-5. **aizines.com — best performer on the network; protect it (FLAG, minor).** 78 imp, **16 clicks**, 5.6% CTR — the only site converting impressions to clicks at a real rate. Sole issue is one MULTI_H1 (severity 1), a safe mechanical fix for the next seo-fix pass.
+5. **erpise.com — brand query only, monitor.** 47 impressions, 1 click, position 56.9, top query "erpise" (navigational/brand). Title/desc already relevant. Deep position is the constraint; no copy action.
 
 ## Changes Made
 
-**aitsql.com — `aitsql-site/index.html`** (single, hand-written edit — not templated)
+**erpize.com** (`erpize-site/index.html`) — title, meta description, og:title/description, twitter:title/description all updated:
 
-- **Title**
-  - Old: `AI Tools for SQL Server — DBA Helpers & Consulting | AITSQL`
-  - New: `AI DBA for SQL Server — Tools & Consulting | AITSQL` (51 chars)
-- **Meta description**
-  - Old: `AI tools for SQL Server — query helpers, audit scripts, T-SQL automation, and consulting. Built by a working DBA for database pros.`
-  - New: `AI DBA for SQL Server — get query helpers, audit scripts, and T-SQL automation built by a working DBA. Speed up tuning and reporting, free to try.` (~144 chars)
-- Also aligned og:title / og:description / twitter:title / twitter:description to the new phrasing and added "ai dba for sql server" to the keywords meta.
+- **Old title:** `ERPize — The ERP Magazine for Enterprise Systems`
+- **New title:** `ERP vs SIS Explained — ERP Magazine for Higher Ed | ERPize` (58 chars)
+- **Old desc:** `ERPize is the magazine for ERP pros — news, tutorials, and insights on Student Information Systems, higher-ed ERP, and enterprise platforms.`
+- **New desc:** `ERP vs SIS: understand the real difference for higher ed. ERPize covers Student Information Systems, campus ERP and reporting so you pick right.` (144 chars)
 
-Rationale: the current top query (73 imp, 0 clicks) was absent from the title verbatim. Leading with the exact phrase is a low-risk relevance win. seo-fix.ps1 only fills missing/blank titles, so it will not overwrite this. Queued for publish via a one-shot `auto-publish.ps1` entry in `script-runner.ps1`.
+Publish queued: uncommented `auto-publish.ps1` in `scripts/script-runner.ps1` (one-shot queue).
 
 ## Flags for Manual Review
 
-- **Category-A sites deliberately NOT edited** (imp > 5, clicks = 0) — a copy rewrite would not help:
-  - **gameatica.com** (44 imp, pos 40): top query *"1028 game"* is a 2048/1024 typo. Do not put a typo in the title; the current 2048-targeted title is correct.
-  - **aibyjob.com** (25 imp, pos 22): top query *"aiby"* is a navigational brand fragment; copy can't move it. Also has MULTI_H1 to clean.
-  - **furnishthings.com** (18 imp, pos 55): top query *"furniest"* is an odd typo; page has LOW_CONTENT. Needs content depth, not a retitle.
-  - **voicestry.com** (25 imp, pos 54): title already matches the query (see item 3).
-- **inthisworld `/games/` and `/rooms/` index pages**: NO_DESC + NO_CANONICAL + thin content on the highest-traffic property — confirm seo-fix covers subfolder index files.
-- **Network thin-content backlog (creative — do NOT auto-fill):** gameatica game pages (50 — the incident site), inthisworld room/race pages, cosmostheopera sheet-music pages, redomy room pages. Per CLAUDE.md and the April 2026 seo-fix.ps1 incident, do not ship templated filler prose; any content must be page-specific and human-reviewed.
-- **⚠️ Now that auto-publish is running again, seo-fix.ps1 runs with it.** After the next successful publish cycle, run `scripts\audit-seo-boilerplate.ps1` (read-only) to confirm no templated content was re-injected network-wide.
-- **6 sites at 0 impressions** (uptownit, bodspas, aiyhwh, bizstry, cloudsion at 1): need indexing / sitemap / links first — no copy edits made, per Step 3.
+- **inthisworld.com `/games/` and `/rooms/` NO_DESC** — highest-traffic site on the network. Add a proper meta description + canonical to both section index pages. Mechanical and safe; queued for next run rather than auto-generated here to keep the description human-quality.
+- **Zero-click brand/typo queries — do NOT rewrite copy.** gameatica.com ("1028 game" — likely typo for 1024/2048), aibyjob.com ("aiby"), furnishthings.com ("furniest"), redomy.com ("aroomy"). These are navigational/misspelled queries; targeting them in title copy would hurt clarity for no gain. Left untouched by design.
+- **Network-wide THIN_CONTENT on app/game pages** — Gameatica (50 pages), COSMOS (14), InThisWorld (16), Redomy (7), etc. These are interactive app pages that are inherently thin. Per the automation-discipline note (seo-fix.ps1 incident), do NOT auto-generate filler copy for these. If AdSense value is the concern, address with genuine editorial/help content per section, reviewed by hand.
+- **4 sites with 0 impressions** (uptownit, bodspas, aiyhwh, bizstry) need indexing, not copy tweaks. uptownit.com also has THIN_CONTENT on its homepage — real content is the fix.
+- **No Category C quick wins this week.** No site sits in the position 6–15 band with meaningful impressions. The near-page-1 sites (cosmostheopera 5.5, cloudsion 3.0, videobate 2.2) each have ≤4 impressions except videobate (24, already page 1 on brand).
 
 ## Next Week Focus
 
-Verify the aitsql retitle deployed and re-check its CTR and position on live data, then take the highest-traffic structural fix: give inthisworld's `/games/` and `/rooms/` index pages proper titles, meta descriptions, and canonicals.
+Give aitsql.com a real authority push (a substantive "AI DBA for SQL Server" article + internal links) — it owns the network's highest-impression non-brand query (66 impressions) but sits on page 6, so copy is done and only depth/links will move it.
