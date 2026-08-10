@@ -1,16 +1,16 @@
 ﻿# AIUNITES SEO Audit
-Generated: July 25, 2026
+Generated: August 3, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
-| Gameatica | 202 | 52 | 14 | 101 | THIN_CONTENT |
+| Gameatica | 202 | 52 | 15 | 101 | THIN_CONTENT |
 | AIUNITES | 101 | 29 | 8 | 58 |  |
 | InThisWorld | 94 | 19 | 4 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | Redomy | 66 | 15 | 6 | 33 | NO_H1 |
-| AIByJob | 26 | 10 | 2 | 13 | THIN_CONTENT |
-| BodSpas | 23 | 7 | 0 | 11 | THIN_CONTENT |
-| VoiceStry | 17 | 16 | 15 | 16 | LONG_DESC |
+| AIByJob | 26 | 10 | 3 | 13 | THIN_CONTENT |
+| BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
+| VoiceStry | 16 | 16 | 15 | 15 | LONG_DESC |
 | VideoBate | 11 | 7 | 5 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 2 | 3 |  |
 | Cloudsion | 7 | 3 | 1 | 3 |  |
@@ -619,7 +619,7 @@ Generated: July 25, 2026
 - [HIGH] Missing H1 heading
 - [MEDIUM] Meta description too long (226 chars, max 165)
 
-### VoiceStry - Score 17
+### VoiceStry - Score 16
 
 **sonic-portrait.html** - https://voicestry.com/sonic-portrait.html
 - [MEDIUM] Meta description too long (167 chars, max 165)
@@ -628,7 +628,6 @@ Generated: July 25, 2026
 - [MEDIUM] Meta description too long (193 chars, max 165)
 
 **resonance-live.html** - https://voicestry.com/resonance-live.html
-- [MEDIUM] No JSON-LD schema markup
 - [MEDIUM] Meta description too long (205 chars, max 165)
 
 **voice-lab.html** - https://voicestry.com/voice-lab.html
