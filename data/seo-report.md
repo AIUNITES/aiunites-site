@@ -1,14 +1,14 @@
 ﻿# AIUNITES SEO Audit
-Generated: August 3, 2026
+Generated: August 10, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
 | Gameatica | 202 | 52 | 15 | 101 | THIN_CONTENT |
-| AIUNITES | 101 | 29 | 8 | 58 |  |
+| AIUNITES | 101 | 29 | 7 | 58 |  |
 | InThisWorld | 94 | 19 | 4 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | Redomy | 66 | 15 | 6 | 33 | NO_H1 |
-| AIByJob | 26 | 10 | 3 | 13 | THIN_CONTENT |
+| AIByJob | 26 | 10 | 4 | 13 | THIN_CONTENT |
 | BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
 | VoiceStry | 16 | 16 | 15 | 15 | LONG_DESC |
 | VideoBate | 11 | 7 | 5 | 4 | LOW_CONTENT |
@@ -18,7 +18,7 @@ Generated: August 3, 2026
 | ERPize | 4 | 6 | 3 | 4 |  |
 | ERPise | 4 | 3 | 1 | 4 |  |
 | AI YHWH | 2 | 2 | 1 | 2 | LONG_DESC |
-| AIZines | 2 | 3 | 2 | 2 | LONG_DESC |
+| AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
 | BizStry | 0 | 1 | 0 | 0 |  |
 
