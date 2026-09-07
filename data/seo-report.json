@@ -1,6 +1,6 @@
 ﻿{
-    "generated":  "2026-08-10T07:23:41",
-    "generatedFmt":  "Aug 10, 2026 7:23AM",
+    "generated":  "2026-08-31T07:22:29",
+    "generatedFmt":  "Aug 31, 2026 7:22AM",
     "totalIssues":  339,
     "sites":  {
                   "aiunites.com":  {
@@ -8,11 +8,11 @@
                                        "domain":  "aiunites.com",
                                        "totalScore":  101,
                                        "pageCount":  29,
-                                       "indexed":  7,
-                                       "clicks":  0,
-                                       "impressions":  3,
-                                       "avgPosition":  41,
-                                       "topQuery":  "nanites ai",
+                                       "indexed":  8,
+                                       "clicks":  1,
+                                       "impressions":  11,
+                                       "avgPosition":  32,
+                                       "topQuery":  "official website",
                                        "pages":  [
                                                      {
                                                          "file":  "acp-builder.html",
@@ -570,17 +570,17 @@
                                                          "desc":  "Technical specification for MNN (Muscular Neuro Notation), VRN (Vocal Resonance Notation), and VNN (Vocal Neuro Notation). Open text formats for human movement, vocal production, and the cranial nerve pathways that execute them. Machine-parseable, human-readable, vendor-neutral."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-08-10"
+                                       "auditDate":  "2026-08-31"
                                    },
                   "aibyjob.com":  {
                                       "name":  "AIByJob",
                                       "domain":  "aibyjob.com",
                                       "totalScore":  26,
                                       "pageCount":  10,
-                                      "indexed":  4,
+                                      "indexed":  5,
                                       "clicks":  0,
-                                      "impressions":  22,
-                                      "avgPosition":  26.5,
+                                      "impressions":  21,
+                                      "avgPosition":  39.9,
                                       "topQuery":  "aiby",
                                       "pages":  [
                                                     {
@@ -741,7 +741,7 @@
                                                         "desc":  "lead-qualification - AIByJob helps professionals find the right AI tools for their specific job role. Discover AI tools for marketing, legal,"
                                                     }
                                                 ],
-                                      "auditDate":  "2026-08-10"
+                                      "auditDate":  "2026-08-31"
                                   },
                   "aitsql.com":  {
                                      "name":  "AITSQL",
@@ -750,8 +750,8 @@
                                      "pageCount":  2,
                                      "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  51,
-                                     "avgPosition":  59.7,
+                                     "impressions":  22,
+                                     "avgPosition":  58.6,
                                      "topQuery":  "advanced query tool",
                                      "pages":  [
                                                    {
@@ -779,7 +779,7 @@
                                                        "desc":  "Advanced SQL Server query tool with AI-assisted helpers, audit scripts, and T-SQL automation built by a working DBA. Speed up tuning — free to try."
                                                    }
                                                ],
-                                     "auditDate":  "2026-08-10"
+                                     "auditDate":  "2026-08-31"
                                  },
                   "aiyhwh.com":  {
                                      "name":  "AI YHWH",
@@ -821,7 +821,7 @@
                                                        "desc":  "Honest answers to the hardest biblical questions. Communion and cannibalism, the Trinity, hell, contradictions — answered with scholarly rigor and intellectual honesty."
                                                    }
                                                ],
-                                     "auditDate":  "2026-08-10"
+                                     "auditDate":  "2026-08-31"
                                  },
                   "aizines.com":  {
                                       "name":  "AIZines",
@@ -829,9 +829,9 @@
                                       "totalScore":  2,
                                       "pageCount":  3,
                                       "indexed":  3,
-                                      "clicks":  16,
-                                      "impressions":  80,
-                                      "avgPosition":  28.8,
+                                      "clicks":  18,
+                                      "impressions":  97,
+                                      "avgPosition":  32.9,
                                       "topQuery":  "aizine",
                                       "pages":  [
                                                     {
@@ -873,14 +873,14 @@
                                                         "desc":  "Write for AIZines — pitch or submit an article about AI, digital publishing, zines, or the creator economy. Get published, get your byline, and reach a growing AI-curious audience."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-08-10"
+                                      "auditDate":  "2026-08-31"
                                   },
                   "bizstry.com":  {
                                       "name":  "BizStry",
                                       "domain":  "bizstry.com",
                                       "totalScore":  0,
                                       "pageCount":  1,
-                                      "indexed":  0,
+                                      "indexed":  1,
                                       "clicks":  0,
                                       "impressions":  0,
                                       "avgPosition":  0,
@@ -897,14 +897,14 @@
                                                         "desc":  "Form your LLC in minutes. BizStry makes starting a business simple with fast formation, registered agent services, and ongoing compliance support."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-08-10"
+                                      "auditDate":  "2026-08-31"
                                   },
                   "bodspas.com":  {
                                       "name":  "BodSpas",
                                       "domain":  "bodspas.com",
                                       "totalScore":  23,
                                       "pageCount":  7,
-                                      "indexed":  1,
+                                      "indexed":  2,
                                       "clicks":  0,
                                       "impressions":  0,
                                       "avgPosition":  0,
@@ -1031,7 +1031,7 @@
                                                         "desc":  "Sports massage, Graston/IASTM technique, and soft tissue therapy for bodybuilders and athletes. Learn how to use spa recovery protocols to build muscle faster."
                                                     }
                                                 ],
-                                      "auditDate":  "2026-08-10"
+                                      "auditDate":  "2026-08-31"
                                   },
                   "cloudsion.com":  {
                                         "name":  "Cloudsion",
@@ -1040,9 +1040,9 @@
                                         "pageCount":  3,
                                         "indexed":  1,
                                         "clicks":  0,
-                                        "impressions":  3,
-                                        "avgPosition":  70.8,
-                                        "topQuery":  "scansion website",
+                                        "impressions":  2,
+                                        "avgPosition":  47,
+                                        "topQuery":  "clousion",
                                         "pages":  [
                                                       {
                                                           "file":  "help.html",
@@ -1089,7 +1089,7 @@
                                                           "desc":  "A complete, ready-to-deploy AI web publishing system. Run it on your own machine or subscribe to our hosted cloud platform. White-label available."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-08-10"
+                                        "auditDate":  "2026-08-31"
                                     },
                   "cosmostheopera.com":  {
                                              "name":  "COSMOS the OPERA",
@@ -1098,8 +1098,8 @@
                                              "pageCount":  33,
                                              "indexed":  1,
                                              "clicks":  0,
-                                             "impressions":  6,
-                                             "avgPosition":  33.9,
+                                             "impressions":  4,
+                                             "avgPosition":  31.8,
                                              "topQuery":  "cos opera",
                                              "pages":  [
                                                            {
@@ -1607,7 +1607,7 @@
                                                                "desc":  "COSMOS the OPERA - The complete prose poetry, presented as word art. Original words by Tom Sans, 2002-2026."
                                                            }
                                                        ],
-                                             "auditDate":  "2026-08-10"
+                                             "auditDate":  "2026-08-31"
                                          },
                   "erpise.com":  {
                                      "name":  "ERPise",
@@ -1616,9 +1616,9 @@
                                      "pageCount":  3,
                                      "indexed":  1,
                                      "clicks":  0,
-                                     "impressions":  26,
-                                     "avgPosition":  53.7,
-                                     "topQuery":  "continuing ed erp systems",
+                                     "impressions":  25,
+                                     "avgPosition":  59.5,
+                                     "topQuery":  "continuing ed erp solutions",
                                      "pages":  [
                                                    {
                                                        "file":  "index-consulting.html",
@@ -1669,17 +1669,17 @@
                                                        "desc":  "ERP consulting for continuing education and higher ed — Banner, Jenzabar, SIS, SQL reporting, and IPEDS compliance. Modernize your student data systems."
                                                    }
                                                ],
-                                     "auditDate":  "2026-08-10"
+                                     "auditDate":  "2026-08-31"
                                  },
                   "erpize.com":  {
                                      "name":  "ERPize",
                                      "domain":  "erpize.com",
                                      "totalScore":  4,
                                      "pageCount":  6,
-                                     "indexed":  3,
+                                     "indexed":  4,
                                      "clicks":  0,
-                                     "impressions":  28,
-                                     "avgPosition":  51.4,
+                                     "impressions":  32,
+                                     "avgPosition":  49.8,
                                      "topQuery":  "enerpize",
                                      "pages":  [
                                                    {
@@ -1759,18 +1759,18 @@
                                                        "desc":  "Write for ERPize — pitch or submit an article about ERP, SIS, SQL, compliance, automation, or higher education technology. Get published and build your professional profile."
                                                    }
                                                ],
-                                     "auditDate":  "2026-08-10"
+                                     "auditDate":  "2026-08-31"
                                  },
                   "furnishthings.com":  {
                                             "name":  "FurnishThings",
                                             "domain":  "furnishthings.com",
                                             "totalScore":  7,
                                             "pageCount":  6,
-                                            "indexed":  2,
+                                            "indexed":  1,
                                             "clicks":  0,
                                             "impressions":  9,
-                                            "avgPosition":  60.6,
-                                            "topQuery":  "furnishings",
+                                            "avgPosition":  67.2,
+                                            "topQuery":  "furniest",
                                             "pages":  [
                                                           {
                                                               "file":  "apartment.html",
@@ -1846,18 +1846,18 @@
                                                               "desc":  "Plan your life in phases. Modular, foldable furniture designed to ship flat and grow with you from dorm to first home. Not just a store — a system."
                                                           }
                                                       ],
-                                            "auditDate":  "2026-08-10"
+                                            "auditDate":  "2026-08-31"
                                         },
                   "gameatica.com":  {
                                         "name":  "Gameatica",
                                         "domain":  "gameatica.com",
                                         "totalScore":  202,
                                         "pageCount":  52,
-                                        "indexed":  15,
+                                        "indexed":  16,
                                         "clicks":  0,
-                                        "impressions":  32,
-                                        "avgPosition":  37,
-                                        "topQuery":  "\"statistics\" \"konixe.com\" game",
+                                        "impressions":  24,
+                                        "avgPosition":  57.8,
+                                        "topQuery":  "2048 game math playground",
                                         "pages":  [
                                                       {
                                                           "file":  "compare.html",
@@ -2835,7 +2835,7 @@
                                                           "desc":  "Word Roots teaches the Latin and Greek building blocks that make up a huge proportion of academic English vocabulary. When you know that bio means life, graph means write, and logy means the study of - you can decode biology, biography, bibliography, and dozens of other words instantly. A root is shown on screen. Select its correct meaning then identify a word that uses it. Progress through increasingly rare roots as your score builds. Some rounds reverse the challenge, showing a definition and asking you to identify the root. Vocabulary researchers estimate that learning 20 to 30 key Latin and Greek roots can help you decode over 10,000 English words. This game targets the highest-frequency roots found in SAT and GRE vocabulary lists, academic textbooks, and professional writing."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-08-10"
+                                        "auditDate":  "2026-08-31"
                                     },
                   "inthisworld.com":  {
                                           "name":  "InThisWorld",
@@ -2843,9 +2843,9 @@
                                           "totalScore":  94,
                                           "pageCount":  19,
                                           "indexed":  4,
-                                          "clicks":  2,
-                                          "impressions":  66,
-                                          "avgPosition":  31.7,
+                                          "clicks":  3,
+                                          "impressions":  55,
+                                          "avgPosition":  32.2,
                                           "topQuery":  "inthisworld",
                                           "pages":  [
                                                         {
@@ -3241,18 +3241,18 @@
                                                             "desc":  "space-station - InThisWorld is a virtual world sandbox with 3D browser games, virtual chat rooms, and interactive experiences. Explore,"
                                                         }
                                                     ],
-                                          "auditDate":  "2026-08-10"
+                                          "auditDate":  "2026-08-31"
                                       },
                   "redomy.com":  {
                                      "name":  "Redomy",
                                      "domain":  "redomy.com",
                                      "totalScore":  66,
                                      "pageCount":  15,
-                                     "indexed":  6,
+                                     "indexed":  7,
                                      "clicks":  0,
-                                     "impressions":  3,
-                                     "avgPosition":  43,
-                                     "topQuery":  "ridomy",
+                                     "impressions":  8,
+                                     "avgPosition":  58.3,
+                                     "topQuery":  "reanomy",
                                      "pages":  [
                                                    {
                                                        "file":  "ai-room-builder.html",
@@ -3556,18 +3556,18 @@
                                                        "desc":  "Walk through a 3D living room and get renovation tips for sofa, fireplace, TV wall, lighting and more. Plan your living room remodel with Redomy."
                                                    }
                                                ],
-                                     "auditDate":  "2026-08-10"
+                                     "auditDate":  "2026-08-31"
                                  },
                   "uptownit.com":  {
                                        "name":  "UptownIT",
                                        "domain":  "uptownit.com",
                                        "totalScore":  4,
                                        "pageCount":  2,
-                                       "indexed":  0,
+                                       "indexed":  3,
                                        "clicks":  0,
-                                       "impressions":  0,
-                                       "avgPosition":  0,
-                                       "topQuery":  "",
+                                       "impressions":  1,
+                                       "avgPosition":  81,
+                                       "topQuery":  "town it",
                                        "pages":  [
                                                      {
                                                          "file":  "index.html",
@@ -3598,7 +3598,7 @@
                                                          "desc":  "Add AI-powered web publishing to your managed IT service catalog. Deploy for clients using Windows infrastructure — Task Scheduler, PowerShell, GitHub. A new billable managed service for MSPs and IT departments."
                                                      }
                                                  ],
-                                       "auditDate":  "2026-08-10"
+                                       "auditDate":  "2026-08-31"
                                    },
                   "videobate.com":  {
                                         "name":  "VideoBate",
@@ -3606,10 +3606,10 @@
                                         "totalScore":  11,
                                         "pageCount":  7,
                                         "indexed":  5,
-                                        "clicks":  0,
-                                        "impressions":  23,
-                                        "avgPosition":  43.1,
-                                        "topQuery":  "dbate",
+                                        "clicks":  1,
+                                        "impressions":  22,
+                                        "avgPosition":  56.3,
+                                        "topQuery":  "videobate",
                                         "pages":  [
                                                       {
                                                           "file":  "compare.html",
@@ -3698,18 +3698,18 @@
                                                           "desc":  "reset-password - VideoBate is a live video debate platform. Host and participate in structured video debates, discussions, and argumentat"
                                                       }
                                                   ],
-                                        "auditDate":  "2026-08-10"
+                                        "auditDate":  "2026-08-31"
                                     },
                   "voicestry.com":  {
                                         "name":  "VoiceStry",
                                         "domain":  "voicestry.com",
                                         "totalScore":  16,
                                         "pageCount":  16,
-                                        "indexed":  15,
-                                        "clicks":  0,
-                                        "impressions":  59,
-                                        "avgPosition":  51.2,
-                                        "topQuery":  "alternatives to online voice training platforms",
+                                        "indexed":  13,
+                                        "clicks":  4,
+                                        "impressions":  170,
+                                        "avgPosition":  46,
+                                        "topQuery":  "pitch trainer",
                                         "pages":  [
                                                       {
                                                           "file":  "5-gears.html",
@@ -3936,7 +3936,7 @@
                                                           "desc":  "The world\u0027s first Vocal Resonance Notation system — 75+ symbols across 8 notation systems for encoding vocal resonance, phonation, breath, formants, vibrato, and timbral color."
                                                       }
                                                   ],
-                                        "auditDate":  "2026-08-10"
+                                        "auditDate":  "2026-08-31"
                                     }
               }
 }
