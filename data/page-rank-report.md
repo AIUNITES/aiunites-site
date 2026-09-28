@@ -1,109 +1,109 @@
 ﻿# AIUNITES Page Rank Report
-Generated: Sep 7, 2026 7:22AM | Range: 2026-08-10 to 2026-09-07
+Generated: Sep 27, 2026 8:05PM | Range: 2026-08-30 to 2026-09-27
 
 ## Summary
 | Site | Pages w/ Impressions | Top 10 | Top 50 | Buried (>50) | Best Page | Best Pos |
 |------|----------------------|--------|--------|--------------|-----------|----------|
-| AIByJob | 5 | 7 | 4 | 7 | /agents/webbuilder.html | 47.5 |
-| AITSQL | 1 | 0 | 0 | 7 | / | 58.6 |
-| AIUNITES | 8 | 4 | 7 | 7 | /legal.html | 9 |
-| AI YHWH | 1 | 7 | 7 | 0 | / | 7 |
-| AIZines | 3 | 7 | 3 | 0 | /write-for-us.html | 23.7 |
-| BizStry | 1 | 7 | 7 | 0 | / | 2.5 |
-| BodSpas | 2 | 2 | 2 | 0 | /bodwave.html | 2 |
-| Cloudsion | 1 | 7 | 7 | 0 | / | 2.2 |
-| COSMOS the OPERA | 1 | 0 | 7 | 0 | / | 11.6 |
-| ERPise | 1 | 0 | 7 | 0 | / | 27.4 |
-| ERPize | 4 | 7 | 2 | 2 | /audit-series.html | 7.3 |
-| FurnishThings | 1 | 0 | 7 | 0 | / | 42.1 |
-| Gameatica | 17 | 0 | 2 | 15 | /games/simon.html | 47.6 |
-| InThisWorld | 4 | 0 | 4 | 0 | /games/world-explorer.html | 28.3 |
-| Redomy | 7 | 5 | 6 | 7 | /rooms/dining-room.html | 5 |
-| UptownIT | 3 | 7 | 3 | 0 | /managed-ai-publishing-service.html | 34.1 |
-| VideoBate | 5 | 7 | 4 | 7 | /leaderboard.html | 10.8 |
-| VoiceStry | 16 | 3 | 15 | 7 | /press.html | 38.6 |
+| AIByJob | 6 | 3 | 6 | 0 | /agents/templates/index.html | 5 |
+| AITSQL | 1 | 0 | 7 | 0 | / | 44.9 |
+| AIUNITES | 8 | 5 | 8 | 0 | /identity.html | 6.5 |
+| AI YHWH | 1 | 7 | 7 | 0 | / | 3.8 |
+| AIZines | 3 | 7 | 3 | 0 | /compare.html | 32.9 |
+| BizStry | 1 | 7 | 7 | 0 | / | 2 |
+| BodSpas | 1 | 0 | 0 | 7 | / | 51.5 |
+| Cloudsion | 2 | 2 | 2 | 0 | /turnkey-ai-web-publishing.html | 2.4 |
+| COSMOS the OPERA | 1 | 7 | 7 | 0 | / | 5 |
+| ERPise | 1 | 0 | 7 | 0 | / | 20.9 |
+| ERPize | 4 | 0 | 2 | 2 | /audit-series.html | 11 |
+| FurnishThings | 2 | 7 | 2 | 0 | /home.html | 5 |
+| Gameatica | 18 | 3 | 12 | 6 | /games/literature.html | 57.5 |
+| InThisWorld | 5 | 2 | 5 | 0 | /rooms/gym.html | 1.7 |
+| Redomy | 4 | 3 | 4 | 0 | /rooms/kitchen.html | 10 |
+| UptownIT | 2 | 0 | 2 | 0 | /managed-ai-publishing-service.html | 38.4 |
+| VideoBate | 5 | 3 | 4 | 7 | /leaderboard.html | 2.9 |
+| VoiceStry | 16 | 8 | 15 | 7 | /resonance-live.html | 5 |
 
 ## All Ranked Pages (sorted by position)
 | # | Site | URL | Position | Clicks | Impressions | CTR |
 |---|------|-----|----------|--------|-------------|-----|
-| 1 | Redomy | /rooms/dining-room.html | 5 ++ | 0 | 1 | 0% |
-| 2 | Redomy | /rooms/frontyard.html | 2 +++ | 0 | 1 | 0% |
-| 3 | Redomy | /rooms/bedroom.html | 9 ++ | 0 | 1 | 0% |
-| 4 | Redomy | /ai-room-builder.html | 55.2 | 0 | 10 | 0% |
-| 5 | Redomy | /rooms/backyard.html | 4 ++ | 0 | 1 | 0% |
-| 6 | UptownIT | /managed-ai-publishing-service.html | 34.1 | 0 | 8 | 0% |
-| 7 | VideoBate | / | 48.3 | 1 | 58 | 1.7% |
-| 8 | UptownIT | / | 29.9 | 0 | 9 | 0% |
-| 9 | Redomy | /rooms/living-room.html | 4 ++ | 0 | 1 | 0% |
-| 10 | UptownIT | / | 2 +++ | 0 | 1 | 0% |
-| 11 | Gameatica | /games/typing.html | 72.8 | 0 | 5 | 0% |
-| 12 | Gameatica | /games/wordroots.html | 76.0 | 0 | 66 | 0% |
-| 13 | Gameatica | /games/sudoku.html | 95 | 0 | 1 | 0% |
-| 14 | Gameatica | /games/startrader.html | 55.8 | 0 | 14 | 0% |
-| 15 | Gameatica | /games/statistics.html | 71.3 | 0 | 60 | 0% |
-| 16 | InThisWorld | /rooms/space-station.html | 49.4 | 0 | 9 | 0% |
-| 17 | Redomy | / | 36.3 | 0 | 43 | 0% |
-| 18 | InThisWorld | /games/world-explorer.html | 28.3 | 0 | 18 | 0% |
-| 19 | InThisWorld | / | 47.4 | 11 | 1169 | 0.9% |
-| 20 | InThisWorld | /rooms/index.html | 20.8 | 1 | 18 | 5.6% |
-| 21 | VoiceStry | /learn.html | 32.5 | 0 | 32 | 0% |
-| 22 | VoiceStry | /press.html | 38.6 | 0 | 21 | 0% |
-| 23 | VoiceStry | /ai-vrn.html | 14.2 + | 0 | 24 | 0% |
-| 24 | VoiceStry | /5-gears.html | 22.7 | 0 | 30 | 0% |
-| 25 | VoiceStry | /ai-neuro.html | 37 | 0 | 7 | 0% |
-| 26 | VoiceStry | /voice-analyzer.html | 1 +++ | 0 | 1 | 0% |
-| 27 | VoiceStry | /voice-lab.html | 23.5 | 0 | 25 | 0% |
-| 28 | VoiceStry | /vocal-gym.html | 21.4 | 0 | 28 | 0% |
-| 29 | VoiceStry | /resonance-live.html | 1 +++ | 0 | 1 | 0% |
-| 30 | VoiceStry | /sonic-portrait.html | 9 ++ | 0 | 1 | 0% |
-| 31 | VideoBate | /quiz.html | 65.5 | 0 | 23 | 0% |
-| 32 | VoiceStry | / | 57.5 | 12 | 864 | 1.4% |
-| 33 | VideoBate | /leaderboard.html | 10.8 + | 0 | 13 | 0% |
-| 34 | VideoBate | /compare.html | 4.1 ++ | 0 | 11 | 0% |
-| 35 | VideoBate | /fallacies.html | 34.1 | 0 | 10 | 0% |
-| 36 | VoiceStry | /sight-reading.html | 17.8 + | 1 | 24 | 4.2% |
-| 37 | VoiceStry | /vrn-method.html | 19.8 + | 1 | 26 | 3.8% |
-| 38 | VoiceStry | /pitch-trainer.html | 17.5 + | 4 | 211 | 1.9% |
-| 39 | VoiceStry | /vocalist-match.html | 23.7 | 5 | 71 | 7.0% |
-| 40 | VoiceStry | /karaoke.html | 16.7 + | 4 | 23 | 17.4% |
-| 41 | Gameatica | /games/simon.html | 47.6 | 0 | 220 | 0% |
-| 42 | AITSQL | / | 58.6 | 0 | 127 | 0% |
-| 43 | AI YHWH | / | 7 ++ | 0 | 11 | 0% |
-| 44 | AIByJob | /help.html | 75.9 | 0 | 7 | 0% |
-| 45 | AIByJob | /agents/templates/index.html | 31.3 | 0 | 3 | 0% |
-| 46 | AIByJob | /agents/webbuilder.html | 47.5 | 0 | 2 | 0% |
-| 47 | BizStry | / | 2.5 +++ | 0 | 2 | 0% |
-| 48 | BodSpas | / | 1 +++ | 0 | 1 | 0% |
-| 49 | AIZines | /write-for-us.html | 23.7 | 0 | 10 | 0% |
-| 50 | AIZines | / | 9.8 ++ | 27 | 196 | 13.8% |
-| 51 | AIZines | /compare.html | 41.1 | 0 | 14 | 0% |
-| 52 | AIUNITES | /data.html | 60.7 | 0 | 18 | 0% |
-| 53 | AIUNITES | /identity.html | 4.3 ++ | 0 | 3 | 0% |
-| 54 | AIUNITES | /consulting.html | 4.8 ++ | 0 | 4 | 0% |
-| 55 | AIUNITES | / | 21 | 2 | 6 | 33.3% |
-| 56 | AIUNITES | /article-binary-universe.html | 5.5 ++ | 0 | 12 | 0% |
-| 57 | AIByJob | / | 32.5 | 0 | 37 | 0% |
-| 58 | AIByJob | /agents/ecomscout.html | 9 ++ | 0 | 1 | 0% |
-| 59 | AIUNITES | /my-ai-profile.html | 36.3 | 0 | 11 | 0% |
-| 60 | AIUNITES | /legal.html | 9 ++ | 0 | 1 | 0% |
-| 61 | AIUNITES | /movement.html | 11 + | 0 | 1 | 0% |
-| 62 | Gameatica | /games/blackjack.html | 65.1 | 0 | 18 | 0% |
-| 63 | Gameatica | /games/essay.html | 50.5 | 0 | 13 | 0% |
-| 64 | Gameatica | /games/affixes.html | 60.5 | 0 | 39 | 0% |
-| 65 | Gameatica | /compare.html | 54.9 | 0 | 8 | 0% |
-| 66 | Gameatica | /games/2048.html | 55.4 | 0 | 73 | 0% |
-| 67 | Gameatica | /games/literature.html | 64.2 | 0 | 14 | 0% |
-| 68 | Gameatica | /games/punctuation.html | 66.6 | 0 | 7 | 0% |
-| 69 | Gameatica | /games/grammar.html | 79.3 | 0 | 3 | 0% |
-| 70 | Gameatica | /games/etymology.html | 59.9 | 0 | 18 | 0% |
-| 71 | Gameatica | /games/fractions.html | 72.4 | 0 | 67 | 0% |
-| 72 | ERPise | / | 27.4 | 0 | 28 | 0% |
-| 73 | ERPize | / | 36.4 | 0 | 30 | 0% |
-| 74 | COSMOS the OPERA | / | 11.6 + | 1 | 39 | 2.6% |
-| 75 | BodSpas | /bodwave.html | 2 +++ | 0 | 1 | 0% |
-| 76 | Cloudsion | / | 2.2 +++ | 0 | 18 | 0% |
-| 77 | FurnishThings | / | 42.1 | 0 | 32 | 0% |
-| 78 | Gameatica | / | 43.5 | 1 | 57 | 1.8% |
-| 79 | ERPize | /compare.html | 59.0 | 0 | 43 | 0% |
-| 80 | ERPize | /audit-entity-mapping.html | 54.9 | 0 | 7 | 0% |
-| 81 | ERPize | /audit-series.html | 7.3 ++ | 0 | 3 | 0% |
+| 1 | Redomy | / | 13.9 + | 0 | 25 | 0% |
+| 2 | Redomy | /ai-room-builder.html | 3.7 ++ | 0 | 3 | 0% |
+| 3 | InThisWorld | /rooms/space-station.html | 4 ++ | 0 | 3 | 0% |
+| 4 | InThisWorld | /rooms/index.html | 11.4 + | 1 | 20 | 5.0% |
+| 5 | InThisWorld | /rooms/gym.html | 1.7 +++ | 0 | 3 | 0% |
+| 6 | UptownIT | /managed-ai-publishing-service.html | 38.4 | 0 | 5 | 0% |
+| 7 | VideoBate | / | 23.5 | 2 | 30 | 6.7% |
+| 8 | UptownIT | / | 12 + | 6 | 17 | 35.3% |
+| 9 | Redomy | /rooms/kitchen.html | 10 ++ | 0 | 1 | 0% |
+| 10 | Redomy | / | 1 +++ | 0 | 1 | 0% |
+| 11 | Gameatica | /games/startrader.html | 23.3 | 0 | 7 | 0% |
+| 12 | Gameatica | /games/sudoku.html | 5 ++ | 0 | 1 | 0% |
+| 13 | Gameatica | /games/punctuation.html | 21.7 | 0 | 3 | 0% |
+| 14 | Gameatica | /games/grammar.html | 7 ++ | 0 | 1 | 0% |
+| 15 | Gameatica | /games/literature.html | 57.5 | 0 | 13 | 0% |
+| 16 | InThisWorld | / | 37.0 | 13 | 1004 | 1.3% |
+| 17 | InThisWorld | /games/world-explorer.html | 12.1 + | 2 | 13 | 15.4% |
+| 18 | Gameatica | /games/wordroots.html | 52.2 | 0 | 13 | 0% |
+| 19 | Gameatica | /games/trivia.html | 10 ++ | 0 | 6 | 0% |
+| 20 | Gameatica | /games/typing.html | 35 | 0 | 2 | 0% |
+| 21 | VoiceStry | /press.html | 10.8 + | 0 | 10 | 0% |
+| 22 | VoiceStry | /resonance-live.html | 5 ++ | 0 | 2 | 0% |
+| 23 | VoiceStry | /pitch-trainer.html | 16.5 + | 0 | 123 | 0% |
+| 24 | VoiceStry | /ai-vrn.html | 9.5 ++ | 0 | 21 | 0% |
+| 25 | VoiceStry | /learn.html | 12.3 + | 0 | 18 | 0% |
+| 26 | VoiceStry | /voice-analyzer.html | 7.4 ++ | 0 | 15 | 0% |
+| 27 | VoiceStry | /voice-lab.html | 12.2 + | 0 | 12 | 0% |
+| 28 | VoiceStry | /vocal-gym.html | 15.0 + | 0 | 29 | 0% |
+| 29 | VoiceStry | /sight-reading.html | 11.7 + | 0 | 19 | 0% |
+| 30 | VoiceStry | /sonic-portrait.html | 6.8 ++ | 0 | 11 | 0% |
+| 31 | VideoBate | /quiz.html | 52.3 | 0 | 23 | 0% |
+| 32 | VoiceStry | / | 54.7 | 8 | 432 | 1.9% |
+| 33 | VideoBate | /leaderboard.html | 2.9 +++ | 0 | 14 | 0% |
+| 34 | VideoBate | /compare.html | 3.6 ++ | 0 | 15 | 0% |
+| 35 | VideoBate | /fallacies.html | 6.1 ++ | 0 | 15 | 0% |
+| 36 | VoiceStry | /5-gears.html | 15.9 + | 0 | 41 | 0% |
+| 37 | VoiceStry | /ai-neuro.html | 8.8 ++ | 0 | 4 | 0% |
+| 38 | VoiceStry | /vrn-method.html | 9.4 ++ | 1 | 31 | 3.2% |
+| 39 | VoiceStry | /vocalist-match.html | 9.5 ++ | 6 | 87 | 6.9% |
+| 40 | VoiceStry | /karaoke.html | 1 +++ | 2 | 8 | 25.0% |
+| 41 | Gameatica | /games/fractions.html | 63.5 | 0 | 12 | 0% |
+| 42 | AIByJob | /help.html | 34.7 | 0 | 6 | 0% |
+| 43 | AITSQL | / | 44.9 | 1 | 96 | 1.0% |
+| 44 | AIByJob | /agents/webbuilder.html | 2 +++ | 0 | 2 | 0% |
+| 45 | AIByJob | /agents/leadfinder.html | 3 +++ | 0 | 2 | 0% |
+| 46 | AIByJob | /agents/templates/index.html | 5 ++ | 0 | 3 | 0% |
+| 47 | AIZines | /compare.html | 32.9 | 0 | 13 | 0% |
+| 48 | BizStry | / | 2 +++ | 0 | 2 | 0% |
+| 49 | AIZines | /write-for-us.html | 11.8 + | 1 | 5 | 20.0% |
+| 50 | AI YHWH | / | 3.8 ++ | 4 | 24 | 16.7% |
+| 51 | AIZines | / | 6.3 ++ | 36 | 228 | 15.8% |
+| 52 | AIUNITES | /data.html | 21.5 | 0 | 6 | 0% |
+| 53 | AIUNITES | /hmn-spec.html | 7.5 ++ | 0 | 2 | 0% |
+| 54 | AIUNITES | /consulting.html | 2.5 +++ | 0 | 2 | 0% |
+| 55 | AIUNITES | / | 22.2 | 1 | 6 | 16.7% |
+| 56 | AIUNITES | /article-binary-universe.html | 5.4 ++ | 0 | 7 | 0% |
+| 57 | AIByJob | / | 22.9 | 0 | 22 | 0% |
+| 58 | AIByJob | /agents/ecomscout.html | 18 + | 0 | 1 | 0% |
+| 59 | AIUNITES | /my-ai-profile.html | 31.2 | 0 | 10 | 0% |
+| 60 | AIUNITES | /identity.html | 6.5 ++ | 0 | 4 | 0% |
+| 61 | AIUNITES | /movement.html | 8 ++ | 0 | 3 | 0% |
+| 62 | Gameatica | /games/statistics.html | 53.0 | 1 | 21 | 4.8% |
+| 63 | Gameatica | / | 16.7 + | 0 | 39 | 0% |
+| 64 | Gameatica | /games/affixes.html | 19.5 + | 1 | 20 | 5.0% |
+| 65 | FurnishThings | /home.html | 5 ++ | 0 | 2 | 0% |
+| 66 | Gameatica | /games/simon.html | 42.2 | 2 | 150 | 1.3% |
+| 67 | Gameatica | /games/essay.html | 19.3 + | 0 | 9 | 0% |
+| 68 | Gameatica | /games/etymology.html | 37.8 | 0 | 12 | 0% |
+| 69 | Gameatica | /games/blackjack.html | 58.4 | 0 | 59 | 0% |
+| 70 | Gameatica | /compare.html | 15.2 + | 0 | 16 | 0% |
+| 71 | Gameatica | /games/2048.html | 50.1 | 0 | 59 | 0% |
+| 72 | COSMOS the OPERA | / | 5 ++ | 0 | 46 | 0% |
+| 73 | ERPise | / | 20.9 | 0 | 34 | 0% |
+| 74 | Cloudsion | /turnkey-ai-web-publishing.html | 2.4 +++ | 0 | 8 | 0% |
+| 75 | BodSpas | / | 51.5 | 0 | 4 | 0% |
+| 76 | Cloudsion | / | 2.4 +++ | 1 | 33 | 3.0% |
+| 77 | ERPize | /compare.html | 62.1 | 0 | 43 | 0% |
+| 78 | FurnishThings | / | 22.0 | 0 | 25 | 0% |
+| 79 | ERPize | /audit-series.html | 11 + | 0 | 1 | 0% |
+| 80 | ERPize | / | 43.3 | 0 | 39 | 0% |
+| 81 | ERPize | /audit-entity-mapping.html | 91.7 | 0 | 7 | 0% |
