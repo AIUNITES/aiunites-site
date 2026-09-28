@@ -1,24 +1,24 @@
 ﻿# AIUNITES SEO Audit
-Generated: August 31, 2026
+Generated: September 7, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
-| Gameatica | 202 | 52 | 16 | 101 | THIN_CONTENT |
+| Gameatica | 202 | 52 | 17 | 101 | THIN_CONTENT |
 | AIUNITES | 101 | 29 | 8 | 58 |  |
-| InThisWorld | 94 | 19 | 4 | 44 | THIN_CONTENT |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
+| InThisWorld | 76 | 19 | 4 | 36 | THIN_CONTENT |
 | Redomy | 66 | 15 | 7 | 33 | NO_H1 |
-| AIByJob | 26 | 10 | 5 | 13 | THIN_CONTENT |
 | BodSpas | 23 | 7 | 2 | 11 | THIN_CONTENT |
-| VoiceStry | 16 | 16 | 13 | 15 | LONG_DESC |
+| AIByJob | 20 | 10 | 5 | 10 | THIN_CONTENT |
+| VoiceStry | 16 | 16 | 16 | 15 | LONG_DESC |
 | VideoBate | 11 | 7 | 5 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 1 | 3 |  |
 | Cloudsion | 7 | 3 | 1 | 3 |  |
 | UptownIT | 4 | 2 | 3 | 2 | LONG_DESC |
-| ERPize | 4 | 6 | 4 | 4 |  |
 | ERPise | 4 | 3 | 1 | 4 |  |
-| AI YHWH | 2 | 2 | 1 | 2 | LONG_DESC |
+| ERPize | 4 | 6 | 4 | 4 |  |
 | AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
+| AI YHWH | 1 | 2 | 1 | 1 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
 | BizStry | 0 | 1 | 1 | 0 |  |
 
@@ -337,88 +337,6 @@ Generated: August 31, 2026
 - [MEDIUM] Meta description too long (229 chars, max 165)
 - [MEDIUM] Title too long (120 chars, max 65)
 
-### InThisWorld - Score 94
-
-**space-trader.html** - https://inthisworld.com/games/space-trader.html
-- [CRITICAL] Thin content: ~61 words (min 300 for indexing)
-- [HIGH] Title too short (26 chars, min 30)
-
-**world-explorer.html** - https://inthisworld.com/games/world-explorer.html
-- [CRITICAL] Thin content: ~44 words (min 300 for indexing)
-- [HIGH] Title too short (28 chars, min 30)
-
-**pirate-battle.html** - https://inthisworld.com/games/pirate-battle.html
-- [CRITICAL] Thin content: ~77 words (min 300 for indexing)
-- [HIGH] Missing H1 heading
-
-**space-race.html** - https://inthisworld.com/games/space-race.html
-- [CRITICAL] Thin content: ~80 words (min 300 for indexing)
-- [MEDIUM] Multiple H1 tags found (2)
-
-**bedroom.html** - https://inthisworld.com/rooms/bedroom.html
-- [CRITICAL] Thin content: ~45 words (min 300 for indexing)
-- [HIGH] Title too short (21 chars, min 30)
-
-**living-room.html** - https://inthisworld.com/rooms/living-room.html
-- [CRITICAL] Thin content: ~51 words (min 300 for indexing)
-- [HIGH] Title too short (25 chars, min 30)
-
-**space-station.html** - https://inthisworld.com/rooms/space-station.html
-- [CRITICAL] Thin content: ~52 words (min 300 for indexing)
-
-**gym.html** - https://inthisworld.com/rooms/gym.html
-- [CRITICAL] Thin content: ~46 words (min 300 for indexing)
-- [HIGH] Title too short (17 chars, min 30)
-
-**index.html** - https://inthisworld.com/rooms/
-- [CRITICAL] Thin content: ~129 words (min 300 for indexing)
-- [MEDIUM] No JSON-LD schema markup
-- [MEDIUM] Missing Google Analytics tag
-- [HIGH] Missing og:image meta tag
-- [HIGH] Title too short (22 chars, min 30)
-- [CRITICAL] Missing meta description
-- [HIGH] Missing canonical tag
-
-**index.html** - https://inthisworld.com/games/
-- [HIGH] Low word count: ~277 words (recommend 300+)
-- [HIGH] Missing og:image meta tag
-- [MEDIUM] Missing Google Analytics tag
-- [MEDIUM] No JSON-LD schema markup
-- [CRITICAL] Missing meta description
-- [HIGH] Title too short (19 chars, min 30)
-- [MEDIUM] Multiple H1 tags found (2)
-- [HIGH] Missing canonical tag
-
-**mnn-avatar.html** - https://inthisworld.com/mnn-avatar.html
-- [CRITICAL] Thin content: ~72 words (min 300 for indexing)
-- [HIGH] Missing H1 heading
-
-**avatar-notation.html** - https://inthisworld.com/avatar-notation.html
-- [MEDIUM] Multiple H1 tags found (2)
-
-**community.html** - https://inthisworld.com/community.html
-- [CRITICAL] Thin content: ~59 words (min 300 for indexing)
-- [HIGH] Title too short (23 chars, min 30)
-
-**umm.html** - https://inthisworld.com/umm.html
-- [MEDIUM] Meta description too long (184 chars, max 165)
-
-**boat-race.html** - https://inthisworld.com/games/boat-race.html
-- [CRITICAL] Thin content: ~82 words (min 300 for indexing)
-- [MEDIUM] Multiple H1 tags found (2)
-
-**car-race.html** - https://inthisworld.com/games/car-race.html
-- [CRITICAL] Thin content: ~80 words (min 300 for indexing)
-- [MEDIUM] Multiple H1 tags found (2)
-
-**air-race.html** - https://inthisworld.com/games/air-race.html
-- [CRITICAL] Thin content: ~82 words (min 300 for indexing)
-- [MEDIUM] Multiple H1 tags found (2)
-
-**arena-fps.html** - https://inthisworld.com/games/arena-fps.html
-- [CRITICAL] Thin content: ~56 words (min 300 for indexing)
-- [HIGH] Title too short (23 chars, min 30)
-
 ### COSMOS the OPERA - Score 82
 
 **ssaattbb-act3.html** - https://cosmostheopera.com/ssaattbb-act3.html
@@ -502,6 +420,80 @@ Generated: August 31, 2026
 - [CRITICAL] Thin content: ~18 words (min 300 for indexing)
 - [HIGH] Missing H1 heading
 
+### InThisWorld - Score 76
+
+**space-trader.html** - https://inthisworld.com/games/space-trader.html
+- [CRITICAL] Thin content: ~61 words (min 300 for indexing)
+- [HIGH] Title too short (26 chars, min 30)
+
+**world-explorer.html** - https://inthisworld.com/games/world-explorer.html
+- [CRITICAL] Thin content: ~44 words (min 300 for indexing)
+- [HIGH] Title too short (28 chars, min 30)
+
+**pirate-battle.html** - https://inthisworld.com/games/pirate-battle.html
+- [CRITICAL] Thin content: ~77 words (min 300 for indexing)
+- [HIGH] Missing H1 heading
+
+**space-race.html** - https://inthisworld.com/games/space-race.html
+- [CRITICAL] Thin content: ~80 words (min 300 for indexing)
+- [MEDIUM] Multiple H1 tags found (2)
+
+**bedroom.html** - https://inthisworld.com/rooms/bedroom.html
+- [CRITICAL] Thin content: ~45 words (min 300 for indexing)
+- [HIGH] Title too short (21 chars, min 30)
+
+**living-room.html** - https://inthisworld.com/rooms/living-room.html
+- [CRITICAL] Thin content: ~51 words (min 300 for indexing)
+- [HIGH] Title too short (25 chars, min 30)
+
+**space-station.html** - https://inthisworld.com/rooms/space-station.html
+- [CRITICAL] Thin content: ~52 words (min 300 for indexing)
+
+**gym.html** - https://inthisworld.com/rooms/gym.html
+- [CRITICAL] Thin content: ~46 words (min 300 for indexing)
+- [HIGH] Title too short (17 chars, min 30)
+
+**index.html** - https://inthisworld.com/rooms/
+- [MEDIUM] Missing Google Analytics tag
+- [MEDIUM] No JSON-LD schema markup
+- [CRITICAL] Thin content: ~134 words (min 300 for indexing)
+
+**index.html** - https://inthisworld.com/games/
+- [MEDIUM] No JSON-LD schema markup
+- [MEDIUM] Missing Google Analytics tag
+- [MEDIUM] Multiple H1 tags found (2)
+- [HIGH] Low word count: ~282 words (recommend 300+)
+
+**mnn-avatar.html** - https://inthisworld.com/mnn-avatar.html
+- [CRITICAL] Thin content: ~72 words (min 300 for indexing)
+- [HIGH] Missing H1 heading
+
+**avatar-notation.html** - https://inthisworld.com/avatar-notation.html
+- [MEDIUM] Multiple H1 tags found (2)
+
+**community.html** - https://inthisworld.com/community.html
+- [CRITICAL] Thin content: ~59 words (min 300 for indexing)
+- [HIGH] Title too short (23 chars, min 30)
+
+**umm.html** - https://inthisworld.com/umm.html
+- [MEDIUM] Meta description too long (184 chars, max 165)
+
+**boat-race.html** - https://inthisworld.com/games/boat-race.html
+- [CRITICAL] Thin content: ~82 words (min 300 for indexing)
+- [MEDIUM] Multiple H1 tags found (2)
+
+**car-race.html** - https://inthisworld.com/games/car-race.html
+- [CRITICAL] Thin content: ~80 words (min 300 for indexing)
+- [MEDIUM] Multiple H1 tags found (2)
+
+**air-race.html** - https://inthisworld.com/games/air-race.html
+- [CRITICAL] Thin content: ~82 words (min 300 for indexing)
+- [MEDIUM] Multiple H1 tags found (2)
+
+**arena-fps.html** - https://inthisworld.com/games/arena-fps.html
+- [CRITICAL] Thin content: ~56 words (min 300 for indexing)
+- [HIGH] Title too short (23 chars, min 30)
+
 ### Redomy - Score 66
 
 **home-office-before.html** - https://redomy.com/rooms/home-office-before.html
@@ -565,37 +557,6 @@ Generated: August 31, 2026
 - [HIGH] Low word count: ~202 words (recommend 300+)
 - [HIGH] Missing H1 heading
 
-### AIByJob - Score 26
-
-**promotion.html** - https://aibyjob.com/agents/promotion.html
-- [CRITICAL] Thin content: ~101 words (min 300 for indexing)
-
-**marketing.html** - https://aibyjob.com/agents/marketing.html
-- [CRITICAL] Thin content: ~115 words (min 300 for indexing)
-
-**webbuilder.html** - https://aibyjob.com/agents/webbuilder.html
-- [HIGH] Low word count: ~207 words (recommend 300+)
-- [MEDIUM] Multiple H1 tags found (2)
-
-**index.html** - https://aibyjob.com/agents/templates/
-- [MEDIUM] No JSON-LD schema markup
-- [MEDIUM] Missing Google Analytics tag
-- [HIGH] Missing og:image meta tag
-- [HIGH] Title too short (25 chars, min 30)
-- [HIGH] Missing canonical tag
-
-**index.html** - https://aibyjob.com/
-- [MEDIUM] Multiple H1 tags found (7)
-
-**help.html** - https://aibyjob.com/help.html
-- [HIGH] Title too short (14 chars, min 30)
-
-**leadfinder.html** - https://aibyjob.com/agents/leadfinder.html
-- [CRITICAL] Thin content: ~120 words (min 300 for indexing)
-
-**ecomscout.html** - https://aibyjob.com/agents/ecomscout.html
-- [CRITICAL] Thin content: ~123 words (min 300 for indexing)
-
 ### BodSpas - Score 23
 
 **press.html** - https://bodspas.com/press.html
@@ -618,6 +579,34 @@ Generated: August 31, 2026
 - [CRITICAL] Thin content: ~8 words (min 300 for indexing)
 - [HIGH] Missing H1 heading
 - [MEDIUM] Meta description too long (226 chars, max 165)
+
+### AIByJob - Score 20
+
+**promotion.html** - https://aibyjob.com/agents/promotion.html
+- [CRITICAL] Thin content: ~101 words (min 300 for indexing)
+
+**marketing.html** - https://aibyjob.com/agents/marketing.html
+- [CRITICAL] Thin content: ~115 words (min 300 for indexing)
+
+**webbuilder.html** - https://aibyjob.com/agents/webbuilder.html
+- [HIGH] Low word count: ~207 words (recommend 300+)
+- [MEDIUM] Multiple H1 tags found (2)
+
+**index.html** - https://aibyjob.com/agents/templates/
+- [MEDIUM] Missing Google Analytics tag
+- [MEDIUM] No JSON-LD schema markup
+
+**index.html** - https://aibyjob.com/
+- [MEDIUM] Multiple H1 tags found (7)
+
+**help.html** - https://aibyjob.com/help.html
+- [HIGH] Title too short (14 chars, min 30)
+
+**leadfinder.html** - https://aibyjob.com/agents/leadfinder.html
+- [CRITICAL] Thin content: ~120 words (min 300 for indexing)
+
+**ecomscout.html** - https://aibyjob.com/agents/ecomscout.html
+- [CRITICAL] Thin content: ~123 words (min 300 for indexing)
 
 ### VoiceStry - Score 16
 
@@ -696,6 +685,16 @@ Generated: August 31, 2026
 **index.html** - https://uptownit.com/
 - [CRITICAL] Thin content: ~125 words (min 300 for indexing)
 
+### ERPise - Score 4
+
+**index-sis.html** - https://erpise.com/index-sis.html
+- [MEDIUM] Meta description too long (176 chars, max 165)
+- [MEDIUM] Title too long (90 chars, max 65)
+
+**index-consulting.html** - https://erpise.com/index-consulting.html
+- [MEDIUM] Meta description too long (183 chars, max 165)
+- [MEDIUM] Title too long (72 chars, max 65)
+
 ### ERPize - Score 4
 
 **write-for-us.html** - https://erpize.com/write-for-us.html
@@ -710,24 +709,6 @@ Generated: August 31, 2026
 **compare.html** - https://erpize.com/compare.html
 - [MEDIUM] Meta description too long (167 chars, max 165)
 
-### ERPise - Score 4
-
-**index-sis.html** - https://erpise.com/index-sis.html
-- [MEDIUM] Meta description too long (176 chars, max 165)
-- [MEDIUM] Title too long (90 chars, max 65)
-
-**index-consulting.html** - https://erpise.com/index-consulting.html
-- [MEDIUM] Meta description too long (183 chars, max 165)
-- [MEDIUM] Title too long (72 chars, max 65)
-
-### AI YHWH - Score 2
-
-**qa.html** - https://aiyhwh.com/qa.html
-- [MEDIUM] Meta description too long (168 chars, max 165)
-
-**index.html** - https://aiyhwh.com/
-- [MEDIUM] Meta description too long (171 chars, max 165)
-
 ### AIZines - Score 2
 
 **write-for-us.html** - https://aizines.com/write-for-us.html
@@ -735,6 +716,11 @@ Generated: August 31, 2026
 
 **index.html** - https://aizines.com/
 - [MEDIUM] Multiple H1 tags found (5)
+
+### AI YHWH - Score 1
+
+**qa.html** - https://aiyhwh.com/qa.html
+- [MEDIUM] Meta description too long (168 chars, max 165)
 
 ### AITSQL - Score 1
 

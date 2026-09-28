@@ -1,176 +1,247 @@
-# AIUNITES SEO Digest — Sep 7, 2026
+# AIUNITES SEO Digest — September 21, 2026
 
-*Data window: GSC 2026-08-03 → 2026-08-31 · Audit generated 2026-08-31 07:22*
-*Source data is 7 days old and **fresh** — the pipeline unblocked. Last week's queue fix worked: `auto-publish.ps1` ran, the SEO chain regenerated `seo-report.json`, `gsc-stats.json` and `page-rank.json` for the first time since Aug 10.*
+> **Data warning:** Both source files (`seo-report.json`, `gsc-stats.json`) are dated
+> **Sep 7, 2026 07:22** — 14 days stale. The weekly SEO chain has not run since.
+> Everything below describes the network as of Sep 7. See Flags #1.
 
 ## Summary
 
-- Sites with GSC traction (impressions > 0): **15**
-- Sites with 0 impressions: **3** (bodspas, aiyhwh, bizstry — see note below, aiyhwh is a reporting artifact)
-- Pages ranked in top 10: **22 of 77** · top 50: **58 of 77** · zero pages with no impressions
-- Files edited this run: **6** + `scripts/script-runner.ps1`
+- Sites with GSC traction (impressions > 0): **15** of 18
+- Sites with 0 impressions: **3** (bodspas.com, aiyhwh.com, bizstry.com)
+- Sites with any clicks: **5** (aizines 22, inthisworld 4, voicestry 3, videobate 1, aiunites 1)
+- Network totals, Aug 10 – Sep 7: **529 impressions, 31 clicks**
+- Files edited this run: **0** — see "Why no copy was changed" below
 
-**Headline: the two homepage canonical defects fixed last week were re-broken by `seo-fix.ps1` eight minutes later, on the same run.** Both are fixed again, and this time the root cause has been defused at the data layer rather than just patched.
+## Why no copy was changed this week
 
----
+Category A (impressions > 5, clicks = 0) returned 7 sites. I did not rewrite any of
+their titles or descriptions, because the data says copy is not what is holding them back:
+
+| Site | Impr | Avg position | Top query |
+|------|-----:|-------------:|-----------|
+| erpize.com | 51 | 61.3 | erp magazine |
+| erpise.com | 25 | 59.2 | continuing ed erp solutions |
+| aitsql.com | 24 | 54.9 | advanced query tool |
+| gameatica.com | 22 | 58.3 | 2048 game math playground |
+| aibyjob.com | 21 | 40.5 | aiby |
+| redomy.com | 11 | 57.1 | reanomy |
+| furnishthings.com | 9 | 75.1 | furniest |
+
+Three reasons:
+
+1. **Every one of them sits at average position 40–75.** That is results page 4 through 8.
+   Observed CTR at that depth is ~0% regardless of how good the snippet is, because almost
+   nobody scrolls there. 24 impressions at position 55 producing 0 clicks is the expected
+   outcome, not a snippet failure.
+
+2. **This has already been tried on these exact sites, and it did not work.** From the
+   publish queue history in `script-runner.ps1`: aitsql.com's homepage title/meta was
+   rewritten on **2026-07-27** and again on **2026-08-10**; erpize.com's on **2026-08-03**.
+   Both are in the table above, still at 0 clicks, still at position 55–61, six and seven
+   weeks later. A third rewrite is not a new experiment.
+
+3. **Four of the seven top queries are misspellings of the site's own brand** — `aiby`,
+   `reanomy` (likely confusion with Reonomy, an unrelated real company), `furniest`,
+   and, outside this table, `clousion` and `town it`. Optimizing a title for a typo of
+   your own name wins nothing. The current titles already handle the correct spelling.
+
+Category C (position 6–15, one push from page 1) returned **zero sites**. Nothing in the
+network is currently close to page 1. The only two sites above position 20 are
+cloudsion.com (position 5, on 1 impression for a brand typo) and cosmostheopera.com
+(position 18.5, on 2 impressions).
+
+The homepage titles and descriptions across the network are, with the exceptions flagged
+below, already well-formed: correct length, brand-relevant, keyword-bearing. They are not
+the bottleneck. Indexing depth and content are.
 
 ## Top Opportunities This Week
 
-### 1. `seo-fix.ps1` re-corrupted both homepages it was fixed for last week — FIXED, and the loop is now broken
+### 1. `seo-fix.ps1` has never once run against aiunites.com — it has been fixing the private database repo for 17 straight weeks
 
-Timeline from Aug 31, reconstructed from file mtimes and `scripts/seo-fix.log`:
+This is the highest-value find in this digest and it is a one-line fix.
 
-```
-07:14  seo-digest.md written — canonicals corrected on inthisworld + aibyjob homepages
-07:22  auto-publish.ps1 runs the weekly SEO chain
-07:22:30  seo-fix.ps1: "FIXED index.html: GA4, Canonical, OGImage, MetaDesc, Title, Schema"  (inthisworld, twice)
-07:22:31  seo-fix.ps1: "FIXED index.html: OGImage, Schema"                                   (redomy)
-```
-
-State of the files as found today, before this run:
-
-```html
-inthisworld-site/index.html:74  <link rel="canonical" href="https://inthisworld.com/rooms/"></head>
-aibyjob-demo/index.html:74      <link rel="canonical" href="https://aibyjob.com/agents/templates/"></head>
-```
-
-Identical to the tags removed last week, jammed against `</head>` — the fixer's append signature. The fix survived eight minutes.
-
-**Why it happens.** `seo-fix.ps1` line 118:
+`seo-fix.ps1` line 98 resolves a domain to a repo folder by substring match:
 
 ```powershell
-$found = Get-ChildItem $repoPath -Filter $pg.file -Recurse | Select-Object -First 1
+$repo = (Get-ChildItem $basePath -Directory |
+         Where-Object { $_.Name -match ($domain.Split('.')[0]) } |
+         Select-Object -First 1)
 ```
 
-`seo-audit.ps1` records `$pg.file` as the bare leaf name. InThisWorld has **three** audited pages whose `file` is literally `index.html` — `/`, `/games/`, `/rooms/` — distinguishable only by their `url` field, which the fixer ignores. The recursive lookup resolves all three to the root `index.html`, so the fixer writes each subpage's canonical, title and description into the homepage in turn. Last one processed wins; `/rooms/` sorts last. That is the whole bug, and it explains the doubled `FIXED index.html` line in the log.
+For `aiunites.com` the match set is `AIUNITES-database-sync`, `AIUNITES.github.io`,
+`aiunites-pipeline-library`, `aiunites-site`. `Select-Object -First 1` takes the
+alphabetically first: **`AIUNITES-database-sync`** — the private SQLite repo.
 
-**What was done about it.** Re-fixing the canonical alone would have bought another eight minutes. The fixer only writes a canonical when the audit reports `NO_CANONICAL` for that page, so the durable fix is to give the subpages their own correct canonicals — then the branch never fires and the homepage is never touched by it. Canonical, description, og tags and a real title were added to all three offending subpages (below). On the next audit those pages come back clean of `NO_CANONICAL`, `NO_DESC`, `SHORT_TITLE` and `NO_OG_IMAGE`, and the destructive branches of the fixer have nothing to fire on.
+Confirmed in the log: `AIUNITES-database-sync` appears **17 times**, `aiunites-site`
+appears **0 times**.
 
-The audit runs *before* the fixer in `auto-publish.ps1` and `seo-report.json` is now 7 days old, so the next cycle will re-audit from the corrected files. The loop should close on its own.
+Consequences:
 
-*Residual risk:* the subpages still carry `THIN_CONTENT` / `LOW_CONTENT` / `NO_SCHEMA` / `NO_GA4`, so the fixer will still resolve them onto the root file and append schema and GA4 tags there. Those are site-level constants and `Add-ToHead` is marker-guarded, so the contamination is benign — the same tags the homepage already has. The `THIN_CONTENT` branch that caused the April boilerplate incident is still correctly commented out at line 186. Line 118 remains the real bug and still wants a supervised fix.
+- **aiunites.com has 101 open issues — the second-worst score in the network** — and the
+  auto-fixer has never touched a single one. That includes 3 pages with **no title tag at
+  all** (`acp.html`, `acp-builder.html`, `googled9d9a485d256e459.html`), 4 missing
+  canonicals, and 8 thin-content pages.
+- The fixer is pointed at the **private credentials repo**. It found no matching HTML
+  files there so it wrote nothing — but a filename collision would have written generated
+  SEO markup into the database repo. Worth closing regardless.
 
-*Expected impact:* restores the homepage as the indexable target on the network's highest-impression site (InThisWorld, 1,228 impressions) and its second-best-positioned one (AIByJob, position 30.4).
+**Fix:** replace the substring match with an explicit domain→repo hashtable. The mapping
+already exists in this task's own spec and in `$siteConfig`. Any other domain whose name
+prefixes a second folder has the same latent bug (`bodspas` → `bodspas-site` vs
+`bodwave-site` is the next closest).
 
-### 2. `inthisworld.com/rooms/` — 14 impressions at position 20 with no meta description — FIXED
+*Expected impact: unblocks the largest single pool of unfixed issues in the network, on
+the flagship domain.*
 
-The page the homepage was wrongly pointing at is itself a legitimate opportunity: page two of the SERP, and Google has been synthesising its snippet from the page body because there was no `<meta name="description">` at all. Title was `3D Rooms — InThisWorld` (22 chars, flagged `SHORT_TITLE`).
+### 2. The weekly pipeline has not run since Sep 7, and its last run ended in a swallowed error
 
-Same treatment applied to `/games/` (`NO_DESC`, `SHORT_TITLE`, `LOW_CONTENT`, 17 impressions on its top child page).
+`publish-log.txt` ends its Sep 7 run with:
 
-### 3. `aiyhwh.com/` — position 8.6, 9 impressions, zero clicks, description truncating in the SERP — FIXED
+```
+[Trends] Appending weekly snapshot...
+[SEO] Audit failed: You cannot call a method on a null-valued expression.
+[Backup] Scripts folder backed up to GitHub
+```
 
-The only page-one result on the network earning no clicks at all. Its meta description was **171 characters** — Google cuts at roughly 155, so the snippet was ending mid-phrase on "deeper meanings in Script…". Trimmed to 148 characters with the value proposition moved to the front and a clear close.
+The throw is caught at `auto-publish.ps1:1205` and logged as a yellow warning, so the
+pipeline reports success and moves on. The steps lost are the tail of the SEO block,
+including `[Visibility] visibility.json updated` — and `visibility.json` is dated
+**Apr 20, 2026**, five months stale. The same error appears in every weekly archive:
+3× in August, 1× in July, 1× in September. It is not intermittent; that block has been
+failing every cycle for months.
 
-Note the data conflict: `gsc-stats.json` reports aiyhwh.com at **0 impressions**, while `page-rank.json` reports **9 impressions at position 8.6** for the same 2026-08-03 → 2026-08-31 window. See Flags.
+Separately, `auto-publish.ps1` only ever appears in the **one-shot** queue in
+`script-runner.ps1`, and the runner auto-comments each entry after a successful run. The
+Sep 7 entry is commented out, so nothing has re-queued it. The recurring queue holds only
+`check-tls-cert-once.ps1` and `Run-SqlQueue.ps1`. That is why today's digest is running
+on 14-day-old data.
 
-### 4. VoiceStry has a page-two cluster worth more than any homepage rewrite — NOT ACTIONED
+*Expected impact: restores the data this digest depends on. Until it is fixed, every
+weekly digest re-reads the same Sep 7 snapshot.*
 
-Six pages, all zero clicks, all within striking distance:
+### 3. `seo-fix.ps1` is not idempotent — it rewrites the same files every week
 
-| Page | Impressions | Position |
-|------|------------:|---------:|
-| `ai-vrn.html` | 23 | 12.7 |
-| `vocal-gym.html` | 23 | 16.9 |
-| `vrn-method.html` | 23 | 21.7 |
-| `5-gears.html` | 23 | 24.2 |
-| `voice-lab.html` | 23 | 29.6 |
-| `learn.html` | 29 | 31.8 |
+Compare the Aug 31 and Sep 7 runs. Identical file lists, identical fix types:
 
-That is ~144 impressions sitting at positions 12–32 converting nothing, against a site homepage that pulls 916 impressions at position 56.8 for 9 clicks. The leverage is on the interior pages, not the homepage — and `pitch-trainer.html` (215 impressions, position 17.6, 5 clicks) proves the pages can convert when the copy matches the query.
+```
+2026-08-31  FIXED index.html: GA4, Canonical, OGImage, MetaDesc, Title, Schema   (inthisworld)
+2026-09-07  FIXED index.html: GA4, Schema                                        (inthisworld)
+2026-08-31  FIXED bedroom.html: Title / garage.html: Title / kitchen.html: Title (redomy)
+2026-09-07  FIXED bedroom.html: Title / garage.html: Title / kitchen.html: Title (redomy)
+```
 
-Not actioned because this task's remit is `index.html` files, and six interior-page rewrites is a content decision that deserves a look at the live SERP snippets first. Flagged below.
+I verified the underlying files: `inthisworld-site/index.html` **does** contain the GA4
+tag and a JSON-LD block right now, and `redomy-demo/index.html` **does** have og:image and
+schema. So the fixes are landing and persisting — the *audit* is re-flagging content that
+is already present, and the fixer is dutifully re-applying it. That is a detection bug in
+`seo-audit.ps1`, and it means the weekly "N fixes applied" number is noise.
 
-### 5. `videobate.com/compare.html` — position 3.6, zero clicks — NOT ACTIONED
+This matters beyond tidiness: the Aug 31 and Sep 7 queue comments both describe fixing
+`WRONG_CANONICAL` on the inthisworld and aibyjob homepages, with the Sep 7 note reading
+"seo-fix.ps1 re-corrupted them on Aug 31." That is the exact re-injection loop CLAUDE.md
+documents for the seo-fix.ps1 incident. **Good news:** both homepage canonicals are
+currently correct (`https://inthisworld.com/`, `https://aibyjob.com/`) — the Sep 7 fix
+held, because seo-fix has not run since. It will likely break again on the next run.
 
-The sharpest CTR anomaly on the network: a top-four result with 7 impressions and no clicks. Sample is small enough that this could be noise, but position 3.6 with a 0% CTR normally means the title reads as irrelevant to the query that surfaced it. Worth one manual look at what query is triggering it before touching the copy. `leaderboard.html` (10 impressions, position 13.2, zero clicks) is the same shape.
+### 4. Thin content is the actual network-wide blocker — 50 pages on Gameatica alone
 
----
+Pages flagged `THIN_CONTENT` on sites that already have impressions:
+
+| Site | Thin pages | Impr |
+|------|-----------:|-----:|
+| gameatica.com | 50 of 52 | 22 |
+| inthisworld.com | 15 of 19 | 60 |
+| cosmostheopera.com | 14 of 33 | 2 |
+| aiunites.com | 8 of 29 | 12 |
+| redomy.com | 7 of 15 | 11 |
+| aibyjob.com | 4 of 10 | 21 |
+| videobate.com | 3 of 7 | 26 |
+
+This is why nothing ranks above position 40. It is also the substance of the AdSense
+"Low value content" rejection. **This cannot be automated** — per CLAUDE.md's automation
+discipline rules, templated page copy is exactly what produced the seo-fix.ps1 incident,
+and re-running that play would make things worse. It needs hand-written content, a few
+pages at a time, on the sites that already have impressions to lose.
+
+### 5. aizines.com is the one real success and nobody is looking at it
+
+22 clicks on 107 impressions at position 42.2 — a **20.6% CTR**, and 71% of the network's
+total clicks, from a 3-page site with 2 open issues. Every other site combined produced
+9 clicks. Whatever aizines is doing, it is the only thing in the network that is working,
+and it has had no attention in any recent digest.
+
+*Expected impact: highest ROI target on the network. Worth understanding before spending
+another week on sites at position 60.*
 
 ## Changes Made
 
-| File | Change |
-|------|--------|
-| `inthisworld-site/index.html` | canonical `https://inthisworld.com/rooms/` → `https://inthisworld.com/` |
-| `aibyjob-demo/index.html` | canonical `https://aibyjob.com/agents/templates/` → `https://aibyjob.com/` |
-| `inthisworld-site/rooms/index.html` | title, meta description, canonical, og:title/description/url/image added |
-| `inthisworld-site/games/index.html` | title, meta description, canonical, og:title/description/url/image added |
-| `aibyjob-demo/agents/templates/index.html` | title lengthened, canonical + og tags added |
-| `aiyhwh-site/index.html` | meta description 171 → 148 chars |
-| `scripts/script-runner.ps1` | `auto-publish.ps1` uncommented in the one-shot queue |
+**None.** No file was edited this run.
 
-**Copy detail:**
+Per Step 4's instruction to edit only where the new copy is clearly better and otherwise
+flag for manual review: I could not justify a single rewrite. The category A sites are
+ranking too deep for snippet copy to matter, two of them have already been rewritten for
+this exact reason in the last eight weeks with no measurable change, and the majority of
+their top queries are brand typos. Rewriting them would have produced a digest that looked
+productive while changing nothing — which, given the history in CLAUDE.md, is the failure
+mode to avoid.
 
-`inthisworld.com/rooms/`
-- Title: `3D Rooms — InThisWorld` (22) → `3D Chat Rooms Online — Free Virtual Hangouts | InThisWorld` (58)
-- Desc: *(none)* → `Explore free 3D chat rooms in your browser — living room, bedroom, gym and a space station lounge. No download, no signup. Just pick a room and walk in.` (152)
-
-`inthisworld.com/games/`
-- Title: `Games — InThisWorld` (19) → `Free 3D Browser Games Online — Play Instantly | InThisWorld` (59)
-- Desc: *(none)* → `Play free 3D browser games — Space Trader, World Explorer, Arena FPS, Night Circuit and more. Runs instantly in your browser, no download and no signup.` (151)
-
-`aibyjob.com/agents/templates/`
-- Title: `Agent Templates | AIByJob` (25) → `AI Agent Templates for Business Automation | AIByJob` (52)
-- Desc: unchanged (128 chars, already fine)
-
-`aiyhwh.com/`
-- Title: unchanged (`AI YHWH - AI-Powered Biblical Discoveries & Insights`, 52 chars, fine)
-- Desc: `Explore the Bible like never before with AI-powered insights. Discover hidden patterns, cross-references, and deeper meanings in Scripture through artificial intelligence.` (171, truncates)
-  → `Explore the Bible with AI-powered insights — discover hidden patterns, cross-references, and deeper meaning in Scripture. Free to search, no signup.` (148)
-
-Every page name in the new descriptions was taken from the actual `<h3>` headings on those pages. No generated filler, no boilerplate template, nothing reused across sites — per the automation discipline rules in `CLAUDE.md`.
-
----
-
-## Deliberately Not Done
-
-**No homepage title rewrites this week, for eight sites that a naive read of the brief would have flagged.** Their `topQuery` values are navigational typos of other companies' brands or of their own:
-
-| Site | topQuery | Position | Verdict |
-|------|----------|---------:|---------|
-| erpize.com | `enerpize` | 49.8 | Enerpize is a real competing ERP vendor |
-| redomy.com | `reanomy` | 58.3 | Reonomy is a real company |
-| furnishthings.com | `furniest` | 67.2 | typo, no intent |
-| cloudsion.com | `clousion` | 47.0 | typo of own brand |
-| uptownit.com | `town it` | 81.0 | fragment |
-| aitsql.com | `advanced query tool` | 58.6 | "Advanced Query Tool" is a competitor's product name |
-| gameatica.com | `2048 game math playground` | 57.8 | Math Playground is another site's brand |
-| erpise.com | `continuing ed erp solutions` | 59.5 | genuine query, but already in the title verbatim |
-
-Two reasons to leave these alone. First, positions 47–81 are SERP pages 5–9; at that depth CTR copy has no leverage, because nobody is seeing the snippet. Second, rewriting a title to rank for another company's brand name is keyword squatting — ineffective and reputationally risky for a network already carrying an AdSense "low value content" rejection.
-
-These homepages have also already been rewritten repeatedly by prior digests — aitsql twice (Jul 27, Aug 10), erpize (Aug 3), cosmos (Jun 22), voicestry (Aug 10) — with no position movement. **The homepage copy lever is exhausted.** Further rewrites are churn, not work.
-
----
+Consequently Step 5 was also skipped: `auto-publish.ps1` was **not** added to the script
+runner queue, since there is nothing to publish. Note that this also means the stale-data
+problem in Opportunity #2 persists — if you want the pipeline re-run purely to refresh the
+data, queue it manually.
 
 ## Flags for Manual Review
 
-1. **`seo-fix.ps1` line 118 still needs the supervised patch.** The data-layer defusal above should hold, but the bug is live and will bite the next page that gets flagged `NO_CANONICAL` in a subdirectory. The fix is one line — resolve by URL path rather than by recursive filename search:
+1. **Stale data / broken pipeline** — Opportunity #2. Everything in this digest is a
+   Sep 7 snapshot. Decide whether `auto-publish.ps1` belongs in the *recurring* queue
+   rather than being hand-queued each week.
 
-   ```powershell
-   # current (line 118):
-   $found = Get-ChildItem $repoPath -Filter $pg.file -Recurse | Select-Object -First 1
+2. **`seo-fix.ps1` repo resolution** — Opportunity #1. Needs a code change, not a content
+   change. Check the other domains for the same prefix-collision.
 
-   # correct: derive the relative path from $pg.url, not the leaf filename
-   $rel = ([uri]$pg.url).AbsolutePath.TrimStart('/')
-   if ($rel -eq '' -or $rel.EndsWith('/')) { $rel += 'index.html' }
-   $absPath = Join-Path $repoPath ($rel -replace '/', '\')
-   ```
+3. **`seo-audit.ps1` false positives** — Opportunity #3. The GA4/Schema/Canonical
+   detectors are re-flagging markup that is present in the file. Until that is fixed the
+   audit scores are inflated and the weekly fix counts are meaningless.
 
-   Needs a dry run against all 18 repos before it goes near the scheduler. Per `CLAUDE.md`, modifying a scheduled script unattended is out of remit for this task.
+4. **furnishthings.com makes a commercial promise it cannot keep.** Homepage meta
+   description currently reads: *"Sofas, beds, dining sets, and home décor at competitive
+   prices. Free delivery on orders over $500."* FurnishThings is a template/demo site with
+   1 indexed page and a `shoptemplate.html`. A snippet advertising free delivery and
+   pricing on a site that cannot take an order is a trust and possibly a compliance
+   problem, and it is the sort of thing an AdSense reviewer notices. **I did not rewrite
+   it because the right copy depends on what you intend the site to be** — a real store, a
+   template demo, or a parked domain. Your call, then I can write it.
 
-2. **`gsc-stats.json` and `page-rank.json` disagree, materially.** Same date range, different numbers. gsc-stats has voicestry.com at 170 impressions; page-rank sums voicestry pages to ~1,400. gsc-stats has aiyhwh.com at 0 impressions; page-rank has its homepage at 9 impressions, position 8.6. gsc-stats appears to be capturing a single query row rather than the domain total. Since `gsc-stats.json` is what the dashboard renders and what step 2 of this digest is nominally built on, the site-level view is understating the network by roughly an order of magnitude. Worth checking `fetch-gsc-stats.ps1`'s aggregation before any decision gets made off those numbers. **This digest's analysis is based on `page-rank.json`.**
+5. **uptownit.com and cloudsion.com carry the same generic-template smell** — "Professional
+   IT services for businesses. Managed IT, cybersecurity, cloud solutions, and 24/7
+   support" is boilerplate that could describe ten thousand sites, and uptownit's homepage
+   is flagged thin. Same question as #4: are these real properties or placeholders? The
+   answer changes whether they are worth any SEO spend at all.
 
-3. **`[SEO] Audit failed: You cannot call a method on a null-valued expression.`** appears in `publish-log.txt` after a successful audit earlier in the same log. The Aug 31 data did land, so this is not currently blocking, but an unhandled null in `seo-audit.ps1` is how the next silent staleness starts.
+6. **Three sites have zero impressions** — bodspas.com (2 indexed), aiyhwh.com (1),
+   bizstry.com (1). These need indexing and content, not copy. Correctly excluded from
+   rewrites per Step 3.
 
-4. **VoiceStry interior pages** (opportunity 4) — six pages at positions 12–32 with zero clicks. Highest-value copy work available anywhere on the network. Needs a human to look at live SERP snippets against the actual queries first.
+7. **The `ctr` field in `gsc-stats.json` does not match clicks÷impressions on any site.**
+   Found while verifying the aizines number. Examples: aizines records `ctr: 2.5` where
+   22/107 = **20.6%**; voicestry records `10.2` where 3/156 = **1.9%**; videobate records
+   `0.8` where 1/26 = **3.8%**; inthisworld records `16.5` where 4/60 = **6.7%**. The
+   errors run in both directions, so it is not a scale factor — `fetch-gsc-stats.ps1` is
+   probably storing the CTR of the top *query* row instead of the site aggregate. Every
+   CTR figure in this digest is computed from clicks and impressions directly, not read
+   from that field. Worth correcting, since the field is what the core-site dashboard
+   displays.
 
-5. **`videobate.com/compare.html`** at position 3.6 with 0% CTR — check which query is surfacing it before rewriting anything.
-
-6. **Gameatica remains the network's worst audit score (202 across 52 pages: 50 × `THIN_CONTENT`, 49 × `LONG_DESC`)** and pulls 207 impressions on `games/simon.html` alone with zero clicks at position 46.8. This is a content-depth problem, not a meta-tag problem, and it is the site the AdSense rejection was about. No automated fix should touch it.
-
----
+8. **gameatica.com's top query is `2048 game math playground`** — people searching for
+   Math Playground's 2048, a well-established destination. Not a winnable query. Gameatica's
+   22 impressions are mostly this. Do not tune for it.
 
 ## Next Week Focus
 
-Patch `seo-fix.ps1` line 118 in a supervised session with a dry run — until the fixer stops writing subpage metadata into homepages, every digest is spending its budget cleaning up after the automation instead of improving the network.
+Fix the `seo-fix.ps1` repo mapping so aiunites.com's 101 issues finally enter the pipeline,
+and get the weekly chain running again — until the data refreshes and the fixer points at
+the right folder, no amount of snippet rewriting will change these numbers.
+
+---
+*Generated 2026-09-21 from seo-report.json and gsc-stats.json (both Sep 7, 2026).*
+*Sources: `scripts/seo-fix.log`, `scripts/publish-log.txt`, `scripts/script-runner.ps1`, `scripts/seo-fix.ps1`, `scripts/auto-publish.ps1`.*
