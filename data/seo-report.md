@@ -1,5 +1,5 @@
 ﻿# AIUNITES SEO Audit
-Generated: September 27, 2026
+Generated: October 3, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
@@ -7,7 +7,7 @@ Generated: September 27, 2026
 | AIUNITES | 101 | 29 | 8 | 58 |  |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | InThisWorld | 76 | 19 | 5 | 36 | THIN_CONTENT |
-| Redomy | 66 | 15 | 4 | 33 | NO_H1 |
+| Redomy | 66 | 15 | 5 | 33 | NO_H1 |
 | BodSpas | 23 | 7 | 1 | 11 | THIN_CONTENT |
 | AIByJob | 20 | 10 | 6 | 10 | THIN_CONTENT |
 | VoiceStry | 16 | 16 | 16 | 15 | LONG_DESC |
@@ -16,7 +16,7 @@ Generated: September 27, 2026
 | Cloudsion | 7 | 3 | 2 | 3 |  |
 | UptownIT | 4 | 2 | 2 | 2 | LONG_DESC |
 | ERPise | 4 | 3 | 1 | 4 |  |
-| ERPize | 4 | 6 | 4 | 4 |  |
+| ERPize | 4 | 6 | 3 | 4 |  |
 | AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
 | AI YHWH | 1 | 2 | 1 | 1 | LONG_DESC |
 | AITSQL | 1 | 2 | 1 | 1 |  |
