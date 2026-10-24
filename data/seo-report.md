@@ -1,5 +1,5 @@
 ﻿# AIUNITES SEO Audit
-Generated: October 17, 2026
+Generated: October 24, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
@@ -9,7 +9,7 @@ Generated: October 17, 2026
 | InThisWorld | 76 | 19 | 5 | 36 | THIN_CONTENT |
 | Redomy | 66 | 15 | 4 | 33 | NO_H1 |
 | BodSpas | 23 | 7 | 2 | 11 | THIN_CONTENT |
-| AIByJob | 20 | 10 | 7 | 10 | THIN_CONTENT |
+| AIByJob | 20 | 10 | 6 | 10 | THIN_CONTENT |
 | VoiceStry | 16 | 16 | 16 | 15 | LONG_DESC |
 | VideoBate | 11 | 7 | 5 | 4 | LOW_CONTENT |
 | FurnishThings | 7 | 6 | 2 | 3 |  |
