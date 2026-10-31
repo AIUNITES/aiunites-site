@@ -1,13 +1,13 @@
 ﻿# AIUNITES SEO Audit
-Generated: October 24, 2026
+Generated: October 31, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
 | Gameatica | 202 | 52 | 18 | 101 | THIN_CONTENT |
-| AIUNITES | 101 | 29 | 9 | 58 |  |
+| AIUNITES | 101 | 29 | 10 | 58 |  |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | InThisWorld | 76 | 19 | 5 | 36 | THIN_CONTENT |
-| Redomy | 66 | 15 | 4 | 33 | NO_H1 |
+| Redomy | 66 | 15 | 9 | 33 | NO_H1 |
 | BodSpas | 23 | 7 | 2 | 11 | THIN_CONTENT |
 | AIByJob | 20 | 10 | 6 | 10 | THIN_CONTENT |
 | VoiceStry | 16 | 16 | 16 | 15 | LONG_DESC |
@@ -15,7 +15,7 @@ Generated: October 24, 2026
 | FurnishThings | 7 | 6 | 2 | 3 |  |
 | Cloudsion | 7 | 3 | 2 | 3 |  |
 | UptownIT | 4 | 2 | 2 | 2 | LONG_DESC |
-| ERPise | 4 | 3 | 1 | 4 |  |
+| ERPise | 4 | 3 | 2 | 4 |  |
 | ERPize | 4 | 6 | 4 | 4 |  |
 | AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
 | AI YHWH | 1 | 2 | 1 | 1 | LONG_DESC |
