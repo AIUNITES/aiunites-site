@@ -1,9 +1,9 @@
 # FNN — Facial Neuro Notation
-## Specification v1.0.0
+## Specification v1.1.0
 
 **Protocol family:** HMN (Human Movement Notation)
 **Maintained by:** AIUNITES LLC
-**Published:** 2026-04-03
+**Published:** 2026-04-03 (v1.1.0: 2026-10-31, adds @FSHP face shape)
 **Status:** ACTIVE
 **Sister protocols:** MNN v2.0 (body), VRN (voice), VNN (AI voice), VMN (vehicle)
 
@@ -78,6 +78,7 @@ avatar engine that cannot render CN-level detail still renders the muscle activa
 | @MORPH() | Avatar morph weight | Symbol:weight | @MORPH(Zyg.Mj:0.85) |
 | @DUR() | Duration in ms | ms value | @DUR(400ms) |
 | @EASE() | Temporal curve | Curve name | @EASE(ease-bio) |
+| @FSHP() | Face shape (static, per person) — v1.1 | Feature:value, -1.00..+1.00 | @FSHP(Nas.Len:0.50, Oc.Size:0.70) |
 
 ### 3.2 Activation levels
 
@@ -211,6 +212,55 @@ The >> operator (inherited from MNN v2.0) routes the activation to its nerve:
 
 *Note: Full 43-muscle count includes bilateral variants of symmetric muscles.
 Clinical notation uses L:/R: prefixes for each side individually.*
+
+### 4.7 Face shape — @FSHP() (v1.1)
+
+FNN sections 4.1–4.6 encode what the face *does*. @FSHP encodes what the face *is*: the static shape
+of one person's face (nose length, eye size, jaw width), the way MNN separates movement (@JNT) from body shape.
+@MORPH() keeps its v1.0 meaning (a per-muscle expression weight, section 10.2).
+
+- Values run from -1.00 to +1.00 relative to the base head (0 = unchanged); -1 and +1 are the ends of the range.
+- Laterality as in 3.3: prefix L: or R: for one side only. Omitted features = 0. Order does not matter.
+- Combines with expression strings: `@FSHP(...) @EXPR(Smile.D)` = this person, smiling.
+- Skin and texture (stubble, lip colour, beard edges) are not part of @FSHP; they stay tool settings.
+
+| Symbol | Feature | -1 .. +1 | Creator slider |
+|--------|---------|----------|----------------|
+| Nas.Len | Nose length | shorter .. longer | nose length |
+| Nas.Wid | Nose width | narrower .. wider | nose width |
+| Nas.Br | Nasal bridge height | lower .. higher | nose bridge height |
+| Nas.Tip | Nose tip | down .. up | nose tip up / down |
+| Nas.Al | Alae (nostril width) | narrower .. wider | nostril width |
+| Lab.Full | Lip fullness | thinner .. fuller | lip fullness |
+| Or.Wid | Mouth width | narrower .. wider | mouth width |
+| Lab.Sup | Upper lip thickness | thinner .. thicker | upper lip thickness |
+| Lab.Inf | Lower lip thickness | thinner .. thicker | lower lip thickness |
+| Lab.Fwd | Lips forward / back | back .. forward | lips forward / back |
+| Ang.Or | Mouth corners | down .. up | mouth corners up / down |
+| Ment.Fwd | Chin forward | back .. forward | chin forward |
+| Ment.Len | Chin length | shorter .. longer | chin length |
+| Ment.Wid | Chin width | narrower .. wider | chin width |
+| Mand.Wid | Jaw width | narrower .. wider | jaw width |
+| Zyg.Prom | Cheekbones | flatter .. stronger | cheekbones |
+| Buc.Hol | Cheek hollows | fuller .. more hollow | cheek hollows |
+| Buc.Full | Cheek fullness | thinner .. fuller | cheek fullness |
+| Sup.Orb | Brow ridge | flatter .. stronger | brow ridge |
+| Sup.Ht | Brow height | lower .. higher | brow height |
+| Front.Sl | Forehead slope | upright .. sloped | forehead slope |
+| Oc.Size | Eye size | smaller .. larger | eye size |
+| Oc.Sp | Eye spacing | closer .. wider | eye spacing |
+| Oc.Tilt | Eye tilt (outer corner) | down .. up | eye tilt |
+| Oc.Dep | Eye depth | protruding .. deep-set | eyes deep-set |
+| Palp.Sup | Upper lid heaviness | lighter .. hooded | upper lid heaviness |
+| Aur.Size | Ear size | smaller .. larger | ear size |
+| Aur.Out | Ears stick out | flatter .. out | ears stick out |
+
+**Example — a full face plus a blink loop (section 9.3):**
+
+    @FSHP(Nas.Len:0.50, Nas.Br:0.72, Nas.Tip:0.02, Nas.Al:0.48, Oc.Size:0.70, Oc.Dep:-0.30, Palp.Sup:-0.50)
+    @FNN(Orb.Oc.P:4) @loop @cycle:4000ms @DUR(200ms)
+
+The SL Body Creator (InThisWorld) writes and reads @FSHP strings for its face-shape sliders.
 
 ---
 
@@ -520,7 +570,10 @@ FACS describes what you see. FNN describes what causes it.
 
 ## 13. Versioning
 
-This document is FNN_SPEC_v1.md — version 1.0.0.
+This document is FNN_SPEC_v1.md — version 1.1.0.
+
+- 1.1.0 (2026-10-31): @FSHP() face-shape tag and 28 feature symbols (section 4.7). Backward compatible.
+- 1.0.0 (2026-04-03): first release.
 
 Version format: MAJOR.MINOR.PATCH (semantic versioning)
 - MAJOR: breaking syntax changes
@@ -593,5 +646,5 @@ VMN (vehicle) at InThisWorld. All under the HMN umbrella at aiunites.com.
 ---
 
 *FNN_SPEC_v1.md*
-*Version 1.0.0 — 2026-04-03*
+*Version 1.1.0 — 2026-10-31 (1.0.0 — 2026-04-03)*
 *AIUNITES LLC*
