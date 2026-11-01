@@ -224,43 +224,41 @@ of one person's face (nose length, eye size, jaw width), the way MNN separates m
 - Combines with expression strings: `@FSHP(...) @EXPR(Smile.D)` = this person, smiling.
 - Skin and texture (stubble, lip colour, beard edges) are not part of @FSHP; they stay tool settings.
 
-| Symbol | Feature | -1 .. +1 | Creator slider |
-|--------|---------|----------|----------------|
-| Nas.Len | Nose length | shorter .. longer | nose length |
-| Nas.Wid | Nose width | narrower .. wider | nose width |
-| Nas.Br | Nasal bridge height | lower .. higher | nose bridge height |
-| Nas.Tip | Nose tip | down .. up | nose tip up / down |
-| Nas.Al | Alae (nostril width) | narrower .. wider | nostril width |
-| Lab.Full | Lip fullness | thinner .. fuller | lip fullness |
-| Or.Wid | Mouth width | narrower .. wider | mouth width |
-| Lab.Sup | Upper lip thickness | thinner .. thicker | upper lip thickness |
-| Lab.Inf | Lower lip thickness | thinner .. thicker | lower lip thickness |
-| Lab.Fwd | Lips forward / back | back .. forward | lips forward / back |
-| Ang.Or | Mouth corners | down .. up | mouth corners up / down |
-| Ment.Fwd | Chin forward | back .. forward | chin forward |
-| Ment.Len | Chin length | shorter .. longer | chin length |
-| Ment.Wid | Chin width | narrower .. wider | chin width |
-| Mand.Wid | Jaw width | narrower .. wider | jaw width |
-| Zyg.Prom | Cheekbones | flatter .. stronger | cheekbones |
-| Buc.Hol | Cheek hollows | fuller .. more hollow | cheek hollows |
-| Buc.Full | Cheek fullness | thinner .. fuller | cheek fullness |
-| Sup.Orb | Brow ridge | flatter .. stronger | brow ridge |
-| Sup.Ht | Brow height | lower .. higher | brow height |
-| Front.Sl | Forehead slope | upright .. sloped | forehead slope |
-| Oc.Size | Eye size | smaller .. larger | eye size |
-| Oc.Sp | Eye spacing | closer .. wider | eye spacing |
-| Oc.Tilt | Eye tilt (outer corner) | down .. up | eye tilt |
-| Oc.Dep | Eye depth | protruding .. deep-set | eyes deep-set |
-| Palp.Sup | Upper lid heaviness | lighter .. hooded | upper lid heaviness |
-| Aur.Size | Ear size | smaller .. larger | ear size |
-| Aur.Out | Ears stick out | flatter .. out | ears stick out |
+| Symbol | Feature | -1 .. +1 |
+|--------|---------|----------|
+| Nas.Len | Nose length | shorter .. longer |
+| Nas.Wid | Nose width | narrower .. wider |
+| Nas.Br | Nasal bridge height | lower .. higher |
+| Nas.Tip | Nose tip | down .. up |
+| Nas.Al | Alae (nostril width) | narrower .. wider |
+| Lab.Full | Lip fullness | thinner .. fuller |
+| Or.Wid | Mouth width | narrower .. wider |
+| Lab.Sup | Upper lip thickness | thinner .. thicker |
+| Lab.Inf | Lower lip thickness | thinner .. thicker |
+| Lab.Fwd | Lips forward / back | back .. forward |
+| Ang.Or | Mouth corners | down .. up |
+| Ment.Fwd | Chin forward | back .. forward |
+| Ment.Len | Chin length | shorter .. longer |
+| Ment.Wid | Chin width | narrower .. wider |
+| Mand.Wid | Jaw width | narrower .. wider |
+| Zyg.Prom | Cheekbones | flatter .. stronger |
+| Buc.Hol | Cheek hollows | fuller .. more hollow |
+| Buc.Full | Cheek fullness | thinner .. fuller |
+| Sup.Orb | Brow ridge | flatter .. stronger |
+| Sup.Ht | Brow height | lower .. higher |
+| Front.Sl | Forehead slope | upright .. sloped |
+| Oc.Size | Eye size | smaller .. larger |
+| Oc.Sp | Eye spacing | closer .. wider |
+| Oc.Tilt | Eye tilt (outer corner) | down .. up |
+| Oc.Dep | Eye depth | protruding .. deep-set |
+| Palp.Sup | Upper lid heaviness | lighter .. hooded |
+| Aur.Size | Ear size | smaller .. larger |
+| Aur.Out | Ears stick out | flatter .. out |
 
 **Example — a full face plus a blink loop (section 9.3):**
 
     @FSHP(Nas.Len:0.50, Nas.Br:0.72, Nas.Tip:0.02, Nas.Al:0.48, Oc.Size:0.70, Oc.Dep:-0.30, Palp.Sup:-0.50)
     @FNN(Orb.Oc.P:4) @loop @cycle:4000ms @DUR(200ms)
-
-The SL Body Creator (InThisWorld) writes and reads @FSHP strings for its face-shape sliders.
 
 ---
 
