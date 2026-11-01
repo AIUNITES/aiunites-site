@@ -1,11 +1,11 @@
 # FNN — Facial Neuro Notation
-## Specification v1.1.0
+## Specification v1.2.0
 
 **Protocol family:** HMN (Human Movement Notation)
 **Maintained by:** AIUNITES LLC
-**Published:** 2026-04-03 (v1.1.0: 2026-10-31, adds @FSHP face shape)
+**Published:** 2026-04-03 (v1.1.0: 2026-10-31, adds @FSHP face shape; v1.2.0: 2026-11-01, extended @FSHP symbols)
 **Status:** ACTIVE
-**Sister protocols:** MNN v2.0 (body), VRN (voice), VNN (AI voice), VMN (vehicle)
+**Sister protocols:** MNN v2.1 (body), VRN (voice), VNN (AI voice), VMN (vehicle)
 
 © 2026 AIUNITES LLC. All Rights Reserved. DMCA Protected.
 FNN and the FNN Symbol Set are original works of AIUNITES LLC.
@@ -254,6 +254,107 @@ of one person's face (nose length, eye size, jaw width), the way MNN separates m
 | Palp.Sup | Upper lid heaviness | lighter .. hooded |
 | Aur.Size | Ear size | smaller .. larger |
 | Aur.Out | Ears stick out | flatter .. out |
+
+### 4.7.1 Extended feature symbols (v1.2)
+
+v1.2 adds finer features. The 28 symbols above keep their meaning; a tool that only knows those ignores the rest.
+
+- **Shape blends** (`Cran.Oval`, `Cran.Round`, `Cran.Sq`, `Cran.Rect`, `Cran.Tri`, `Cran.InvTri`, `Cran.Dia`, `Ment.Tri`) run 0 .. +1 only: how far the head (or chin) is blended toward that shape. They may be combined.
+- *less .. more* means a smaller / larger amount of the named feature; position features (`.Fwd`, `.Up`, `.Side`) move it from the base place.
+- Symbols compose from region + feature, like the v1.1 set: `Cran` skull, `Occ` back of skull, `Temp` temple, `Front` forehead, `Sup` brow, `Oc` eye, `Can` eye corner, `Palp` eyelid, `Plica` lid fold, `Epic` epicanthic fold, `Nas` nose, `Nar` nostril, `Sept` septum, `Or` mouth, `Lab` lip, `Phil` philtrum, `Sulc.Nl` nasolabial fold, `Buc` cheek, `Zyg` cheekbone, `Ment` chin, `Mand` jaw, `Aur` ear, `Lob` ear lobe, `Hel` ear rim.
+
+| Symbol | Feature | -1 .. +1 |
+|--------|---------|----------|
+| Cran.Ang | Head angle | in .. out |
+| Cran.Ht | Head height | less .. more |
+| Cran.Fwd | Head position | back .. forward |
+| Cran.Up | Head position | down .. up |
+| Cran.Fat | Head and face fat | less .. more |
+| Cran.InvTri | Inverted-triangle head | 0 .. +1 only (shape blend) |
+| Cran.Dia | Diamond head | 0 .. +1 only (shape blend) |
+| Cran.Oval | Oval head | 0 .. +1 only (shape blend) |
+| Cran.Rect | Rectangular head | 0 .. +1 only (shape blend) |
+| Cran.Side | Head position (sideways) | in .. out |
+| Occ.Dep | Back of the skull | less .. more |
+| Cran.Round | Round head | 0 .. +1 only (shape blend) |
+| Cran.Age | Skull age | less .. more |
+| Cran.Dep | Head depth | less .. more |
+| Cran.Wid | Head width | less .. more |
+| Cran.Tri | Triangular head | 0 .. +1 only (shape blend) |
+| Cran.Sq | Square head | 0 .. +1 only (shape blend) |
+| Temp.Wid | Temple width | less .. more |
+| Front.Fwd | Forehead position | back .. forward |
+| Front.Ht | Forehead height | less .. more |
+| Front.Rnd | Forehead roundness | less .. more |
+| Sup.Ang | Brow angle | down .. up |
+| Can.Med | Inner eye corner | down .. up |
+| Oc.Ht1 | Eye opening, inner | less .. more |
+| Palp.Sup.Dep | Upper lid depth | in .. out |
+| Plica.Ht | Lid fold height | down .. up |
+| Oc.Ht3 | Eye opening, outer | less .. more |
+| Oc.Ht2 | Eye opening, middle | less .. more |
+| Palp.Bag | Under-eye bags | less .. more |
+| Palp.Inf.Dep | Lower lid depth | in .. out |
+| Oc.Up | Eye position | down .. up |
+| Palp.Bag.Ht | Under-eye bag height | less .. more |
+| Epic | Epicanthic fold | in .. out |
+| Plica.Ang | Lid fold angle | down .. up |
+| Palp.Bag.Out | Under-eye bag depth | in .. out |
+| Plica.Curv | Lid fold curve | concave .. convex |
+| Nar.Ang | Nostril angle | down .. up |
+| Nar.Flare | Nostril flare | less .. more |
+| Nas.Curv | Nose profile curve | concave .. convex |
+| Nas.Proj | Nose projection | less .. more |
+| Nas.Tip.Wid | Nose tip width | less .. more |
+| Nas.Wid1 | Nose width, top | less .. more |
+| Nas.Fwd | Nose position | back .. forward |
+| Nas.Up | Nose position | down .. up |
+| Nas.Hump | Nose hump | less .. more |
+| Nas.Side | Nose position (sideways) | in .. out |
+| Nas.Greek | Straight (Greek) profile | less .. more |
+| Nas.Wid2 | Nose width, middle | less .. more |
+| Nas.Wid3 | Nose width, lower | less .. more |
+| Sept.Ang | Septum angle | less .. more |
+| Nas.Base | Nose base | down .. up |
+| Nas.Comp | Nose compression | compressed .. open |
+| Nas.Vol | Nose volume | less .. more |
+| Lab.Bow | Cupid's bow | less .. more |
+| Sulc.Nl | Laugh lines (nasolabial) | in .. out |
+| Or.Dep | Mouth depth | less .. more |
+| Lab.Inf.Vol | Lower lip volume | less .. more |
+| Lab.Sup.Ext | Upper lip edge | down .. up |
+| Lab.Inf.Wid | Lower lip width | less .. more |
+| Lab.Sup.Wid | Upper lip width | less .. more |
+| Or.Ht | Mouth height | less .. more |
+| Buc.Dimp | Dimples | in .. out |
+| Lab.Sup.Vol | Upper lip volume | less .. more |
+| Lab.Bow.Wid | Cupid's bow width | less .. more |
+| Lab.Inf.Ext | Lower lip edge | down .. up |
+| Lab.Sup.Mid | Upper lip centre | down .. up |
+| Or.Up | Mouth position | down .. up |
+| Or.Side | Mouth position (sideways) | in .. out |
+| Lab.Inf.Mid | Lower lip centre | down .. up |
+| Phil.Vol | Philtrum | less .. more |
+| Lob.Size | Ear lobe | less .. more |
+| Aur.Rnd | Ear shape | square .. round |
+| Aur.Fwd | Ear position | back .. forward |
+| Aur.Rot | Ear rotation | back .. forward |
+| Aur.Up | Ear position | down .. up |
+| Aur.Ht | Ear height | less .. more |
+| Aur.Pt | Ear tip shape | pointed .. triangular |
+| Aur.Dep | Ear depth | less .. more |
+| Hel.Wid | Ear rim (helix) | less .. more |
+| Zyg.Up | Cheek position | down .. up |
+| Buc.Med | Inner cheek | less .. more |
+| Mand.Drop | Jaw line drop | less .. more |
+| Mand.Ang | Jaw angle | less .. more |
+| Ment.Cleft | Chin cleft | less .. more |
+| Ment.Tri | Pointed chin | 0 .. +1 only (shape blend) |
+| Mand.Fwd | Lower jaw forward | less .. more |
+
+**Example — v1.1 and v1.2 symbols together:**
+
+    @FSHP(Cran.Oval:0.40, Nas.Len:0.30, Nas.Hump:0.55, Plica.Ht:-0.20, Lab.Bow:0.35, Mand.Ang:0.50)
 
 **Example — a full face plus a blink loop (section 9.3):**
 
@@ -568,8 +669,9 @@ FACS describes what you see. FNN describes what causes it.
 
 ## 13. Versioning
 
-This document is FNN_SPEC_v1.md — version 1.1.0.
+This document is FNN_SPEC_v1.md — version 1.2.0.
 
+- 1.2.0 (2026-11-01): 86 extended @FSHP feature symbols (section 4.7.1): skull shape, forehead, lids and lid folds, nose detail, lip detail, ears, jaw. One-way shape blends. Backward compatible.
 - 1.1.0 (2026-10-31): @FSHP() face-shape tag and 28 feature symbols (section 4.7). Backward compatible.
 - 1.0.0 (2026-04-03): first release.
 
@@ -644,5 +746,5 @@ VMN (vehicle) at InThisWorld. All under the HMN umbrella at aiunites.com.
 ---
 
 *FNN_SPEC_v1.md*
-*Version 1.1.0 — 2026-10-31 (1.0.0 — 2026-04-03)*
+*Version 1.2.0 — 2026-11-01 (1.1.0 — 2026-10-31, 1.0.0 — 2026-04-03)*
 *AIUNITES LLC*
