@@ -1,13 +1,13 @@
 ﻿# AIUNITES SEO Audit
-Generated: November 14, 2026
+Generated: November 21, 2026
 
 | Site | Score | Pages | Indexed | Issues | Top Problem |
 |------|-------|-------|---------|--------|-------------|
-| Gameatica | 202 | 52 | 18 | 101 | THIN_CONTENT |
+| Gameatica | 202 | 52 | 19 | 101 | THIN_CONTENT |
 | AIUNITES | 101 | 29 | 10 | 58 |  |
 | COSMOS the OPERA | 82 | 33 | 1 | 39 | THIN_CONTENT |
 | InThisWorld | 76 | 19 | 6 | 36 | THIN_CONTENT |
-| Redomy | 66 | 15 | 10 | 33 | NO_H1 |
+| Redomy | 66 | 15 | 11 | 33 | NO_H1 |
 | BodSpas | 23 | 7 | 2 | 11 | THIN_CONTENT |
 | AIByJob | 20 | 10 | 6 | 10 | THIN_CONTENT |
 | VoiceStry | 16 | 16 | 16 | 15 | LONG_DESC |
@@ -16,10 +16,10 @@ Generated: November 14, 2026
 | Cloudsion | 7 | 3 | 2 | 3 |  |
 | UptownIT | 4 | 2 | 2 | 2 | LONG_DESC |
 | ERPise | 4 | 3 | 2 | 4 |  |
-| ERPize | 4 | 6 | 4 | 4 |  |
+| ERPize | 3 | 6 | 3 | 3 |  |
 | AIZines | 2 | 3 | 3 | 2 | LONG_DESC |
 | AI YHWH | 1 | 2 | 1 | 1 | LONG_DESC |
-| AITSQL | 1 | 2 | 1 | 1 |  |
+| AITSQL | 1 | 2 | 2 | 1 |  |
 | BizStry | 0 | 1 | 1 | 0 |  |
 
 ## Issues by Site
@@ -695,7 +695,7 @@ Generated: November 14, 2026
 - [MEDIUM] Meta description too long (183 chars, max 165)
 - [MEDIUM] Title too long (72 chars, max 65)
 
-### ERPize - Score 4
+### ERPize - Score 3
 
 **write-for-us.html** - https://erpize.com/write-for-us.html
 - [MEDIUM] Meta description too long (173 chars, max 165)
@@ -705,9 +705,6 @@ Generated: November 14, 2026
 
 **audit-series.html** - https://erpize.com/audit-series.html
 - [MEDIUM] Meta description too long (174 chars, max 165)
-
-**compare.html** - https://erpize.com/compare.html
-- [MEDIUM] Meta description too long (167 chars, max 165)
 
 ### AIZines - Score 2
 
