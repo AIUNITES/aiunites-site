@@ -1,49 +1,55 @@
-# AIUNITES SEO Digest — November 14, 2026
+# AIUNITES SEO Digest — November 21, 2026
 
-> Data is fresh: `seo-report.json` (Nov 14 07:01) and `gsc-stats.json` (Nov 14 07:00, range Oct 17 – Nov 14). `seo-fix.log` last ran Sep 27 (no new fixer changes). Today's weekly auto-publish already ran before this digest.
+> Data is fresh: `seo-report.json` (Nov 21 07:01) and `gsc-stats.json` (Nov 21 07:00, range Oct 24 – Nov 21). `seo-fix.log` last ran Sep 27 (no new fixer changes). Today's weekly auto-publish already ran before this digest, so a separate publish has been queued for this run's edits.
 
 ## Summary
 
-- Sites with GSC traction (impressions > 0): **15** of 18
-- Sites with 0 impressions: **3** (bizstry.com, bodspas.com, aiunites.com — aiunites dropped from 2 impressions last week)
-- Sites with clicks: **4** (aizines 49, inthisworld 23, voicestry 5, aiyhwh 1)
-- Files edited this run: **2** (erpize-site/compare.html, erpize-site/sitemap.xml) — auto-publish queued in script-runner.ps1
+- Sites with GSC traction (impressions > 0): **16** of 18
+- Sites with 0 impressions: **2** (bizstry.com, bodspas.com; aiunites.com is back to 2 impressions)
+- Sites with clicks: **4** (aizines 46, inthisworld 26, voicestry 7, aiyhwh 1)
+- Files edited this run: **2** (aibyjob-demo/index.html, aitsql-site/index.html); auto-publish queued in script-runner.ps1
 
 ## Top Opportunities This Week
 
-1. **erpize.com (50 impr, 0 clicks, pos 59.5, query "best higher education erp")** — the query is a comparison intent that the homepage ("ERP vs SIS Explained") doesn't match, but `compare.html` does — and `compare.html` was **missing from sitemap.xml**. Fixed both (see below). Expected impact: Google can now discover/rank the page that actually answers the query; next step is content depth so it can climb from pos ~60.
-2. **inthisworld.com (pos 7.1, 190 impr, 23 clicks, CTR 46%)** — best performer, but slipped from pos 5.7 last week. Homepage still flags MULTI_H1, LOW_CONTENT, THIN_CONTENT, no schema/GA4 on 2 pages; 15 of 19 pages thin. Expanding thin room/game pages + fixing the homepage H1 is the highest-leverage push to firm up page 1.
-3. **aizines.com (190 impr, 49 clicks, pos 27.4)** — steady network leader with just 3 pages. Brand query "aizine" — more indexable content pages is the growth lever; only issue is one MULTI_H1 on index.
-4. **voicestry.com (110 impr, 5 clicks, pos 31.5)** — dropped from pos 17.9 last week. Query "vocal trainer online" isn't in the homepage title. 9 LONG_DESC + 5 LONG_TITLE pages. Consider a title test targeting "vocal trainer online" (flagged, not edited — a working title shouldn't be swapped on one week of slippage).
-5. **cosmostheopera.com (12 impr, pos 14.3, query "cosmic opera")** — category C, one push from page 1; "Cosmic … Opera" already in title. Blocker is depth: 14 of 33 pages thin, 12 missing H1.
+1. **aibyjob.com (18 impr, 0 clicks, pos 30.8, query "ai agent templates for business")**: the homepage has a whole Templates section (Sales 12, Marketing 18, Developer 15, HR 10) but the title said "AI Agents for Careers & Professions", so neither "templates" nor "business" appeared. Retitled to match (see below). Expected impact: better CTR on the impressions it already gets, and a relevance boost for the query.
+2. **aitsql.com (17 impr, 0 clicks, pos 66.8, query "ai sql optimizer")**: the site ships `query-optimizer.sql` and a Performance Tuning section, but "optimizer" wasn't in the title or description. Retitled. Pos 66.8 means the title alone won't reach page 1; content depth is still the main blocker (only 2 pages).
+3. **inthisworld.com (pos 7.8, 213 impr, 26 clicks)**: still the best page-1 candidate but slipping (5.7 → 7.1 → 7.8 over three weeks). 15 of 19 pages are THIN_CONTENT. Expanding the room/game pages is the highest-leverage push to hold page 1.
+4. **voicestry.com (128 impr, 7 clicks, pos 35.7)**: top query has shifted to "voice resonance analyzer". Title already says "Pitch Trainer" and the description mentions "6 resonance zones". A dedicated resonance-analyzer page or section would fit this intent better than another homepage rewrite (flagged).
+5. **erpize.com (47 impr, pos 51.8, "best higher education erp")**: up from pos 59.5 since last week's compare.html retitle and sitemap fix. Keep going: replace the `#` placeholder sections on compare.html with real comparison content.
 
 ## Changes Made
 
-**erpize-site/compare.html** (the page matching "best higher education erp"; already canonical, linked from index)
-- Title — old: `Best ERP & SIS Platform Comparisons 2026 | ERPize` (49)
-- Title — new: `Best Higher Education ERP & SIS Compared 2026 | ERPize` (54)
-- Desc — old: `Expert ERP and Student Information System comparisons for higher education. Jenzabar vs Banner vs PeopleSoft — side-by-side breakdowns, top picks, and honest verdicts.` (169, too long)
-- Desc — new: `Compare the best higher education ERP and SIS platforms: Jenzabar vs Banner vs PeopleSoft vs Workday, side by side, so your college picks the right fit.` (152)
+**aibyjob-demo/index.html** (aibyjob.com, query "ai agent templates for business")
+- Title, old: `AIByJob — AI Agents for Careers & Professions | AIUNITES` (55)
+- Title, new: `AI Agent Templates for Business & Careers | AIByJob` (51)
+- Desc, old: `Deploy AI agents built for your career — autonomous tools that work 24/7 to find leads, build your site, and grow your professional brand. Free to try.`
+- Desc, new: `Browse AI agent templates for business: sales, marketing, HR and developer agents that find leads and automate work 24/7. Free to try, no setup needed.` (151)
 
-**erpize-site/sitemap.xml** — added `https://erpize.com/compare.html` (was absent; sitemap only listed 3 URLs).
+**aitsql-site/index.html** (aitsql.com, query "ai sql optimizer")
+- Title, old: `SQL Query Tool & AI DBA for SQL Server | AITSQL` (47)
+- Title, new: `AI SQL Optimizer & Query Tool for SQL Server | AITSQL` (53)
+- Desc, old: `Advanced SQL Server query tool with AI-assisted helpers, audit scripts, and T-SQL automation built by a working DBA. Speed up tuning — free to try.`
+- Desc, new: `AI SQL optimizer for SQL Server: tune slow T-SQL, read execution plans and fix indexes with scripts built by a working DBA. Faster queries, free to try.` (152)
 
-Note: edited compare.html rather than index.html because the query is comparison intent and the homepage is a magazine landing page; rewriting the homepage would mean abandoning its working "ERP vs SIS" angle.
+Only `<title>` and `meta description` were changed. og:/twitter: tags were left as they were.
 
-**Not edited (category A, reviewed):** gameatica ("1028 game" — typo of 2048, already in title), videobate ("fallacy quiz" — already in title/desc since Oct 24), aitsql ("ai for sql server dba" — title already "SQL Query Tool & AI DBA for SQL Server", pos 62 is a depth problem), erpise ("continuing ed erp systems" — title already exact match), cosmostheopera ("cosmic opera" — already matched), aibyjob ("abhijob in" — brand typo).
+**scripts/script-runner.ps1**: added an active `auto-publish.ps1` entry at the top of the one-shot queue (it auto-comments itself after running).
 
-**Category B:** no homepage with traction has WRONG_CANONICAL or NO_DESC. THIN_CONTENT persists on inthisworld (homepage + 14 subpages), gameatica (50/52), cosmostheopera (14/33), uptownit (homepage), bodspas (4), aibyjob (4), videobate (3).
+**Not edited (category A, reviewed):** gameatica ("1028 game" is a typo of 2048, already in the title), videobate ("nirvana fallacy" is a single-fallacy query; the homepage is a quiz, see flags), erpize (fixed last week and position is improving), cosmostheopera ("cosmic opera" is already matched in the title). erpise has 5 impressions (not > 5) and is pos 1.4 on its brand query.
 
-**Category C (pos 6–15):** inthisworld (7.1), furnishthings (7, generic "furnishings", 2 impr), cloudsion (10, irrelevant "sion git", 1 impr), cosmostheopera (14.3). aiyhwh is pos 2 (7 impr, 1 click) — Oct 17 rewrite is holding.
+**Category B:** no homepage with traction has WRONG_CANONICAL or NO_DESC (the only NO_DESC is aiunites' Google verification file, which is fine). THIN_CONTENT persists on gameatica (50/52), inthisworld (15/19), cosmostheopera (14/33), aiunites (8, including `acp*.html` at ~4 words), redomy (7), aibyjob (4), bodspas (4), videobate (3), uptownit (homepage).
+
+**Category C (pos 6–15):** inthisworld (7.8), cloudsion (8, "cloudsing", 1 impr), cosmostheopera (13.8), furnishthings (14, "furnishing", 2 impr). Only inthisworld and cosmostheopera have meaningful volume; both are blocked by thin content, not titles.
 
 ## Flags for Manual Review
 
-1. **erpize.com/compare.html content** — the SQL/IPEDS/integration sections link to `#` placeholders ("Coming Up"). Building out real comparison content (Banner, PeopleSoft, Anthology, Workday profiles) is what will move it from pos ~60.
-2. **voicestry.com** — position fell 17.9 → 31.5. Candidate title: `Vocal Trainer Online — Free Voice Training | VoiceStry`. Check whether a recent publish changed the homepage before rewriting.
-3. **seo-fix.ps1 repo resolution** — still not processing `aiunites-site` (101 issue score; `acp.html`/`acp-builder.html` have no title and ~4 words). Use the explicit domain→repo map; build out or noindex `acp*.html`.
-4. **Sitemap audit across the network** — erpize was missing a key page; worth checking every repo's sitemap.xml against its HTML files.
-5. **gameatica.com** — 50 impressions, 0 clicks, 50/52 pages thin and 49 LONG_DESC. Per-game pages need 300+ words (how-to-play, tips) to earn clicks.
-6. **bizstry / bodspas / aiunites** — 0 impressions; need backlinks/internal links from indexed network sites (inthisworld, aizines) and Search Console URL inspection requests.
+1. **videobate.com, "nirvana fallacy"**: 18 impressions for a single fallacy name. `fallacies.html` covers it inside a list. A dedicated `nirvana-fallacy.html` page (or a set of per-fallacy pages) of 300+ words with examples would match this kind of informational query. That's new content to write, not a title fix.
+2. **uptownit.com**: top query is a long "deploy my Claude Code app with a custom domain" question, but the site is positioned as generic managed IT. That's a positioning call (and the homepage is thin), so it's left for you.
+3. **voicestry.com**: consider a "Voice Resonance Analyzer" landing page or section. The position has gone 17.9 → 31.5 → 35.7 over two weeks.
+4. **aiunites-site `acp.html` / `acp-builder.html`**: still no title and ~4 words. Build them out or noindex them. seo-fix.ps1 still hasn't run since Sep 27.
+5. **gameatica.com**: 59 impressions, 0 clicks, 50/52 pages thin. Per-game pages need how-to-play and tips content.
+6. **bizstry / bodspas**: 0 impressions. They need internal links from indexed network sites (inthisworld, aizines) and URL inspection requests in Search Console.
 
 ## Next Week Focus
 
-Flesh out erpize.com/compare.html into a genuine "best higher education ERP" comparison (replace the `#` placeholder sections) now that it's in the sitemap, and watch whether voicestry's ranking drop continues.
+Check whether the aibyjob and aitsql retitles convert impressions into clicks, and start writing the thin-content expansion on inthisworld.com before its position slips off page 1.
